@@ -19,9 +19,7 @@ pnpm install
 pnpm dev
 ```
 
-Or use the GitHub template repository, if one is set up (see [docs/REPOSITORIES.md](docs/REPOSITORIES.md)).
-
-> **Not published yet?** Until the packages are on npm, work from this repository: `pnpm install && pnpm dev` runs the docs site, and `pnpm dev:template` runs the starter project.
+The packages are on npm: [`create-docspp`](https://www.npmjs.com/package/create-docspp), [`docspp`](https://www.npmjs.com/package/docspp) (the CLI) and `@packagelab/docspp-core`, `-react` and `-astro`. To hack on docspp itself, clone this repository: `pnpm install && pnpm dev` runs the docs site and `pnpm dev:template` the starter project.
 
 Edit `diagrams/shop/diagram.yaml`, save, and the page reloads:
 

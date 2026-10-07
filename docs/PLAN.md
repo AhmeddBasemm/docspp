@@ -44,7 +44,7 @@ What this repository is: a **template** for documentation sites in which archite
 
 ## Next
 
-1. **First publish.** Claim the npm scope, choose a license, set the release variables: the checklist is in [REPOSITORIES.md](REPOSITORIES.md). Then optionally set up the generated template repository.
+1. **Automate releases.** The first publish (0.1.0) was done from a laptop. For later releases set `NPM_TOKEN` and `RELEASE_ENABLED` so the Release workflow opens "Version packages" pull requests, as described in [REPOSITORIES.md](REPOSITORIES.md). Optionally set up the generated template repository.
 2. **More view types**: state diagrams and entity cards with field-level relations. The format reserves `type:` on views. (The swimlane "request story" is done: it is a presentation of a scenario, not a view type.)
 3. **Forked scenarios**: "device offline at step 6" as a variant that shares the happy path up to a step.
 4. **Visual regression**: Playwright screenshots of the examples in both themes.

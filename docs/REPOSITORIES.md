@@ -72,6 +72,8 @@ In the monorepo, every package's `exports` point at its TypeScript sources, so n
 
 ## Releasing
 
+**Published:** `0.1.0` of all five packages went out on 2026-10-07 under the `packagelab` org. New scoped packages show a stray `0.0.0-stage` placeholder version on npm; it is created by npm, not by us, and `latest` points at the real release.
+
 Releases use [changesets](https://github.com/changesets/changesets).
 
 1. For a change users should hear about: `pnpm changeset`, pick the packages and the bump, commit the file.
@@ -90,7 +92,7 @@ These are your decisions; nothing here has been done for you.
 - [ ] **npm token.** For automated releases, create an automation token that can publish to the `packagelab` org and add it as the `NPM_TOKEN` repository secret. The first publish can be done from a laptop with `npm login` and `pnpm release`.
 - [ ] **Turn it on.** Set the repository variable `RELEASE_ENABLED` to `true`.
 - [x] **Make the repository public** if people should be able to run `npx skills add <you>/docspp` against it.
-- [ ] **Docs site.** In repository settings, set Pages to the **GitHub Actions** source. Until then the docs workflow still builds the site but skips the deploy step with a notice, so CI stays green. After that it deploys `apps/docs` on every push to `main`. Remove the "not published yet" note in `apps/docs/src/content/docs/guides/getting-started.mdx` once the packages are live.
+- [x] **Docs site.** Pages is on the **GitHub Actions** source and `apps/docs` deploys on every push to `main`. In a repository without Pages enabled the workflow still builds the site and skips the deploy step with a notice, so CI stays green.
 
 ### The template repository (optional)
 

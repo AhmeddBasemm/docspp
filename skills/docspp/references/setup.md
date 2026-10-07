@@ -2,15 +2,17 @@
 
 docspp renders diagrams inside an **Astro** site (usually with **Starlight** for the docs chrome). Use the project's package manager; examples use pnpm.
 
-## Is it published?
+## What is on npm
 
-Check before giving install commands:
+| Package | Role |
+|---|---|
+| `create-docspp` | `npm create docspp@latest`: scaffolds a new site. |
+| `docspp` | The CLI: `docspp check`, `list`, `schema`, `icons search`, `new`. |
+| `@packagelab/docspp-astro` | The Astro integration and the `<Diagram>` component. |
+| `@packagelab/docspp-react` | The interactive diagram component (a dependency of the integration). |
+| `@packagelab/docspp-core` | Schema, compiler and layout (a dependency of the others). |
 
-```sh
-npm view @packagelab/docspp-core version
-```
-
-If that prints a version, follow the steps below. If it says the package is not found, docspp is **not published yet**. Then the user works from its repository, `https://github.com/AhmeddBasemm/docspp`: clone it, run `pnpm install`, and either use `pnpm dev:template` (the starter project) or copy `templates/starter` into their own repository. Say so plainly; do not invent a registry.
+The source is `https://github.com/AhmeddBasemm/docspp`. If an install fails with "not found", check `npm view @packagelab/docspp-core version`: it should print a version. A company registry mirror may simply not have the `@packagelab` scope yet.
 
 ## Start a new site
 
