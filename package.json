@@ -1,0 +1,29 @@
+{
+  "name": "interactive-docs",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@12.9.1",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "pnpm --filter @idocs/starter dev",
+    "build": "pnpm --filter @idocs/starter build",
+    "preview": "pnpm --filter @idocs/starter preview",
+    "test": "vitest run",
+    "typecheck": "pnpm -r --if-present typecheck",
+    "idocs": "tsx packages/cli/src/bin.ts",
+    "check": "tsx packages/cli/src/bin.ts check apps/starter",
+    "lint": "biome check .",
+    "format": "biome check --write .",
+    "test:e2e": "pnpm build && vitest run -c vitest.e2e.config.ts"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.5.15",
+    "@types/node": "^26.6.4",
+    "playwright-core": "^1.63.0",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.3"
+  }
+}

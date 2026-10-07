@@ -1,0 +1,19 @@
+---
+title: Interactive docs
+description: Architecture diagrams your readers can click, filter and play.
+template: splash
+hero:
+  tagline: Describe your system in YAML. Get diagrams readers can explore, and scenarios that show a request travelling through them.
+  actions:
+    - text: Get started
+      link: guides/getting-started/
+      icon: right-arrow
+    - text: See an example
+      link: examples/checkout/
+      variant: minimal
+      icon: external
+---
+
+import Diagram from '@idocs/astro/Diagram.astro'
+
+<Diagram name="checkout" scenario="browse" />

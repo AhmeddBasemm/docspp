@@ -1,0 +1,29 @@
+# yaml-language-server: $schema=../diagram.schema.json
+title: Hello, diagrams
+
+nodes:
+  browser:
+    kind: client
+    title: Browser
+  api:
+    kind: service
+    icon: nodejs
+    title: API
+    sub: ":3000"
+  db:
+    kind: database
+    icon: postgresql
+    title: Database
+
+edges:
+  - browser -> api: HTTPS
+  - api -> db: { kind: data, label: SQL }
+
+scenarios:
+  load-page:
+    title: Load a page
+    steps:
+      - browser -> api: GET /items
+      - api -> db: { label: SELECT, kind: lookup }
+      - db -> api: rows
+      - api -> browser: 200 OK

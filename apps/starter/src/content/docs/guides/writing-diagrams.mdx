@@ -1,0 +1,96 @@
+---
+title: Writing diagrams
+description: The diagram.yaml format, from nodes to views.
+---
+
+import Diagram from '@idocs/astro/Diagram.astro'
+
+A diagram is a **model** (nodes, groups, edges), some **views** of it, and optional **scenarios** that play over a view. You write each thing once and reuse it.
+
+Add this line at the top of a diagram file to get autocomplete and inline errors in editors that support the YAML language server (run `pnpm idocs schema` once to create the file):
+
+```yaml
+# yaml-language-server: $schema=../diagram.schema.json
+```
+
+## Nodes
+
+```yaml
+nodes:
+  api:
+    kind: service          # gives a default icon and colour
+    icon: nodejs           # optional; see Icons
+    title: Catalog service # defaults to the id
+    sub: ":4001 · Node.js" # mono line under the title
+    lines: [products, prices]
+    uses: [redis, postgres]
+    status: planned        # built (default) | planned | legacy | optional
+    in: backend            # the group it sits in
+    w: 240                 # card width in px (default 200)
+```
+
+A bare string is a title: `api: Catalog service`. Other useful fields: `badge` (a numbered marker), `chips` (small boxes inside the card, such as virtual hosts), `links`, and `refs` (the source files a node is based on).
+
+Write what a reader needs when they **click** a node in `diagrams/<name>/nodes/<id>.md`. Markdown, tables and code blocks all work. For a one-liner, use `description:` in the YAML instead.
+
+## Groups
+
+```yaml
+groups:
+  backend:
+    label: Backend
+    caption: Kubernetes · namespace shop
+  data:
+    label: Data and messaging
+    in: backend            # nested groups draw as dashed frames
+```
+
+Top-level groups are filled zones; nested ones are dashed frames. By default a group's members are placed automatically. For cards that do not need their own arrows, such as a row of data stores, pack them instead:
+
+```yaml
+  stores:
+    label: Shared infrastructure
+    layout: row            # or: grid, with columns: 2
+```
+
+Edges that end on a member of a `row` or `grid` group are drawn to the edge of the group.
+
+## Edges
+
+```yaml
+edges:
+  - browser -> cdn: HTTPS                     # shorthand with a label
+  - api <-> cache                             # arrows at both ends
+  - { from: api, to: db, kind: data, label: SQL, auth: password, payload: queries }
+  - { from: api, to: audit, hidden: true }    # not drawn until a scenario uses it
+```
+
+`kind` picks the line style. Built in: `http` (default), `channel`, `tunnel`, `queue`, `ws`, `data`. Define your own under `edgeKinds:` with a `label`, `color`, `width` and `dash`. The legend under each diagram is generated from the kinds it uses.
+
+## Views
+
+Without `views:`, one view shows everything. Add views to show different slices of the same model:
+
+```yaml
+views:
+  overview:
+    title: Overview
+    keys: true             # letter keys on edges (A, B, ...)
+    interfaces: true       # a table of every edge under the diagram
+  backend:
+    title: Backend only
+    include: [backend]     # node or group ids
+    direction: DOWN        # RIGHT (default), DOWN, LEFT, UP
+```
+
+<Diagram name="checkout" view="backend" />
+
+## Pages
+
+```mdx
+<Diagram name="checkout" />
+<Diagram name="checkout" view="backend" scenario="place-order" />
+<Diagram name="checkout" scenario="place-order" mode="sequence" />
+```
+
+Readers can also link straight to a scenario and step: `#checkout=place-order.4`.

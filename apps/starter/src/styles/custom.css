@@ -1,0 +1,12 @@
+/* Project theme. Override --idocs-* tokens here to restyle every diagram. */
+:root {
+  --sl-color-accent-high: #0a6f8f;
+}
+
+:root[data-theme="light"] {
+  --sl-color-accent: #0a6f8f;
+}
+
+:root[data-theme="dark"] {
+  --sl-color-accent: #55bcdb;
+}

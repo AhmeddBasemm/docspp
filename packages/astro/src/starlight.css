@@ -1,0 +1,18 @@
+/*
+ * Starlight theme bridge for interactive-docs.
+ * Diagrams are wide, so the content column grows and prose is held to a readable measure.
+ */
+:root {
+  --sl-content-width: 92rem;
+  --sl-font: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --sl-font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+
+.sl-markdown-content > :not(.idocs-bleed, .not-prose) {
+  max-width: 50rem;
+}
+
+.idocs-bleed {
+  margin-block: 1.25rem 2rem;
+  max-width: none;
+}

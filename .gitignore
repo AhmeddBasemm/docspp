@@ -1,0 +1,12 @@
+node_modules
+dist
+.astro
+.DS_Store
+*.log
+.idocs-cache
+apps/starter/.astro
+apps/starter/dist
+test-results
+playwright-report
+screenshots
+private

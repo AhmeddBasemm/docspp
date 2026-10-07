@@ -1,0 +1,28 @@
+{
+  "name": "@idocs/astro",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./Diagram.astro": "./src/Diagram.astro",
+    "./starlight.css": "./src/starlight.css",
+    "./virtual": {
+      "types": "./src/virtual.d.ts"
+    }
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@idocs/core": "workspace:*",
+    "@idocs/react": "workspace:*"
+  },
+  "peerDependencies": {
+    "astro": ">=6"
+  },
+  "devDependencies": {
+    "astro": "^7.0.0",
+    "vite": "*"
+  }
+}

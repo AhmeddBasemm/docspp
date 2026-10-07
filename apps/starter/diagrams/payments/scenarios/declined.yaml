@@ -1,0 +1,13 @@
+# Any file in scenarios/ is a scenario named after the file: this one is "declined".
+title: Card declined
+summary: Stripe refuses the card. The payment stays **pending** and the shopper is told why.
+steps:                          # no phases needed for a short story
+  - web -> api: POST /payments
+  - api -> db: { label: INSERT payment (pending), kind: lookup }
+  - api -> stripe: create payment intent
+  - stripe -> api: { label: card_declined, kind: error }
+  - at api: { label: mark payment failed, kind: error }
+  - api -> web:
+      label: 402 Payment Required
+      kind: error
+      note: The body carries the decline code so the UI can say something useful.

@@ -1,0 +1,28 @@
+---
+title: Writing diagrams with an AI agent
+description: A skill and a feedback loop that let Claude Code draw your architecture.
+---
+
+The format is plain YAML with a published schema, so an agent can write it. This template adds two things to make the result reliable.
+
+## The `author-diagram` skill
+
+`.claude/skills/author-diagram/SKILL.md` teaches Claude Code the format, the conventions for good scenarios, and the checking loop below. With the template checked out, ask for what you want in your own words:
+
+> Add a diagram of how our checkout works. The code is in `services/`. Include a scenario for a declined card.
+
+## The checking loop
+
+The agent should never guess whether a diagram is valid:
+
+```sh
+pnpm check --json            # errors with file, line and column, plus suggestions
+pnpm idocs icons search kafka
+pnpm idocs list --json       # what already exists
+```
+
+Then it can open the page, look at the rendered diagram (with a browser tool such as Playwright), and fix overlapping or confusing layout by changing `direction`, `layout: row`, widths and grouping.
+
+## Keep diagrams honest
+
+Add `refs:` to a node, listing the files it is based on. When the code moves, the reference shows a reader where to look, and a reviewer can see what a change to the diagram should have touched.

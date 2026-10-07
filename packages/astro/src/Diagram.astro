@@ -1,0 +1,33 @@
+---
+import { DiagramView } from '@idocs/react'
+import '@idocs/react/styles.css'
+import { diagrams } from 'virtual:idocs/diagrams'
+
+interface Props {
+  /** Folder name under `diagrams/`. */
+  name: string
+  /** View id to show first. */
+  view?: string
+  /** Scenario id to select first. */
+  scenario?: string
+  mode?: 'flow' | 'sequence'
+  /** Tallest the canvas may grow, in px. */
+  maxHeight?: number
+  showTitle?: boolean
+  /** Show the diagram's description above the views. */
+  showDescription?: boolean
+}
+
+const { name, ...props } = Astro.props
+const diagram = diagrams[name]
+if (!diagram) {
+  const known = Object.keys(diagrams)
+  throw new Error(
+    `<Diagram name="${name}"> does not match a diagram. ${known.length ? `Available: ${known.join(', ')}.` : 'No diagrams were found in diagrams/.'}`,
+  )
+}
+---
+
+<div class="idocs-bleed not-content">
+  <DiagramView client:visible diagram={diagram} {...props} />
+</div>

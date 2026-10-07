@@ -1,0 +1,67 @@
+---
+title: Scenarios
+description: Show how a request travels through the system and what each part does with it.
+---
+
+import Diagram from '@idocs/astro/Diagram.astro'
+
+A scenario is an ordered list of steps. Each step flies a packet along your edges, or makes one node do something. A diagram can have as many scenarios as you like, and readers switch between them above the canvas.
+
+<Diagram name="checkout" scenario="cache-miss" />
+
+See [Payment stories](../../examples/payments/) for a worked example with phases, notes, a parallel step and a planned step.
+
+## Steps
+
+```yaml
+scenarios:
+  cache-miss:
+    title: Browse a product (cache miss)
+    summary: The product is not cached yet, so the catalogue reads PostgreSQL.
+    phases:
+      - title: The request
+        steps:
+          - browser -> catalog: GET /products/42
+      - title: Cache miss
+        steps:
+          - catalog -> redis: { label: GET product:42, kind: lookup }
+          - redis -> catalog: { label: miss, kind: error }
+          - at catalog: { label: SET product:42 ttl 60s, note: The next request is a hit. }
+```
+
+| Step | Meaning |
+|---|---|
+| `a -> b: label` | A packet travels from `a` to `b`. |
+| `at a: label` | Node `a` does something. It pulses and shows the caption. |
+| `par: [ ... ]` | The steps inside start together. |
+
+Steps use the edges you declared. If there is no direct edge, the packet takes the shortest route, hop by hop (`browser -> catalog` goes through the CDN and the gateway). Force a route with `via: [gateway]`. Flying **against** an edge makes the packet a response, so `redis -> catalog` over a `catalog -> redis` edge is drawn green without you saying so.
+
+Options on a step: `label`, `kind` (`request`, `response`, `error`, `lookup`, `event`), `note` (markdown shown in the step list), `status` (`planned` draws it dashed) and `hold` (extra seconds to pause).
+
+If you do not need phases, use a flat `steps:` list.
+
+## Many scenarios
+
+Short scenarios fit inside `diagram.yaml`. Longer ones can live in their own file. Every `diagrams/<name>/scenarios/<id>.yaml` becomes a scenario with that id:
+
+```yaml
+# diagrams/platform/scenarios/device-offline.yaml
+title: Device is offline
+phases:
+  - title: Dispatch
+    steps:
+      - backend -> control-api: enqueue job
+```
+
+A scenario plays on the first view unless it sets `view:`. Every node it mentions must be in that view.
+
+<Diagram name="platform" scenario="device-offline" />
+
+## What readers get
+
+- **Play, pause, step** forwards and back, scrub the timeline, and change the speed.
+- **Click a step** in the list to jump to it. The path already travelled stays lit.
+- **Flow or Sequence**: the same scenario as packets over the architecture, or as a classic sequence diagram.
+- **Deep links**: the address bar follows the scenario and step, so a reader can share exactly what they are looking at.
+- Scenarios start paused when the system asks for reduced motion.

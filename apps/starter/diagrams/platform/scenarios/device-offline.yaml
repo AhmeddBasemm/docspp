@@ -1,0 +1,24 @@
+title: Device is offline
+summary: The job is held, not lost. The lane waits in order and resumes when the device reconnects.
+phases:
+  - title: Dispatch
+    steps:
+      - backend -> control-api: enqueue job
+      - at control-api: lock the lane · next sequence
+      - control-api -> rabbitmq: { label: "{jobId, sequence}", kind: event }
+      - rabbitmq -> control-api: { label: dispatch message, kind: event }
+  - title: No socket
+    steps:
+      - at control-api:
+          label: no socket for this device
+          kind: error
+          note: The job is **Held**. Nothing is sent, and the jobs behind it wait in order. A held job fails after a set time so it cannot block its lane forever.
+      - control-api -> postgres: { label: mark Held, kind: lookup }
+  - title: Reconnect
+    steps:
+      - spoke -> hub: { label: agent reconnects, kind: event }
+      - at control-api:
+          label: Held → Queued · lane resumes
+          note: The held head returns to Queued and the lane carries on from the same sequence number.
+      - control-api -> spoke: frame {seq, jobId}
+      - spoke -> control-api: { label: "reply {seq, ok}" }

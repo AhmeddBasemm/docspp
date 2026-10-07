@@ -1,0 +1,349 @@
+# yaml-language-server: $schema=../diagram.schema.json
+title: Fleet management platform
+description: |
+  A central **management stack**, a **hub** that terminates tunnels, and many **devices**,
+  each one physical machine running its own VM and services. Dashed items are planned.
+
+groups:
+  mgmt:
+    label: Management stack
+    caption: docker compose · management-internal network
+    rows:
+      - [proxy]
+      - [identity-svc, control-api, backend]
+      - [libs, ml, vision-api, iot]
+      - [shared]
+      - [obs]
+  shared:
+    label: Shared infrastructure
+    caption: every service above reaches these
+    in: mgmt
+    layout: row
+  obs:
+    label: Observability
+    in: mgmt
+    layout: row
+  hubsite:
+    label: Hub site
+  device:
+    label: Device
+    caption: one physical machine
+    rows:
+      - [hypervisor, docker]
+  hypervisor:
+    label: Hypervisor
+    in: device
+    rows:
+      - [spoke]
+      - [other-vms]
+  docker:
+    label: Docker host
+    in: device
+    rows:
+      - [device-proxy]
+      - [dx-backend]
+      - [identity]
+      - [services]
+  identity:
+    label: Identity · data
+    in: docker
+    layout: grid
+    columns: 2
+  services:
+    label: Services
+    caption: managed by dx-backend
+    in: docker
+    layout: grid
+    columns: 2
+
+nodes:
+  operator:
+    kind: user
+    title: Operator browser
+    sub: management UI (module federation)
+  proxy:
+    kind: gateway
+    icon: nginx
+    title: nginx · mgmt-proxy
+    sub: TLS termination · reverse proxy · websocket upgrade for agents
+    in: mgmt
+    w: 520
+    chips:
+      - { label: auth.*, sub: "→ identity :443" }
+      - { label: sdwan.api, sub: "→ control-api :8080" }
+      - { label: app.*, sub: "→ backend :9100" }
+  identity-svc:
+    kind: auth
+    icon: keycloak
+    title: identity
+    sub: OIDC · realm · users
+    lines: [tokens are checked by every service]
+    uses: [postgres, ldap]
+    in: mgmt
+  control-api:
+    kind: service
+    icon: lucide:workflow
+    title: control-api
+    sub: ":8080 · agent websockets"
+    lines: [job lanes · leases, tunnels · policies]
+    uses: [postgres, redis, openfga, rabbitmq]
+    in: mgmt
+  backend:
+    kind: service
+    icon: dotnet
+    title: management-backend
+    sub: ":9100 · .NET API + UI host"
+    lines: [devices · sites · site groups, licensing ledger · device proxy]
+    uses: [postgres, redis, openfga, rabbitmq, identity]
+    in: mgmt
+  libs:
+    kind: service
+    icon: lucide:library
+    title: In-process libraries
+    lines: [Identity · AuthZ, Licensing · pools]
+    status: planned
+    in: mgmt
+  ml:
+    kind: worker
+    icon: lucide:brain-circuit
+    title: vision-ml
+    sub: ":8000"
+    lines: [model runtime]
+    in: mgmt
+  vision-api:
+    kind: service
+    icon: lucide:eye
+    title: vision-api
+    sub: ":5102 · REST"
+    lines: ["→ vision-ml"]
+    in: mgmt
+  iot:
+    kind: service
+    icon: lucide:cpu
+    title: management-iot
+    sub: ThingsBoard
+    lines: ["+ tb-postgres"]
+    in: mgmt
+
+  postgres:
+    kind: database
+    icon: postgresql
+    title: postgres
+    sub: app + identity data
+    in: shared
+    w: 132
+  redis:
+    kind: cache
+    icon: redis
+    title: redis
+    sub: session store
+    in: shared
+    w: 132
+  rabbitmq:
+    kind: queue
+    icon: rabbitmq
+    title: rabbitmq
+    sub: job dispatch · socket routing
+    in: shared
+    w: 132
+  openfga:
+    kind: auth
+    icon: lucide:shield-check
+    title: openfga
+    sub: authorization
+    in: shared
+    w: 132
+  ldap:
+    kind: database
+    icon: lucide:book-user
+    title: ldap
+    sub: directory
+    in: shared
+    w: 132
+
+  prometheus:
+    kind: monitor
+    icon: prometheus
+    title: prometheus
+    sub: scrapes /metrics
+    in: obs
+    w: 132
+  grafana:
+    kind: monitor
+    icon: grafana
+    title: grafana
+    sub: dashboards
+    in: obs
+    w: 132
+  exporter:
+    kind: monitor
+    icon: lucide:gauge
+    title: postgres-exporter
+    sub: database metrics
+    in: obs
+    w: 132
+  cadvisor:
+    kind: monitor
+    icon: lucide:container
+    title: cadvisor
+    sub: containers
+    in: obs
+    w: 132
+
+  hub:
+    kind: network
+    icon: opnsense
+    title: Hub · gateway
+    sub: tunnel concentrator
+    lines: [NGFW · SD-WAN built in, tunnels to ~900 spokes, path labels · policies · routes]
+    in: hubsite
+    chips:
+      - { label: sdwan-agent, sub: its own control websocket }
+  more-spokes:
+    kind: network
+    title: More spokes × N
+    sub: same device stack
+    lines: [each over its own tunnel]
+    status: planned
+    in: hubsite
+
+  local-operator:
+    kind: user
+    title: Local operator
+    sub: device UI · wizard
+  spoke:
+    kind: vm
+    icon: opnsense
+    title: Gateway VM · spoke
+    sub: NGFW · SD-WAN · UPS
+    lines: [built-in features]
+    in: hypervisor
+    chips:
+      - { label: sdwan-agent, sub: "journal · queue · lease · relay" }
+  other-vms:
+    kind: vm
+    icon: proxmox
+    title: Other VMs
+    sub: PVE / KVM guests
+    status: planned
+    in: hypervisor
+  device-proxy:
+    kind: gateway
+    icon: nginx
+    title: nginx (device)
+    sub: TLS · device app + auth vhosts
+    in: docker
+  dx-backend:
+    kind: service
+    icon: dotnet
+    title: dx-backend
+    sub: ":8080 · wizard · services API"
+    lines: [licensing client · config snapshot]
+    in: docker
+  keycloak-device:
+    kind: auth
+    icon: keycloak
+    title: keycloak-device
+    sub: device realm
+    in: identity
+  openfga-device:
+    kind: auth
+    icon: lucide:shield-check
+    title: openfga
+    sub: authorization
+    in: identity
+  postgres-device:
+    kind: database
+    icon: postgresql
+    title: postgres-device
+    sub: device database
+    in: identity
+  ldap-device:
+    kind: database
+    icon: lucide:book-user
+    title: device-ldap
+    sub: directory
+    in: identity
+  svc-vms:
+    kind: container
+    icon: lucide:video
+    title: VMS
+    sub: shinobi · mysql
+    in: services
+  svc-voip:
+    kind: container
+    icon: lucide:phone
+    title: VoIP
+    sub: asterisk
+    in: services
+  svc-signage:
+    kind: container
+    icon: lucide:tv
+    title: Digital signage
+    sub: xibo CMS stack
+    in: services
+  svc-vision:
+    kind: container
+    icon: lucide:scan-eye
+    title: Vision
+    sub: api · ml · postgres
+    in: services
+  svc-iot:
+    kind: container
+    icon: lucide:cpu
+    title: IoT edge
+    sub: tb-edge · postgres
+    in: services
+  svc-kvm:
+    kind: container
+    icon: lucide:server
+    title: KVM
+    sub: qemu
+    in: services
+  svc-pve:
+    kind: container
+    icon: proxmox
+    title: PVE
+    sub: proxmox
+    in: services
+  svc-future:
+    kind: container
+    icon: lucide:plus
+    title: Future services
+    sub: register a handler
+    status: planned
+    in: services
+
+edges:
+  - { from: operator, to: proxy, label: HTTPS, kind: http, auth: Identity session (OIDC), payload: management UI and API calls }
+  - { from: proxy, to: identity-svc, label: ":443", auth: none (public login pages), payload: OIDC redirects and token endpoint }
+  - { from: proxy, to: control-api, label: ":8080", auth: agent API key, payload: agent websocket upgrade }
+  - { from: proxy, to: backend, label: ":9100", auth: bearer JWT, payload: UI host and REST API }
+  - { from: backend, to: control-api, label: REST, auth: service token, payload: "jobs, tunnels, policies" }
+  - { from: backend, to: vision-api, label: REST, payload: inference requests }
+  - { from: backend, to: iot, label: proxy, payload: device telemetry queries }
+  - { from: backend, to: hub, label: device proxy, auth: mTLS, payload: calls forwarded to a device }
+  - { from: hub, to: proxy, label: agent wss, kind: channel, auth: agent API key, payload: control websocket }
+  - { from: backend, to: hub, label: gRPC sync, kind: channel, both: true, auth: mTLS, payload: config and state sync }
+  - { from: hub, to: spoke, label: overlay tunnel, kind: tunnel, both: true, auth: IPsec / WireGuard / OpenVPN, payload: all management traffic }
+  - { from: hub, to: more-spokes, kind: tunnel, both: true, status: planned }
+  - { from: spoke, to: device-proxy, label: LAN, payload: forwarded management calls }
+  - { from: local-operator, to: device-proxy, label: HTTPS, auth: device realm session, payload: device UI }
+  - { from: device-proxy, to: dx-backend, payload: device app and API }
+  - { from: dx-backend, to: spoke, label: dials in, kind: channel, both: true, status: planned, payload: job relay }
+  # The next edges are real relationships that scenarios use but the picture does not need.
+  - { from: control-api, to: rabbitmq, kind: queue, both: true, hidden: true }
+  - { from: control-api, to: postgres, kind: data, hidden: true }
+  - { from: dx-backend, to: svc-vms, label: docker API · proxy, payload: container lifecycle }
+
+views:
+  architecture:
+    title: Architecture
+    keys: true
+    interfaces: true
+    summary: The whole platform. Hover a box or a line to follow it, click a box for details, or pick a scenario to watch a job travel.
+  device:
+    title: One device
+    include: [device, local-operator, hub]
+    direction: DOWN
+    summary: What runs on a single machine, and how it connects back to the hub.

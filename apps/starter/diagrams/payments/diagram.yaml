@@ -1,0 +1,75 @@
+# yaml-language-server: $schema=../diagram.schema.json
+title: Payments
+description: |
+  How a card payment moves through the system. Pick a **scenario** above the diagram
+  and press play. Each one is a short story about what happens to a single request.
+
+nodes:
+  web:
+    kind: client
+    icon: react
+    title: Web app
+  api:
+    kind: service
+    icon: nodejs
+    title: Payments API
+    sub: ":8080"
+  db:
+    kind: database
+    icon: postgresql
+    title: Ledger database
+  stripe:
+    kind: external
+    icon: stripe
+    title: Stripe
+    sub: card processor
+  queue:
+    kind: queue
+    icon: rabbitmq
+    title: RabbitMQ
+    sub: payment.events
+  mailer:
+    kind: worker
+    icon: lucide:mail
+    title: Receipt mailer
+    status: planned
+
+edges:
+  - web -> api: HTTPS
+  - api -> db: { kind: data, label: SQL }
+  - api -> stripe: { kind: channel, label: charge }
+  - api -> queue: { kind: queue, label: payment.events }
+  - queue -> mailer: { kind: queue, status: planned }
+
+scenarios:
+  # A scenario is a story: a title, a one-line summary, and steps grouped into phases.
+  pay:
+    title: Pay with a card
+    summary: |
+      The shopper pays. We write the payment down **first**, charge the card **second**,
+      and tell the rest of the system **last**, so a crash never loses money.
+    phases:
+      - title: Record it
+        caption: before any money moves
+        steps:
+          - web -> api:
+              label: POST /payments
+              note: The request carries an idempotency key, so a retry cannot charge twice.
+          - api -> db: { label: INSERT payment (pending), kind: lookup }
+      - title: Charge the card
+        steps:
+          - api -> stripe: create payment intent
+          - at stripe:
+              label: authorise card
+              note: This is the only step we do not control, and the slowest one.
+          - stripe -> api: succeeded
+      - title: Finish
+        steps:
+          - par:                      # these two start together
+              - api -> db: { label: mark paid, kind: lookup }
+              - api -> queue: { label: payment.succeeded, kind: event }
+          - api -> web: { label: 201 Created }
+          - queue -> mailer:
+              label: payment.succeeded
+              status: planned         # drawn dashed; the mailer does not exist yet
+              note: Receipts are planned. Today the shopper only sees the on-screen confirmation.

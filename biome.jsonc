@@ -1,0 +1,48 @@
+{
+  "$schema": "https://biomejs.dev/schemas/2.5.15/schema.json",
+  "formatter": { "indentStyle": "space", "indentWidth": 2, "lineWidth": 100 },
+  "javascript": { "formatter": { "quoteStyle": "single", "semicolons": "asNeeded" } },
+  "css": { "linter": { "enabled": false } },
+  "files": {
+    "includes": [
+      "packages/**",
+      "apps/**",
+      "!**/dist",
+      "!**/.astro",
+      "!**/node_modules",
+      "!**/diagram.schema.json",
+      "!**/*.astro"
+    ]
+  },
+  "linter": {
+    "rules": {
+      "preset": "recommended",
+      // Indexed access is checked by noUncheckedIndexedAccess; the `!` marks where we know better.
+      "style": { "noNonNullAssertion": "off" }
+    }
+  },
+  "overrides": [
+    {
+      "includes": ["packages/react/**"],
+      "linter": {
+        "rules": {
+          // Compiled markdown and icon bodies come from our own compiler, which drops raw HTML.
+          "security": { "noDangerouslySetInnerHtml": "off" },
+          "a11y": {
+            // A step row holds block-level notes, which a <button> cannot contain, so rows are
+            // role="button" divs with key handlers; control clusters use role="group".
+            "useSemanticElements": "off",
+            "noNoninteractiveTabindex": "off",
+            // Hover highlighting on SVG groups and click-to-dismiss on the canvas background are
+            // enhancements; the same actions are reachable from the keyboard elsewhere.
+            "noStaticElementInteractions": "off",
+            "useKeyWithClickEvents": "off",
+            // Toolbar icons sit inside labelled buttons.
+            "noSvgWithoutTitle": "off",
+            "useAriaPropsSupportedByRole": "off"
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,197 @@
+# yaml-language-server: $schema=../diagram.schema.json
+title: Online store checkout
+description: |
+  How a shopper's browser reaches the store, what the backend does with each request,
+  and where things can go wrong. **Click any box** for details, or pick a scenario
+  above the diagram and press play to watch a request travel through the system.
+
+groups:
+  edge:
+    label: Edge
+    caption: CDN and gateway
+  backend:
+    label: Backend
+    caption: Kubernetes · namespace shop
+  data:
+    label: Data and messaging
+    in: backend
+
+nodes:
+  browser:
+    kind: client
+    icon: react
+    title: Shopper browser
+    sub: React storefront
+  cdn:
+    kind: external
+    icon: cloudflare
+    title: CDN
+    sub: static assets · TLS
+    in: edge
+  gateway:
+    kind: gateway
+    icon: nginx
+    title: API gateway
+    sub: ":443 · rate limit"
+    lines: [verifies the JWT, routes by path]
+    in: edge
+  auth:
+    kind: auth
+    icon: keycloak
+    title: Keycloak
+    sub: OIDC · realm shop
+    in: backend
+  catalog:
+    kind: service
+    icon: nodejs
+    title: catalog-service
+    sub: ":4001 · Node.js"
+    lines: [products, prices, search]
+    uses: [redis, postgres]
+    in: backend
+  cart:
+    kind: service
+    icon: go
+    title: cart-service
+    sub: ":4002 · Go"
+    lines: [session carts]
+    uses: [redis]
+    in: backend
+  orders:
+    kind: service
+    icon: dotnet
+    title: order-service
+    sub: ":4003 · .NET"
+    lines: [creates and tracks orders, talks to the payment provider]
+    uses: [postgres, rabbitmq]
+    in: backend
+  notifier:
+    kind: worker
+    icon: lucide:mail
+    title: notification-worker
+    sub: email and push
+    status: planned
+    in: backend
+  redis:
+    kind: cache
+    icon: redis
+    title: Redis
+    sub: catalog cache · carts
+    in: data
+  postgres:
+    kind: database
+    icon: postgresql
+    title: PostgreSQL
+    sub: orders · products
+    in: data
+  rabbit:
+    kind: queue
+    icon: rabbitmq
+    title: RabbitMQ
+    sub: order.events
+    in: data
+  stripe:
+    kind: external
+    icon: stripe
+    title: Stripe
+    sub: payment provider
+
+edges:
+  - browser -> cdn: HTTPS
+  - cdn -> gateway
+  - gateway -> auth: { label: JWKS, kind: data, auth: client credentials, payload: signing keys }
+  - gateway -> catalog: /products
+  - gateway -> cart: /cart
+  - gateway -> orders: /orders
+  - catalog -> redis: { kind: data, label: cache }
+  - catalog -> postgres: { kind: data }
+  - cart -> redis: { kind: data }
+  - orders -> postgres: { kind: data }
+  - orders -> stripe: { label: charge, kind: channel, auth: API key, payload: payment intent }
+  - orders -> rabbit: { label: order.created, kind: queue }
+  - rabbit -> notifier: { kind: queue, status: planned }
+
+views:
+  overview:
+    title: Overview
+    keys: true
+    interfaces: true
+    summary: Everything in one picture. Letters on the edges match the interfaces table underneath.
+  backend:
+    title: Backend only
+    include: [backend, stripe]
+    direction: DOWN
+    summary: The same model with the edge layer and the browser left out.
+
+scenarios:
+  browse:
+    title: Browse a product (cache hit)
+    summary: A shopper opens a product page. The catalogue answers from Redis and never touches the database.
+    phases:
+      - title: The request
+        steps:
+          - browser -> gateway: { label: GET /products/42, note: The CDN passes dynamic paths straight through to the gateway. }
+          - gateway -> auth: { label: verify token, kind: lookup }
+          - auth -> gateway: { label: valid }
+          - gateway -> catalog: GET /products/42
+      - title: The lookup
+        steps:
+          - catalog -> redis: { label: GET product:42, kind: lookup }
+          - redis -> catalog: { label: hit, note: A hit is served in about a millisecond. }
+      - title: The answer
+        steps:
+          - catalog -> browser: { label: 200 + JSON }
+
+  cache-miss:
+    title: Browse a product (cache miss)
+    summary: The product is not cached yet, so the catalogue reads PostgreSQL and fills the cache for the next shopper.
+    phases:
+      - title: The request
+        steps:
+          - browser -> catalog: GET /products/42
+      - title: Cache miss
+        steps:
+          - catalog -> redis: { label: GET product:42, kind: lookup }
+          - redis -> catalog: { label: miss, kind: error }
+          - catalog -> postgres: { label: SELECT product, kind: lookup }
+          - postgres -> catalog: { label: row }
+          - at catalog: { label: SET product:42 ttl 60s, note: The next request for this product is a hit. }
+      - title: The answer
+        steps:
+          - catalog -> browser: { label: 200 + JSON }
+
+  place-order:
+    title: Place an order
+    summary: The shopper pays. The order is stored first, charged second, and announced to the rest of the system last.
+    phases:
+      - title: Submit
+        steps:
+          - browser -> orders: { label: POST /orders, note: "The gateway has already checked the token, so the order service trusts the user id header." }
+          - orders -> postgres: { label: INSERT order (pending), kind: lookup }
+      - title: Charge
+        steps:
+          - orders -> stripe: { label: create payment intent }
+          - at stripe: { label: authorise card }
+          - stripe -> orders: { label: succeeded }
+      - title: Finish
+        steps:
+          - par:
+              - orders -> postgres: { label: mark paid, kind: lookup }
+              - orders -> rabbit: { label: order.created, kind: event }
+          - orders -> browser: { label: 201 Created }
+          - rabbit -> notifier: { label: order.created, status: planned, note: Planned. Confirmation emails are not sent yet. }
+
+  payment-declined:
+    title: Card declined
+    summary: The payment provider refuses the card. The order stays pending and the shopper is told why.
+    phases:
+      - title: Submit and charge
+        steps:
+          - browser -> orders: POST /orders
+          - orders -> postgres: { label: INSERT order (pending), kind: lookup }
+          - orders -> stripe: create payment intent
+      - title: Declined
+        steps:
+          - stripe -> orders: { label: card_declined, kind: error }
+          - at orders: { label: mark order failed, kind: error }
+          - orders -> browser: { label: 402 Payment Required, kind: error, note: The response carries the decline code so the storefront can show a helpful message. }

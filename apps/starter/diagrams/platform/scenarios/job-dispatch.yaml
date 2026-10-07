@@ -1,0 +1,40 @@
+title: Dispatch a job to a device
+summary: |
+  Every job for a device goes through one ordered lane, and only the job at the head of the lane is sent.
+  Delivery is fenced, so a duplicate or stale message cannot run a job twice.
+phases:
+  - title: Create the job
+    caption: management side
+    steps:
+      - backend -> control-api:
+          label: enqueue job
+          note: "A feature creates a job: domain, type, payload and an idempotency key."
+      - at control-api:
+          label: lock the lane · next sequence
+          note: If nothing is running for that device, the new job becomes the head of its lane.
+      - control-api -> rabbitmq: { label: "{jobId, sequence}", kind: event }
+      - rabbitmq -> control-api: { label: dispatch message, kind: event }
+      - at control-api:
+          label: claim · take 2 min lease
+          note: The job must still be the head and unclaimed. A duplicate or stale delivery fails the claim and is dropped.
+  - title: Cross the tunnel
+    caption: management to device
+    steps:
+      - control-api -> spoke:
+          label: frame {seq, jobId}
+          note: The instance holding this device's websocket writes the frame. With no socket the job is **Held** and nothing is sent.
+  - title: Run it
+    caption: on the device
+    steps:
+      - spoke -> dx-backend: { label: relay, status: planned, note: "The agent checks its journal for the job id, then relays the job unread." }
+      - at dx-backend: { label: run the handler, status: planned }
+      - dx-backend -> svc-vms: { label: create containers, status: planned }
+      - svc-vms -> dx-backend: { label: done, status: planned }
+  - title: Report back
+    steps:
+      - dx-backend -> spoke: { label: result, status: planned }
+      - spoke -> control-api: { label: "reply {seq, ok}" }
+      - at control-api:
+          label: mark Completed · advance the lane
+          note: The next job in the lane becomes the head.
+      - control-api -> backend: { label: result event, kind: event }
