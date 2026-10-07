@@ -50,5 +50,6 @@
         "types": "./dist/virtual.d.ts"
       }
     }
-  }
+  },
+  "license": "MIT"
 }

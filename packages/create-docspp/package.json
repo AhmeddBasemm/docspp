@@ -36,5 +36,6 @@
   },
   "devDependencies": {
     "@docspp/core": "workspace:^"
-  }
+  },
+  "license": "MIT"
 }

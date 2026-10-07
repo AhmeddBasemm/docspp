@@ -48,5 +48,6 @@
         "default": "./dist/node.js"
       }
     }
-  }
+  },
+  "license": "MIT"
 }

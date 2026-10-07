@@ -9,6 +9,7 @@ apps/docs/dist
 templates/*/.astro
 templates/*/dist
 packages/create-docspp/template
+packages/*/LICENSE
 test-results
 playwright-report
 screenshots

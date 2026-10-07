@@ -84,7 +84,7 @@ Both workflows are **off** until you opt in, so pushing to `main` can never publ
 
 These are your decisions; nothing here has been done for you.
 
-- [ ] **A license.** There is no `LICENSE` file and no `license` field. Add both before publishing or making the repository public.
+- [x] **A license.** MIT, in `LICENSE`; each build copies it into the package folders, and `verify:pack` checks it is in every tarball.
 - [ ] **The npm names.** `@docspp/*` and `create-docspp` had no published packages when checked, but a scope can exist without packages. Create the `docspp` organisation on npm (`npm org create docspp` or on npmjs.com) to claim it. If you would rather use another name, it appears in `package.json` of each package, `scripts/build.mjs`, `scripts/template.mjs`, `templates/starter/package.json`, `.changeset/config.json` and the docs. Do the rename before the first publish; afterwards it is expensive.
 - [ ] **URLs.** `homepage` and `repository` in the root and package `package.json` files point at `github.com/AhmeddBasemm/docspp`. Update them if the repository moves.
 - [ ] **npm token.** Create an automation token that can publish the scope, and add it as the `NPM_TOKEN` repository secret.

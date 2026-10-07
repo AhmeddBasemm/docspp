@@ -78,3 +78,7 @@ pnpm verify:pack     # packs everything and installs it the way a user would
 ```
 
 Requires Node 22+ and pnpm.
+
+## License
+
+[MIT](LICENSE).

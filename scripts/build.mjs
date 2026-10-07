@@ -61,6 +61,9 @@ for (const bin of config.bins ?? []) {
 
 for (const [from, to] of config.copy ?? []) copyFileSync(join(dir, from), join(dir, to))
 
+// npm includes a LICENSE only from the package folder, so each build copies the one in the root.
+copyFileSync(join(root, 'LICENSE'), join(dir, 'LICENSE'))
+
 if (config.template) {
   const { buildTemplate } = await import('./template.mjs')
   buildTemplate(join(dir, 'template'), { keepAliases: true })

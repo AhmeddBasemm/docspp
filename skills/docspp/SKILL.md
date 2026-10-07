@@ -1,5 +1,6 @@
 ---
 name: docspp
+license: MIT
 description: Draw, document and explain systems as interactive architecture diagrams with docspp. Diagrams are YAML files (diagrams/<name>/diagram.yaml) laid out automatically and rendered in an Astro + Starlight docs site, with playable scenarios that show a request travelling through the system. Use when asked to diagram, document or explain a system, service, request path or data flow; to add, change or fix a docspp diagram, scenario or story; when `docspp check` or `pnpm check` reports diagram errors; or to set up a docspp docs site.
 ---
 

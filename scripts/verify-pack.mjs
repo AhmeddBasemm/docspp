@@ -37,6 +37,8 @@ try {
     const name = JSON.parse(readFileSync(join(cwd, 'package.json'), 'utf8')).name
     run('pnpm', ['pack', '--pack-destination', packs], cwd)
     tarballs[name] = readdirSync(packs).map((f) => join(packs, f)).find((f) => f.includes(name.replace('@', '').replace('/', '-')) && !Object.values(tarballs).includes(f))
+    const listing = run('tar', ['-tzf', tarballs[name]], work)
+    if (!listing.includes('package/LICENSE')) throw new Error(`${name} was packed without its LICENSE`)
     console.log(`  ${name}  ${tarballs[name]?.split('/').pop()}`)
   }
 
