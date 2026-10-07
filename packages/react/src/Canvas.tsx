@@ -65,6 +65,7 @@ export function Canvas({
   useEffect(() => {
     const el = frameRef.current
     if (!el) return
+    const settle = 0
     const zb = zoom<HTMLDivElement, unknown>()
       .scaleExtent([0.15, 3])
       .filter((event: Event) => {
@@ -87,6 +88,7 @@ export function Canvas({
     behavior.current = zb
     select(el).call(zb)
     return () => {
+      window.clearTimeout(settle)
       select(el).on('.zoom', null)
     }
   }, [])

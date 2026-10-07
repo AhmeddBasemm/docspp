@@ -35,5 +35,8 @@
         "default": "./dist/index.js"
       }
     }
+  },
+  "devDependencies": {
+    "yaml": "^2.9.1"
   }
 }

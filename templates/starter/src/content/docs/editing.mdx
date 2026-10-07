@@ -49,6 +49,8 @@ scenarios:
 
 Group steps into `phases:` for longer stories, give failures their own scenario, and put long ones in `scenarios/<id>.yaml`.
 
+Every scenario can also be read as a swimlane **story** (the *Story* button above the diagram). Give steps a `title` and a `detail` to write it up, and set `mode: story` on a scenario to open it that way.
+
 ## Try one
 
 Here is the shop diagram again. Press play on **Card declined**.
@@ -57,4 +59,4 @@ Here is the shop diagram again. Press play on **Card declined**.
 
 ## Learn the rest
 
-The full format, layout hints, icons and theming are documented at __DOCS_URL__. If you use Claude Code, the `author-diagram` skill in `.claude/skills/` knows the format: ask it to draw a flow from your code, and it will run `pnpm check` and fix what it reports.
+The full format, layout hints, icons and theming are documented at __DOCS_URL__. If you use Claude Code, the `docspp` skill in `.claude/skills/` knows the format: ask it to draw a flow from your code, and it will run `pnpm check` and fix what it reports.

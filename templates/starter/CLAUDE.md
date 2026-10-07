@@ -24,4 +24,4 @@ pnpm docspp icons search <q> # find an icon name
 
 ## Working on diagrams
 
-Use the `author-diagram` skill (`.claude/skills/author-diagram`). Read the code you are documenting, write the YAML, then **always** run `pnpm check` and look at the rendered page before you finish. Never invent services, ports or flows.
+Use the `docspp` skill (`.claude/skills/docspp`). Read the code you are documenting, write the YAML, then **always** run `pnpm check` and look at the rendered page before you finish. Never invent services, ports or flows.

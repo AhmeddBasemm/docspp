@@ -18,6 +18,7 @@ import { Packets } from './Packets'
 import { Player } from './Player'
 import { SequenceView } from './SequenceView'
 import { StepPanel } from './StepPanel'
+import { StoryView } from './StoryView'
 import { useLayout } from './useLayout'
 import { usePlayer } from './usePlayer'
 import { cx } from './util'
@@ -29,7 +30,8 @@ export interface DiagramViewProps {
   view?: string
   /** Scenario to select first. */
   scenario?: string
-  mode?: 'flow' | 'sequence'
+  /** How a scenario is shown. Defaults to the scenario's own `mode`, then `flow`. */
+  mode?: 'flow' | 'sequence' | 'story'
   /** Tallest the canvas may grow before it scrolls inside its frame, in px. */
   maxHeight?: number
   showTitle?: boolean
@@ -46,7 +48,7 @@ export function DiagramView({
   diagram,
   view: viewProp,
   scenario: scenarioProp,
-  mode: modeProp = 'flow',
+  mode: modeProp,
   maxHeight = 780,
   showTitle = false,
   showDescription = false,
@@ -72,7 +74,9 @@ export function DiagramView({
   )
   const [scenarioId, setScenarioId] = useState<string | null>(scenarioProp ?? null)
   const scenario = scenarios.find((s) => s.id === scenarioId) ?? null
-  const [mode, setMode] = useState(modeProp)
+  const [mode, setMode] = useState<'flow' | 'sequence' | 'story'>(
+    () => modeProp ?? diagram.scenarios.find((s) => s.id === scenarioProp)?.mode ?? 'flow',
+  )
   const [hover, setHover] = useState<{ node?: string; edge?: string }>({})
   const [selected, setSelected] = useState<string | null>(null)
   const [hidePlanned, setHidePlanned] = useState(false)
@@ -119,6 +123,10 @@ export function DiagramView({
     setScenarioId(id)
     setHover({})
     if (id === null) setMode('flow')
+    else {
+      const picked = scenarios.find((s) => s.id === id)
+      if (picked?.mode) setMode(picked.mode)
+    }
   }
 
   const selectView = (id: string) => {
@@ -137,6 +145,7 @@ export function DiagramView({
     if (!sc) return
     setViewId(sc.view)
     setScenarioId(sc.id)
+    if (sc.mode) setMode(sc.mode)
     if (hit.step) pendingStep.current = hit.step - 1
   }, [diagram, hash])
 
@@ -272,7 +281,7 @@ export function DiagramView({
   const stopFollowing = useCallback(() => setFollow(false), [])
 
   const stateOf = useCallback((id: string) => edgeStates[id] ?? EMPTY, [edgeStates])
-  const showSequence = !!scenario && mode === 'sequence'
+  const presentation = scenario ? mode : 'flow'
 
   return (
     <div ref={rootRef} className={cx('docspp', className)}>
@@ -329,19 +338,29 @@ export function DiagramView({
         </div>
       )}
       {scenario?.summaryHtml && (
-        <div
-          className="docspp-summary"
-          dangerouslySetInnerHTML={{ __html: scenario.summaryHtml }}
-        />
+        <div className={cx('docspp-summary', presentation === 'story' && 'is-card')}>
+          {presentation === 'story' && (
+            <strong className="docspp-summary-title">The story in one breath</strong>
+          )}
+          <div dangerouslySetInnerHTML={{ __html: scenario.summaryHtml }} />
+        </div>
       )}
 
-      {!showSequence && <Legend diagram={diagram} view={view} />}
+      {presentation === 'flow' && <Legend diagram={diagram} view={view} />}
 
-      {showSequence ? (
+      {scenario && presentation === 'sequence' ? (
         <SequenceView
           diagram={diagram}
           scenario={scenario}
           current={stepIndex}
+          onSeek={player.playStep}
+        />
+      ) : scenario && presentation === 'story' ? (
+        <StoryView
+          diagram={diagram}
+          scenario={scenario}
+          current={stepIndex}
+          ended={player.ended}
           onSeek={player.playStep}
         />
       ) : layout ? (

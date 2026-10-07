@@ -334,6 +334,11 @@ edges:
   # The next edges are real relationships that scenarios use but the picture does not need.
   - { from: control-api, to: rabbitmq, kind: queue, both: true, hidden: true }
   - { from: control-api, to: postgres, kind: data, hidden: true }
+  - { from: backend, to: redis, kind: data, hidden: true }
+  - { from: backend, to: postgres, kind: data, hidden: true }
+  - { from: backend, to: openfga, kind: data, hidden: true }
+  - { from: dx-backend, to: postgres-device, kind: data, hidden: true }
+  - { from: dx-backend, to: openfga-device, kind: data, hidden: true }
   - { from: dx-backend, to: svc-vms, label: docker API · proxy, payload: container lifecycle }
 
 views:

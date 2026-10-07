@@ -7,7 +7,7 @@
 //
 // Needs network (for Astro and friends) and Google Chrome. Pass --keep to leave the project behind.
 import { execFileSync } from 'node:child_process'
-import { appendFileSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs'
+import { appendFileSync, existsSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
@@ -43,6 +43,10 @@ try {
   step('scaffold with the packed create-docspp')
   run('tar', ['-xzf', tarballs['create-docspp'], '-C', packs], work)
   run('node', [join(packs, 'package/dist/index.js'), project], work)
+  for (const file of ['SKILL.md', 'references/format.md', 'references/setup.md', 'assets/examples/shop.diagram.yaml']) {
+    if (!existsSync(join(project, '.claude/skills/docspp', file))) throw new Error(`the scaffolded project is missing the docspp skill file ${file}`)
+  }
+  console.log('  the docspp skill came with it')
 
   step('install the packed packages')
   const pkgFile = join(project, 'package.json')

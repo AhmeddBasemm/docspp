@@ -1,0 +1,83 @@
+title: One read request, end to end
+mode: story                      # opens as a swimlane story; the Flow and Sequence buttons still work
+summary: |
+  An operator opens a list. The management backend works out who they are, which device they
+  mean and whether they may see it. Then it forwards the same call through the hub and the tunnel
+  to the device, which checks again, asks the service, and sends the answer back along the same road.
+
+# Columns, left to right. A lane can hold several nodes; anything you leave out gets its own lane.
+lanes:
+  - { title: Operator browser, nodes: [operator] }
+  - { title: Management proxy, sub: reverse proxy, nodes: [proxy] }
+  - { title: Management backend, sub: middleware, nodes: [backend] }
+  - { title: Management stores, nodes: [redis, postgres, openfga] }
+  - { title: Network, sub: hub ⇒ tunnel ⇒ spoke, nodes: [hub, spoke] }
+  - { title: Device backend, sub: nginx · API, nodes: [device-proxy, dx-backend] }
+  - { title: Device stores, nodes: [postgres-device, openfga-device] }
+  - { title: The service, sub: runs in its own container, nodes: [svc-vms] }
+
+phases:
+  - title: The click
+    steps:
+      - at operator:
+          title: Click
+          detail: GET /api/devices/{id}/services
+      - operator -> proxy:
+          title: The front door
+          detail: TLS · app.* → backend :9100
+  - title: Who, where, may they?
+    steps:
+      - proxy -> backend:
+          title: Who are you?
+          detail: |
+            session cookie → session
+            tokens read from Redis
+      - backend -> redis: { label: session + tokens, kind: lookup }
+      - redis -> backend: found
+      - at backend:
+          title: Which device and org?
+          detail: device → URL + organisation
+      - backend -> postgres: { label: "device → URL, org", kind: lookup }
+      - postgres -> backend: row
+      - at backend:
+          title: May they view it?
+          detail: authorisation check in the org's own store
+      - backend -> openfga: { label: view · org store, kind: lookup }
+      - openfga -> backend: allowed
+      - at backend:
+          title: Is it licensed?
+          detail: feature + licence checked on the ledger
+      - backend -> postgres: { label: licence ledger, kind: lookup }
+      - postgres -> backend: licensed
+  - title: Across the tunnel
+    steps:
+      - backend -> hub:
+          title: Cross the tunnel
+          detail: same call, same token
+      - hub -> device-proxy:
+          title: Device front door
+          detail: hub ⇒ tunnel ⇒ spoke VM ⇒ device LAN
+  - title: At the device
+    steps:
+      - device-proxy -> dx-backend:
+          title: Check the token again
+          detail: nginx → dx-backend :8080
+      - dx-backend -> postgres-device: { label: licence snapshot, kind: lookup }
+      - postgres-device -> dx-backend: valid
+      - dx-backend -> openfga-device: { label: view · instance, kind: lookup }
+      - openfga-device -> dx-backend: allowed
+      - dx-backend -> svc-vms:
+          title: Ask the service
+          detail: docker API · proxy
+  - title: The answer
+    caption: the same road back
+    steps:
+      - svc-vms -> dx-backend:
+          title: Read the instance
+          detail: the list of monitors
+      - dx-backend -> backend:
+          title: Shape the answer
+          detail: device ⇒ hub ⇒ management
+      - backend -> operator:
+          title: The list appears
+          detail: rendered in the browser

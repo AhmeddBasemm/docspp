@@ -58,10 +58,54 @@ A scenario plays on the first view unless it sets `view:`. Every node it mention
 
 <Diagram name="platform" scenario="device-offline" />
 
+## Story view
+
+The same scenario can be read as a **story**: swimlanes, with one column per actor, the steps running down the page in order, and the phases as horizontal bands. It is the version to put in front of someone who has not seen the system before.
+
+<Diagram name="platform" scenario="request-story" />
+
+Every step becomes a box in the lane where it happens:
+
+| Step | In the story |
+|---|---|
+| `at a: ...` | A box in `a`'s lane. |
+| `a -> b: ...` | A box in `b`'s lane, joined to the box before it by an arrow. If the story is not already at `a`, a small box shows where it starts. |
+| `a -> b: { kind: lookup }` | A dashed box beside the step that asked, in `b`'s lane, with a double-headed dotted arrow. The answer that follows (`b -> a: ...`) is folded into the same box. |
+
+Boxes are numbered 1, 2, 3 along the story. Lookups are not numbered. Click a box to play that step.
+
+Without any extra YAML you get a lane per node, in the order they first appear. To shape it, add three optional things:
+
+```yaml
+scenarios:
+  request-story:
+    title: One read request, end to end
+    mode: story                 # open as a story (flow and sequence stay one click away)
+    lanes:                      # columns, left to right
+      - { title: Operator browser, nodes: [operator] }
+      - { title: Management stores, sub: Redis · Postgres, nodes: [redis, postgres] }
+      - { title: Network, sub: hub ⇒ tunnel ⇒ spoke, nodes: [hub, spoke] }
+    phases:
+      - title: Who, where, may they?
+        caption: on the management side     # shown under the title in the gutter
+        steps:
+          - proxy -> backend:
+              title: Who are you?            # the box heading (defaults to the label)
+              detail: |                      # one to three short lines under it
+                session cookie → session
+                tokens read from Redis
+          - backend -> redis: { label: session + tokens, kind: lookup }
+          - redis -> backend: found
+```
+
+A lane can hold several nodes, which is how you show "the data stores" or "the network" as one column. List the lanes in the order you want them; nodes you leave out get a lane of their own at the end, and `pnpm check` tells you which. Steps without a `title` use their label, and without a `detail` show `from → to`.
+
+To show a story in a page without the picker, pass `mode`: `<Diagram name="platform" scenario="request-story" mode="story" />`.
+
 ## What readers get
 
 - **Play, pause, step** forwards and back, scrub the timeline, and change the speed.
 - **Click a step** in the list to jump to it. The path already travelled stays lit.
-- **Flow or Sequence**: the same scenario as packets over the architecture, or as a classic sequence diagram.
+- **Flow, Sequence or Story**: the same scenario as packets over the architecture, as a classic sequence diagram, or as swimlanes.
 - **Deep links**: the address bar follows the scenario and step, so a reader can share exactly what they are looking at.
 - Scenarios start paused when the system asks for reduced motion.

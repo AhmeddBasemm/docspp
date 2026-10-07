@@ -7,7 +7,7 @@ import type { CompiledDiagram } from './types'
 export * from './compile'
 export { resolveIcon, searchIcons } from './icons'
 export { renderMarkdown } from './markdown'
-export { authoringJsonSchema, RootSchema } from './schema'
+export { authoringJsonSchema, FamilySchema, KNOWN_KEYS, RootSchema } from './schema'
 
 export interface LoadedProject {
   diagrams: Record<string, CompiledDiagram>

@@ -19,6 +19,8 @@
   --docspp-bad-soft: #f6dad6;
   --docspp-tile: #ffffff;
   --docspp-shadow: 0 1px 2px rgb(20 32 43 / 8%), 0 4px 14px rgb(20 32 43 / 6%);
+  /* Opacity of items that are not part of the current focus or scenario path. 1 turns dimming off. */
+  --docspp-dim: 0.5;
 
   --docspp-blue: #2358c4;
   --docspp-blue-bg: #e3ebfb;
@@ -274,7 +276,6 @@
   left: 0;
   top: 0;
   transform-origin: 0 0;
-  will-change: transform;
 }
 .docspp-svg {
   position: absolute;
@@ -422,7 +423,7 @@
 }
 .docspp-node.is-dim,
 .docspp-zone.is-dim {
-  opacity: 0.3;
+  opacity: var(--docspp-dim);
 }
 .docspp-node.is-hidden {
   opacity: 0.08;
@@ -594,11 +595,10 @@
 }
 .docspp-edge.is-lit {
   --ec: var(--docspp-accent);
-  stroke-width: calc(var(--ew) + 1.6px);
-  filter: drop-shadow(0 0 4px var(--docspp-accent));
+  stroke-width: calc(var(--ew) + 1.8px);
 }
 .docspp-edge.is-dim {
-  opacity: 0.18;
+  opacity: calc(var(--docspp-dim) * 0.6);
 }
 .docspp-edge.is-hidden {
   opacity: 0.05;
@@ -624,7 +624,7 @@
   cursor: default;
 }
 .docspp-elabel.is-dim {
-  opacity: 0.2;
+  opacity: calc(var(--docspp-dim) * 0.6);
 }
 .docspp-elabel text {
   font: 500 11.5px var(--docspp-sans);
@@ -663,7 +663,6 @@
   position: absolute;
   left: 0;
   top: 0;
-  will-change: transform;
 }
 .docspp-packet.kind-response {
   --pc: var(--docspp-ok);
@@ -685,8 +684,8 @@
   border-radius: 50%;
   background: var(--pc);
   box-shadow:
-    0 0 0 4px color-mix(in srgb, var(--pc) 28%, transparent),
-    0 0 14px var(--pc);
+    0 0 0 4px color-mix(in srgb, var(--pc) 30%, transparent),
+    0 0 0 8px color-mix(in srgb, var(--pc) 14%, transparent);
 }
 .docspp-packet-label {
   position: absolute;
@@ -698,13 +697,13 @@
   background: var(--pc);
   color: var(--docspp-surface);
   font: 600 11px / 1.5 var(--docspp-mono);
-  box-shadow: 0 2px 8px rgb(0 0 0 / 22%);
+  box-shadow: 0 1px 0 rgb(0 0 0 / 28%);
 }
 .docspp-pulse {
   position: absolute;
   border-radius: 10px;
   border: 2px solid var(--docspp-accent);
-  box-shadow: 0 0 18px color-mix(in srgb, var(--docspp-accent) 55%, transparent);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--docspp-accent) 28%, transparent);
 }
 .docspp-caption {
   position: absolute;
@@ -715,7 +714,7 @@
   background: var(--docspp-ink);
   color: var(--docspp-bg);
   font: 600 11.5px / 1.4 var(--docspp-sans);
-  box-shadow: 0 3px 10px rgb(0 0 0 / 25%);
+  box-shadow: 0 1px 0 rgb(0 0 0 / 30%);
 }
 .docspp-caption.kind-error {
   background: var(--docspp-bad);
@@ -1193,4 +1192,247 @@
     transition: none !important;
     animation: none !important;
   }
+}
+
+/* ---------- story view ---------- */
+
+.docspp-summary.is-card {
+  background: var(--docspp-surface);
+  border: 1px solid var(--docspp-line);
+  border-radius: 10px;
+  padding: 14px 18px;
+  max-width: 900px;
+  color: var(--docspp-ink);
+}
+.docspp-summary-title {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 13.5px;
+}
+
+.docspp-story {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+}
+.docspp-story-scroll {
+  overflow-x: auto;
+  border: 1px solid var(--docspp-line);
+  border-radius: 10px;
+  background: var(--docspp-bg);
+}
+.docspp-story-grid {
+  --gutter: 124px;
+  --lane-min: 148px;
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--gutter) repeat(var(--lanes), minmax(var(--lane-min), 1fr));
+  min-width: calc(var(--gutter) + var(--lanes) * var(--lane-min));
+  padding-bottom: 6px;
+}
+
+.docspp-lane-head {
+  position: relative;
+  z-index: 2;
+  margin: 12px 6px;
+  padding: 8px 8px 9px;
+  background: var(--docspp-surface);
+  border: 1px solid var(--docspp-line);
+  border-radius: 6px;
+  box-shadow: var(--docspp-shadow);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  text-align: center;
+  min-width: 0;
+}
+.docspp-lane-icons {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 3px;
+}
+.docspp-lane-icon {
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  display: grid;
+  place-items: center;
+}
+.docspp-lane-icon svg {
+  width: 14px;
+  height: 14px;
+}
+.docspp-lane-icon.is-mono {
+  background: var(--docspp-surface-2);
+  color: var(--docspp-muted);
+}
+.docspp-lane-icon.is-brand {
+  background: var(--docspp-tile);
+  border: 1px solid color-mix(in srgb, var(--docspp-line) 70%, transparent);
+}
+.docspp-lane-title {
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 1.25;
+  overflow-wrap: break-word;
+}
+.docspp-lane-sub {
+  font-size: 11px;
+  color: var(--docspp-muted);
+  line-height: 1.3;
+  overflow-wrap: break-word;
+}
+
+.docspp-phase-band {
+  z-index: 0;
+}
+.docspp-phase-band.is-odd {
+  background: var(--docspp-zone);
+}
+.docspp-phase-band.is-even {
+  background: color-mix(in srgb, var(--docspp-surface) 55%, transparent);
+}
+.docspp-phase-label {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
+  padding: 6px 10px 0 16px;
+  min-width: 0;
+}
+.docspp-phase-roman {
+  font:
+    700 21px / 1 Georgia,
+    "Times New Roman",
+    serif;
+  color: var(--docspp-accent);
+}
+.docspp-phase-name {
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 1.3;
+}
+.docspp-phase-cap {
+  font-size: 11px;
+  color: var(--docspp-muted);
+  line-height: 1.3;
+}
+
+.docspp-story-cell {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 8px 10px;
+  min-width: 0;
+}
+.docspp-sbox {
+  position: relative;
+  background: var(--docspp-surface);
+  border: 1.3px solid var(--docspp-line);
+  border-radius: 6px;
+  padding: 7px 9px 8px;
+  text-align: center;
+  cursor: pointer;
+  outline: none;
+  box-shadow: var(--docspp-shadow);
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s;
+  min-width: 0;
+}
+.docspp-sbox:hover,
+.docspp-sbox:focus-visible {
+  border-color: var(--docspp-accent);
+}
+.docspp-sbox-title {
+  font-weight: 600;
+  font-size: 12.5px;
+  line-height: 1.3;
+  overflow-wrap: break-word;
+}
+.docspp-sbox-n {
+  margin-right: 4px;
+  color: var(--docspp-muted);
+  font-weight: 500;
+}
+.docspp-sbox-icon {
+  width: 14px;
+  height: 14px;
+  vertical-align: -2px;
+  margin-right: 5px;
+}
+.docspp-sbox-detail {
+  margin-top: 2px;
+  font-size: 11px;
+  line-height: 1.35;
+  color: var(--docspp-muted);
+  overflow-wrap: break-word;
+}
+.docspp-sbox.role-origin {
+  background: var(--docspp-accent-soft);
+  border-color: color-mix(in srgb, var(--docspp-accent) 45%, var(--docspp-line));
+}
+.docspp-sbox.role-lookup {
+  border-style: dashed;
+  box-shadow: none;
+  background: color-mix(in srgb, var(--docspp-surface) 80%, transparent);
+}
+.docspp-sbox.kind-response.role-main {
+  border-color: color-mix(in srgb, var(--docspp-ok) 55%, var(--docspp-line));
+}
+.docspp-sbox.kind-error.role-main {
+  border-color: var(--docspp-bad);
+  background: var(--docspp-bad-soft);
+}
+.docspp-sbox.st-planned {
+  border-style: dashed;
+  border-color: var(--docspp-accent);
+}
+.docspp-sbox .docspp-pill {
+  position: absolute;
+  top: -8px;
+  right: 8px;
+  background: var(--docspp-surface);
+}
+.docspp-sbox.is-done {
+  border-color: var(--docspp-accent);
+}
+.docspp-sbox.is-active {
+  border-color: var(--docspp-accent);
+  box-shadow:
+    0 0 0 2px var(--docspp-accent),
+    0 0 0 6px color-mix(in srgb, var(--docspp-accent) 22%, transparent);
+}
+
+.docspp-story-links {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: visible;
+}
+.docspp-lifeline {
+  stroke: var(--docspp-line);
+  stroke-width: 1;
+  stroke-dasharray: 2 5;
+}
+.docspp-slink {
+  fill: none;
+  stroke-width: 1.8;
+  stroke-linejoin: round;
+  transition: opacity 0.2s;
+}
+.docspp-slink.is-lookup {
+  stroke-width: 1.5;
+  stroke-dasharray: 2 3;
+}
+.docspp-slink.is-future {
+  opacity: 0.35;
 }

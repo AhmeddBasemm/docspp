@@ -9,6 +9,7 @@ import type {
   CompiledDiagram,
   CompiledEdge,
   CompiledGroup,
+  CompiledLane,
   CompiledNode,
   CompiledPhase,
   CompiledScenario,
@@ -332,7 +333,7 @@ function build(data: RootInput, src: DiagramSource, error: Report, warn: Report)
   // Scenarios
   const scenarios: CompiledScenario[] = []
   for (const [id, s] of Object.entries(data.scenarios ?? {})) {
-    const sc = buildScenario(id, s, views, nodes, edges, error)
+    const sc = buildScenario(id, s, views, nodes, edges, error, warn)
     if (sc) scenarios.push(sc)
   }
 
@@ -436,6 +437,7 @@ function buildScenario(
   nodes: Record<string, CompiledNode>,
   edges: Record<string, CompiledEdge>,
   error: Report,
+  warn: Report,
 ): CompiledScenario | undefined {
   const viewId = s.view ?? views[0]!.id
   const view = views.find((v) => v.id === viewId)
@@ -485,6 +487,8 @@ function buildScenario(
       n,
       phase,
       par,
+      title: 'title' in step ? step.title : undefined,
+      detail: 'detail' in step ? step.detail : undefined,
       noteHtml: 'note' in step && step.note ? renderMarkdown(step.note) : undefined,
       status: ('status' in step && step.status) || ('built' as Status),
       hold: 'hold' in step ? step.hold : undefined,
@@ -494,11 +498,17 @@ function buildScenario(
         failed = true
         return
       }
+      const label = step.label ?? step.title
+      if (!label) {
+        error('A step with `at` needs a `label` or a `title`', path)
+        failed = true
+        return
+      }
       steps.push({
         ...base,
         type: 'self',
         at: step.at,
-        label: step.label,
+        label,
         kind: step.kind ?? 'event',
         hops: [],
       })
@@ -550,14 +560,59 @@ function buildScenario(
   })
   if (failed) return undefined
 
+  const lanes = buildLanes(id, s.lanes, steps, nodes, inView, error, warn)
+  if (lanes === null) return undefined
+
   return {
     id,
     title: s.title,
     summaryHtml: s.summary ? renderMarkdown(s.summary) : undefined,
+    mode: s.mode,
+    lanes,
     view: view.id,
     phases,
     steps,
   }
+}
+
+/** Validate the author's lanes. Returns undefined when none were written, null on error. */
+function buildLanes(
+  id: string,
+  lanes: { title: string; sub?: string; nodes: string[] }[] | undefined,
+  steps: CompiledStep[],
+  nodes: Record<string, CompiledNode>,
+  inView: Set<string>,
+  error: Report,
+  warn: Report,
+): CompiledLane[] | undefined | null {
+  if (!lanes?.length) return undefined
+  const seen = new Map<string, number>()
+  let failed = false
+  lanes.forEach((lane, li) => {
+    lane.nodes.forEach((nid, ni) => {
+      const path: Path = ['scenarios', id, 'lanes', li, 'nodes', ni]
+      if (!nodes[nid]) {
+        error(`"${nid}" is not a node`, path, didYouMean(nid, Object.keys(nodes)))
+        failed = true
+      } else if (!inView.has(nid)) {
+        error(`Node "${nid}" is not in the scenario's view`, path)
+        failed = true
+      } else if (seen.has(nid)) {
+        error(`Node "${nid}" is already in lane ${(seen.get(nid) ?? 0) + 1}`, path)
+        failed = true
+      } else seen.set(nid, li)
+    })
+  })
+  if (failed) return null
+  const used = new Set(steps.flatMap((s) => [s.from, s.to, s.at]).filter((n): n is string => !!n))
+  for (const nid of used) {
+    if (!seen.has(nid))
+      warn(
+        `Node "${nid}" appears in the story but is in no lane; it gets its own lane at the end`,
+        ['scenarios', id, 'lanes'],
+      )
+  }
+  return lanes.map((l) => ({ title: l.title, sub: l.sub, nodes: l.nodes }))
 }
 
 /** Shortest route over the view's edges. Forward hops are slightly preferred over reverse ones. */

@@ -119,6 +119,8 @@ export interface CompiledStep {
   to?: string
   at?: string
   label: string
+  title?: string
+  detail?: string
   kind: StepKind
   noteHtml?: string
   status: Status
@@ -131,10 +133,20 @@ export interface CompiledPhase {
   caption?: string
 }
 
+export interface CompiledLane {
+  title: string
+  sub?: string
+  nodes: string[]
+}
+
+export type ScenarioMode = 'flow' | 'sequence' | 'story'
+
 export interface CompiledScenario {
   id: string
   title: string
   summaryHtml?: string
+  mode?: ScenarioMode
+  lanes?: CompiledLane[]
   view: string
   phases: CompiledPhase[]
   steps: CompiledStep[]

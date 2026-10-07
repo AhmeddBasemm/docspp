@@ -1,5 +1,5 @@
 // Turns templates/starter into a standalone project: no workspace: versions, the shared
-// author-diagram skill included, placeholders filled in. Used by create-docspp (at build time)
+// docspp skill included, placeholders filled in. Used by create-docspp (at build time)
 // and by the template-repo sync workflow.
 //
 //   node scripts/template.mjs --out ../my-template-repo
@@ -42,10 +42,12 @@ export function buildTemplate(outDir, options = {}) {
     filter: (src) => !SKIP.has(src.split('/').pop() ?? ''),
   })
 
-  // One skill, maintained once at the repository root, shipped with every new project.
-  const skillDir = join(outDir, '.claude/skills/author-diagram')
-  mkdirSync(skillDir, { recursive: true })
-  cpSync(join(root, '.claude/skills/author-diagram/SKILL.md'), join(skillDir, 'SKILL.md'))
+  // One skill, maintained once in skills/docspp, shipped with every new project (and installable
+  // anywhere with `npx skills add`). dereference: .claude/skills/docspp in this repo is a symlink.
+  cpSync(join(root, 'skills/docspp'), join(outDir, '.claude/skills/docspp'), {
+    recursive: true,
+    dereference: true,
+  })
 
   // A package keeps the underscore names (create-docspp renames them); a repository gets the real ones.
   if (!options.keepAliases) {

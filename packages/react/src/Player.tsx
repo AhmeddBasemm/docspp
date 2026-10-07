@@ -5,8 +5,8 @@ import { fmtTime } from './util'
 interface Props {
   player: PlayerState
   timeline: Timeline
-  mode: 'flow' | 'sequence'
-  onMode: (m: 'flow' | 'sequence') => void
+  mode: 'flow' | 'sequence' | 'story'
+  onMode: (m: 'flow' | 'sequence' | 'story') => void
   stepIndex: number
 }
 
@@ -82,6 +82,9 @@ export function Player({ player, timeline, mode, onMode, stepIndex }: Props) {
         </button>
         <button type="button" aria-pressed={mode === 'sequence'} onClick={() => onMode('sequence')}>
           Sequence
+        </button>
+        <button type="button" aria-pressed={mode === 'story'} onClick={() => onMode('story')}>
+          Story
         </button>
       </div>
     </div>

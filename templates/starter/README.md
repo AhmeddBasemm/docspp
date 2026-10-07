@@ -19,6 +19,10 @@ Diagrams live in `diagrams/`, pages in `src/content/docs/`. Start with `diagrams
 
 Push to GitHub, open **Settings → Pages**, and choose **GitHub Actions** as the source. The workflow in `.github/workflows/deploy.yml` builds and publishes on every push to `main`.
 
+## Draw with an AI agent
+
+The `docspp` skill in `.claude/skills/` teaches Claude Code the diagram format. For other agents or other projects: `npx skills add AhmeddBasemm/docspp --skill docspp`.
+
 ## Update docspp
 
 ```sh

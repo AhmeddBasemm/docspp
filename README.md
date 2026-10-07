@@ -3,7 +3,7 @@
 Describe your system in YAML. Get architecture diagrams your readers can click, filter and **play**: pick a scenario and watch a request travel through the system, step by step.
 
 - **Declarative.** Nodes, groups and edges in `diagram.yaml`. No coordinates; layout is automatic and steerable with a few hints.
-- **Scenarios.** Any number per diagram: the happy path, a cache miss, a declined card. Each plays as packets over the architecture or as a sequence diagram, with a step list, scrubbing, speed control and shareable deep links.
+- **Scenarios.** Any number per diagram: the happy path, a cache miss, a declined card. Each plays as packets over the architecture, as a sequence diagram, or as a swimlane story, with a step list, scrubbing, speed control and shareable deep links.
 - **One model, many views.** Write a node once; show it in an overview, a backend-only view, a per-team view.
 - **Docs inside the picture.** Click a box for its markdown, connections and source references. Edge keys link to an interfaces table generated from the model.
 - **Icons.** Brand logos for your stack (`postgresql`, `redis`, `keycloak`...), Lucide for the rest, your own SVGs too. Bundled at build time.
@@ -43,6 +43,14 @@ scenarios:
       - api -> browser: 200 OK
 ```
 
+## Use it with an AI agent
+
+```sh
+npx skills add AhmeddBasemm/docspp --skill docspp
+```
+
+The [skills](https://skills.sh) installer puts the **docspp skill** into your project for Claude Code, Cursor, Copilot and other agents. It knows how to set docspp up, the whole diagram format, how to write scenarios and stories, and how to fix layout and errors. Projects from the starter template already include it. The skill lives in [`skills/docspp`](skills/docspp).
+
 ## This repository
 
 A monorepo. One place to change the tool, its documentation and its starter project together.
@@ -56,6 +64,7 @@ A monorepo. One place to change the tool, its documentation and its starter proj
 | `packages/create-docspp` | `npm create docspp` |
 | `apps/docs` | the tool's landing page, guides and live examples |
 | `templates/starter` | the project new users start from |
+| `skills/docspp` | the agent skill, installable with `npx skills add` |
 
 How these fit together, whether you need more repositories (no, not for the docs; optionally one for a GitHub template), and how to release: **[docs/REPOSITORIES.md](docs/REPOSITORIES.md)**. Design decisions and what is next: [docs/PLAN.md](docs/PLAN.md). Working on the tool, or using an agent to? [CLAUDE.md](CLAUDE.md).
 

@@ -10,9 +10,9 @@ What this repository is: a **template** for documentation sites in which archite
 | Compiler | YAML to a validated, JSON-serialisable model. Errors carry `file:line:col` and "did you mean" hints. Icons resolved at build time. Markdown rendered at build time (raw HTML dropped). |
 | Layout | Group by group, bottom up. ELK for flow groups, author-written `rows`, tightly packed `row` / `grid`, an obstacle-avoiding orthogonal router for edges that cross zones, automatic RIGHT/DOWN choice. |
 | Renderer | Pan/zoom (Ctrl/⌘ + scroll, drag), fit, fullscreen. Cards with icons, status, chips, badges. Zones and frames. Edge kinds with a generated legend, letter keys, hover focus, planned-item toggle. Detail drawer. Interfaces table generated from the model. Light and dark. |
-| Scenarios | Several per diagram. Phases, self steps, parallel steps, automatic multi-hop routing, request/response/error/lookup/event packets, notes, hidden edges. Player: play, pause, previous/next step, scrub, speed. Flow or sequence presentation. Follow-the-action camera. Deep links (`#checkout=place-order.4`). |
+| Scenarios | Several per diagram. Phases, self steps, parallel steps, automatic multi-hop routing, request/response/error/lookup/event packets, notes, hidden edges. Player: play, pause, previous/next step, scrub, speed. Flow, sequence or swimlane-story presentation (`story.ts`: lanes, phase bands, lookups folded into side boxes). Follow-the-action camera. Deep links (`#checkout=place-order.4`). |
 | Site | Astro + Starlight, `<Diagram name="..." />`, GitHub Pages workflow, CI. |
-| Tooling | `docspp check/list/schema/icons/new`, stale `refs:` warnings, the `author-diagram` Claude Code skill. |
+| Tooling | `docspp check/list/schema/icons/new`, stale `refs:` warnings, the `docspp` agent skill (installable with `npx skills add`). |
 | Distribution | Five publishable packages built to `dist/`, `create-docspp` scaffolder, a minimal `templates/starter`, changesets, release and template-sync workflows (both off until opted in), and `pnpm verify:pack`, which installs the packed packages like a user would. See [REPOSITORIES.md](REPOSITORIES.md). |
 | Tests | Unit tests for compiler, layout invariants, router, timeline, CLI. End-to-end tests in real Chrome (`pnpm test:e2e`). |
 
@@ -45,7 +45,7 @@ What this repository is: a **template** for documentation sites in which archite
 ## Next
 
 1. **First publish.** Claim the npm scope, choose a license, set the release variables: the checklist is in [REPOSITORIES.md](REPOSITORIES.md). Then optionally set up the generated template repository.
-2. **More view types**: state diagrams, entity cards with field-level relations, swimlane ("request story") layouts. The format reserves `type:` on views.
+2. **More view types**: state diagrams and entity cards with field-level relations. The format reserves `type:` on views. (The swimlane "request story" is done: it is a presentation of a scenario, not a view type.)
 3. **Forked scenarios**: "device offline at step 6" as a variant that shares the happy path up to a step.
 4. **Visual regression**: Playwright screenshots of the examples in both themes.
 5. **Export**: SVG, PNG and GIF of a scenario for READMEs and slides.

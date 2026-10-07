@@ -37,6 +37,8 @@ apps/
   docs/            @docspp/docs        the tool's landing page, guides and live examples (private)
 templates/
   starter/         my-docs            the project users start from (private; source of truth)
+skills/
+  docspp/          the agent skill (SKILL.md + references/ + a tested example); installable with `npx skills add`
 scripts/
   build.mjs        builds one package into dist/ (esbuild + tsc declarations)
   template.mjs     templates/starter -> a standalone project
@@ -46,6 +48,16 @@ scripts/
 
 In the monorepo, every package's `exports` point at its TypeScript sources, so nothing has to be built to develop. `publishConfig.exports` points at `dist/`, and pnpm applies it when packing. The five packages are versioned together.
 
+## The agent skill
+
+`skills/docspp` is the one copy of the skill. It reaches people three ways, none of which needs a registry:
+
+- **`npx skills add AhmeddBasemm/docspp --skill docspp`** installs it into any project, from this repository on GitHub. The installer scans `skills/` (and `.claude/skills/`), so nothing has to be published. skills.sh lists skills by how often they are installed; there is no submission step. The repository has to be **public** for other people to install from it.
+- **New projects** get it automatically: `scripts/template.mjs` copies the folder into the template, and `create-docspp` ships that.
+- **This repository's own agents** use it through `.claude/skills/docspp`, a symlink to `skills/docspp`.
+
+`packages/cli/test/skill.test.ts` keeps it honest: the example diagram must compile, every link must resolve, and the node, edge and step kinds, the schema fields and the CLI commands it describes must match the code. Change the format and that test tells you which part of the skill to update.
+
 ## Everyday tasks
 
 | I want to | Do |
@@ -53,6 +65,7 @@ In the monorepo, every package's `exports` point at its TypeScript sources, so n
 | Change the format, layout or renderer | Edit `packages/*`, update `apps/docs` and the skill in the same change. `pnpm test`, `pnpm test:e2e`. |
 | Change what new projects start with | Edit `templates/starter`. `pnpm dev:template` to see it; `pnpm verify:pack` proves a fresh project installs and builds from packed packages. |
 | Change the docs or landing page | Edit `apps/docs`. `pnpm dev`. |
+| Change the agent skill | Edit `skills/docspp`, then `pnpm test`. To try an install: `npx skills add . --skill docspp --copy` from an empty folder. |
 | Check everything CI checks | `pnpm lint && pnpm typecheck && pnpm test && pnpm check --strict && pnpm build:all` |
 | Try the published experience without publishing | `pnpm verify:pack` (add `--keep` to keep the generated project). |
 | Add a package | Create `packages/<name>`, add it to `CONFIG` in `scripts/build.mjs` and to the `fixed` list in `.changeset/config.json`. |
@@ -76,6 +89,7 @@ These are your decisions; nothing here has been done for you.
 - [ ] **URLs.** `homepage` and `repository` in the root and package `package.json` files point at `github.com/AhmeddBasemm/docspp`. Update them if the repository moves.
 - [ ] **npm token.** Create an automation token that can publish the scope, and add it as the `NPM_TOKEN` repository secret.
 - [ ] **Turn it on.** Set the repository variable `RELEASE_ENABLED` to `true`.
+- [ ] **Make the repository public** if people should be able to run `npx skills add <you>/docspp` against it.
 - [ ] **Docs site.** In repository settings, set Pages to the **GitHub Actions** source. Until then the docs workflow still builds the site but skips the deploy step with a notice, so CI stays green. After that it deploys `apps/docs` on every push to `main`. Remove the "not published yet" note in `apps/docs/src/content/docs/guides/getting-started.mdx` once the packages are live.
 
 ### The template repository (optional)

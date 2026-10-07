@@ -112,6 +112,16 @@ export const ViewSchema = z.strictObject({
 })
 
 const stepCommon = {
+  title: z
+    .string()
+    .optional()
+    .describe('Heading of the step in the story view. Defaults to the label.'),
+  detail: z
+    .string()
+    .optional()
+    .describe(
+      'One to three short lines under the heading in the story view. Defaults to "from → to".',
+    ),
   kind: StepKindSchema.optional(),
   note: z.string().optional().describe('Markdown explanation shown with the step.'),
   status: StatusSchema.optional(),
@@ -130,7 +140,7 @@ const FlowStepSchema = z.strictObject({
 const SelfStepSchema = z.strictObject({
   type: z.literal('self'),
   at: Id,
-  label: z.string(),
+  label: z.string().optional().describe('Caption shown on the node. Defaults to the title.'),
   ...stepCommon,
 })
 
@@ -151,8 +161,29 @@ const PhaseSchema = z.strictObject({
   steps: z.array(StepSchema).min(1),
 })
 
+const LaneSchema = z.strictObject({
+  title: z.string(),
+  sub: z
+    .string()
+    .optional()
+    .describe('Under the title. Defaults to the node subtitle, or the node titles joined.'),
+  nodes: z.array(Id).min(1).describe('Nodes shown in this lane.'),
+})
+
 const ScenarioBase = z.strictObject({
   title: z.string(),
+  mode: z
+    .enum(['flow', 'sequence', 'story'])
+    .optional()
+    .describe(
+      'How the scenario opens: packets over the diagram, a sequence diagram, or a swimlane story.',
+    ),
+  lanes: z
+    .array(LaneSchema)
+    .optional()
+    .describe(
+      'Columns of the story view, left to right. Nodes you leave out get a lane of their own at the end.',
+    ),
   summary: z.string().optional().describe('Markdown: the story in a few sentences.'),
   view: Id.optional().describe('View to play on. Defaults to the first view.'),
   phases: z.array(PhaseSchema).optional(),

@@ -164,6 +164,60 @@ describe('checkout example', () => {
   })
 })
 
+describe('story view', () => {
+  it('opens a scenario written with mode: story as swimlanes, grouped into the lanes it declares', async () => {
+    const { page, problems, close } = await open('/examples/platform/')
+    await page.click('.docspp-chip-btn:has-text("One read request")')
+    await page.waitForSelector('.docspp-story-grid')
+    expect(await page.locator('.docspp-lane-head').count()).toBe(8)
+    expect(await page.locator('.docspp-phase-label').count()).toBe(5)
+    expect(await page.locator('.docspp-sbox.role-lookup').count()).toBe(6)
+    expect(await page.locator('.docspp-sbox:not(.role-lookup)').count()).toBe(13)
+    expect(await page.locator('.docspp-story-summary, .docspp-summary.is-card').count()).toBe(1)
+    // Connectors are measured from the real boxes, so they exist only once layout has settled.
+    await page.waitForSelector('.docspp-slink')
+    expect(await page.locator('.docspp-slink').count()).toBe(18)
+    expect(problems).toEqual([])
+    await close()
+  })
+
+  it('shows any scenario as a story, with lanes taken from the nodes involved', async () => {
+    const { page, close } = await open('/examples/checkout/')
+    await page.click('.docspp-chip-btn:has-text("Place an order")')
+    await page.click('.docspp-modes button:has-text("Story")')
+    await page.waitForSelector('.docspp-story-grid')
+    expect(await page.locator('.docspp-lane-head').count()).toBe(6)
+    expect(await page.locator('.docspp-sbox.st-planned').count()).toBe(1)
+    await page.click('.docspp-modes button:has-text("Flow")')
+    await page.waitForSelector('[data-node]')
+    await close()
+  })
+
+  it('plays the clicked step and keeps the step list in step', async () => {
+    const { page, close } = await open('/examples/checkout/')
+    await page.click('.docspp-chip-btn:has-text("Place an order")')
+    await page.click('.docspp-modes button:has-text("Story")')
+    await page.waitForSelector('.docspp-story-grid')
+    await page.click('.docspp-sbox:has-text("create payment intent")')
+    await page.waitForSelector('.docspp-sbox.is-active')
+    expect(Number(await stepActive(page).first().textContent())).toBe(3)
+    await close()
+  })
+})
+
+describe('zoom', () => {
+  it('does not leave the diagram on a promoted layer once zooming stops, which would blur it', async () => {
+    const { page, close } = await open('/examples/checkout/')
+    for (let i = 0; i < 3; i++) await page.click('button[aria-label="Zoom in"]')
+    await page.waitForTimeout(500)
+    const willChange = await page
+      .locator('.docspp-world')
+      .evaluate((el) => getComputedStyle(el).willChange)
+    expect(willChange).toBe('auto')
+    await close()
+  })
+})
+
 describe('platform example', () => {
   it('renders the large diagram and plays a scenario to the end', async () => {
     const { page, problems, close } = await open('/examples/platform/')

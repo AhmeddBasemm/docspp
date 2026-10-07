@@ -1,0 +1,164 @@
+# A complete, valid diagram that uses most of the format. Checked by the test suite.
+# yaml-language-server: $schema=../diagram.schema.json
+title: Online store
+description: |
+  How a shopper's request reaches the store and what the backend does with it.
+  Pick a scenario above the diagram and press play.
+
+groups:
+  backend:
+    label: Backend
+    caption: Kubernetes · namespace shop
+    rows:                                  # explicit rows, top to bottom
+      - [gateway]
+      - [catalog, cart, orders]
+      - [stores]
+  stores:
+    label: Data and messaging
+    in: backend
+    layout: row                            # packed cards; they need no arrows of their own
+
+nodes:
+  browser:
+    kind: client
+    icon: react
+    title: Shopper browser
+    sub: React storefront
+  cdn:
+    kind: external
+    icon: cloudflare
+    title: CDN
+    sub: static assets · TLS
+  gateway:
+    kind: gateway
+    icon: nginx
+    title: API gateway
+    sub: ":443"
+    lines: [verifies the JWT, routes by path]
+    in: backend
+  catalog:
+    kind: service
+    icon: nodejs
+    title: catalog-service
+    sub: ":4001 · Node.js"
+    uses: [redis, postgres]
+    in: backend
+  cart:
+    kind: service
+    icon: go
+    title: cart-service
+    sub: ":4002 · Go"
+    in: backend
+  orders:
+    kind: service
+    icon: dotnet
+    title: order-service
+    sub: ":4003 · .NET"
+    uses: [postgres, rabbitmq]
+    in: backend
+  redis:
+    kind: cache
+    icon: redis
+    title: Redis
+    sub: catalog cache
+    w: 132
+    in: stores
+  postgres:
+    kind: database
+    icon: postgresql
+    title: PostgreSQL
+    sub: orders · products
+    w: 132
+    in: stores
+  rabbit:
+    kind: queue
+    icon: rabbitmq
+    title: RabbitMQ
+    sub: order.events
+    w: 132
+    in: stores
+  stripe:
+    kind: external
+    icon: stripe
+    title: Stripe
+    sub: payment provider
+  notifier:
+    kind: worker
+    icon: lucide:mail
+    title: notification-worker
+    status: planned                        # drawn dashed, with a PLANNED tag
+
+edges:
+  - browser -> cdn: HTTPS
+  - cdn -> gateway
+  - gateway -> catalog: /products
+  - gateway -> cart: /cart
+  - gateway -> orders: /orders
+  - { from: orders, to: stripe, kind: channel, label: charge, auth: API key, payload: payment intent }
+  - { from: rabbit, to: notifier, kind: queue, status: planned }
+  # Relationships scenarios need but the picture does not: not drawn until a scenario uses them.
+  - { from: catalog, to: redis, kind: data, hidden: true }
+  - { from: catalog, to: postgres, kind: data, hidden: true }
+  - { from: orders, to: postgres, kind: data, hidden: true }
+  - { from: orders, to: rabbit, kind: queue, hidden: true }
+
+views:
+  overview:
+    title: Overview
+    keys: true                             # letter keys on edges
+    interfaces: true                       # a table of every edge under the diagram
+  backend:
+    title: Backend only
+    include: [backend, stripe]
+    direction: DOWN
+
+scenarios:
+  browse:
+    title: Browse a product
+    summary: The catalogue answers from the cache, so the database is never touched.
+    steps:
+      - browser -> catalog: GET /products/42     # flies browser → CDN → gateway → catalog
+      - catalog -> redis: { label: GET product:42, kind: lookup }
+      - redis -> catalog: { label: hit, note: A hit is served in about a millisecond. }
+      - catalog -> browser: 200 + JSON           # flies back against the edges: a response
+
+  place-order:
+    title: Place an order
+    mode: story                              # opens as a swimlane story; Flow and Sequence stay available
+    summary: The order is saved first, charged second, and announced last.
+    lanes:
+      - { title: Shopper, nodes: [browser] }
+      - { title: Order service, sub: .NET, nodes: [orders] }
+      - { title: Stores, sub: Postgres · RabbitMQ, nodes: [postgres, rabbit] }
+      - { title: Payments, nodes: [stripe] }
+    phases:
+      - title: Save
+        caption: before any money moves
+        steps:
+          - browser -> orders:
+              title: Submit the order
+              detail: POST /orders
+              note: The request carries an idempotency key, so a retry cannot charge twice.
+          - orders -> postgres: { label: INSERT order (pending), kind: lookup }
+          - postgres -> orders: saved
+      - title: Charge
+        steps:
+          - orders -> stripe: { title: Charge the card, detail: create payment intent }
+          - at stripe: { title: Authorise, detail: the one step we do not control }
+          - stripe -> orders: succeeded
+      - title: Finish
+        steps:
+          - par:                             # these two start together
+              - orders -> postgres: { label: mark paid, kind: lookup }
+              - orders -> rabbit: { label: order.created, kind: event }
+          - orders -> browser: { title: Confirm, detail: 201 Created }
+
+  declined:
+    title: Card declined
+    summary: Stripe refuses the card. The order stays pending and the shopper is told why.
+    steps:
+      - browser -> orders: POST /orders
+      - orders -> stripe: create payment intent
+      - stripe -> orders: { label: card_declined, kind: error }
+      - at orders: { label: keep order pending, kind: error }
+      - orders -> browser: { label: 402 Payment Required, kind: error }

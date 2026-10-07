@@ -535,6 +535,45 @@
           "title": {
             "type": "string"
           },
+          "mode": {
+            "description": "How the scenario opens: packets over the diagram, a sequence diagram, or a swimlane story.",
+            "type": "string",
+            "enum": [
+              "flow",
+              "sequence",
+              "story"
+            ]
+          },
+          "lanes": {
+            "description": "Columns of the story view, left to right. Nodes you leave out get a lane of their own at the end.",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "string"
+                },
+                "sub": {
+                  "description": "Under the title. Defaults to the node subtitle, or the node titles joined.",
+                  "type": "string"
+                },
+                "nodes": {
+                  "minItems": 1,
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z0-9_.-]+$"
+                  },
+                  "description": "Nodes shown in this lane."
+                }
+              },
+              "required": [
+                "title",
+                "nodes"
+              ],
+              "additionalProperties": false
+            }
+          },
           "summary": {
             "description": "Markdown: the story in a few sentences.",
             "type": "string"

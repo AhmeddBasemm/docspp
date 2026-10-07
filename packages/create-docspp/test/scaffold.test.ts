@@ -28,7 +28,12 @@ describe('template', () => {
     ] as string[]
     expect(specs.some((s) => s.startsWith('workspace:'))).toBe(false)
     expect(pkg.dependencies['@docspp/astro']).toMatch(/^\^\d+\.\d+\.\d+$/)
-    expect(existsSync(join(template, '.claude/skills/author-diagram/SKILL.md'))).toBe(true)
+    expect(existsSync(join(template, '.claude/skills/docspp/SKILL.md'))).toBe(true)
+    // The whole skill travels, not just its entry file.
+    expect(existsSync(join(template, '.claude/skills/docspp/references/format.md'))).toBe(true)
+    expect(
+      existsSync(join(template, '.claude/skills/docspp/assets/examples/shop.diagram.yaml')),
+    ).toBe(true)
     expect(readFileSync(join(template, 'README.md'), 'utf8')).not.toContain('__DOCS_URL__')
     expect(existsSync(join(template, 'node_modules'))).toBe(false)
   })
