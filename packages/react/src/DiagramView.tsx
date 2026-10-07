@@ -6,7 +6,7 @@ import {
   frameAt,
   type Layout,
   type Rect,
-} from '@docspp/core'
+} from '@packagelab/docspp-core'
 import { memo, useCallback, useEffect, useId, useMemo, useRef, useState } from 'react'
 import { Canvas, type Focus } from './Canvas'
 import { Drawer } from './Drawer'

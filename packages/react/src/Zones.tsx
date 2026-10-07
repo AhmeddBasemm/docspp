@@ -1,4 +1,4 @@
-import type { CompiledDiagram, Layout } from '@docspp/core'
+import type { CompiledDiagram, Layout } from '@packagelab/docspp-core'
 import { Icon } from './Icon'
 import { cx } from './util'
 

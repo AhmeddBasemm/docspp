@@ -1,4 +1,4 @@
-import type { Frame, Layout } from '@docspp/core'
+import type { Frame, Layout } from '@packagelab/docspp-core'
 import { cx } from './util'
 
 interface Props {

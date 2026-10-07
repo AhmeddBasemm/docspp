@@ -1,7 +1,7 @@
 import { existsSync, mkdtempSync, readFileSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import { loadProject } from '@docspp/core/node'
+import { loadProject } from '@packagelab/docspp-core/node'
 import { beforeAll, describe, expect, it } from 'vitest'
 import { packageName, scaffold } from '../src/scaffold'
 
@@ -27,7 +27,7 @@ describe('template', () => {
       ...Object.values(pkg.devDependencies),
     ] as string[]
     expect(specs.some((s) => s.startsWith('workspace:'))).toBe(false)
-    expect(pkg.dependencies['@docspp/astro']).toMatch(/^\^\d+\.\d+\.\d+$/)
+    expect(pkg.dependencies['@packagelab/docspp-astro']).toMatch(/^\^\d+\.\d+\.\d+$/)
     expect(existsSync(join(template, '.claude/skills/docspp/SKILL.md'))).toBe(true)
     // The whole skill travels, not just its entry file.
     expect(existsSync(join(template, '.claude/skills/docspp/references/format.md'))).toBe(true)

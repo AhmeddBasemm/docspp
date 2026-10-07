@@ -1,4 +1,4 @@
-import type { CompiledDiagram, CompiledScenario, CompiledStep } from '@docspp/core'
+import type { CompiledDiagram, CompiledScenario, CompiledStep } from '@packagelab/docspp-core'
 import { cx, roman } from './util'
 
 interface Props {

@@ -44,6 +44,6 @@ Run `docspp check --json` first. Each message has a file, line, column and often
 | Build fails with `Diagram errors:` | Run `docspp check`; the build fails on any diagram error by design. |
 | The diagram shows "Loading diagram..." and never appears | A browser console error. Is `react()` from `@astrojs/react` in `astro.config.mjs`? |
 | Edits to a diagram do not show in dev | Save the file again; if the compiler itself changed (a docspp upgrade), restart the dev server. |
-| The page is narrow with a tiny diagram | The Starlight content column. Add `@docspp/astro/starlight.css` to Starlight's `customCss`. |
+| The page is narrow with a tiny diagram | The Starlight content column. Add `@packagelab/docspp-astro/starlight.css` to Starlight's `customCss`. |
 | Fonts differ from the screenshots | The templates use IBM Plex via `@fontsource/ibm-plex-sans` and `-mono`; add them or set `--docspp-sans` and `--docspp-mono`. |
-| Diagram looks blurry when zoomed | Use the current `@docspp/react`; older builds kept the zoom layer on the GPU. |
+| Diagram looks blurry when zoomed | Use the current `@packagelab/docspp-react`; older builds kept the zoom layer on the GPU. |

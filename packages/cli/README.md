@@ -1,4 +1,4 @@
-# @docspp/cli
+# docspp
 
 ```sh
 docspp check [root...] [--json] [--strict]   validate diagrams; errors say file:line:col and suggest fixes

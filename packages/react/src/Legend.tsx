@@ -1,4 +1,4 @@
-import type { CompiledDiagram, CompiledView } from '@docspp/core'
+import type { CompiledDiagram, CompiledView } from '@packagelab/docspp-core'
 import { colorVar } from './util'
 
 export function Legend({ diagram, view }: { diagram: CompiledDiagram; view: CompiledView }) {

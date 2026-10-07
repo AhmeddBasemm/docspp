@@ -14,7 +14,7 @@ Look at the project before writing anything.
 
 | You see | Do |
 |---|---|
-| `@docspp/astro` in `package.json` and a `diagrams/` folder | Authoring. Go to step 2. |
+| `@packagelab/docspp-astro` in `package.json` and a `diagrams/` folder | Authoring. Go to step 2. |
 | An Astro or Starlight site without docspp | Add it: [references/setup.md](references/setup.md), "Add docspp to an existing site". |
 | No docs site at all | Create one: [references/setup.md](references/setup.md), "Start a new site". |
 | The user only wants a picture, with no site | Say that docspp needs a small site to render in, offer to scaffold one, and carry on if they agree. |
@@ -74,7 +74,7 @@ Click-through documentation for a box goes in `diagrams/<name>/nodes/<id>.md` (m
 On a page (`src/content/docs/*.mdx`):
 
 ```mdx
-import Diagram from '@docspp/astro/Diagram.astro'
+import Diagram from '@packagelab/docspp-astro/Diagram.astro'
 
 <Diagram name="shop" />
 <Diagram name="shop" scenario="browse" mode="story" />

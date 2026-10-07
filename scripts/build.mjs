@@ -13,11 +13,14 @@ const root = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const dir = process.cwd()
 const pkg = JSON.parse(readFileSync(join(dir, 'package.json'), 'utf8'))
 
+/** Prefix of the scoped library packages; the part after it is the folder under packages/. */
+const SCOPE = '@packagelab/docspp-'
+
 /** What each package ships besides the compiled entries. */
 const CONFIG = {
-  '@docspp/core': { entries: ['src/index.ts', 'src/node.ts'] },
-  '@docspp/react': { entries: ['src/index.ts'], copy: [['src/styles.css', 'dist/styles.css']] },
-  '@docspp/astro': {
+  '@packagelab/docspp-core': { entries: ['src/index.ts', 'src/node.ts'] },
+  '@packagelab/docspp-react': { entries: ['src/index.ts'], copy: [['src/styles.css', 'dist/styles.css']] },
+  '@packagelab/docspp-astro': {
     entries: ['src/index.ts'],
     copy: [
       ['src/Diagram.astro', 'dist/Diagram.astro'],
@@ -25,7 +28,7 @@ const CONFIG = {
       ['src/virtual.d.ts', 'dist/virtual.d.ts'],
     ],
   },
-  '@docspp/cli': { entries: ['src/index.ts', 'src/bin.ts'], bins: ['dist/bin.js'] },
+  'docspp': { entries: ['src/index.ts', 'src/bin.ts'], bins: ['dist/bin.js'] },
   'create-docspp': { entries: ['src/index.ts', 'src/scaffold.ts'], bins: ['dist/index.js'], template: true },
 }
 
@@ -76,8 +79,8 @@ console.log(`built ${pkg.name}`)
 function declarations() {
   const paths = {}
   for (const dep of Object.keys({ ...pkg.dependencies, ...pkg.devDependencies })) {
-    if (!dep.startsWith('@docspp/')) continue
-    const depDir = join(root, 'packages', dep.replace('@docspp/', ''))
+    if (!dep.startsWith(SCOPE)) continue
+    const depDir = join(root, 'packages', dep.slice(SCOPE.length))
     const depPkg = JSON.parse(readFileSync(join(depDir, 'package.json'), 'utf8'))
     for (const [sub, target] of Object.entries(depPkg.publishConfig?.exports ?? {})) {
       const types = typeof target === 'string' ? undefined : target.types

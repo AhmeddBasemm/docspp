@@ -1,4 +1,4 @@
-import type { Timeline } from '@docspp/core'
+import type { Timeline } from '@packagelab/docspp-core'
 import type { Player as PlayerState } from './usePlayer'
 import { fmtTime } from './util'
 

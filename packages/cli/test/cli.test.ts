@@ -1,7 +1,7 @@
 import { mkdirSync, mkdtempSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import { loadProject } from '@docspp/core/node'
+import { loadProject } from '@packagelab/docspp-core/node'
 import { describe, expect, it } from 'vitest'
 import { run, staleRefs } from '../src'
 

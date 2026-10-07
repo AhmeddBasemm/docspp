@@ -1,4 +1,4 @@
-import type { CompiledNode } from '@docspp/core'
+import type { CompiledNode } from '@packagelab/docspp-core'
 import { memo } from 'react'
 import { IconTile } from './Icon'
 import { cx } from './util'

@@ -7,7 +7,7 @@ import {
   loadProject,
   resolveIcon,
   searchIcons,
-} from '@docspp/core/node'
+} from '@packagelab/docspp-core/node'
 
 const HELP = `docspp: interactive diagrams for your docs
 
@@ -216,7 +216,7 @@ function create(name: string | undefined, root: string): number {
   )
   console.log(`Created ${relative(process.cwd(), dir)}`)
   console.log(
-    `Use it in a page:\n  import Diagram from '@docspp/astro/Diagram.astro'\n  <Diagram name="${name}" />`,
+    `Use it in a page:\n  import Diagram from '@packagelab/docspp-astro/Diagram.astro'\n  <Diagram name="${name}" />`,
   )
   return 0
 }

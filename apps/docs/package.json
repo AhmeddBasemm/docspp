@@ -1,5 +1,5 @@
 {
-  "name": "@docspp/docs",
+  "name": "docspp-docs",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -14,9 +14,9 @@
     "@astrojs/starlight": "^0.42.0",
     "@fontsource/ibm-plex-mono": "^5.3.0",
     "@fontsource/ibm-plex-sans": "^5.3.0",
-    "@docspp/astro": "workspace:*",
-    "@docspp/core": "workspace:*",
-    "@docspp/react": "workspace:*",
+    "@packagelab/docspp-astro": "workspace:*",
+    "@packagelab/docspp-core": "workspace:*",
+    "@packagelab/docspp-react": "workspace:*",
     "astro": "^7.0.0",
     "react": "^19.3.0",
     "react-dom": "^19.3.0"

@@ -1,4 +1,4 @@
-import type { CompiledDiagram, CompiledView } from '@docspp/core'
+import type { CompiledDiagram, CompiledView } from '@packagelab/docspp-core'
 import { useEffect, useRef } from 'react'
 import { IconTile } from './Icon'
 import { cx } from './util'

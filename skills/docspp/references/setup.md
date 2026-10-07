@@ -7,7 +7,7 @@ docspp renders diagrams inside an **Astro** site (usually with **Starlight** for
 Check before giving install commands:
 
 ```sh
-npm view @docspp/core version
+npm view @packagelab/docspp-core version
 ```
 
 If that prints a version, follow the steps below. If it says the package is not found, docspp is **not published yet**. Then the user works from its repository, `https://github.com/AhmeddBasemm/docspp`: clone it, run `pnpm install`, and either use `pnpm dev:template` (the starter project) or copy `templates/starter` into their own repository. Say so plainly; do not invent a registry.
@@ -27,8 +27,8 @@ This creates an Astro + Starlight project with an example diagram (`diagrams/sho
 
 1. **Install.**
    ```sh
-   pnpm add @docspp/astro @docspp/react @astrojs/react react react-dom
-   pnpm add -D @docspp/cli
+   pnpm add @packagelab/docspp-astro @packagelab/docspp-react @astrojs/react react react-dom
+   pnpm add -D docspp
    ```
    On pnpm 10 or later, allow the build scripts it asks about by adding to `pnpm-workspace.yaml`:
    ```yaml
@@ -40,7 +40,7 @@ This creates an Astro + Starlight project with an example diagram (`diagrams/sho
    ```js
    import react from '@astrojs/react'
    import starlight from '@astrojs/starlight'
-   import docspp from '@docspp/astro'
+   import docspp from '@packagelab/docspp-astro'
    import { defineConfig } from 'astro/config'
 
    export default defineConfig({
@@ -50,13 +50,13 @@ This creates an Astro + Starlight project with an example diagram (`diagrams/sho
        starlight({
          title: 'My docs',
          // Widens the content column for diagrams and keeps prose at a readable width.
-         customCss: ['@docspp/astro/starlight.css'],
+         customCss: ['@packagelab/docspp-astro/starlight.css'],
        }),
      ],
    })
    ```
    `docspp({ dir: 'my-diagrams' })` changes the folder (default `diagrams`).
-3. **Types.** In `src/env.d.ts` add `/// <reference types="@docspp/astro/virtual" />`.
+3. **Types.** In `src/env.d.ts` add `/// <reference types="@packagelab/docspp-astro/virtual" />`.
 4. **A first diagram.**
    ```sh
    pnpm docspp new shop
@@ -69,7 +69,7 @@ This creates an Astro + Starlight project with an example diagram (`diagrams/sho
    title: Shop
    tableOfContents: false
    ---
-   import Diagram from '@docspp/astro/Diagram.astro'
+   import Diagram from '@packagelab/docspp-astro/Diagram.astro'
 
    <Diagram name="shop" />
    ```

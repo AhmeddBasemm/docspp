@@ -1,4 +1,4 @@
-import type { CompiledDiagram, CompiledView } from '@docspp/core'
+import type { CompiledDiagram, CompiledView } from '@packagelab/docspp-core'
 import { cx } from './util'
 
 interface Props {

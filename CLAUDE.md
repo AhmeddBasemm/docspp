@@ -42,7 +42,7 @@ Repository topology, the template repository and releasing: `docs/REPOSITORIES.m
 
 ## Rules that keep it working
 
-- **`@docspp/core` main entry must stay browser-safe.** No `node:*`, `yaml`, `zod`, Iconify or unified imports reachable from `src/index.ts`; they belong behind `src/node.ts`. The client bundle only gets layout, route, timeline and types.
+- **`@packagelab/docspp-core` main entry must stay browser-safe.** No `node:*`, `yaml`, `zod`, Iconify or unified imports reachable from `src/index.ts`; they belong behind `src/node.ts`. The client bundle only gets layout, route, timeline and types.
 - **The story model is pure too.** `buildStory(diagram, scenario)` in `core/src/story.ts` turns a scenario into lanes, boxes and links; `StoryView` only measures the DOM and draws connectors over it. Add behaviour to the model, with a test, not to the component.
 - **The timeline is pure.** `buildTimeline(scenario, edgeLengths)` and `frameAt(timeline, t)` hold all playback logic; the React player is only a clock. Keep it that way: it makes scrubbing, stepping and tests trivial.
 - **Never leave `will-change: transform` on the zoomed layer.** It makes the browser scale a bitmap, which blurs everything when zoomed in. `Canvas` sets it only while panning or zooming; an e2e test guards the resting state.

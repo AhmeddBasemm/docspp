@@ -1,4 +1,4 @@
-import type { IconData } from '@docspp/core'
+import type { IconData } from '@packagelab/docspp-core'
 import { cx } from './util'
 
 /** Icon bodies come from the compiler (bundled icon sets or the project's own SVG files). */

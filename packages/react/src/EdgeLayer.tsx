@@ -1,4 +1,9 @@
-import { type CompiledDiagram, type CompiledView, type Layout, roundedPath } from '@docspp/core'
+import {
+  type CompiledDiagram,
+  type CompiledView,
+  type Layout,
+  roundedPath,
+} from '@packagelab/docspp-core'
 import { colorVar, cx } from './util'
 
 export interface EdgeState {

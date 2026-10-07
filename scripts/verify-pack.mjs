@@ -2,7 +2,7 @@
 //
 //   1. build and pack every package
 //   2. scaffold a project with the packed create-docspp
-//   3. point its @docspp/* dependencies at the tarballs and install like a user would
+//   3. point its @packagelab/docspp-* dependencies at the tarballs and install like a user would
 //   4. check, build, and load the built site in Chrome
 //
 // Needs network (for Astro and friends) and Google Chrome. Pass --keep to leave the project behind.
@@ -36,7 +36,11 @@ try {
     const cwd = join(root, 'packages', dir)
     const name = JSON.parse(readFileSync(join(cwd, 'package.json'), 'utf8')).name
     run('pnpm', ['pack', '--pack-destination', packs], cwd)
-    tarballs[name] = readdirSync(packs).map((f) => join(packs, f)).find((f) => f.includes(name.replace('@', '').replace('/', '-')) && !Object.values(tarballs).includes(f))
+    // pnpm names the tarball <name without @, / as ->-<version>.tgz
+    const stem = name.replace(/^@/, '').replace('/', '-').replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+    tarballs[name] = readdirSync(packs)
+      .filter((f) => new RegExp(`^${stem}-\\d`).test(f))
+      .map((f) => join(packs, f))[0]
     const listing = run('tar', ['-tzf', tarballs[name]], work)
     if (!listing.includes('package/LICENSE')) throw new Error(`${name} was packed without its LICENSE`)
     console.log(`  ${name}  ${tarballs[name]?.split('/').pop()}`)
@@ -60,7 +64,7 @@ try {
   // Packages depend on each other by version; during this test those versions are not on npm.
   appendFileSync(
     join(project, 'pnpm-workspace.yaml'),
-    `overrides:\n${Object.entries(tarballs).filter(([n]) => n.startsWith('@docspp/')).map(([n, f]) => `  '${n}': file:${f}`).join('\n')}\n`,
+    `overrides:\n${Object.entries(tarballs).filter(([n]) => n.startsWith('@packagelab/')).map(([n, f]) => `  '${n}': file:${f}`).join('\n')}\n`,
   )
   run('pnpm', ['install'], project)
 

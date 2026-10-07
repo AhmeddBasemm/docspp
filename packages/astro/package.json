@@ -1,5 +1,5 @@
 {
-  "name": "@docspp/astro",
+  "name": "@packagelab/docspp-astro",
   "version": "0.1.0",
   "type": "module",
   "exports": {
@@ -15,8 +15,8 @@
     "build": "node ../../scripts/build.mjs"
   },
   "dependencies": {
-    "@docspp/core": "workspace:^",
-    "@docspp/react": "workspace:^"
+    "@packagelab/docspp-core": "workspace:^",
+    "@packagelab/docspp-react": "workspace:^"
   },
   "peerDependencies": {
     "astro": ">=6"

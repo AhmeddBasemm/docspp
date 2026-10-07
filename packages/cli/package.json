@@ -1,5 +1,5 @@
 {
-  "name": "@docspp/cli",
+  "name": "docspp",
   "version": "0.1.0",
   "type": "module",
   "bin": {
@@ -13,7 +13,7 @@
     "build": "node ../../scripts/build.mjs"
   },
   "dependencies": {
-    "@docspp/core": "workspace:^"
+    "@packagelab/docspp-core": "workspace:^"
   },
   "description": "The docspp command line: check, list, schema, icons search, new.",
   "files": [

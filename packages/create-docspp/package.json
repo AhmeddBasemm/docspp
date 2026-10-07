@@ -35,7 +35,7 @@
     "typecheck": "tsc -p tsconfig.json"
   },
   "devDependencies": {
-    "@docspp/core": "workspace:^"
+    "@packagelab/docspp-core": "workspace:^"
   },
   "license": "MIT"
 }

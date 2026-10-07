@@ -1,5 +1,5 @@
 {
-  "name": "@docspp/react",
+  "name": "@packagelab/docspp-react",
   "version": "0.1.0",
   "type": "module",
   "exports": {
@@ -11,7 +11,7 @@
     "build": "node ../../scripts/build.mjs"
   },
   "dependencies": {
-    "@docspp/core": "workspace:^",
+    "@packagelab/docspp-core": "workspace:^",
     "d3-selection": "^3.0.0",
     "d3-transition": "^3.0.1",
     "d3-zoom": "^3.0.0"

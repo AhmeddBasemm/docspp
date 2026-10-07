@@ -26,5 +26,5 @@ The `docspp` skill in `.claude/skills/` teaches Claude Code the diagram format. 
 ## Update docspp
 
 ```sh
-pnpm up "@docspp/*" --latest
+pnpm up "@packagelab/docspp-*" --latest
 ```

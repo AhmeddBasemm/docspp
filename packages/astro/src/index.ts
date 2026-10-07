@@ -1,5 +1,5 @@
 import { fileURLToPath } from 'node:url'
-import { formatDiagnostic, type LoadedProject, loadProject } from '@docspp/core/node'
+import { formatDiagnostic, type LoadedProject, loadProject } from '@packagelab/docspp-core/node'
 import type { AstroIntegration } from 'astro'
 import type { Plugin } from 'vite'
 
@@ -14,19 +14,25 @@ export interface DocsppOptions {
 /** Compiles `diagrams/*` into the `virtual:docspp/diagrams` module and fails the build on errors. */
 export default function docspp(options: DocsppOptions = {}): AstroIntegration {
   return {
-    name: '@docspp/astro',
+    name: '@packagelab/docspp-astro',
     hooks: {
       'astro:config:setup': ({ config, updateConfig }) => {
         updateConfig({
           vite: {
             plugins: [plugin(fileURLToPath(config.root), options.dir ?? 'diagrams')],
             // Render these through Vite in dev as well; they ship TypeScript sources.
-            ssr: { noExternal: ['@docspp/react', '@docspp/core', '@docspp/astro'] },
+            ssr: {
+              noExternal: [
+                '@packagelab/docspp-react',
+                '@packagelab/docspp-core',
+                '@packagelab/docspp-astro',
+              ],
+            },
             optimizeDeps: {
               include: [
-                '@docspp/react > d3-selection',
-                '@docspp/react > d3-zoom',
-                '@docspp/core > elkjs/lib/elk.bundled.js',
+                '@packagelab/docspp-react > d3-selection',
+                '@packagelab/docspp-react > d3-zoom',
+                '@packagelab/docspp-core > elkjs/lib/elk.bundled.js',
               ],
             },
           },

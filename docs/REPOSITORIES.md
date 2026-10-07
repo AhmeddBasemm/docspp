@@ -22,19 +22,19 @@ Split it out only if different people own the docs, or they need a different rel
 
 ### Why the template is generated, not hand-maintained
 
-A GitHub template has to be a repository root, and it must depend on **published** `@docspp/*` versions, not on workspace links, so users get upgrades by bumping a dependency rather than owning a copy of the engine. The monorepo cannot be that template. So `templates/starter` is the source of truth, `scripts/template.mjs` turns it into a standalone project (versions pinned to the current release, placeholders filled, the shared `author-diagram` skill added), and the sync workflow pushes the result to the template repository.
+A GitHub template has to be a repository root, and it must depend on **published** `@packagelab/docspp-*` versions, not on workspace links, so users get upgrades by bumping a dependency rather than owning a copy of the engine. The monorepo cannot be that template. So `templates/starter` is the source of truth, `scripts/template.mjs` turns it into a standalone project (versions pinned to the current release, placeholders filled, the shared `author-diagram` skill added), and the sync workflow pushes the result to the template repository.
 
 ## What is where
 
 ```
 packages/
-  core/            @docspp/core        schema, compiler, layout, router, timeline
-  react/           @docspp/react       <DiagramView> and styles
-  astro/           @docspp/astro       Astro integration and <Diagram>
-  cli/             @docspp/cli         the `docspp` command
+  core/            @packagelab/docspp-core        schema, compiler, layout, router, timeline
+  react/           @packagelab/docspp-react       <DiagramView> and styles
+  astro/           @packagelab/docspp-astro       Astro integration and <Diagram>
+  cli/             docspp                         the `docspp` command
   create-docspp/    create-docspp       `npm create docspp`; carries a copy of the template
 apps/
-  docs/            @docspp/docs        the tool's landing page, guides and live examples (private)
+  docs/            docspp-docs        the tool's landing page, guides and live examples (private)
 templates/
   starter/         my-docs            the project users start from (private; source of truth)
 skills/
@@ -85,11 +85,11 @@ Both workflows are **off** until you opt in, so pushing to `main` can never publ
 These are your decisions; nothing here has been done for you.
 
 - [x] **A license.** MIT, in `LICENSE`; each build copies it into the package folders, and `verify:pack` checks it is in every tarball.
-- [ ] **The npm names.** `@docspp/*` and `create-docspp` had no published packages when checked, but a scope can exist without packages. Create the `docspp` organisation on npm (`npm org create docspp` or on npmjs.com) to claim it. If you would rather use another name, it appears in `package.json` of each package, `scripts/build.mjs`, `scripts/template.mjs`, `templates/starter/package.json`, `.changeset/config.json` and the docs. Do the rename before the first publish; afterwards it is expensive.
+- [x] **The npm names.** The org is `packagelab`. Libraries are `@packagelab/docspp-core`, `-react` and `-astro`; the CLI is the unscoped `docspp` (so `npx docspp check` works) and the scaffolder is the unscoped `create-docspp` (so `npm create docspp` works). Renaming after the first publish is expensive, so treat these as fixed. They appear in each `package.json`, `scripts/build.mjs`, `templates/starter/package.json`, `.changeset/config.json`, the skill and the docs.
 - [ ] **URLs.** `homepage` and `repository` in the root and package `package.json` files point at `github.com/AhmeddBasemm/docspp`. Update them if the repository moves.
-- [ ] **npm token.** Create an automation token that can publish the scope, and add it as the `NPM_TOKEN` repository secret.
+- [ ] **npm token.** For automated releases, create an automation token that can publish to the `packagelab` org and add it as the `NPM_TOKEN` repository secret. The first publish can be done from a laptop with `npm login` and `pnpm release`.
 - [ ] **Turn it on.** Set the repository variable `RELEASE_ENABLED` to `true`.
-- [ ] **Make the repository public** if people should be able to run `npx skills add <you>/docspp` against it.
+- [x] **Make the repository public** if people should be able to run `npx skills add <you>/docspp` against it.
 - [ ] **Docs site.** In repository settings, set Pages to the **GitHub Actions** source. Until then the docs workflow still builds the site but skips the deploy step with a notice, so CI stays green. After that it deploys `apps/docs` on every push to `main`. Remove the "not published yet" note in `apps/docs/src/content/docs/guides/getting-started.mdx` once the packages are live.
 
 ### The template repository (optional)
