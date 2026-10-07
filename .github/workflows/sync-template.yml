@@ -1,0 +1,36 @@
+name: Sync template repository
+# Keeps a GitHub "template repository" in step with templates/starter, so people can click
+# "Use this template". Off until you opt in: set the repository variable TEMPLATE_REPO
+# (for example "your-name/idocs-starter") and add a TEMPLATE_REPO_TOKEN secret (a token with
+# write access to that repository). It runs after a release, because the template depends on the
+# published package versions. See docs/REPOSITORIES.md.
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+jobs:
+  sync:
+    if: vars.TEMPLATE_REPO != ''
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Build the standalone template
+        run: node scripts/template.mjs --out "$RUNNER_TEMP/template"
+      - name: Push it
+        env:
+          TEMPLATE_REPO: ${{ vars.TEMPLATE_REPO }}
+          TOKEN: ${{ secrets.TEMPLATE_REPO_TOKEN }}
+          SOURCE_SHA: ${{ github.sha }}
+        run: |
+          git clone "https://x-access-token:${TOKEN}@github.com/${TEMPLATE_REPO}.git" "$RUNNER_TEMP/repo"
+          rsync -a --delete --exclude .git "$RUNNER_TEMP/template/" "$RUNNER_TEMP/repo/"
+          cd "$RUNNER_TEMP/repo"
+          git add -A
+          if git diff --cached --quiet; then echo "Template is already up to date"; exit 0; fi
+          git -c user.name="idocs-bot" -c user.email="idocs-bot@users.noreply.github.com" \
+            commit -m "Sync template from ${SOURCE_SHA}"
+          git push

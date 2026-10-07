@@ -1,0 +1,105 @@
+---
+title: Getting started
+description: Create a project and draw your first diagram.
+tableOfContents:
+  maxHeadingLevel: 2
+---
+
+import Diagram from '@idocs/astro/Diagram.astro'
+import { Aside } from '@astrojs/starlight/components'
+
+## Create a project
+
+```sh
+npm create idocs@latest my-docs
+cd my-docs
+pnpm install
+pnpm dev
+```
+
+The site opens on `http://localhost:4321` with a small shop diagram and three scenarios. Edit `diagrams/shop/diagram.yaml`, save, and the page reloads.
+
+If you prefer, click **Use this template** on the GitHub template repository, or copy `templates/starter` from the idocs repository.
+
+<Aside type="caution" title="Pre-release">
+The packages are not on npm yet, so `npm create idocs` will not work until they are. Until then, clone the idocs repository, run `pnpm install`, and use `pnpm dev:template` to work in the starter project. `docs/REPOSITORIES.md` in that repository lists what is left before the first publish. Delete this note when it is done.
+</Aside>
+
+## What you get
+
+```text
+my-docs/
+├─ diagrams/
+│  ├─ diagram.schema.json     editor autocomplete for diagram.yaml
+│  └─ shop/
+│     ├─ diagram.yaml         nodes, groups, edges, views, scenarios
+│     └─ nodes/orders.md      shown when a reader clicks that box
+├─ src/content/docs/*.mdx     your pages; embed a diagram with <Diagram name="shop" />
+├─ src/styles/custom.css      theme tokens
+├─ .github/workflows/         publishes to GitHub Pages
+└─ .claude/skills/            a skill that teaches Claude Code the format
+```
+
+Everything you write lives in three places:
+
+| Where | What |
+|---|---|
+| `diagrams/<name>/diagram.yaml` | The nodes, edges, views and scenarios of one diagram |
+| `diagrams/<name>/nodes/<id>.md` | Markdown shown when a reader clicks that box |
+| `src/content/docs/**/*.mdx` | The pages around your diagrams |
+
+## Draw your first diagram
+
+```sh
+pnpm idocs new payments
+pnpm idocs schema
+```
+
+That creates `diagrams/payments/diagram.yaml`. Here is a small one:
+
+```yaml
+title: Hello, diagrams
+
+nodes:
+  browser: { kind: client, title: Browser }
+  api:     { kind: service, icon: nodejs, title: API, sub: ":3000" }
+  db:      { kind: database, icon: postgresql, title: Database }
+
+edges:
+  - browser -> api: HTTPS
+  - api -> db: { kind: data, label: SQL }
+
+scenarios:
+  load-page:
+    title: Load a page
+    steps:
+      - browser -> api: GET /items
+      - api -> db: { label: SELECT, kind: lookup }
+      - db -> api: rows
+      - api -> browser: 200 OK
+```
+
+Put it on a page with two lines of MDX:
+
+```mdx
+import Diagram from '@idocs/astro/Diagram.astro'
+
+<Diagram name="hello" />
+```
+
+<Diagram name="hello" scenario="load-page" />
+
+Press play, click a box, or drag the canvas. Hold <kbd>Ctrl</kbd> or <kbd>⌘</kbd> and scroll to zoom.
+
+## Check your work
+
+```sh
+pnpm check          # validate every diagram; errors point at file:line:column
+pnpm check --json   # the same, for scripts and agents
+```
+
+The build fails when a diagram has errors, so broken diagrams never reach your published site.
+
+## Publish
+
+The template ships a GitHub Actions workflow that builds the site and deploys it to GitHub Pages. Enable Pages in your repository settings and set the source to **GitHub Actions**.

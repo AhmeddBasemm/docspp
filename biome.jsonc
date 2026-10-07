@@ -7,10 +7,13 @@
     "includes": [
       "packages/**",
       "apps/**",
+      "templates/**",
       "!**/dist",
       "!**/.astro",
       "!**/node_modules",
       "!**/diagram.schema.json",
+      "!**/*.svg",
+      "!packages/create-idocs/template",
       "!**/*.astro"
     ]
   },

@@ -1,0 +1,40 @@
+{
+  "name": "create-idocs",
+  "version": "0.1.0",
+  "description": "Scaffold a docs site with interactive diagrams: npm create idocs@latest my-docs",
+  "type": "module",
+  "bin": {
+    "create-idocs": "./src/index.ts"
+  },
+  "exports": {
+    ".": "./src/scaffold.ts"
+  },
+  "files": [
+    "dist",
+    "template"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AhmeddBasemm/docspp.git"
+  },
+  "homepage": "https://github.com/AhmeddBasemm/docspp#readme",
+  "publishConfig": {
+    "access": "public",
+    "bin": {
+      "create-idocs": "./dist/index.js"
+    },
+    "exports": {
+      ".": {
+        "types": "./dist/scaffold.d.ts",
+        "default": "./dist/scaffold.js"
+      }
+    }
+  },
+  "scripts": {
+    "build": "node ../../scripts/build.mjs",
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "devDependencies": {
+    "@idocs/core": "workspace:^"
+  }
+}

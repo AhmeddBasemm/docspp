@@ -4,8 +4,11 @@ dist
 .DS_Store
 *.log
 .idocs-cache
-apps/starter/.astro
-apps/starter/dist
+apps/docs/.astro
+apps/docs/dist
+templates/*/.astro
+templates/*/dist
+packages/create-idocs/template
 test-results
 playwright-report
 screenshots

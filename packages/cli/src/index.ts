@@ -12,14 +12,14 @@ import {
 const HELP = `idocs: interactive diagrams for your docs
 
 Usage
-  idocs check [root] [--json] [--strict]   Validate every diagram under <root>/diagrams
+  idocs check [root...] [--json] [--strict]  Validate every diagram under <root>/diagrams
   idocs list [root] [--json]               List diagrams, views and scenarios
   idocs schema [root]                      Write diagrams/diagram.schema.json for editor autocomplete
   idocs icons search <query>               Find icon names ("postgresql", "logos:redis", ...)
   idocs new <name> [root]                  Create diagrams/<name>/diagram.yaml
 
 <root> is the folder that contains "diagrams/". It defaults to the current folder,
-or the first apps/* folder that has one.
+or the first apps/* or templates/* folder that has one.
 `
 
 type Flags = { json: boolean; strict: boolean }
@@ -31,7 +31,7 @@ export async function run(argv: string[]): Promise<number> {
 
   switch (command) {
     case 'check':
-      return check(findRoot(rest[0]), flags)
+      return check(rest.length ? rest.map((r) => findRoot(r)) : [findRoot()], flags)
     case 'list':
       return list(findRoot(rest[0]), flags)
     case 'schema':
@@ -54,10 +54,11 @@ function findRoot(arg?: string): string {
   if (arg) return resolve(arg)
   const cwd = process.cwd()
   if (existsSync(join(cwd, 'diagrams'))) return cwd
-  const apps = join(cwd, 'apps')
-  if (existsSync(apps)) {
-    for (const name of readdirSync(apps).sort()) {
-      if (existsSync(join(apps, name, 'diagrams'))) return join(apps, name)
+  for (const parent of ['apps', 'templates']) {
+    const base = join(cwd, parent)
+    if (!existsSync(base)) continue
+    for (const name of readdirSync(base).sort()) {
+      if (existsSync(join(base, name, 'diagrams'))) return join(base, name)
     }
   }
   return cwd
@@ -90,32 +91,38 @@ export function staleRefs(project: ReturnType<typeof loadProject>, bases: string
   return out
 }
 
-function check(root: string, flags: Flags): number {
-  const project = loadProject(root)
-  project.diagnostics.push(...staleRefs(project, [root, process.cwd()]))
-  const errors = project.diagnostics.filter((d) => d.severity === 'error')
-  const warnings = project.diagnostics.filter((d) => d.severity === 'warning')
-  const ok = errors.length === 0 && !(flags.strict && warnings.length)
+function check(roots: string[], flags: Flags): number {
+  const results = roots.map((root) => {
+    const project = loadProject(root)
+    project.diagnostics.push(...staleRefs(project, [root, process.cwd()]))
+    const errors = project.diagnostics.filter((d) => d.severity === 'error')
+    const warnings = project.diagnostics.filter((d) => d.severity === 'warning')
+    const ok = errors.length === 0 && !(flags.strict && warnings.length)
+    return { root, project, errors, warnings, ok }
+  })
+  const ok = results.every((r) => r.ok)
 
   if (flags.json) {
-    console.log(
-      JSON.stringify(
-        { ok, root, diagrams: summarise(project.diagrams), diagnostics: project.diagnostics },
-        null,
-        2,
-      ),
-    )
+    const out = results.map((r) => ({
+      ok: r.ok,
+      root: r.root,
+      diagrams: summarise(r.project.diagrams),
+      diagnostics: r.project.diagnostics,
+    }))
+    console.log(JSON.stringify(out.length === 1 ? out[0] : { ok, projects: out }, null, 2))
     return ok ? 0 : 1
   }
 
-  for (const d of sortDiagnostics(project.diagnostics)) console.log(formatDiagnostic(d))
-  const names = Object.keys(project.diagrams)
-  console.log(
-    `\n${names.length} diagram${names.length === 1 ? '' : 's'} compiled in ${relative(process.cwd(), root) || '.'}: ` +
-      `${errors.length} error${errors.length === 1 ? '' : 's'}, ${warnings.length} warning${warnings.length === 1 ? '' : 's'}`,
-  )
-  if (names.length === 0 && errors.length === 0)
-    console.log('No diagrams found. Create one with `idocs new <name>`.')
+  for (const r of results) {
+    for (const d of sortDiagnostics(r.project.diagnostics)) console.log(formatDiagnostic(d))
+    const names = Object.keys(r.project.diagrams)
+    console.log(
+      `${names.length} diagram${names.length === 1 ? '' : 's'} compiled in ${relative(process.cwd(), r.root) || '.'}: ` +
+        `${r.errors.length} error${r.errors.length === 1 ? '' : 's'}, ${r.warnings.length} warning${r.warnings.length === 1 ? '' : 's'}`,
+    )
+    if (names.length === 0 && r.errors.length === 0)
+      console.log('No diagrams found. Create one with `idocs new <name>`.')
+  }
   return ok ? 0 : 1
 }
 

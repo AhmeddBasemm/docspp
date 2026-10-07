@@ -1,17 +1,17 @@
 {
   "name": "@idocs/react",
   "version": "0.1.0",
-  "private": true,
   "type": "module",
   "exports": {
     ".": "./src/index.ts",
     "./styles.css": "./src/styles.css"
   },
   "scripts": {
-    "typecheck": "tsc -p tsconfig.json"
+    "typecheck": "tsc -p tsconfig.json",
+    "build": "node ../../scripts/build.mjs"
   },
   "dependencies": {
-    "@idocs/core": "workspace:*",
+    "@idocs/core": "workspace:^",
     "d3-selection": "^3.0.0",
     "d3-transition": "^3.0.1",
     "d3-zoom": "^3.0.0"
@@ -28,5 +28,27 @@
     "@types/react-dom": "^19.2.0",
     "react": "^19.3.0",
     "react-dom": "^19.3.0"
+  },
+  "description": "The interactive diagram component for idocs: pan and zoom, drawer, scenario player, sequence view.",
+  "files": [
+    "dist"
+  ],
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AhmeddBasemm/docspp.git"
+  },
+  "homepage": "https://github.com/AhmeddBasemm/docspp#readme",
+  "publishConfig": {
+    "access": "public",
+    "exports": {
+      ".": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "./styles.css": "./dist/styles.css"
+    }
   }
 }

@@ -1,0 +1,16 @@
+/* Your theme. Override --idocs-* tokens to restyle every diagram, for example:
+
+   .idocs { --idocs-accent: #7a4ec4; }
+   :root[data-theme='dark'] .idocs { --idocs-accent: #b79bf0; }
+*/
+:root {
+  --sl-color-accent-high: #0a6f8f;
+}
+
+:root[data-theme="light"] {
+  --sl-color-accent: #0a6f8f;
+}
+
+:root[data-theme="dark"] {
+  --sl-color-accent: #55bcdb;
+}

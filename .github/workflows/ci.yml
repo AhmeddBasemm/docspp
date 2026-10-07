@@ -19,4 +19,30 @@ jobs:
       - run: pnpm typecheck
       - run: pnpm test
       - run: pnpm check --strict
-      - run: pnpm build
+      - run: pnpm build:all
+
+  e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm test:e2e
+
+  # Packs the packages, scaffolds a project from the packed create-idocs, installs it like a user
+  # would, builds it and loads it in a browser. Nothing is published.
+  pack:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm verify:pack

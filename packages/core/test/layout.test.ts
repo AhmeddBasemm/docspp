@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest'
 import { type Layout, layoutView, packGrid, type Rect } from '../src'
-import { fakeSizes, loadStarter } from './helpers'
+import { fakeSizes, loadDocs } from './helpers'
 
-const diagram = loadStarter().diagrams.checkout!
+const diagram = loadDocs().diagrams.checkout!
 
 const inside = (inner: Rect, outer: Rect, slack = 1) =>
   inner.x >= outer.x - slack &&
@@ -103,7 +103,7 @@ describe('packGrid', () => {
 })
 
 describe('platform example', () => {
-  const platform = loadStarter().diagrams.platform!
+  const platform = loadDocs().diagrams.platform!
   const view = platform.views.find((v) => v.id === 'architecture')!
 
   async function run(): Promise<Layout> {

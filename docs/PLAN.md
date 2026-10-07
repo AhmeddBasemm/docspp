@@ -13,6 +13,7 @@ What this repository is: a **template** for documentation sites in which archite
 | Scenarios | Several per diagram. Phases, self steps, parallel steps, automatic multi-hop routing, request/response/error/lookup/event packets, notes, hidden edges. Player: play, pause, previous/next step, scrub, speed. Flow or sequence presentation. Follow-the-action camera. Deep links (`#checkout=place-order.4`). |
 | Site | Astro + Starlight, `<Diagram name="..." />`, GitHub Pages workflow, CI. |
 | Tooling | `idocs check/list/schema/icons/new`, stale `refs:` warnings, the `author-diagram` Claude Code skill. |
+| Distribution | Five publishable packages built to `dist/`, `create-idocs` scaffolder, a minimal `templates/starter`, changesets, release and template-sync workflows (both off until opted in), and `pnpm verify:pack`, which installs the packed packages like a user would. See [REPOSITORIES.md](REPOSITORIES.md). |
 | Tests | Unit tests for compiler, layout invariants, router, timeline, CLI. End-to-end tests in real Chrome (`pnpm test:e2e`). |
 
 ## Decisions
@@ -31,19 +32,19 @@ What this repository is: a **template** for documentation sites in which archite
 
 **Compile and validate at build time.** The build fails on a broken diagram. The client receives plain JSON.
 
-**Generic example, not a real one.** `diagrams/platform` copies the *structure* of a real platform architecture page (zones, hub and spoke tunnel, grids, planned parts) with invented names, so the template is safe to publish.
+**Generic example, not a real one.** `apps/docs/diagrams/platform` copies the *structure* of a real platform architecture page (zones, hub and spoke tunnel, grids, planned parts) with invented names, so the template is safe to publish.
 
 ## Known limits
 
 - Auto layout is good, not perfect. Dense diagrams want a few hints; very large ones (30+ nodes) render small until the reader zooms, goes full screen, or lets the camera follow a scenario.
 - Edges that end on a member of a `row` or `grid` group stop at the group's border.
-- `astro check` does not support TypeScript 7 yet, so `.astro` files are not type-checked; TS files in the starter are.
+- `astro check` does not support TypeScript 7 yet, so `.astro` files are not type-checked; TS files in the docs app are.
 - ELK runs on the main thread. The diagram chunk is about 460 KB gzipped, nearly all ELK, and only loads when a diagram scrolls into view. A worker would remove the layout pause on very large diagrams, and build-time layout would remove ELK from the client entirely.
 - Node heights are measured in the browser, so first paint of a diagram shows a placeholder.
 
 ## Next
 
-1. **Packaging.** Publish `@idocs/*`; turn `apps/starter` into the GitHub template repository (or an `npm create` scaffolder) so users get upgrades as dependency bumps instead of a stale copy.
+1. **First publish.** Claim the npm scope, choose a license, set the release variables: the checklist is in [REPOSITORIES.md](REPOSITORIES.md). Then optionally set up the generated template repository.
 2. **More view types**: state diagrams, entity cards with field-level relations, swimlane ("request story") layouts. The format reserves `type:` on views.
 3. **Forked scenarios**: "device offline at step 6" as a variant that shares the happy path up to a step.
 4. **Visual regression**: Playwright screenshots of the examples in both themes.

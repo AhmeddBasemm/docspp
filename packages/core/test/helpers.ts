@@ -1,10 +1,10 @@
 import { fileURLToPath } from 'node:url'
 import { compileDiagram, type DiagramSource, loadProject } from '../src/node'
 
-export const starterRoot = fileURLToPath(new URL('../../../apps/starter', import.meta.url))
+export const docsRoot = fileURLToPath(new URL('../../../apps/docs', import.meta.url))
 
-export function loadStarter() {
-  return loadProject(starterRoot)
+export function loadDocs() {
+  return loadProject(docsRoot)
 }
 
 export function compileText(text: string, extra: Partial<DiagramSource> = {}) {

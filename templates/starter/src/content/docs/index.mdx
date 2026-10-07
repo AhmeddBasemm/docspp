@@ -1,0 +1,18 @@
+---
+title: My docs
+description: How our system works, with diagrams you can play.
+template: splash
+hero:
+  tagline: Click a box to read about it. Pick a scenario and press play to watch a request travel through the system.
+  actions:
+    - text: See how the shop works
+      link: architecture/
+      icon: right-arrow
+    - text: Edit these docs
+      link: editing/
+      variant: minimal
+---
+
+import Diagram from '@idocs/astro/Diagram.astro'
+
+<Diagram name="shop" scenario="checkout" />

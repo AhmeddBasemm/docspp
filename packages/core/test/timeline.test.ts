@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest'
 import { buildTimeline, frameAt, stepAt, stepEnd } from '../src'
-import { loadStarter } from './helpers'
+import { loadDocs } from './helpers'
 
-const diagram = loadStarter().diagrams.checkout!
+const diagram = loadDocs().diagrams.checkout!
 const lengths = Object.fromEntries(Object.keys(diagram.edges).map((id) => [id, 300]))
 
 describe('timeline', () => {

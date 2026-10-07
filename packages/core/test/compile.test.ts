@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest'
-import { compileText, loadStarter } from './helpers'
+import { compileText, loadDocs } from './helpers'
 
 describe('checkout example', () => {
-  const project = loadStarter()
+  const project = loadDocs()
   const diagram = project.diagrams.checkout!
 
   it('compiles without errors', () => {

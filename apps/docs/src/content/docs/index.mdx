@@ -1,0 +1,43 @@
+---
+title: Interactive docs
+description: Architecture diagrams your readers can click, filter and play.
+template: splash
+hero:
+  tagline: Describe your system in YAML. Get diagrams readers can explore, and scenarios that show a request travelling through them.
+  actions:
+    - text: Get started
+      link: guides/getting-started/
+      icon: right-arrow
+    - text: See an example
+      link: examples/checkout/
+      variant: minimal
+      icon: external
+---
+
+import Diagram from '@idocs/astro/Diagram.astro'
+import { Card, CardGrid } from '@astrojs/starlight/components'
+
+<Diagram name="checkout" scenario="browse" />
+
+## What you get
+
+<CardGrid>
+  <Card title="Declarative" icon="document">
+    Nodes, groups and edges in YAML. No coordinates: layout is automatic and steerable with a few hints.
+  </Card>
+  <Card title="Scenarios" icon="rocket">
+    Tell a story over the diagram: the happy path, a cache miss, a declined card. Packets fly, steps are explained, and readers can step, scrub and share a link to a moment.
+  </Card>
+  <Card title="One model, many views" icon="random">
+    Write a node once and show it in an overview, a backend-only view, a view per team.
+  </Card>
+  <Card title="Written to be generated" icon="setting">
+    A JSON Schema for editors, a CLI whose errors say file, line and column, and a Claude Code skill that knows the format.
+  </Card>
+</CardGrid>
+
+## Try it
+
+```sh
+npm create idocs@latest my-docs
+```

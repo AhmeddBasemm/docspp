@@ -1,19 +1,24 @@
 # interactive-docs
 
-A template for documentation sites whose architecture diagrams are described in YAML, laid out automatically, and playable: a request can be shown travelling through the system, step by step, in several scenarios.
+A tool for documentation sites whose architecture diagrams are described in YAML, laid out automatically, and playable: a request can be shown travelling through the system, step by step, in several scenarios.
 
 ## Commands
 
 ```sh
 pnpm install
-pnpm dev               # starter site on http://localhost:4321
-pnpm build             # static site to apps/starter/dist
+pnpm dev               # docs site on http://localhost:4321
+pnpm dev:template      # the starter project
+pnpm build             # docs site to apps/docs/dist
+pnpm build:packages    # compile the five packages into dist/
+pnpm build:all         # packages + docs + template
 pnpm test              # unit tests (vitest)
-pnpm test:e2e          # builds the starter, drives it in Chrome (needs Google Chrome installed)
+pnpm test:e2e          # builds the docs, drives them in Chrome (needs Google Chrome installed)
+pnpm verify:pack       # pack, scaffold, install, build and load, like a user would (network + Chrome)
 pnpm typecheck         # tsc everywhere (astro check does not support TypeScript 7)
 pnpm lint              # biome; `pnpm format` fixes
-pnpm check             # validate the example diagrams
+pnpm check             # validate the example diagrams in apps/docs and templates/starter
 pnpm idocs <command>   # the CLI: check, list, schema, icons search, new
+pnpm changeset         # describe a change for the next release
 ```
 
 Node >= 22, pnpm. `pnpm` refuses very new releases (minimum release age); if an install fails on that, loosen the range, do not disable the policy.
@@ -21,15 +26,19 @@ Node >= 22, pnpm. `pnpm` refuses very new releases (minimum release age); if an 
 ## Layout
 
 ```
-packages/core    schema, compiler, layout, router, timeline. No UI.
-  src/index.ts   browser-safe entry: types, layout, route, timeline, geometry
-  src/node.ts    node-only entry: YAML parsing, Zod schema, compiler, icons, loader
-packages/react   <DiagramView> and its parts, plus styles.css (all tokens are --idocs-*)
-packages/astro   Astro integration (Vite plugin -> virtual:idocs/diagrams) and <Diagram>
-packages/cli     `idocs`
-apps/starter     Astro + Starlight site: the template users copy
-  diagrams/      checkout (small), platform (large), hello (docs)
+packages/core           schema, compiler, layout, router, timeline. No UI.
+  src/index.ts          browser-safe entry: types, layout, route, timeline, geometry
+  src/node.ts           node-only entry: YAML parsing, Zod schema, compiler, icons, loader
+packages/react          <DiagramView> and its parts, plus styles.css (all tokens are --idocs-*)
+packages/astro          Astro integration (Vite plugin -> virtual:idocs/diagrams) and <Diagram>
+packages/cli            `idocs`
+packages/create-idocs   `npm create idocs`; carries a copy of the template, built by scripts/template.mjs
+apps/docs               the tool's landing page, guides and live examples (+ e2e tests)
+templates/starter       the minimal project users start from (source of truth for the template)
+scripts/                build.mjs, template.mjs, verify-pack.mjs
 ```
+
+Repository topology, the template repository and releasing: `docs/REPOSITORIES.md`.
 
 ## Rules that keep it working
 
@@ -40,6 +49,11 @@ apps/starter     Astro + Starlight site: the template users copy
 - Heights come from the browser: `useLayout` renders cards offscreen at their fixed width, measures, then calls `layoutView`. Tests substitute fixed heights via `fakeSizes`.
 - Validate in the compiler, not the renderer. A diagram that compiles must render.
 - Raw HTML in markdown is dropped on purpose; compiled docs are injected with `dangerouslySetInnerHTML`.
+- **In the monorepo `exports` point at TypeScript sources**; `publishConfig.exports` points at `dist/` and is applied by pnpm when packing. Do not point `exports` at `dist/`.
+- **Changing the schema?** Run `pnpm idocs schema apps/docs && pnpm idocs schema templates/starter`; a test fails when the committed `diagram.schema.json` files are stale.
+- **The template is generated.** Edit `templates/starter`, not a template repository. It must stay minimal and free of tool documentation. The `author-diagram` skill is maintained once in `.claude/skills/` and copied into new projects.
+- The five published packages are versioned together (changesets `fixed`). Add a changeset for any user-visible change.
+- Dev-server gotcha: the Vite plugin loads the compiler once at startup, so restart `pnpm dev` after editing `packages/core` compile code (layout and renderer changes hot-reload).
 
 ## Style
 

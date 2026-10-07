@@ -1,0 +1,4 @@
+# pnpm 10+ asks you to approve dependency build scripts. These two are safe and needed.
+allowBuilds:
+  esbuild: true
+  sharp: true

@@ -1,0 +1,105 @@
+# yaml-language-server: $schema=../diagram.schema.json
+title: The shop
+description: |
+  A small online shop. **Click any box** to read about it, or pick a scenario above
+  the diagram and press play to watch a request travel through the system.
+
+groups:
+  backend:
+    label: Backend
+    caption: runs on Kubernetes
+
+nodes:
+  browser:
+    kind: client
+    icon: react
+    title: Shopper browser
+    sub: React storefront
+  gateway:
+    kind: gateway
+    icon: nginx
+    title: API gateway
+    sub: ":443"
+    in: backend
+  catalog:
+    kind: service
+    icon: nodejs
+    title: Catalog
+    sub: ":4001 · Node.js"
+    lines: [products and prices]
+    uses: [cache, db]
+    in: backend
+  orders:
+    kind: service
+    icon: lucide:shopping-cart
+    title: Orders
+    sub: ":4002"
+    lines: [creates and tracks orders]
+    uses: [db]
+    in: backend
+  cache:
+    kind: cache
+    icon: redis
+    title: Redis
+    sub: product cache
+    in: backend
+  db:
+    kind: database
+    icon: postgresql
+    title: PostgreSQL
+    sub: products and orders
+    in: backend
+  payments:
+    kind: external
+    icon: stripe
+    title: Stripe
+    sub: payment provider
+
+edges:
+  - browser -> gateway: HTTPS
+  - gateway -> catalog: /products
+  - gateway -> orders: /orders
+  - catalog -> cache: { kind: data, label: lookup }
+  - catalog -> db: { kind: data }
+  - orders -> db: { kind: data }
+  - orders -> payments: { kind: channel, label: charge, auth: API key, payload: payment intent }
+
+scenarios:
+  browse:
+    title: Browse a product
+    summary: The shopper opens a product page. The catalog answers from the cache.
+    steps:
+      - browser -> catalog: GET /products/42
+      - catalog -> cache: { label: GET product:42, kind: lookup }
+      - cache -> catalog: { label: hit, note: A cache hit never touches the database. }
+      - catalog -> browser: 200 OK
+
+  checkout:
+    title: Place an order
+    summary: The order is saved first, charged second, and confirmed last.
+    phases:
+      - title: Save
+        steps:
+          - browser -> orders: POST /orders
+          - orders -> db: { label: INSERT order (pending), kind: lookup }
+      - title: Charge
+        steps:
+          - orders -> payments: create payment intent
+          - at payments:
+              label: authorise card
+              note: Stripe is the one step we do not control.
+          - payments -> orders: succeeded
+      - title: Confirm
+        steps:
+          - orders -> db: { label: mark paid, kind: lookup }
+          - orders -> browser: 201 Created
+
+  declined:
+    title: Card declined
+    summary: Stripe refuses the card. The order stays pending and the shopper is told why.
+    steps:
+      - browser -> orders: POST /orders
+      - orders -> payments: create payment intent
+      - payments -> orders: { label: card_declined, kind: error }
+      - at orders: { label: keep order pending, kind: error }
+      - orders -> browser: { label: 402 Payment Required, kind: error }

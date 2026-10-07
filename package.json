@@ -7,23 +7,38 @@
     "node": ">=22"
   },
   "scripts": {
-    "dev": "pnpm --filter @idocs/starter dev",
-    "build": "pnpm --filter @idocs/starter build",
-    "preview": "pnpm --filter @idocs/starter preview",
-    "test": "vitest run",
-    "typecheck": "pnpm -r --if-present typecheck",
-    "idocs": "tsx packages/cli/src/bin.ts",
-    "check": "tsx packages/cli/src/bin.ts check apps/starter",
-    "lint": "biome check .",
+    "build": "pnpm --filter @idocs/docs build",
+    "build:all": "pnpm build:packages && pnpm --filter @idocs/docs build && pnpm --filter my-docs build",
+    "build:packages": "pnpm -r --filter \"./packages/*\" build",
+    "changeset": "changeset",
+    "check": "tsx packages/cli/src/bin.ts check apps/docs templates/starter",
+    "dev": "pnpm --filter @idocs/docs dev",
+    "dev:template": "pnpm --filter my-docs dev",
     "format": "biome check --write .",
-    "test:e2e": "pnpm build && vitest run -c vitest.e2e.config.ts"
+    "idocs": "tsx packages/cli/src/bin.ts",
+    "lint": "biome check .",
+    "preview": "pnpm --filter @idocs/docs preview",
+    "release": "pnpm build:packages && changeset publish",
+    "template": "node scripts/template.mjs",
+    "test": "vitest run",
+    "test:e2e": "pnpm build && vitest run -c vitest.e2e.config.ts",
+    "typecheck": "pnpm -r --if-present typecheck",
+    "verify:pack": "node scripts/verify-pack.mjs",
+    "version-packages": "changeset version"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.5.15",
+    "@changesets/cli": "^3.0.3",
     "@types/node": "^26.6.4",
+    "esbuild": "^0.28.2",
     "playwright-core": "^1.63.0",
     "tsx": "^4.23.15",
     "typescript": "^7.0.2",
     "vitest": "^5.0.3"
+  },
+  "homepage": "https://github.com/AhmeddBasemm/docspp",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AhmeddBasemm/docspp.git"
   }
 }
