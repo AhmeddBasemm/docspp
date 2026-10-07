@@ -1,0 +1,94 @@
+---
+title: Icons
+description: Brand logos for your stack, generic UI icons and your own SVG files, all bundled at build time.
+tableOfContents:
+  maxHeadingLevel: 3
+---
+
+import Diagram from '@packagelab/docspp-astro/Diagram.astro'
+import { Aside } from '@astrojs/starlight/components'
+
+A node's `icon` puts a logo or symbol on its card. Icons are bundled into the page at build time, so nothing is fetched in the browser and nothing breaks offline.
+
+<Diagram name="ref-icons" showDescription />
+
+## Ways to ask for an icon
+
+```yaml
+icon: postgresql              # finds the logo
+icon: logos:redis             # an explicit set
+icon: simple-icons:keycloak   # monochrome brand marks
+icon: lucide:server           # generic UI icons
+icon: ./assets/billing.svg    # your own SVG, relative to the diagram folder
+```
+
+| Form | Looks in |
+|---|---|
+| A bare name (`postgresql`) | **Brand logos** first, then monochrome brand marks, then Lucide. The first match wins. |
+| `logos:name` | Coloured brand logos. |
+| `simple-icons:name` | Monochrome brand marks. They are tinted with the node's [colour family](../colours/), so they work in both themes. |
+| `lucide:name` | Generic UI icons: `server`, `database`, `mail`, `cloud`. |
+| `./path.svg` | A file in the diagram's folder. It must be an SVG. |
+
+Common shorthands work: `postgres`, `pg`, `k8s`, `mongo`, `node`, `es`, `rabbit`, `.net`, `ts`, `js`.
+
+Where a logo comes in two forms, docspp prefers the compact **mark** (`redis-icon`) over the full wordmark, because a card has room for a symbol, not a logotype.
+
+## Finding a name
+
+```sh
+pnpm docspp icons search redis
+```
+
+```text
+"redis" resolves to logos:redis
+
+logos:redis
+simple-icons:redis
+logos:heroku-redis
+```
+
+Add `--json` for a machine-readable answer. An unknown icon is a **warning** with suggestions, never an error, so a missing logo cannot break your build:
+
+```text
+diagrams/checkout/diagram.yaml:8:29  warning  Unknown icon "strpe"
+    Run `docspp icons search <name>` to find one.
+```
+
+## Your own SVG
+
+Put the file next to the diagram and refer to it with a relative path.
+
+```text
+diagrams/photos/
+├─ diagram.yaml
+└─ assets/ledger.svg
+```
+
+```yaml
+nodes:
+  ledger: { kind: service, icon: ./assets/ledger.svg, title: Ledger }
+```
+
+If the SVG uses `currentColor`, docspp treats it as monochrome and tints it with the node's family colour, so one file works on light and dark. An SVG with its own colours is shown as it is. Keep the `viewBox` set: without one, docspp falls back to the `width` and `height` attributes, and then to a 24 by 24 box.
+
+<Aside type="caution">
+  A local SVG is inlined into the page, so use files you trust. It is the same trust you give any file in your repository.
+</Aside>
+
+## Kinds supply icons too
+
+A node without an `icon` uses the icon of its `kind`. See the [full list of kinds](../../format/kinds/), and add your own:
+
+```yaml
+kinds:
+  ledger: { icon: lucide:book-open, family: amber }
+```
+
+## Icons on groups
+
+Groups accept `icon` as well. Use it sparingly: a zone label is already a label.
+
+## The tile behind an icon
+
+Brand logos keep their own colours and sit on a tile (`--docspp-tile`), white in light mode and pale grey in dark mode, so a dark logo stays readable on a dark page. Monochrome icons sit on a tile tinted with the node's family colour instead. See [theming](../theming/).

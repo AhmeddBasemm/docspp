@@ -1,0 +1,62 @@
+---
+title: Fixing a crowded diagram
+description: Common layout problems, what causes them and the smallest change that fixes each.
+tableOfContents:
+  maxHeadingLevel: 3
+---
+
+import Diagram from '@packagelab/docspp-astro/Diagram.astro'
+
+When a diagram looks wrong, change the model or add a hint, then look again. This page lists what you are likely to see.
+
+## Many stores make a sprawling zone
+
+Stores that many services use are the usual cause. On the left, ten nodes sit in one flow group, so the stores form a tall column and eleven arrows run to them:
+
+<div class="pair">
+  <div>
+    <p class="pair-label">Before: one flow group</p>
+    <Diagram name="layout-before" />
+  </div>
+  <div>
+    <p class="pair-label">After: rows, a grid and uses tags</p>
+    <Diagram name="layout-after" />
+  </div>
+</div>
+
+On the right, the stores are packed into a `grid` group of three columns, the services sit in an explicit `rows` stack, and the services carry `uses:` tags instead of eleven arrows to the stores.
+
+```yaml
+groups:
+  backend:
+    label: Backend
+    rows:
+      - [gateway]
+      - [catalog, orders, search]
+      - [stores]
+  stores: { label: Shared stores, in: backend, layout: grid, columns: 3 }
+
+nodes:
+  catalog: { kind: service, title: Catalog, in: backend, uses: [PostgreSQL, Redis, Prometheus] }
+  postgres: { kind: database, title: PostgreSQL, in: stores, w: 140 }
+```
+
+## Symptoms and fixes
+
+| You see | Try |
+|---|---|
+| The whole diagram is tiny at its default zoom | There is too much in one picture. Move detail into a second [view](../../format/views/), hide minor edges with `hidden: true`, or split the system. Aim for 8 to 25 nodes. |
+| One zone is much wider than the rest | A long row of cards. Narrow them with `w:`, use `layout: grid` with `columns: 2` or `3`, or wrap with `rows:`. |
+| Arrows cross all over | Reorder the nodes so the flow reads one way. Move cards that many things connect to into a packed group with a `uses:` tag, instead of drawing every edge. |
+| A zone is tall and thin | Set its `direction: RIGHT`, or break a long chain with `rows:`. |
+| Two cards should sit side by side but do not | Put them in one `rows:` row. |
+| An arrow stops at a group border, not at the card | That is how packed groups (`row`, `grid`) work. Put the connected cards in a `flow` or `rows` group. |
+| Planned work clutters the picture | Mark it `status: planned`. Readers get a **Hide planned** toggle. |
+| Labels overlap | Shorten them. Move detail into `payload:` and `auth:`. |
+| A scenario's camera keeps jumping | The diagram is large and the camera follows the action. Readers can turn **Follow** off. See [playback](../../scenarios/playback/). |
+
+## Before you add a hint
+
+Ask what the diagram is for. A diagram that answers one question ("how does checkout work?") with 8 to 25 nodes rarely needs more than one or two hints. A diagram that tries to show everything is better as an overview with a few views behind it.
+
+A reader should be able to read the diagram at its default zoom. If it is tiny, it has too much in it.

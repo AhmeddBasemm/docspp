@@ -1,0 +1,81 @@
+---
+title: Phases and notes
+description: Group steps into phases with titles and captions, and explain a step with a note.
+tableOfContents:
+  maxHeadingLevel: 3
+---
+
+import Diagram from '@packagelab/docspp-astro/Diagram.astro'
+
+A long scenario is easier to follow when it is broken into **phases**: "Record it", "Charge the card", "Finish". Phases appear as numbered bands in the step list, as sections in the sequence diagram and as horizontal bands in the story view.
+
+<Diagram name="payments" scenario="pay" />
+
+```yaml
+scenarios:
+  pay:
+    title: Pay with a card
+    summary: |
+      The shopper pays. We write the payment down **first**, charge the card **second**,
+      and tell the rest of the system **last**, so a crash never loses money.
+    phases:
+      - title: Record it
+        caption: before any money moves
+        steps:
+          - web -> api:
+              label: POST /payments
+              note: The request carries an idempotency key, so a retry cannot charge twice.
+          - api -> db: { label: INSERT payment (pending), kind: lookup }
+      - title: Charge the card
+        steps:
+          - api -> stripe: create payment intent
+          - at stripe:
+              label: authorise card
+              note: This is the only step we do not control, and the slowest one.
+          - stripe -> api: succeeded
+```
+
+## Phases
+
+A phase has a `title`, an optional `caption` and its `steps`.
+
+| Field | Meaning |
+|---|---|
+| `title` | **Required.** Plain words: "Submit", "Charge", "Finish". |
+| `caption` | A short note shown after the title: "before any money moves". |
+| `steps` | **Required.** At least one step. |
+
+Aim for two to five phases. A scenario may use `steps:` or `phases:`. Without phases, the step list is flat and no bands are drawn.
+
+## Summary
+
+`summary` is Markdown shown above the diagram when the scenario is selected. Write the story in a sentence or two, with the one fact that matters in bold. In the story view it is framed as "The story in one breath".
+
+## Notes
+
+`note` is Markdown shown under the step in the step list. Use it for the *why*:
+
+```yaml
+- browser -> orders:
+    label: POST /orders
+    note: >
+      The gateway has already checked the token, so the order service
+      trusts the `X-User-Id` header.
+```
+
+Notes support emphasis, inline code, lists and links. Raw HTML is dropped. A step with a note is the right place to say what could go wrong, who owns the step, or why it is ordered the way it is.
+
+<Diagram name="checkout" scenario="payment-declined" />
+
+## Flat scenarios
+
+If you do not need phases, a flat `steps:` list is fine. Short stories read well that way.
+
+```yaml
+scenarios:
+  load-page:
+    title: Load a page
+    steps:
+      - browser -> api: GET /items
+      - api -> browser: 200 OK
+```

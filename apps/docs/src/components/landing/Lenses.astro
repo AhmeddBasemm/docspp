@@ -1,0 +1,91 @@
+---
+import Diagram from '@packagelab/docspp-astro/Diagram.astro'
+
+const lenses = [
+  {
+    id: 'flow',
+    kicker: 'For the architecture',
+    title: 'Flow',
+    text: 'Packets travel over the diagram you already drew. The path already travelled stays lit, and the camera follows the action when the picture is large.',
+  },
+  {
+    id: 'sequence',
+    kicker: 'For people who think in lifelines',
+    title: 'Sequence',
+    text: 'A classic sequence diagram, generated from the same steps. Click an arrow to play that step.',
+  },
+  {
+    id: 'story',
+    kicker: 'For someone new to the system',
+    title: 'Story',
+    text: 'Swimlanes with one column per actor, phases as bands, and a plain sentence in every box. The version to hand to a new colleague.',
+  },
+] as const
+---
+
+<section class="lp-section lp-band" id="scenarios">
+  <div class="lp-wrap">
+    <div class="lp-head">
+      <p class="lp-eyebrow">Scenarios</p>
+      <h2>One list of steps. Three ways to read it.</h2>
+      <p class="lp-lede">
+        A scenario is a short list of steps: who sends what to whom. docspp turns it into packets over
+        the architecture, a sequence diagram or a swimlane story, and keeps all three in step with the
+        player.
+      </p>
+    </div>
+
+    <div class="lp-lens-grid" data-tabs>
+      <div class="lp-lens-list" role="tablist" aria-label="Presentation" aria-orientation="vertical">
+        {
+          lenses.map((l, i) => (
+            <button
+              class="lp-lens"
+              type="button"
+              role="tab"
+              data-tab
+              id={`lens-tab-${l.id}`}
+              aria-controls={`lens-panel-${l.id}`}
+              aria-selected={i === 0}
+              tabindex={i === 0 ? 0 : -1}
+            >
+              <small>{l.kicker}</small>
+              <strong>{l.title}</strong>
+              <span>{l.text}</span>
+            </button>
+          ))
+        }
+      </div>
+      <div>
+        {
+          lenses.map((l, i) => (
+            <div
+              role="tabpanel"
+              data-panel
+              id={`lens-panel-${l.id}`}
+              aria-labelledby={`lens-tab-${l.id}`}
+              hidden={i !== 0}
+            >
+              <div class="lp-stage">
+                <div class="lp-stage-bar">
+                  <span class="lp-live"><b>payments</b></span>
+                  <span>Pay with a card · 3 phases · 9 steps</span>
+                </div>
+                <div class="lp-stage-body lp-compact">
+                  <Diagram
+                    name="payments"
+                    scenario="pay"
+                    mode={l.id}
+                    autoplay
+                    hash={false}
+                    maxHeight={440}
+                  />
+                </div>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>

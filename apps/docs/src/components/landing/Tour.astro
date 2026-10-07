@@ -1,0 +1,121 @@
+---
+import Diagram from '@packagelab/docspp-astro/Diagram.astro'
+import CodeWindow from './CodeWindow.astro'
+import modelSrc from '../../../diagrams/tour-1/diagram.yaml?raw'
+import zonesSrc from '../../../diagrams/tour-2/diagram.yaml?raw'
+import playSrc from '../../../diagrams/tour-3/diagram.yaml?raw'
+import viewsSrc from '../../../diagrams/tour-4/diagram.yaml?raw'
+import { addedLines } from '../../lib/diff'
+
+// The first line is the editor hint for the schema; the visitor does not need it here.
+const clean = (src: string) => src.replace(/^# yaml-language-server.*\n/, '').trimEnd()
+
+const stages = [
+  {
+    id: 'model',
+    label: 'Model',
+    diagram: 'tour-1',
+    src: clean(modelSrc),
+    caption:
+      '<strong>Name the parts and say who talks to whom.</strong> Pick a kind and an icon for each node and docspp draws the cards. Edges become arrows, and the legend is generated. There are no coordinates in the file.',
+  },
+  {
+    id: 'zones',
+    label: 'Zones',
+    diagram: 'tour-2',
+    src: clean(zonesSrc),
+    caption:
+      '<strong>Group related parts into a zone.</strong> A group is one line and a node joins it with <code>in:</code>. Each zone is laid out on its own, so the diagram stays tidy as it grows.',
+  },
+  {
+    id: 'scenario',
+    label: 'Scenario',
+    diagram: 'tour-3',
+    src: clean(playSrc),
+    scenario: 'upload',
+    caption:
+      '<strong>Tell the story as steps.</strong> A packet flies along your edges, hop by hop, and every step is listed under the picture. Pause, scrub, or click a step to jump to it.',
+  },
+  {
+    id: 'views',
+    label: 'Views',
+    diagram: 'tour-4',
+    src: clean(viewsSrc),
+    view: 'processing',
+    scenario: 'thumbnails',
+    caption:
+      '<strong>Show a slice of the same model.</strong> The processing view keeps four of the six boxes and plays its own scenario. Nothing was redrawn.',
+  },
+].map((stage, i, all) => ({
+  ...stage,
+  ins: i === 0 ? [] : addedLines(all[i - 1]!.src, stage.src),
+}))
+---
+
+<section class="lp-section" id="how-it-works">
+  <div class="lp-wrap">
+    <div class="lp-head">
+      <p class="lp-eyebrow">How it works</p>
+      <h2>Write the model. The picture, the docs and the replay follow.</h2>
+      <p class="lp-lede">
+        One YAML file per diagram. Add a concept at a time and watch what it buys you. Each tab below is a
+        real file, compiled and drawn by docspp as the page loaded.
+      </p>
+    </div>
+
+    <div data-tabs>
+      <div class="lp-tablist" role="tablist" aria-label="Build up a diagram">
+        {
+          stages.map((s, i) => (
+            <button
+              class="lp-tab"
+              type="button"
+              role="tab"
+              data-tab
+              id={`tour-tab-${s.id}`}
+              aria-controls={`tour-panel-${s.id}`}
+              aria-selected={i === 0}
+              tabindex={i === 0 ? 0 : -1}
+            >
+              <span class="n">{i + 1}</span>
+              {s.label}
+            </button>
+          ))
+        }
+      </div>
+
+      {
+        stages.map((s, i) => (
+          <div
+            role="tabpanel"
+            data-panel
+            id={`tour-panel-${s.id}`}
+            aria-labelledby={`tour-tab-${s.id}`}
+            hidden={i !== 0}
+          >
+            <p class="lp-tour-caption" set:html={s.caption} />
+            <div class="lp-tour-grid">
+              <div class="lp-code">
+                <CodeWindow code={s.src} lang="yaml" title="diagrams/photos/diagram.yaml" ins={s.ins} />
+              </div>
+              <div class="lp-panel-stage">
+                <div class="lp-stage">
+                  <div class="lp-stage-body lp-compact">
+                    <Diagram
+                      name={s.diagram}
+                      view={s.view}
+                      scenario={s.scenario}
+                      autoplay={!!s.scenario}
+                      hash={false}
+                      maxHeight={480}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

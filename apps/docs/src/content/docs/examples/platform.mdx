@@ -6,6 +6,15 @@ tableOfContents: false
 
 import Diagram from '@packagelab/docspp-astro/Diagram.astro'
 
-A bigger model in the style of a real platform page: three zones, a hub-and-spoke tunnel, grids of services, planned work in dashed outline, and scenarios that cross all of it.
+A bigger model in the style of a real platform page: three zones, a hub-and-spoke tunnel, grids of services, planned work in dashed outline, and scenarios that cross all of it. The names are invented.
+
+Things to try:
+
+- Pick **One read request, end to end**. It opens as a swimlane story, with eight lanes and five phases.
+- Open **One device** for a single machine and how it connects back to the hub.
+- Press **Hide planned** to remove everything that is not built yet.
+- Zoom with <kbd>Ctrl</kbd> or <kbd>⌘</kbd> and scroll, or use full screen. With a diagram this size the camera follows the action while a scenario plays.
 
 <Diagram name="platform" showDescription />
+
+The source is [diagram.yaml](https://github.com/AhmeddBasemm/docspp/blob/main/apps/docs/diagrams/platform/diagram.yaml) plus three files in `scenarios/`. It uses [rows and packed groups](../../format/groups/), [lanes](../../scenarios/story-view/) and [hidden edges](../../format/edges/).

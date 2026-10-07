@@ -268,7 +268,7 @@
                 }
               },
               "w": {
-                "description": "Card width in px (default 200).",
+                "description": "Card width in px (default 178).",
                 "type": "integer",
                 "exclusiveMinimum": 0,
                 "maximum": 9007199254740991

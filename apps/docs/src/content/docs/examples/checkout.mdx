@@ -6,4 +6,16 @@ tableOfContents: false
 
 import Diagram from '@packagelab/docspp-astro/Diagram.astro'
 
+A shop with a CDN, a gateway, three services, a cache, a database, a queue and a payment provider. It is the diagram behind most examples in these docs.
+
+Things to try:
+
+- Pick **Place an order** and press play, then switch to **Sequence** and **Story** to read the same steps two other ways.
+- Click **API gateway** or **order-service** to open their notes.
+- Open **Backend only** for the same model with the edge layer left out.
+- Pick **Card declined**, and see how a failure is a scenario of its own.
+- Hover a line, then the matching row of the interfaces table at the bottom.
+
 <Diagram name="checkout" showDescription />
+
+The source is [diagram.yaml](https://github.com/AhmeddBasemm/docspp/blob/main/apps/docs/diagrams/checkout/diagram.yaml) and two files in `nodes/`. See [Views](../../format/views/), [Steps](../../scenarios/steps/) and [Node docs](../../format/node-docs/) for what each part does.

@@ -1,0 +1,84 @@
+---
+title: Telling a story
+description: A scenario is an ordered list of steps that plays over a diagram. What it is made of and how to write one worth watching.
+sidebar:
+  label: Overview
+tableOfContents:
+  maxHeadingLevel: 2
+---
+
+import Diagram from '@packagelab/docspp-astro/Diagram.astro'
+import { CardGrid, LinkCard } from '@astrojs/starlight/components'
+
+A scenario is an ordered list of steps. Each step sends a packet along your edges, or makes one node do something. A diagram can have as many scenarios as you like, and readers pick one above the canvas.
+
+<Diagram name="checkout" scenario="cache-miss" />
+
+Press **Play**. The packet flies, the step list under the player follows along, and the boxes the story has visited stay lit.
+
+## The smallest scenario
+
+```yaml
+scenarios:
+  load-page:
+    title: Load a page
+    steps:
+      - browser -> api: GET /items
+      - api -> db: { label: SELECT, kind: lookup }
+      - db -> api: rows
+      - api -> browser: 200 OK
+```
+
+A scenario needs a `title` and either `steps` or `phases`. Its id (`load-page`) appears in deep links.
+
+## What a scenario can have
+
+| Field | Meaning |
+|---|---|
+| `title` | **Required.** The button's label. |
+| `summary` | Markdown: the story in a sentence or two, shown above the diagram. |
+| `steps` or `phases` | The steps, flat or grouped. See [steps](../steps/) and [phases](../phases/). |
+| `view` | The [view](../../format/views/) it plays on. Defaults to the first view. |
+| `mode` | How it opens: `flow` (default), `sequence` or `story`. |
+| `lanes` | The columns of the [story view](../story-view/). |
+
+## Where scenarios live
+
+Short ones fit inside `diagram.yaml`. A long one can live in its own file. Every `diagrams/<name>/scenarios/<id>.yaml` becomes a scenario with that id, and the file holds the scenario's fields directly:
+
+```yaml title="diagrams/platform/scenarios/device-offline.yaml"
+title: Device is offline
+summary: The job waits in the queue until the device reconnects.
+phases:
+  - title: Dispatch
+    steps:
+      - backend -> control-api: enqueue job
+```
+
+Defining the same id in both places is an error.
+
+## Three ways to read the same steps
+
+Every scenario can be shown as packets over the architecture (**Flow**), as a **Sequence** diagram, or as a swimlane **Story**. The player has a button for each, and `mode:` picks which one a scenario opens in. You write the steps once.
+
+<CardGrid>
+  <LinkCard title="Story view" description="Swimlanes with phases and plain-language boxes. The one for newcomers." href="../story-view/" />
+  <LinkCard title="Sequence view" description="A classic sequence diagram generated from the same steps." href="../sequence-view/" />
+</CardGrid>
+
+## Writing scenarios worth watching
+
+- **One story per scenario.** Show failures as their own scenarios (`payment-declined`), not as footnotes to the happy path. Readers learn the most from the failures.
+- **Start with the happy path.** Then add the two or three failures that teach something about the design.
+- **Give every scenario a one-sentence `summary`.** It is the first thing a reader sees.
+- **Keep it to what a reader can follow**, roughly 6 to 15 steps. Group longer ones into two to five [phases](../phases/) with plain titles such as "Submit", "Charge" and "Finish".
+- **Label what travels**: `POST /orders`, `order.created`, `200 OK`. Explain *why* in a `note:`, not in the label.
+
+## Pages in this section
+
+<CardGrid>
+  <LinkCard title="Steps" description="Flow steps, self steps, kinds and options." href="../steps/" />
+  <LinkCard title="Phases and notes" description="Group steps, add captions and explanations." href="../phases/" />
+  <LinkCard title="Parallel steps and routes" description="Things that happen together, and how packets find their way." href="../parallel-and-routes/" />
+  <LinkCard title="Playback and sharing" description="The player, the step list and deep links." href="../playback/" />
+</CardGrid>

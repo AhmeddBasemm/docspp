@@ -1,0 +1,98 @@
+---
+title: Nodes
+description: Every field of a node, the box that stands for one part of your system.
+tableOfContents:
+  maxHeadingLevel: 3
+---
+
+import Diagram from '@packagelab/docspp-astro/Diagram.astro'
+import { Aside } from '@astrojs/starlight/components'
+
+A node is one part of your system: a service, a database, a person, an external provider. Nodes are the entries of the top-level `nodes:` map. The key is the node's **id**, which edges, groups and scenarios refer to.
+
+<Diagram name="ref-nodes" showDescription />
+
+```yaml
+nodes:
+  catalog:
+    kind: service
+    icon: nodejs
+    title: Catalog
+    sub: ":4001 · Node.js"
+    lines: [products, prices]
+    uses: [redis, postgres]
+    badge: 3
+    in: backend
+```
+
+A bare string is a title: `catalog: Catalog service`.
+
+## Fields
+
+| Field | Meaning |
+|---|---|
+| `title` | The display name. Defaults to the id. Use the name people say in conversation. |
+| `sub` | One monospace line under the title: a port, a stack, a version. |
+| `lines` | A list of short body lines inside the card. |
+| `icon` | A logo or icon. See [icons](../../customize/icons/). |
+| `kind` | Gives the node a default icon and colour family. See [kinds](../kinds/). |
+| `family` | The accent colour: `blue`, `amber`, `violet`, `green`, `teal`, `red` or `slate`. Overrides the kind's. |
+| `in` | The id of the [group](../groups/) the node sits in. |
+| `status` | `built` (default), `planned`, `legacy` or `optional`. |
+| `badge` | A number or short string on the card's corner. |
+| `uses` | A list of short tags drawn as `uses: a · b`. |
+| `chips` | Small boxes inside the card, such as virtual hosts. |
+| `w` | Card width in pixels. The default is 178. |
+| `description` | Markdown for the drawer, written inline. |
+| `doc` | A path to a Markdown file for the drawer. |
+| `links` | A list of `{ label, url }` shown in the drawer. |
+| `refs` | The source files or URLs the node is based on. |
+| `tags` | Free-form tags. |
+
+## What goes where
+
+**Title and sub.** The title is what a reader would call the thing. Put the technical detail in `sub`: `":4001 · Node.js"`, `"Postgres 16"`, `"OIDC · realm shop"`.
+
+**Lines.** Two or three short phrases about what the node does. A card that needs more than that wants a [node doc](../node-docs/) instead.
+
+**Uses.** A tag line for dependencies that you do not want to draw as arrows. Entries that match a node id become links in the drawer, so `uses: [redis]` on a node leads the reader to the Redis node. This is the tidy way to show that many services share one store. See [fixing layouts](../../layout/fixing-layouts/).
+
+**Chips.** Small labelled boxes inside a card. They suit virtual hosts, routes or ports:
+
+```yaml
+gateway:
+  kind: gateway
+  title: Gateway
+  chips:
+    - { label: app.*, sub: "→ backend :9100" }
+    - { label: api.*, sub: "→ api :8080" }
+```
+
+A chip can also be a plain string.
+
+**Badge.** A numbered marker. Use it to tie a card to a numbered list in the text around the diagram.
+
+## Status
+
+`status` says how real a node is. Anything other than `built` is drawn with a dashed outline and a small tag that names the status. Planned items also add a "Dashed: planned" entry to the legend.
+
+| Status | Use it for |
+|---|---|
+| `built` | Running today. The default. |
+| `planned` | Designed, not built. Readers get a **Hide planned** button that removes planned nodes and their edges. |
+| `legacy` | Still running, being replaced. |
+| `optional` | Only present in some deployments. |
+
+Mark unbuilt work `status: planned` rather than only mentioning it in prose. The diagram then stays true as the system changes, and a scenario can show a planned step dashed. See [steps](../../scenarios/steps/).
+
+## Widths
+
+Cards are 178 px wide by default. Narrow them in dense rows, so five stores do not make a zone huge:
+
+```yaml
+postgres: { kind: database, title: PostgreSQL, in: stores, w: 140 }
+```
+
+<Aside type="note">
+  A card's height comes from its content. docspp renders each card offscreen at its fixed width, measures it, and then lays the diagram out, so a longer title or more lines makes a taller card without any other change.
+</Aside>

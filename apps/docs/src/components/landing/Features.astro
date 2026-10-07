@@ -1,0 +1,82 @@
+---
+import { withBase } from '../../lib/base'
+import Icon from './Icon.astro'
+
+const features = [
+  {
+    icon: 'lucide:workflow',
+    title: 'Automatic layout',
+    text: 'Each zone is laid out on its own and every edge is routed around the boxes. You steer with a few hints, never with coordinates.',
+    href: 'layout/how-it-works/',
+  },
+  {
+    icon: 'lucide:play',
+    title: 'Scenarios that play',
+    text: 'The happy path, a cache miss, a declined card. Step, scrub, change the speed, and share a link to the exact moment.',
+    href: 'scenarios/overview/',
+  },
+  {
+    icon: 'lucide:kanban',
+    title: 'Story and sequence views',
+    text: 'The same steps as swimlanes with phases, or as a sequence diagram. There is no second file to keep in sync.',
+    href: 'scenarios/story-view/',
+  },
+  {
+    icon: 'lucide:layers',
+    title: 'One model, many views',
+    text: 'Write a node once. Show it in an overview, a backend-only slice, or one view per team.',
+    href: 'format/views/',
+  },
+  {
+    icon: 'lucide:book-open',
+    title: 'Docs inside the picture',
+    text: 'Click a box for its markdown, its connections and its source files. An interfaces table is generated from the edges.',
+    href: 'format/node-docs/',
+  },
+  {
+    icon: 'lucide:shapes',
+    title: 'Brand icons',
+    text: 'Thousands of logos and UI icons are bundled at build time. Your own SVG files work too.',
+    href: 'customize/icons/',
+  },
+  {
+    icon: 'lucide:palette',
+    title: 'Themeable',
+    text: 'Light and dark follow the site. Every colour, font and shadow is a CSS variable starting with --docspp-.',
+    href: 'customize/theming/',
+  },
+  {
+    icon: 'lucide:badge-check',
+    title: 'Checked at build time',
+    text: 'docspp check validates every diagram and the build fails on errors, so what is published always renders.',
+    href: 'reference/cli/',
+  },
+  {
+    icon: 'lucide:rocket',
+    title: 'Static and quick to publish',
+    text: 'The output is a static Astro site. The starter ships a GitHub Pages workflow, and any static host works.',
+    href: 'embed/publishing/',
+  },
+]
+---
+
+<section class="lp-section" id="features">
+  <div class="lp-wrap">
+    <div class="lp-head">
+      <p class="lp-eyebrow">What is in the box</p>
+      <h2>Everything a diagram needs to be read, trusted and kept up to date.</h2>
+    </div>
+    <div class="lp-spec">
+      {
+        features.map((f) => (
+          <a href={withBase(f.href)}>
+            <Icon class="lp-ico" name={f.icon} />
+            <Icon class="go" name="lucide:arrow-up-right" />
+            <h3>{f.title}</h3>
+            <p>{f.text}</p>
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</section>

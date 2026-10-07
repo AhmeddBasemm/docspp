@@ -1,0 +1,84 @@
+---
+title: Views
+description: Show a slice of the same model as an overview, a backend-only picture, or a view per team.
+tableOfContents:
+  maxHeadingLevel: 3
+---
+
+import Diagram from '@packagelab/docspp-astro/Diagram.astro'
+
+A view shows part of the model. You write each node once, and views choose which ones appear. This is what keeps a large system maintainable: a picture for newcomers, a picture for the platform team, a picture for one flow, all from the same file.
+
+Without a `views:` block there is one view that shows everything. Add views to offer more.
+
+<Diagram name="checkout" view="backend" />
+
+The tabs above the diagram switch views. This diagram has two:
+
+```yaml
+views:
+  overview:
+    title: Overview
+    keys: true
+    interfaces: true
+    summary: Everything in one picture. Letters on the edges match the interfaces table underneath.
+  backend:
+    title: Backend only
+    include: [backend, stripe]
+    direction: DOWN
+    summary: The same model with the edge layer and the browser left out.
+```
+
+## Fields
+
+| Field | Meaning |
+|---|---|
+| `title` | The tab's label. Defaults to the id. |
+| `summary` | Markdown shown above the diagram. |
+| `include` | `all` (the default) or a list of node and group ids. A group includes its members. |
+| `exclude` | Ids to remove after `include`. |
+| `direction` | `AUTO` (default), `RIGHT`, `DOWN`, `LEFT` or `UP`. |
+| `keys` | Put letters (A, B, C ...) on edges. |
+| `interfaces` | Show the interfaces table under the diagram. |
+
+Edges are included when **both** of their ends are in the view. The first view in the file is the one shown first.
+
+## Choosing what a view includes
+
+```yaml
+views:
+  billing:
+    title: Billing
+    include: [orders, payments-group]   # nodes and groups, by id
+    exclude: [metrics]                  # leave one out
+```
+
+Use groups to keep the list short. If you rename a node or a group, `docspp check` points at every `include` or `exclude` that no longer matches: `"x" is not a node or group`.
+
+## Direction
+
+`direction` sets the main reading direction of the picture. `AUTO` tries left to right and top to bottom and keeps the one that reads larger. Force `DOWN` when the diagram will sit in a narrow column, and `RIGHT` for a wide page.
+
+## Views and scenarios
+
+A scenario plays on **one** view. By default that is the first view; set `view:` on the scenario to pick another. Every node a scenario uses must be in its view, or `docspp check` reports `Node "x" is not in view "v"`.
+
+```yaml
+scenarios:
+  thumbnails:
+    title: Make thumbnails
+    view: processing
+    steps:
+      - queue -> worker: photo.uploaded
+```
+
+When a view has no scenarios, the scenario buttons are not shown. A scenario is listed only on its own view.
+
+## Choosing a view on a page
+
+```mdx
+<Diagram name="checkout" view="backend" />
+<Diagram name="checkout" view="backend" scenario="place-order" />
+```
+
+Readers can still switch views with the tabs. See [the Diagram component](../../embed/diagram-component/).

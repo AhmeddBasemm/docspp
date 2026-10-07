@@ -1,0 +1,85 @@
+---
+title: Errors and warnings
+description: What every message from docspp check means, and the quickest way to fix it.
+sidebar:
+  label: Errors and warnings
+tableOfContents:
+  maxHeadingLevel: 2
+---
+
+import { Aside } from '@astrojs/starlight/components'
+
+`docspp check` and `astro build` report two kinds of message. An **error** stops the build. A **warning** is printed and the build carries on, unless you run `docspp check --strict`.
+
+Every message starts with `file:line:column`. Open that spot first.
+
+```text
+diagrams/checkout/diagram.yaml:5:3  error  Unknown key "titel"
+    Did you mean "title"?
+```
+
+## Errors
+
+### The YAML itself
+
+| Message | Cause and fix |
+|---|---|
+| A YAML parser message, such as `Nested mappings are not allowed in compact mappings` | The file is not valid YAML. The usual cause is an unquoted colon or comma in a value, such as `title: Before: a long row`. Quote the value. |
+| `Unknown key "titel"` or `Unknown keys "a", "b"` | A typo, or a key that does not exist. The hint suggests the closest key; the schema lists the allowed ones. |
+| `Invalid input: expected string, received undefined` | A required field is missing at the path the message names. |
+| `Invalid option: expected one of "request"\|"response"\|...` | The value is not one of the allowed ones. Check the spelling against the [reference](../schema/). |
+| `A scenario needs steps or phases` | The scenario has a title and nothing to play. |
+| `Not a recognised step` | A step is not `a -> b: label`, `at node: label` or `par:` with a list. Check the arrow and the spacing. |
+
+### Nodes, groups and edges
+
+| Message | Cause and fix |
+|---|---|
+| `Node "x" is in unknown group "g"` | `in:` names a group that does not exist. The hint suggests the nearest. |
+| `Group "x" is in unknown group "g"` | The same, on a group. |
+| `Groups are nested in a cycle at "x"` | A group's `in:` chain loops back on itself. |
+| `"x" is not a direct member of group "g"` | An entry in a group's `rows:` is not a node or group whose `in:` is that group. |
+| `"x" appears in rows twice` | The same id is listed twice in `rows:`. |
+| `Edge from "x" is not a node` / `Edge to "x" is not a node` | A typo or an undeclared node. The hint names the nearest id. |
+| `Edge id "e" is used twice` | Give edges distinct ids, or drop the ids. |
+| `Unknown edge kind "x"` | Use a built-in kind or define it under `edgeKinds:`. The hint lists the known kinds. |
+
+### Views and scenarios
+
+| Message | Cause and fix |
+|---|---|
+| `"x" is not a node or group` | An entry in a view's `include` or `exclude` does not exist. |
+| `Scenario "s" uses unknown view "v"` | `view:` names a view that does not exist. |
+| `"x" is not a node` | A step, `via` or `lanes` entry names a node that does not exist. |
+| `Node "x" is not in view "v"` | The scenario plays on a view that leaves the node out. Add it to the view's `include`, or set the scenario's `view:`. |
+| `No path from "a" to "b" in view "v"` | No chain of edges joins them. Declare an edge between them (it can be `hidden: true`), or add `via:` through nodes that are connected. |
+| `A step with at needs a label or a title` | `at x:` needs text: `at x: what happens`. |
+| `Node "x" is already in lane N` | A node is listed in two story lanes. |
+| `Scenario "s" is defined twice` | The id exists in `diagram.yaml` and in `scenarios/s.yaml`. |
+
+## Warnings
+
+| Message | Cause and fix |
+|---|---|
+| `Unknown icon "x"` | Run `docspp icons search x`, then use a suggested name. |
+| `Icon file "x" was not found or is not an SVG` | A `./path.svg` icon that does not exist. Paths are relative to the diagram folder. |
+| `Unknown node kind "x"` | Use a built-in kind or add it under `kinds:`. The hint suggests the nearest. |
+| `Doc file "x" was not found` | A `doc:` path that does not exist. Paths are relative to the diagram folder. |
+| `Edge connects a node to itself and is not drawn` | A self-edge. Use a self step in a scenario to show a node acting on itself. |
+| `"x" appears in the story but is in no lane; it gets its own lane at the end` | A `lanes:` list that leaves out a node the scenario uses. Add it to a lane, or ignore the warning. |
+| `Node "x" cites "path", which does not exist` | A `refs:` path that moved. Update the diagram or the reference. Only `docspp check` reports this. |
+
+<Aside type="tip" title="Fix the first error first">
+  One mistake often causes several messages. A typo in a node id produces an error at every edge and step that uses it. Fix the first, run the check again, and the rest usually disappear.
+</Aside>
+
+## On the site
+
+| Symptom | Check |
+|---|---|
+| `Diagram errors:` and a failed build | Run `docspp check`. The build fails on any diagram error, by design. |
+| `<Diagram name="x"> does not match a diagram` | The folder name is different. The error lists the names that exist. |
+| The diagram shows "Loading diagram…" and never appears | A browser console error. Is `react()` from `@astrojs/react` in `astro.config.mjs`? |
+| The page is narrow and the diagram tiny | Add `@packagelab/docspp-astro/starlight.css` to Starlight's `customCss`. |
+| Fonts differ from the screenshots | The starter uses IBM Plex through Fontsource. Add it, or set `--docspp-sans` and `--docspp-mono`. |
+| Edits to a diagram do not show in `pnpm dev` | Save the file again. If the compiler itself changed after an upgrade, restart the dev server. |

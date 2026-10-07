@@ -1,0 +1,153 @@
+---
+title: Theming
+description: Restyle every diagram by overriding CSS variables. Every colour, font and shadow is a token.
+tableOfContents:
+  maxHeadingLevel: 3
+---
+
+import Diagram from '@packagelab/docspp-astro/Diagram.astro'
+import { Tabs, TabItem, Code, Aside } from '@astrojs/starlight/components'
+
+Diagrams follow the site's light and dark mode. To restyle them, override **tokens**: CSS variables that start with `--docspp-`. Nothing in the renderer uses a colour that is not a token.
+
+Pick a palette to see the same diagram restyled. The snippet under each is the only CSS involved.
+
+<Tabs>
+  <TabItem label="Default">
+    <Diagram name="payments" scenario="pay" maxHeight={380} />
+    <Code lang="css" title="src/styles/custom.css" code={`/* Nothing to write. The defaults follow the site theme. */`} />
+  </TabItem>
+  <TabItem label="Blueprint">
+    <div data-palette="blueprint">
+      <Diagram name="payments" scenario="pay" maxHeight={380} />
+    </div>
+    <Code lang="css" title="src/styles/custom.css" code={`.docspp {
+  --docspp-bg: #0a2540;
+  --docspp-surface: #0f3256;
+  --docspp-zone: #0c2c4c;
+  --docspp-ink: #e6f2ff;
+  --docspp-muted: #9bbfe0;
+  --docspp-line: #35689b;
+  --docspp-accent: #7fd3ff;
+}`} />
+  </TabItem>
+  <TabItem label="Terminal">
+    <div data-palette="terminal">
+      <Diagram name="payments" scenario="pay" maxHeight={380} />
+    </div>
+    <Code lang="css" title="src/styles/custom.css" code={`.docspp {
+  --docspp-bg: #050806;
+  --docspp-surface: #0b110c;
+  --docspp-zone: #08100a;
+  --docspp-ink: #c9f7d3;
+  --docspp-line: #1f4a2b;
+  --docspp-accent: #4ade80;
+  --docspp-sans: var(--docspp-mono);
+}`} />
+  </TabItem>
+  <TabItem label="Ink">
+    <div data-palette="ink">
+      <Diagram name="payments" scenario="pay" maxHeight={380} />
+    </div>
+    <Code lang="css" title="src/styles/custom.css" code={`.docspp {
+  --docspp-bg: #fbfaf8;
+  --docspp-surface: #ffffff;
+  --docspp-zone: #f1f0ed;
+  --docspp-ink: #121212;
+  --docspp-line: #1f1f1f;
+  --docspp-accent: #d4281c;
+  --docspp-shadow: 3px 3px 0 #1f1f1f;
+}`} />
+  </TabItem>
+</Tabs>
+
+## Where to put the CSS
+
+Override tokens under `.docspp` in `src/styles/custom.css` (the file the starter already loads). To style only some diagrams, scope the rule to a wrapper:
+
+```css
+.my-team-docs .docspp {
+  --docspp-accent: #7a4ec4;
+}
+```
+
+```mdx
+<div class="my-team-docs">
+  <Diagram name="checkout" />
+</div>
+```
+
+For dark mode, add a second rule. The site sets `data-theme` on the page, and the renderer follows it:
+
+```css
+.docspp {
+  --docspp-accent: #7a4ec4;
+}
+:root[data-theme='dark'] .docspp {
+  --docspp-accent: #b79bf0;
+}
+```
+
+<Aside type="note" title="Specificity">
+  The renderer's own dark-mode rule is `:root[data-theme='dark'] .docspp`. If you restyle both themes, use the same selector for dark mode so the order of your CSS decides, or make yours more specific.
+</Aside>
+
+## Tokens
+
+### Surfaces and text
+
+| Token | Used for |
+|---|---|
+| `--docspp-bg` | The canvas and frame background. |
+| `--docspp-surface` | Cards, buttons, panels. |
+| `--docspp-surface-2` | Table headers, phase bands, hover states. |
+| `--docspp-zone` | The fill of top-level groups. |
+| `--docspp-ink` | Primary text and the default line colour. |
+| `--docspp-muted` | Secondary text and data lines. |
+| `--docspp-line` | Borders and hairlines. |
+| `--docspp-tile` | The tile behind coloured brand logos. |
+| `--docspp-shadow` | The shadow under cards and panels. |
+
+### Accent and status
+
+| Token | Used for |
+|---|---|
+| `--docspp-accent` | Highlights, the active step, packets, requests. |
+| `--docspp-accent-soft` | Soft accent backgrounds, such as a selected step. |
+| `--docspp-tunnel` | The `tunnel` edge kind. |
+| `--docspp-ok`, `--docspp-ok-soft` | Responses and success. |
+| `--docspp-warn`, `--docspp-warn-soft` | Events, planned and legacy tags. |
+| `--docspp-bad`, `--docspp-bad-soft` | Errors. |
+
+### Behaviour
+
+| Token | Meaning |
+|---|---|
+| `--docspp-dim` | How faded unrelated items get while a reader focuses a box or a scenario plays. `0.5` by default; `1` turns fading off. |
+
+### Fonts
+
+| Token | Meaning |
+|---|---|
+| `--docspp-sans` | Text. Defaults to IBM Plex Sans, then the system font. |
+| `--docspp-mono` | Subtitles, step labels, the interfaces table. Defaults to IBM Plex Mono. |
+
+The starter loads IBM Plex through `@fontsource/ibm-plex-sans` and `@fontsource/ibm-plex-mono`. Change the fonts by loading your own and setting these two tokens.
+
+### Colour families
+
+Each family has two tokens: the accent and a tinted background. See [colours](../colours/).
+
+## Matching your site
+
+If your docs site already has a palette, map the tokens to it once, and diagrams follow when you change it:
+
+```css
+.docspp {
+  --docspp-accent: var(--sl-color-accent);
+  --docspp-ink: var(--sl-color-white);
+  --docspp-surface: var(--sl-color-black);
+}
+```
+
+The full list of defaults is at the top of `packages/react/src/styles.css` in the repository.

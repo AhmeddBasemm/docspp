@@ -1,0 +1,100 @@
+---
+title: Packages
+description: The five published packages, what each is for and what each exports.
+tableOfContents:
+  maxHeadingLevel: 3
+---
+
+import { Aside } from '@astrojs/starlight/components'
+
+docspp is five packages, versioned together. Most people only ever install `create-docspp`, which pulls in the rest.
+
+| Package | Role | You install it |
+|---|---|---|
+| [`create-docspp`](#create-docspp) | Scaffolds a new site: `npm create docspp@latest`. | never; `npm create` runs it |
+| [`docspp`](#docspp) | The command line. | as a dev dependency |
+| [`@packagelab/docspp-astro`](#packagelabdocspp-astro) | The Astro integration and the `<Diagram>` component. | in your site |
+| [`@packagelab/docspp-react`](#packagelabdocspp-react) | The interactive diagram component and its styles. | in your site |
+| [`@packagelab/docspp-core`](#packagelabdocspp-core) | Schema, compiler, layout, router and timeline. | pulled in by the others |
+
+All five need Node 22 or later. All are published under the MIT license.
+
+## create-docspp
+
+```sh
+npm create docspp@latest my-docs
+```
+
+Copies the starter project into a folder that does not exist yet or is empty, filling in its name. The project uses pnpm. It carries its own copy of the template, so it works without any template repository.
+
+## docspp
+
+The `docspp` command. See the [CLI reference](../cli/).
+
+## @packagelab/docspp-astro
+
+| Export | What it is |
+|---|---|
+| `default` | The Astro integration: `docspp({ dir })`. |
+| `./Diagram.astro` | The `<Diagram>` component. |
+| `./starlight.css` | The Starlight bridge stylesheet. |
+| `./virtual` | Types for `virtual:docspp/diagrams`. |
+
+Needs `astro` 6 or later. See [props and options](../props/).
+
+## @packagelab/docspp-react
+
+| Export | What it is |
+|---|---|
+| `DiagramView` | The whole interactive diagram: views, scenarios, canvas, player, step list, drawer. |
+| `NodeCard`, `Icon`, `IconTile` | The building blocks of a card. |
+| `SequenceView` | The sequence presentation of a scenario. |
+| `./styles.css` | The renderer's styles and tokens. |
+
+Needs `react` and `react-dom` 19 or later.
+
+## @packagelab/docspp-core
+
+Two entry points.
+
+### `@packagelab/docspp-core`
+
+Browser-safe: no `node:*`, YAML, Zod or Iconify. This is the part the client bundle gets.
+
+| Area | What it provides |
+|---|---|
+| Types | `CompiledDiagram`, `CompiledNode`, `CompiledEdge`, `CompiledView`, `CompiledScenario`, `Layout` and friends. All plain JSON. |
+| `layoutView` | Places a view's nodes, zones and edges, given measured card sizes. |
+| `routeEdges` | The orthogonal edge router. |
+| `buildStory` | Turns a scenario into the lanes, boxes and links of the story view. |
+| `buildTimeline`, `frameAt` | Turns a scenario into a timeline, and a time into a frame. Pure. |
+| `scopeSvgIds` | Gives an inline SVG's ids a prefix, so two copies on a page do not collide. |
+| Constants | The built-in node and edge kinds, step kind colours and the default card width. |
+
+### `@packagelab/docspp-core/node`
+
+Node only. Everything that reads files or parses YAML.
+
+| Export | What it does |
+|---|---|
+| `loadProject(root, dir?)` | Loads and compiles every diagram under `<root>/<dir>`. Returns `{ diagrams, diagnostics, watch }`. |
+| `compileDiagram(source)` | Compiles one diagram. |
+| `formatDiagnostic(d)` | Formats a diagnostic as `file:line:col  severity  message`. |
+| `resolveIcon(spec)`, `searchIcons(query)` | Find icons in the bundled sets. |
+| `renderMarkdown(md)` | The Markdown renderer used for notes and node docs. Raw HTML is dropped. |
+| `authoringJsonSchema()` | The JSON Schema written by `docspp schema`. |
+| `RootSchema`, `FamilySchema`, `KNOWN_KEYS` | The Zod schema, for tooling. |
+
+<Aside type="caution" title="Keep the entry points apart">
+  Importing `@packagelab/docspp-core/node` from code that ships to the browser pulls YAML, Zod and the icon sets into your bundle. Compile on the server or in a build script, and pass the JSON to the client.
+</Aside>
+
+## Versions
+
+The five packages are versioned together, so upgrade them together:
+
+```sh
+pnpm up "@packagelab/docspp-*" docspp create-docspp --latest
+```
+
+In the docspp repository, each package's `exports` point at TypeScript sources so nothing has to be built to develop. The published packages point at compiled `dist/` files.

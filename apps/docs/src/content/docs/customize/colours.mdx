@@ -1,0 +1,80 @@
+---
+title: Colours and families
+description: The seven colour families, which kinds use them, and how to recolour one.
+tableOfContents:
+  maxHeadingLevel: 3
+---
+
+import Diagram from '@packagelab/docspp-astro/Diagram.astro'
+import { Tabs, TabItem, Aside } from '@astrojs/starlight/components'
+
+A node's **family** sets the stripe along the top of its card and the tint of its icon tile. There are seven: `blue`, `amber`, `violet`, `green`, `teal`, `red` and `slate`. [Kinds](../../format/kinds/) choose a family for you, so every database is green and every service is blue without any work.
+
+<Diagram name="ref-kinds" />
+
+## Choosing a family
+
+```yaml
+nodes:
+  ledger: { kind: service, family: violet, title: Ledger }
+```
+
+`family` on a node wins over the kind's. Groups, kinds and custom kinds accept `family` too:
+
+```yaml
+kinds:
+  ledger: { icon: lucide:book-open, family: amber }
+
+groups:
+  billing: { label: Billing, family: amber }
+```
+
+Use a family to mean something, and keep it consistent: for instance, amber for anything that touches money. A diagram where every box is a different colour says nothing.
+
+## The families
+
+| Family | Default for | Light accent | Dark accent |
+|---|---|---|---|
+| `blue` | Services, gateways, workers, containers, functions | `#2358c4` | `#7ba6ff` |
+| `green` | Databases, caches, storage | `#23744a` | `#74d39b` |
+| `amber` | Queues | `#a85a06` | `#f2a759` |
+| `violet` | Agents, networks, virtual machines | `#6a43bd` | `#b9a0f5` |
+| `teal` | Auth and monitoring | `#0a6f8f` | `#55bcdb` |
+| `slate` | Clients, users, external systems | `#566275` | `#9aa5b5` |
+| `red` | Nothing by default. For things that need attention. | `#a8372d` | `#e8837a` |
+
+## Recolouring a family
+
+Each family is two tokens: `--docspp-<family>` for the accent and `--docspp-<family>-bg` for the tinted background. Override both, and every node of that family follows.
+
+<Tabs>
+  <TabItem label="Default">
+    <Diagram name="checkout" maxHeight={420} />
+  </TabItem>
+  <TabItem label="Services in orange">
+    <div data-palette="brand">
+      <Diagram name="checkout" maxHeight={420} />
+    </div>
+  </TabItem>
+</Tabs>
+
+```css
+.docspp {
+  --docspp-blue: #c2410c;
+  --docspp-blue-bg: #ffedd5;
+}
+:root[data-theme='dark'] .docspp {
+  --docspp-blue: #fb923c;
+  --docspp-blue-bg: #3b1d0a;
+}
+```
+
+Pick a darker accent for light mode and a lighter one for dark mode, so the stripe and icon keep enough contrast on both backgrounds. The `-bg` token should be a very light tint in light mode and a very dark one in dark mode.
+
+<Aside type="tip">
+  Accent colours are used for icons and thin lines, so check them against the surface they sit on, in both themes.
+</Aside>
+
+## Status is not a family
+
+A node's [status](../../format/nodes/#status) (`planned`, `legacy`, `optional`) is drawn with a dashed outline and a tag, whatever its family. The colours for warnings and errors come from the status tokens (`--docspp-warn`, `--docspp-bad`), not from a family. See [theming](../theming/).

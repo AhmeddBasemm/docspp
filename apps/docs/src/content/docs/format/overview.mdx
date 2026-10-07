@@ -1,0 +1,120 @@
+---
+title: The diagram.yaml file
+description: How a diagram file is organised, the shorthand it accepts, and the YAML habits that avoid most errors.
+sidebar:
+  label: Overview
+tableOfContents:
+  maxHeadingLevel: 2
+---
+
+import Diagram from '@packagelab/docspp-astro/Diagram.astro'
+import { CardGrid, LinkCard, Aside } from '@astrojs/starlight/components'
+
+A diagram is one folder under `diagrams/`. The folder name is what you pass to `<Diagram name="...">`.
+
+```text
+diagrams/
+  diagram.schema.json          editor autocomplete (pnpm docspp schema)
+  checkout/
+    diagram.yaml               the model, views and scenarios
+    nodes/<node-id>.md         shown when a reader clicks that node
+    scenarios/<id>.yaml        optional: a long scenario in its own file
+    assets/*.svg               optional: your own icons
+```
+
+## The top-level keys
+
+| Key | Required | What it holds |
+|---|---|---|
+| `title` | yes | The diagram's name. Shown when you pass `showTitle`. |
+| `description` | no | Markdown shown above the first view when you pass `showDescription`. |
+| `nodes` | yes | A map from id to [node](../nodes/). |
+| `groups` | no | A map from id to [group](../groups/): zones and frames. |
+| `edges` | no | A list of [edges](../edges/): the arrows. |
+| `views` | no | A map from id to [view](../views/): slices of the model. |
+| `scenarios` | no | A map from id to [scenario](../../scenarios/overview/): stories that play over a view. |
+| `kinds` | no | Your own node [kinds](../kinds/). |
+| `edgeKinds` | no | Your own edge [kinds](../kinds/). |
+
+Unknown keys are errors, and the message suggests the key you probably meant. That is deliberate: a typo should never silently do nothing.
+
+## A complete file
+
+<Diagram name="hello" scenario="load-page" />
+
+```yaml
+# yaml-language-server: $schema=../diagram.schema.json
+title: Hello, diagrams
+
+nodes:
+  browser: { kind: client, title: Browser }
+  api:     { kind: service, icon: nodejs, title: API, sub: ":3000" }
+  db:      { kind: database, icon: postgresql, title: Database }
+
+edges:
+  - browser -> api: HTTPS
+  - api -> db: { kind: data, label: SQL }
+
+scenarios:
+  load-page:
+    title: Load a page
+    steps:
+      - browser -> api: GET /items
+      - api -> db: { label: SELECT, kind: lookup }
+      - db -> api: rows
+      - api -> browser: 200 OK
+```
+
+## Shorthand
+
+You can write the same thing in a short or a long form. Use whichever reads better; mixing them in one file is fine.
+
+| Where | Short form | Long form |
+|---|---|---|
+| Node | `api: Catalog service` (a string is the title) | `api: { title: Catalog service }` |
+| Group | `backend: Backend` (a string is the label) | `backend: { label: Backend }` |
+| Edge | `- a -> b: HTTPS` | `- { from: a, to: b, label: HTTPS }` |
+| Two-way edge | `- a <-> b` | `- { from: a, to: b, both: true }` |
+| Edge with options | `- a -> b: { kind: data, label: SQL }` | `- { from: a, to: b, kind: data, label: SQL }` |
+| Step | `- a -> b: label` | `- { from: a, to: b, label: label }` |
+| Self step | `- at a: label` | `- { at: a, label: label }` |
+| Parallel steps | `- par: [ ... ]` | `- { type: par, steps: [ ... ] }` |
+
+## YAML habits that avoid most errors
+
+<Aside type="caution" title="Quote anything with a comma or a colon in a flow map">
+  Inside `{ ... }` a comma ends the value, and `: ` starts a new one. Write `{ label: "device → URL, org", kind: lookup }`, not the unquoted form. The same goes for a title that contains a colon: `title: "Before: a long row"`.
+</Aside>
+
+- **Quote ports and times.** `sub: ":8080"` needs quotes, because `:8080` alone is not a string.
+- **Quote values that start with `{`, `[`, `*`, `&`, `!`, `%`, `@` or a backtick.**
+- **Indent with spaces, two per level.** Tabs are not valid YAML.
+- **Use `|` for multi-line text.**
+
+  ```yaml
+  detail: |
+    session cookie → session
+    tokens read from Redis
+  ```
+- **Ids** may contain letters, digits, `_`, `.` and `-`.
+
+## Editor support
+
+Run `pnpm docspp schema` once, then put this on the first line of each diagram:
+
+```yaml
+# yaml-language-server: $schema=../diagram.schema.json
+```
+
+Editors with the YAML language server, including VS Code with the Red Hat YAML extension, then autocomplete every key, show its description and underline mistakes as you type.
+
+## Pages in this section
+
+<CardGrid>
+  <LinkCard title="Nodes" description="The boxes: titles, icons, status, chips and more." href="../nodes/" />
+  <LinkCard title="Groups" description="Zones, frames and tightly packed rows and grids." href="../groups/" />
+  <LinkCard title="Edges" description="The arrows: kinds, labels, keys and hidden edges." href="../edges/" />
+  <LinkCard title="Views" description="Show a slice of the same model." href="../views/" />
+  <LinkCard title="Kinds" description="Built-in node and edge kinds, and how to add your own." href="../kinds/" />
+  <LinkCard title="Node docs" description="What readers see when they click a box." href="../node-docs/" />
+</CardGrid>

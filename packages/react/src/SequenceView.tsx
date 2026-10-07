@@ -1,4 +1,10 @@
-import type { CompiledDiagram, CompiledScenario, CompiledStep } from '@packagelab/docspp-core'
+import {
+  type CompiledDiagram,
+  type CompiledScenario,
+  type CompiledStep,
+  scopeSvgIds,
+} from '@packagelab/docspp-core'
+import { useId } from 'react'
 import { cx, roman } from './util'
 
 interface Props {
@@ -29,6 +35,7 @@ function clip(text: string, max: number): string {
 
 /** The scenario as a classic sequence diagram, derived from the same steps the player runs. */
 export function SequenceView({ diagram, scenario, current, onSeek }: Props) {
+  const uid = useId().replace(/:/g, '')
   const actors: string[] = []
   const see = (id?: string) => {
     if (id && !actors.includes(id)) actors.push(id)
@@ -184,7 +191,7 @@ export function SequenceView({ diagram, scenario, current, onSeek }: Props) {
                   height={20}
                   viewBox={n.icon.viewBox}
                   style={n.icon.mono ? { color: 'var(--docspp-muted)' } : undefined}
-                  dangerouslySetInnerHTML={{ __html: n.icon.body }}
+                  dangerouslySetInnerHTML={{ __html: scopeSvgIds(n.icon.body, `s${uid}-${id}`) }}
                 />
               )}
               <text className="seq-title" x={bx + (n.icon ? 36 : 12)} y={29}>

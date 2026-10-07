@@ -1,0 +1,56 @@
+---
+title: Roadmap
+description: What docspp does today and the ideas that might come next. None of these are promises.
+tableOfContents:
+  maxHeadingLevel: 2
+---
+
+import { Aside } from '@astrojs/starlight/components'
+
+## What it does today
+
+| Area | Shipped |
+|---|---|
+| **Format** | `diagram.yaml` with nodes, groups, edges, views, scenarios, custom kinds and edge kinds. Shorthand for edges and steps. Node docs from Markdown files. Long scenarios from their own files. A JSON Schema for editors. |
+| **Compiler** | YAML to a validated, JSON-serialisable model. Errors with `file:line:col` and "did you mean" hints. Icons bundled at build time. Markdown rendered at build time. |
+| **Layout** | Group by group, bottom up. ELK for flow groups, author-written rows, packed rows and grids, an obstacle-avoiding router for the edges between zones, and an automatic choice of direction. |
+| **Renderer** | Pan, zoom, fit and full screen. Cards with icons, status, chips and badges. Zones and frames. Edge kinds with a generated legend, letter keys, hover focus and a planned-items toggle. A detail drawer. An interfaces table. Light and dark. |
+| **Scenarios** | Several per diagram. Phases, self steps, parallel steps, automatic multi-hop routing, five packet kinds, notes, hidden edges. A player with play, pause, step, scrub and speed. Flow, sequence and swimlane story presentations. A follow camera. Deep links. |
+| **Site** | Astro and Starlight, `<Diagram>`, a GitHub Pages workflow and CI. |
+| **Tooling** | `docspp check`, `list`, `schema`, `icons` and `new`. Stale `refs:` warnings. An agent skill installable with `npx skills add`. |
+
+## Ideas under consideration
+
+These are directions, in no particular order. Open an issue on [GitHub](https://github.com/AhmeddBasemm/docspp/issues) if one matters to you.
+
+### More view types
+
+State diagrams and entity cards with field-level relations. The format reserves `type:` on views for this. The swimlane story is already done, as a presentation of a scenario rather than a view type.
+
+### Forked scenarios
+
+A variant such as "device offline at step 6" that shares the happy path up to a step and then branches, instead of repeating the first steps.
+
+### Export
+
+SVG, PNG and GIF of a scenario, for READMEs and slides.
+
+### Layout in a worker, and at build time
+
+ELK runs on the main thread, so a very large diagram pauses briefly the first time it appears. A worker would remove the pause, and build-time layout would remove ELK from the client entirely for diagrams that do not depend on measured text.
+
+### Visual regression
+
+Playwright screenshots of the examples in both themes, to catch layout changes that unit tests cannot.
+
+### Imports
+
+Mermaid and OpenAPI, so an existing diagram or API description is a starting point rather than a rewrite.
+
+### An MCP server
+
+Exposing `check`, `list` and `icons` as tools, so an agent does not need a shell.
+
+<Aside type="note">
+  Edge `note` and `transport` fields are stored in the compiled data but not shown by the built-in renderer yet.
+</Aside>

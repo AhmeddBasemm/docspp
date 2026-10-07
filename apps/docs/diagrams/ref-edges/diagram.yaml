@@ -1,0 +1,45 @@
+# yaml-language-server: $schema=../diagram.schema.json
+title: Edge kinds
+description: Every built-in kind of line, one custom kind, and an edge that is only drawn when a scenario uses it.
+
+edgeKinds:
+  grpc: { label: gRPC, color: accent, width: 2, dash: "6 4" }
+
+nodes:
+  web: { kind: client, icon: react, title: Web app }
+  api: { kind: service, icon: nodejs, title: API }
+  auth: { kind: auth, icon: keycloak, title: Identity }
+  db: { kind: database, icon: postgresql, title: Database }
+  queue: { kind: queue, icon: rabbitmq, title: Broker }
+  worker: { kind: worker, title: Worker }
+  live: { kind: service, title: Realtime }
+  hub: { kind: network, title: Hub }
+  spoke: { kind: network, title: Spoke }
+  audit: { kind: monitor, title: Audit log }
+
+edges:
+  - { from: web, to: api, label: HTTPS, auth: session cookie, payload: JSON }
+  - { from: api, to: db, kind: data, label: SQL, auth: password, payload: queries }
+  - { from: api, to: auth, kind: grpc, label: Verify, auth: mTLS }
+  - { from: api, to: queue, kind: queue, label: job.created }
+  - { from: queue, to: worker, kind: queue }
+  - { from: web, to: live, kind: ws, label: updates }
+  - { from: api, to: hub, kind: channel, label: agent link, auth: mTLS }
+  - { from: hub, to: spoke, kind: tunnel, label: WireGuard, both: true }
+  - { from: api, to: audit, hidden: true }
+
+views:
+  overview:
+    title: Overview
+    keys: true
+    interfaces: true
+    summary: Letters on the edges match the interfaces table underneath.
+
+scenarios:
+  hidden-edge:
+    title: An edge you do not draw
+    summary: The audit log is not in the picture, but the scenario can still send a packet there.
+    steps:
+      - web -> api: POST /orders
+      - api -> audit: { label: order.created, kind: event }
+      - api -> web: 201 Created

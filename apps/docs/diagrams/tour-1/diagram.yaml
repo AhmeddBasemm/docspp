@@ -1,0 +1,22 @@
+# yaml-language-server: $schema=../diagram.schema.json
+title: Photo uploads
+
+nodes:
+  browser: { kind: client, icon: react }
+  api:     { kind: service, icon: nodejs, title: Upload API }
+  store:   { kind: storage, icon: aws-s3, title: Storage }
+  queue:   { kind: queue, icon: rabbitmq, title: Events }
+  worker:  { kind: worker, icon: python, title: Thumbnailer }
+  db:      { kind: database, icon: postgresql, title: Metadata }
+
+edges:
+  - browser -> api: POST /photos
+  - api -> store: { kind: data, label: PUT }
+  - api -> db: { kind: data, label: SQL }
+  - api -> queue: { kind: queue, label: photo.uploaded }
+  - queue -> worker: { kind: queue }
+  - worker -> store: { kind: data, label: PUT }
+  - worker -> db: { kind: data }
+
+views:
+  overview: { direction: DOWN }

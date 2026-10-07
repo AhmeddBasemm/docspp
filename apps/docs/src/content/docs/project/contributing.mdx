@@ -1,0 +1,86 @@
+---
+title: Contributing
+description: Set up the repository, run the tests, and the rules to follow when you change docspp.
+tableOfContents:
+  maxHeadingLevel: 2
+---
+
+import { Aside } from '@astrojs/starlight/components'
+
+docspp lives in one repository, [AhmeddBasemm/docspp](https://github.com/AhmeddBasemm/docspp): the packages, this documentation site, the starter template and the agent skill. A change to the format and the page that documents it go in one pull request.
+
+This page is the short version. The full guide, with the pull request process, commit style and the code of conduct, is [CONTRIBUTING.md](https://github.com/AhmeddBasemm/docspp/blob/main/CONTRIBUTING.md) in the repository. For security problems, follow [SECURITY.md](https://github.com/AhmeddBasemm/docspp/blob/main/SECURITY.md) instead of opening an issue.
+
+## Set up
+
+```sh
+git clone https://github.com/AhmeddBasemm/docspp
+cd docspp
+pnpm install
+pnpm dev              # this site, at http://localhost:4321
+pnpm dev:template     # the starter project
+```
+
+You need Node 22 or later and pnpm. If an install fails because of pnpm's minimum release age, loosen the version range instead of turning the policy off.
+
+In the repository each package's `exports` point at its TypeScript sources, so nothing has to be built to develop. Layout and renderer changes hot-reload. The compiler is loaded once when the dev server starts, so restart `pnpm dev` after you edit compile code in `packages/core`.
+
+## Commands
+
+```sh
+pnpm test             # unit tests (vitest)
+pnpm test:e2e         # builds the docs and drives them in Chrome (needs Google Chrome)
+pnpm verify:pack      # packs, scaffolds, installs, builds and loads, like a user would
+pnpm typecheck        # tsc everywhere
+pnpm lint             # biome; pnpm format fixes
+pnpm check            # validate the example diagrams in apps/docs and templates/starter
+pnpm build:all        # the packages, the docs and the template
+pnpm changeset        # describe a change for the next release
+```
+
+CI runs lint, typecheck, unit tests, `pnpm check --strict`, `build:all`, the end-to-end tests and `verify:pack`.
+
+## Where things are
+
+| Path | What it is |
+|---|---|
+| `packages/core` | Schema, compiler, layout, router and timeline. No UI. |
+| `packages/react` | `<DiagramView>` and its parts, plus the styles. |
+| `packages/astro` | The Astro integration and `<Diagram>`. |
+| `packages/cli` | The `docspp` command. |
+| `packages/create-docspp` | `npm create docspp`. |
+| `apps/docs` | This site: the landing page, the guides and the live examples. |
+| `templates/starter` | The project new users start from. The source of truth for the template. |
+| `skills/docspp` | The agent skill. |
+
+## Rules
+
+- **Keep core's main entry browser-safe.** No `node:*`, YAML, Zod, Iconify or unified behind `src/index.ts`.
+- **Keep the story model and the timeline pure.** Add behaviour to the model, with a test, not to the component.
+- **Compiled output is JSON.** No functions, classes, Maps or Dates.
+- **Validate in the compiler, not the renderer.** A diagram that compiles must render.
+- **Changing the schema?** Run `pnpm docspp schema apps/docs && pnpm docspp schema templates/starter`. A test fails when the committed `diagram.schema.json` files are stale.
+- **Edit the starter, not a template repository.** The template is generated, and must stay minimal and free of tool documentation.
+- **Keep the skill and the docs in step with the code.** A test checks the skill against the code. Update this site in the same pull request.
+- **Add a changeset** for any user-visible change. The five packages are versioned together.
+
+See [how it works inside](../architecture/) for the reasons behind these.
+
+## Testing a visual change
+
+Unit tests cover geometry: nothing overlaps, edges end on borders, nothing crosses an unrelated node. For anything visual, run `pnpm dev`, open `/examples/checkout/` and `/examples/platform/`, and look at both themes. `pnpm test:e2e` covers playback, the drawer, the sequence and story views, and the landing page.
+
+## Writing documentation
+
+- Every example diagram on this site is a real diagram in `apps/docs/diagrams`. Write a small one for a new idea rather than describing it.
+- Run `pnpm check --strict` after editing a diagram.
+- Use relative links between pages (`../../format/nodes/`).
+- Keep pages about one thing, and add them to the sidebar in `astro.config.mjs`.
+
+## Releasing
+
+Releases use [changesets](https://github.com/changesets/changesets). A change users should hear about gets a changeset (`pnpm changeset`). On `main`, the release workflow turns pending changesets into a "Version packages" pull request, and merging it publishes every package to npm and tags the release.
+
+<Aside type="tip">
+  The repository's [`docs/REPOSITORIES.md`](https://github.com/AhmeddBasemm/docspp/blob/main/docs/REPOSITORIES.md) explains the repository layout, the template repository and releasing in more detail.
+</Aside>

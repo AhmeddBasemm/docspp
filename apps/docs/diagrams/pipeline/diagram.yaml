@@ -1,0 +1,121 @@
+# yaml-language-server: $schema=../diagram.schema.json
+title: From YAML to a playing diagram
+description: |
+  What happens to a diagram between the file you write and the pixels a reader sees.
+  Pick a scenario and press play to follow one diagram all the way through.
+
+groups:
+  source:
+    label: Your project
+    caption: files in git
+  build:
+    label: Build time
+    caption: node
+  browser:
+    label: In the reader's browser
+    caption: the island
+
+nodes:
+  yaml:
+    kind: storage
+    icon: lucide:file-code
+    title: diagram.yaml
+    sub: nodes · edges · scenarios
+    in: source
+  docs:
+    kind: storage
+    icon: lucide:file-text
+    title: nodes/<id>.md
+    sub: shown when a box is clicked
+    in: source
+  compiler:
+    kind: service
+    icon: lucide:cog
+    title: Compiler
+    sub: parse · validate · compile
+    lines: [shorthand expanded, icons bundled, markdown rendered]
+    in: build
+  cli:
+    kind: monitor
+    icon: lucide:terminal
+    title: docspp check
+    sub: errors with file:line:col
+    in: build
+  plugin:
+    kind: gateway
+    icon: astro
+    title: Astro integration
+    sub: virtual:docspp/diagrams
+    lines: [fails the build on errors]
+    in: build
+  json:
+    kind: cache
+    icon: lucide:braces
+    title: CompiledDiagram
+    sub: plain JSON
+    in: build
+  island:
+    kind: ui
+    icon: react
+    title: <Diagram> island
+    sub: hydrates when visible
+    in: browser
+  layout:
+    kind: worker
+    icon: lucide:workflow
+    title: Layout
+    sub: measure · ELK per zone · router
+    in: browser
+  timeline:
+    kind: worker
+    icon: lucide:clock
+    title: Timeline
+    sub: frameAt(t) is pure
+    in: browser
+  view:
+    kind: ui
+    icon: lucide:monitor-play
+    title: Canvas and player
+    sub: packets · steps · drawer
+    in: browser
+  reader:
+    kind: user
+    title: Reader
+
+edges:
+  - yaml -> compiler
+  - docs -> compiler
+  - compiler -> cli: { kind: data, label: diagnostics }
+  - compiler -> plugin
+  - plugin -> json: { kind: data }
+  - json -> island: { label: props }
+  - island -> layout
+  - layout -> view
+  - island -> timeline
+  - timeline -> view
+  - view -> reader
+
+scenarios:
+  build:
+    title: From YAML to a playing diagram
+    summary: The compiler runs once, on the server. Everything the browser needs arrives as JSON, and playback is a clock over a pure function.
+    phases:
+      - title: Write
+        steps:
+          - at yaml: { label: you edit the file, note: "Nodes, edges, views and scenarios. No coordinates." }
+          - yaml -> compiler: { label: parse and validate, note: "Every error carries `file:line:col` and, where it can, a suggestion." }
+          - docs -> compiler: { label: node docs, kind: lookup }
+      - title: Check
+        steps:
+          - compiler -> cli: { label: diagnostics, kind: lookup }
+          - compiler -> plugin: { label: compiled diagrams, note: "In `astro build` an error here stops the build, so a broken diagram never reaches the site." }
+          - plugin -> json: { label: serialise }
+      - title: Draw
+        steps:
+          - json -> island: { label: props, note: "The island loads when the diagram scrolls into view." }
+          - island -> layout: { label: measure cards, note: "Cards are rendered offscreen at their fixed width so their real heights are known." }
+          - par:
+              - layout -> view: { label: positions and routes }
+              - island -> timeline: { label: build the timeline }
+          - timeline -> view: { label: frame at t }
+          - view -> reader: { label: packets fly, kind: response }

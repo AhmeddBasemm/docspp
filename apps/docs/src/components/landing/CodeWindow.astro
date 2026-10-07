@@ -1,0 +1,36 @@
+---
+import { codeToHtml } from 'shiki'
+
+interface Props {
+  code: string
+  lang: string
+  title: string
+  /** 1-based lines to mark as added. */
+  ins?: number[]
+}
+
+const { code, lang, title, ins = [] } = Astro.props
+const added = new Set(ins)
+
+// Highlighted at build time, always on a dark ground, whatever the site theme.
+const html = await codeToHtml(code, {
+  lang,
+  theme: 'vitesse-dark',
+  transformers: [
+    {
+      name: 'docspp-added',
+      line(node, line) {
+        if (added.has(line)) this.addClassToHast(node, 'ins')
+      },
+    },
+  ],
+})
+---
+
+<figure class="lp-win">
+  <figcaption class="lp-win-bar">
+    <span>{title}</span>
+    {ins.length > 0 && <em>{ins.length} new {ins.length === 1 ? 'line' : 'lines'}</em>}
+  </figcaption>
+  <div class="lp-win-body" set:html={html} />
+</figure>

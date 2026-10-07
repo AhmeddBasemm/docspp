@@ -1,0 +1,116 @@
+---
+title: The Diagram component
+description: Put a diagram on a page, choose what it shows first, and control how it behaves.
+tableOfContents:
+  maxHeadingLevel: 3
+---
+
+import Diagram from '@packagelab/docspp-astro/Diagram.astro'
+import { Aside } from '@astrojs/starlight/components'
+
+`<Diagram>` puts a diagram on any `.mdx` page or `.astro` file. The diagram loads when it scrolls into view, so a page with several diagrams stays fast. Until then the page holds a placeholder, because card heights are measured in the browser.
+
+```mdx
+import Diagram from '@packagelab/docspp-astro/Diagram.astro'
+
+<Diagram name="checkout" />
+```
+
+<Diagram name="checkout" showTitle maxHeight={420} />
+
+`name` is the folder name under `diagrams/`. If it does not match, the build stops with the names that exist: `<Diagram name="chekout"> does not match a diagram. Available: checkout, payments, platform`.
+
+## Props
+
+| Prop | Type | Meaning |
+|---|---|---|
+| `name` | string | **Required.** The folder under `diagrams/`. |
+| `view` | string | The view to show first. Defaults to the diagram's first view. |
+| `scenario` | string | The scenario to select first. It waits for the reader unless you add `autoplay`. |
+| `mode` | `flow`, `sequence` or `story` | How the scenario is shown. Defaults to the scenario's own `mode`, then `flow`. |
+| `autoplay` | boolean | Play `scenario` as soon as the diagram is laid out. |
+| `maxHeight` | number | The tallest the canvas may grow before it scrolls inside its frame, in pixels. Default 780. |
+| `showTitle` | boolean | Show the diagram's `title` above it. |
+| `showDescription` | boolean | Show the diagram's `description` above the first view. |
+| `hash` | boolean | Keep the scenario and step in the address bar. Default `true`. |
+
+See the [props reference](../../reference/props/) for the same list in one table.
+
+## Examples
+
+```mdx
+<Diagram name="checkout" view="backend" />
+<Diagram name="checkout" view="backend" scenario="place-order" />
+<Diagram name="checkout" scenario="place-order" mode="sequence" />
+<Diagram name="checkout" scenario="place-order" mode="story" />
+<Diagram name="checkout" showDescription />
+```
+
+### Open on a scenario, and play it
+
+<Diagram name="checkout" scenario="payment-declined" autoplay hash={false} maxHeight={420} />
+
+```mdx
+<Diagram name="checkout" scenario="payment-declined" autoplay hash={false} />
+```
+
+`autoplay` suits one diagram near the top of a page. Readers who ask their system for reduced motion are never autoplayed. Use `hash={false}` on embeds that should not change the address bar, such as a demo.
+
+### Open on a story
+
+```mdx
+<Diagram name="platform" scenario="request-story" mode="story" />
+```
+
+Without `mode`, a scenario opens the way its own `mode:` says. With `mode`, the page decides. The reader can still switch with the buttons beside the player.
+
+### Show the description
+
+`showDescription` puts the diagram's `description` (Markdown, from the YAML) above the views. Examples pages use it to explain what to click.
+
+## The page around it
+
+A diagram wants room. `@packagelab/docspp-astro/starlight.css` widens Starlight's content column and holds ordinary text to a readable width, while diagrams use the full width. Add it to Starlight's `customCss`:
+
+```js
+starlight({
+  customCss: ['@packagelab/docspp-astro/starlight.css'],
+})
+```
+
+For a page that is only a diagram, hide the table of contents so the column is as wide as it can be:
+
+```mdx
+---
+title: Online store checkout
+tableOfContents: false
+---
+```
+
+<Aside type="tip">
+  Do not repeat the diagram in prose. Use the page for what the diagram cannot say: why a choice was made, what to watch for and who to ask.
+</Aside>
+
+## Linking to a moment
+
+When `hash` is on (the default), the address bar follows the selected scenario and step, so readers can share a link to what they are looking at. Opening such a link restores it. The format is `#<diagram>=<scenario>[.<step>]`. See [playback](../../scenarios/playback/).
+
+You can write these links yourself in your prose:
+
+```md
+[the declined card](/examples/checkout/#checkout=payment-declined.3)
+```
+
+## In an Astro page
+
+`<Diagram>` is an ordinary Astro component, so it works in `.astro` files as well:
+
+```astro
+---
+import Diagram from '@packagelab/docspp-astro/Diagram.astro'
+---
+
+<Diagram name="shop" scenario="checkout" />
+```
+
+Do not add a `client:` directive to it. The component already loads its interactive part with `client:visible`.

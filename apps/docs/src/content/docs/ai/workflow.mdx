@@ -1,0 +1,132 @@
+---
+title: Working with an agent
+description: What to ask for, the loop an agent should follow, and how to review what it wrote.
+tableOfContents:
+  maxHeadingLevel: 2
+---
+
+import { Steps, Aside } from '@astrojs/starlight/components'
+
+With the [skill](../skill/) installed, ask for diagrams in your own words. The agent reads your code, writes `diagram.yaml`, checks it, and looks at the result.
+
+## What to ask for
+
+> Add a diagram of how checkout works. The code is in `services/`. Include a scenario for a declined card.
+
+> Write the story view for our login flow, with the identity provider and the session store as one lane.
+
+> `pnpm check` is failing on the payments diagram. Fix it.
+
+> The platform diagram is too wide. Make a second view that shows only the backend.
+
+Name the **code** to read, the **question** the diagram should answer, and the **failures** worth showing. A prompt that says only "diagram our system" gets a diagram of your system as the agent guesses it.
+
+## The loop an agent follows
+
+The agent never has to guess whether a diagram is valid:
+
+<Steps>
+
+1. **See what exists.**
+
+   ```sh
+   pnpm docspp list --json
+   ```
+
+   It lists every diagram with its views and scenarios, so the agent extends a diagram instead of starting a second one for the same system.
+
+2. **Write the model**, then scenarios, reading the code as it goes.
+
+3. **Check.**
+
+   ```sh
+   pnpm docspp check --json
+   ```
+
+   Every message has a file, a line and a column, and often a suggestion:
+
+   ```text
+   diagrams/checkout/diagram.yaml:8:29  warning  Unknown icon "strpe"
+       Run `docspp icons search <name>` to find one.
+   diagrams/checkout/diagram.yaml:13:5  error  Edge to "paymnts" is not a node
+   ```
+
+4. **Find icons** it is unsure of.
+
+   ```sh
+   pnpm docspp icons search kafka
+   ```
+
+5. **Look.** It opens the page, views the rendered diagram with a browser tool if it has one, and fixes crowding with [layout hints](../../layout/hints/), not coordinates.
+
+6. **Finish strictly.**
+
+   ```sh
+   pnpm docspp check --strict
+   ```
+
+</Steps>
+
+## Machine-readable output
+
+`--json` makes the CLI easy for scripts and agents to use. `docspp list --json` returns a summary per diagram:
+
+```json
+{
+  "hello": {
+    "title": "Hello, diagrams",
+    "nodes": 3,
+    "edges": 2,
+    "views": ["main"],
+    "scenarios": [{ "id": "load-page", "view": "main", "steps": 4 }]
+  }
+}
+```
+
+`docspp check --json` returns `ok`, the diagrams it compiled, and a list of diagnostics:
+
+```json
+{
+  "ok": false,
+  "diagnostics": [
+    {
+      "severity": "error",
+      "message": "Unknown key \"titel\"",
+      "file": "diagrams/checkout/diagram.yaml",
+      "line": 5,
+      "col": 3,
+      "path": "nodes.orders",
+      "hint": "Did you mean \"title\"?"
+    }
+  ]
+}
+```
+
+The exit code is `1` when `ok` is false.
+
+## Reviewing what an agent wrote
+
+A diagram that validates can still be wrong. Look for these:
+
+- [ ] **Every node and flow comes from the code or from you**, not from a guess. Open the drawer and check the `refs`.
+- [ ] **The names are the ones your team uses.** Titles are what people say, and `sub` holds the technical detail.
+- [ ] **Planned work is marked `status: planned`.**
+- [ ] **Each scenario tells one story** and has a one-sentence `summary`.
+- [ ] **The diagram is readable at its default zoom.** If it is tiny, it has too much in it.
+- [ ] **The page does not restate the diagram in prose.**
+
+## Keeping diagrams honest over time
+
+Ask for `refs:` on every node. When the code moves, `docspp check` warns about the stale reference, and a reviewer can see what a change to the diagram should have touched.
+
+```yaml
+nodes:
+  orders:
+    refs: [services/orders/src/api.ts]
+```
+
+Run `pnpm docspp check --strict` in CI so warnings fail the build too. The starter's deploy workflow already runs `pnpm check`.
+
+<Aside type="tip">
+  Review a diagram change like a code change: in a pull request, from the YAML diff. A change of one line in a scenario is a visible change in the story.
+</Aside>

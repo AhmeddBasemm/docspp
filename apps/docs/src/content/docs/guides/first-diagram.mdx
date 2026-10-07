@@ -1,0 +1,120 @@
+---
+title: Your first diagram
+description: Build a diagram from scratch in four steps, from a handful of nodes to a scenario you can play.
+tableOfContents:
+  maxHeadingLevel: 2
+---
+
+import Diagram from '@packagelab/docspp-astro/Diagram.astro'
+import { Code, Aside } from '@astrojs/starlight/components'
+import { addedLines } from '../../../lib/diff'
+import step1 from '../../../../diagrams/tour-1/diagram.yaml?raw'
+import step2 from '../../../../diagrams/tour-2/diagram.yaml?raw'
+import step3 from '../../../../diagrams/tour-3/diagram.yaml?raw'
+import step4 from '../../../../diagrams/tour-4/diagram.yaml?raw'
+
+export const clean = (src) => src.replace(/^# yaml-language-server.*\n/, '').trimEnd()
+export const s1 = clean(step1)
+export const s2 = clean(step2)
+export const s3 = clean(step3)
+export const s4 = clean(step4)
+
+We will draw how a photo is uploaded: a browser, an API, object storage, a queue, a worker that makes thumbnails and a database. Each step adds one idea to the same file, and the code blocks mark the lines it adds. The files on this page are real: the diagrams are compiled from them when the site is built.
+
+Create the diagram first:
+
+```sh
+pnpm docspp new photos
+```
+
+Then replace the contents of `diagrams/photos/diagram.yaml` as you follow along.
+
+## 1. Name the parts and connect them
+
+A **node** is a box. Give it a `kind`, which picks a colour and a default icon, and an `icon` when you want a brand logo. The key (`browser`, `api`) is its id. You use ids in edges, groups and scenarios.
+
+An **edge** is an arrow. `a -> b: label` is the short form. Use the object form when you need more, such as a `kind` that changes how the line is drawn.
+
+<Code code={s1} lang="yaml" title="diagrams/photos/diagram.yaml" />
+
+<Diagram name="tour-1" maxHeight={560} />
+
+Nothing here says where a box goes. Hover a box to follow its connections, or click one to open its drawer.
+
+<Aside type="tip" title="Order matters">
+  Declare nodes in reading order: entry points first, stores last. Declaration order decides the order of cards in a layer. See [layout hints](../../layout/hints/).
+</Aside>
+
+The `views:` block at the end asks for a top-to-bottom reading direction, which suits a narrow column. [Views](../../format/views/) explains it.
+
+## 2. Group related parts into a zone
+
+A **group** is a labelled zone. Add one line to define it and `in:` on each node that belongs to it.
+
+<Code code={s2} lang="yaml" title="diagrams/photos/diagram.yaml" ins={addedLines(s1, s2)} />
+
+<Diagram name="tour-2" maxHeight={560} />
+
+Each zone is laid out on its own, so the diagram stays tidy as it grows. Groups can nest: a group with `in:` is drawn as a dashed frame inside its parent. See [groups](../../format/groups/).
+
+## 3. Tell a story
+
+A **scenario** is a list of steps. Each step flies a packet along your edges.
+
+<Code code={s3} lang="yaml" title="diagrams/photos/diagram.yaml" ins={addedLines(s2, s3)} />
+
+<Diagram name="tour-3" scenario="upload" maxHeight={560} />
+
+A few things to notice while it plays:
+
+- `browser -> api` follows the edge you declared. `api -> browser` flies **against** the edge, so docspp draws it as a response without being told.
+- `kind: lookup` marks a quick read of a store. `kind: event` marks something published for others to react to.
+- Click any line in the step list to jump to it. The address bar follows the step, so you can link a colleague to it.
+
+[Scenarios](../../scenarios/overview/) covers steps, phases, notes and the other ways to read the same story.
+
+## 4. Show a slice, and add a second story
+
+A **view** shows part of the model. The new `processing` view keeps four boxes, and a scenario with `view: processing` plays on it.
+
+<Code code={s4} lang="yaml" title="diagrams/photos/diagram.yaml" ins={addedLines(s3, s4)} />
+
+<Diagram name="tour-4" view="processing" scenario="thumbnails" maxHeight={560} />
+
+Use the tabs above the diagram to switch back to the full picture. Nothing was drawn twice: both views come from the same six nodes.
+
+## 5. Document a box
+
+Create `diagrams/photos/nodes/api.md`:
+
+```md
+The only service that talks to the browser.
+
+| Route | What it does |
+|---|---|
+| `POST /photos` | Stores the original and queues thumbnailing. |
+
+It never resizes images itself. See the Thumbnailer.
+```
+
+Click **Upload API** in the diagram and the drawer shows this, followed by the box's connections. [Node docs](../../format/node-docs/) lists the other ways to document a node.
+
+## 6. Check it and put it on a page
+
+```sh
+pnpm check
+```
+
+Then add it to a page in `src/content/docs/`:
+
+```mdx
+import Diagram from '@packagelab/docspp-astro/Diagram.astro'
+
+<Diagram name="photos" scenario="upload" />
+```
+
+## Where next
+
+- Add `status: planned` to a node that does not exist yet. It is drawn dashed, and readers get a **Hide planned** toggle.
+- Write the failure as its own scenario, such as an upload that is too large.
+- Read the [format reference](../../format/overview/) for everything a node, group, edge and view accepts.

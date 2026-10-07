@@ -1,0 +1,28 @@
+# yaml-language-server: $schema=../diagram.schema.json
+title: "After: the stores packed into a grid"
+
+groups:
+  backend:
+    label: Backend
+    rows:
+      - [gateway]
+      - [catalog, orders, search]
+      - [stores]
+  stores: { label: Shared stores, in: backend, layout: grid, columns: 3 }
+
+nodes:
+  gateway: { kind: gateway, icon: nginx, title: Gateway, in: backend }
+  catalog: { kind: service, icon: nodejs, title: Catalog, in: backend, uses: [PostgreSQL, Redis, Prometheus] }
+  orders: { kind: service, icon: dotnet, title: Orders, in: backend, uses: [PostgreSQL, RabbitMQ, Files] }
+  search: { kind: service, icon: python, title: Search, in: backend, uses: [Elasticsearch, Redis] }
+  postgres: { kind: database, icon: postgresql, title: PostgreSQL, in: stores, w: 140 }
+  redis: { kind: cache, icon: redis, title: Redis, in: stores, w: 140 }
+  rabbit: { kind: queue, icon: rabbitmq, title: RabbitMQ, in: stores, w: 140 }
+  files: { kind: storage, icon: aws-s3, title: Files, in: stores, w: 140 }
+  elastic: { kind: database, icon: elasticsearch, title: Elasticsearch, in: stores, w: 140 }
+  metrics: { kind: monitor, icon: prometheus, title: Prometheus, in: stores, w: 140 }
+
+edges:
+  - gateway -> catalog
+  - gateway -> orders
+  - gateway -> search

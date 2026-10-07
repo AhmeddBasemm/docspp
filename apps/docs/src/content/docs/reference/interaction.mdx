@@ -1,0 +1,89 @@
+---
+title: Controls and keyboard
+description: Everything a reader can do with a diagram, with the mouse, the keyboard and a touch screen.
+sidebar:
+  label: Controls and keyboard
+tableOfContents:
+  maxHeadingLevel: 2
+---
+
+import Diagram from '@packagelab/docspp-astro/Diagram.astro'
+
+Everything here works on every diagram without any setup. Try it on this one.
+
+<Diagram name="checkout" scenario="place-order" hash={false} maxHeight={460} />
+
+## The canvas
+
+<dl class="keys">
+  <dt>Drag</dt>
+  <dd>Pan the diagram.</dd>
+  <dt><kbd>Ctrl</kbd> or <kbd>⌘</kbd> + scroll</dt>
+  <dd>Zoom. A plain scroll moves the page, so a diagram never traps the reader.</dd>
+  <dt>Two-finger pinch</dt>
+  <dd>Zoom on a touch screen. One finger scrolls the page.</dd>
+  <dt>− and +</dt>
+  <dd>Zoom out and in, between 0.15× and 3×.</dd>
+  <dt>Fit</dt>
+  <dd>Fit the whole diagram in the frame. It also refits on its own when the frame changes size, until the reader pans or zooms.</dd>
+  <dt>Full screen</dt>
+  <dd>Take the whole component, with the player and the step list, to full screen.</dd>
+  <dt>Hide planned</dt>
+  <dd>Appears when the diagram has planned items. Hides planned nodes and their edges.</dd>
+  <dt>Follow</dt>
+  <dd>Appears while a scenario is selected. Moves the camera to wherever the action is.</dd>
+</dl>
+
+## Boxes and lines
+
+<dl class="keys">
+  <dt>Hover or focus a box</dt>
+  <dd>Highlights the box and everything it connects to, and fades the rest.</dd>
+  <dt>Hover a line</dt>
+  <dd>Highlights the line and its two ends. With an interfaces table, the matching row lights up too.</dd>
+  <dt>Click a box, or <kbd>Enter</kbd> or <kbd>Space</kbd> on a focused one</dt>
+  <dd>Opens the drawer: the box's documentation, connections, links and source files.</dd>
+  <dt>A link in the drawer</dt>
+  <dd>Moves to the connected box.</dd>
+  <dt><kbd>Esc</kbd></dt>
+  <dd>Closes the drawer. Clicking the background closes it too.</dd>
+</dl>
+
+Every box can be reached with <kbd>Tab</kbd>, and has an accessible name that includes its title and subtitle.
+
+## Views and scenarios
+
+<dl class="keys">
+  <dt>View tabs</dt>
+  <dd>Switch between slices of the model. Appear when a diagram has more than one view.</dd>
+  <dt>Scenario buttons</dt>
+  <dd>Select a scenario. **Overview** goes back to the plain diagram. A scenario that a reader selects starts playing, unless the system asks for reduced motion.</dd>
+  <dt>Flow, Sequence, Story</dt>
+  <dd>Switch how the selected scenario is drawn.</dd>
+</dl>
+
+## The player
+
+<dl class="keys">
+  <dt>Play, Pause, Resume, Replay</dt>
+  <dd>One button whose label says what it will do.</dd>
+  <dt>Previous, Next</dt>
+  <dd>Step through one step at a time.</dd>
+  <dt>Scrubber</dt>
+  <dd>Drag to any moment. Playback pauses.</dd>
+  <dt>Speed</dt>
+  <dd>0.5×, 1× or 2×.</dd>
+  <dt>A step in the list</dt>
+  <dd>Click, or <kbd>Enter</kbd> or <kbd>Space</kbd>, to play that step. The path already travelled stays lit.</dd>
+</dl>
+
+## Links and the address bar
+
+The address follows the scenario and step as `#<diagram>=<scenario>.<step>`, so a link opens exactly where it was copied. See [playback](../../scenarios/playback/).
+
+## Accessibility
+
+- Boxes are focusable buttons, and the drawer takes focus when it opens.
+- Controls have labels, and the player is a labelled group.
+- Scenarios start paused for readers who ask for reduced motion. They can still step and scrub.
+- Colour is never the only signal: planned items are dashed and tagged, lookups and errors have their own line styles in the sequence view.

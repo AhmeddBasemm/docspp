@@ -1,0 +1,89 @@
+---
+import { withBase } from '../../lib/base'
+import Icon from './Icon.astro'
+
+const install = 'npx skills add AhmeddBasemm/docspp --skill docspp'
+const points = [
+  {
+    icon: 'lucide:braces',
+    title: 'A published JSON Schema',
+    text: 'docspp schema writes it next to your diagrams. Editors autocomplete every key, and agents stop guessing them.',
+  },
+  {
+    icon: 'lucide:map-pin',
+    title: 'Errors that say where',
+    text: 'File, line and column, with a hint that spells the right key. Add --json and a script can read them.',
+  },
+  {
+    icon: 'lucide:shield-check',
+    title: 'A broken diagram never ships',
+    text: 'The build fails on diagram errors, so a typo is caught on the pull request and not on the live site.',
+  },
+  {
+    icon: 'lucide:link',
+    title: 'References that notice drift',
+    text: 'List the source files a box is based on. docspp check warns when one of them moves.',
+  },
+]
+---
+
+<section class="lp-section lp-band" id="agents">
+  <div class="lp-wrap">
+    <div class="lp-head">
+      <p class="lp-eyebrow">For people and agents</p>
+      <h2>Plain YAML that an agent can write and a machine can check.</h2>
+      <p class="lp-lede">
+        The format is small, the schema is published and the validator is strict. Ask Claude Code, Cursor or
+        Copilot to draw your architecture, and the loop below keeps the result honest.
+      </p>
+    </div>
+
+    <div class="lp-agents-grid">
+      <div class="lp-term" role="img" aria-label="A terminal session: an agent writes a diagram, docspp check reports two problems, the agent fixes them and the check passes.">
+        <div class="lp-term-bar">claude code <span>diagrams/checkout</span></div>
+<pre aria-hidden="true"><span class="you">you</span>    Add a diagram of how checkout works. The code is in services/.
+       Include a scenario for a declined card.
+
+<span class="ai">claude</span> Reading services/orders, services/catalog and the gateway config.
+       Wrote diagrams/checkout/diagram.yaml  <span class="dim">(12 nodes, 4 scenarios)</span>
+
+<span class="dim">$</span> <span class="cmd">pnpm docspp check</span>
+diagrams/checkout/diagram.yaml:8:29  <span class="warn">warning</span>  Unknown icon "strpe"
+    <span class="dim">Run `docspp icons search &lt;name&gt;` to find one.</span>
+diagrams/checkout/diagram.yaml:13:5  <span class="err">error</span>  Edge to "paymnts" is not a node
+1 diagram compiled in .: <span class="err">1 error</span>, <span class="warn">1 warning</span>
+
+<span class="ai">claude</span> Two typos. Fixing both and checking again.
+
+<span class="dim">$</span> <span class="cmd">pnpm docspp check</span>
+1 diagram compiled in .: <span class="ok">0 errors, 0 warnings</span></pre>
+      </div>
+
+      <div>
+        <ul class="lp-points">
+          {
+            points.map((p) => (
+              <li>
+                <Icon name={p.icon} />
+                <div>
+                  <strong>{p.title}</strong>
+                  <p>{p.text}</p>
+                </div>
+              </li>
+            ))
+          }
+        </ul>
+        <div class="lp-agents-cta">
+          <div class="lp-install">
+            <span class="lp-prompt">$</span>
+            <code>{install}</code>
+            <button class="lp-copy" type="button" data-copy={install} aria-label="Copy command">
+              <Icon name="lucide:copy" />
+            </button>
+          </div>
+          <a class="lp-btn lp-btn-ghost" href={withBase('ai/skill/')}>About the skill</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

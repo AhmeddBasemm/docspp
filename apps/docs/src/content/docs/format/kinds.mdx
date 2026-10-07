@@ -1,0 +1,89 @@
+---
+title: Kinds
+description: The built-in node kinds and edge kinds, the colour families they use, and how to define your own.
+tableOfContents:
+  maxHeadingLevel: 3
+---
+
+import Diagram from '@packagelab/docspp-astro/Diagram.astro'
+
+A **kind** is a name that gives a node a default icon and colour family, or gives an edge a line style. Kinds keep a diagram consistent: every database looks like a database without you repeating yourself.
+
+## Node kinds
+
+<Diagram name="ref-kinds" showDescription />
+
+| Kind | Default icon | Family | Use it for |
+|---|---|---|---|
+| `client` | `lucide:monitor` | slate | A browser or app on the reader's device |
+| `user` | `lucide:user` | slate | A person |
+| `ui` | `lucide:layout-dashboard` | slate | A front end |
+| `external` | `lucide:cloud` | slate | A third party: a payment provider, a CDN |
+| `service` | `lucide:server` | blue | A backend service |
+| `gateway` | `lucide:route` | blue | A reverse proxy or API gateway |
+| `worker` | `lucide:cog` | blue | A background worker |
+| `container` | `lucide:container` | blue | A container or pod |
+| `function` | `lucide:square-function` | blue | A serverless function |
+| `database` | `lucide:database` | green | A database |
+| `cache` | `lucide:zap` | green | A cache |
+| `storage` | `lucide:hard-drive` | green | Object or file storage |
+| `queue` | `lucide:list-ordered` | amber | A queue or broker |
+| `agent` | `lucide:bot` | violet | An agent or bot |
+| `network` | `lucide:network` | violet | A network, hub or tunnel end |
+| `vm` | `lucide:box` | violet | A virtual machine |
+| `auth` | `lucide:key-round` | teal | An identity provider |
+| `monitor` | `lucide:activity` | teal | Monitoring or logging |
+
+A node's own `icon` and `family` win over the kind's. An unknown kind gives a warning with the nearest match.
+
+### Your own node kinds
+
+Add or override kinds in the diagram's `kinds:` map:
+
+```yaml
+kinds:
+  ledger: { icon: lucide:book-open, family: amber }
+  service: { icon: lucide:box, family: teal }   # override a built-in
+
+nodes:
+  books: { kind: ledger, title: General ledger }
+```
+
+## Colour families
+
+A family sets a node's accent stripe and its icon tint: `blue`, `amber`, `violet`, `green`, `teal`, `red`, `slate`. The kinds above choose one for you. Set `family:` on a node, a group or a kind to change it. [Colours](../../customize/colours/) shows how to change the colours themselves.
+
+## Edge kinds
+
+| Kind | Meaning | Colour | Width | Dash |
+|---|---|---|---|---|
+| `http` | HTTP request and response (the default) | ink | 1.5 | solid |
+| `channel` | Persistent channel (WebSocket, gRPC) | accent | 2.4 | solid |
+| `tunnel` | Overlay tunnel | tunnel (violet) | 5 | solid |
+| `queue` | Queue or broker | ok (green) | 2 | `2 4` (dotted) |
+| `ws` | WebSocket | ink | 1.6 | `7 4` (dashed) |
+| `data` | Data access | muted | 1.3 | solid |
+
+### Your own edge kinds
+
+```yaml
+edgeKinds:
+  grpc: { label: gRPC, color: accent, width: 2, dash: "6 4" }
+  batch: { label: Nightly batch, color: warn, width: 1.5 }
+
+edges:
+  - { from: api, to: auth, kind: grpc }
+```
+
+| Field | Meaning |
+|---|---|
+| `label` | **Required.** The text in the legend. |
+| `color` | A theme token (`ink`, `accent`, `tunnel`, `muted`, `ok`, `warn`, `bad`) or any CSS colour. |
+| `width` | Line width in pixels. |
+| `dash` | An SVG dash pattern, such as `"6 4"`. Quote it. |
+
+Using a kind that is neither built in nor defined is an error that lists the known kinds.
+
+## Step kinds
+
+Steps in a [scenario](../../scenarios/steps/) have their own kinds, which colour the packet: `request` (the default), `response`, `error`, `lookup` and `event`. They are separate from edge kinds, so a `data` edge can carry a `lookup` step.

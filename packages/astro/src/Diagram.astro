@@ -16,6 +16,10 @@ interface Props {
   showTitle?: boolean
   /** Show the diagram's description above the views. */
   showDescription?: boolean
+  /** Play `scenario` as soon as the diagram scrolls into view. */
+  autoplay?: boolean
+  /** Keep the scenario and step in the URL hash (default true). Turn off for decorative embeds. */
+  hash?: boolean
 }
 
 const { name, ...props } = Astro.props

@@ -1,0 +1,88 @@
+---
+title: Story view and lanes
+description: Read a scenario as swimlanes, with one column per actor, phases as bands and a plain sentence in every box.
+tableOfContents:
+  maxHeadingLevel: 3
+---
+
+import Diagram from '@packagelab/docspp-astro/Diagram.astro'
+
+The **story** is the version of a scenario to put in front of someone who has not seen the system before. It reads as swimlanes: one column per actor, the steps running down the page in order, and the phases as horizontal bands.
+
+<Diagram name="platform" scenario="request-story" />
+
+You do not write a second file. The story is drawn from the same steps as the packets and the sequence diagram. Use the **Flow**, **Sequence** and **Story** buttons beside the player to switch.
+
+## How steps become boxes
+
+Every step becomes a box in the lane where it happens.
+
+| Step | In the story |
+|---|---|
+| `at a: ...` | A box in `a`'s lane. |
+| `a -> b: ...` | A box in `b`'s lane, joined to the box before it by an arrow. If the story is not already at `a`, a small box shows where it starts. |
+| `a -> b: { kind: lookup }` | A dashed box beside the step that asked, in `b`'s lane, with a double-headed dotted arrow. The answer that follows (`b -> a: ...`) is folded into the same box. |
+
+Boxes are numbered 1, 2, 3 along the story. Lookups are not numbered. Click a box to play that step. The numbers match the step list under the player.
+
+## Shaping the lanes
+
+With no extra YAML you get a lane per node, in the order the nodes first appear in the scenario. To shape it, add up to three optional things.
+
+```yaml
+scenarios:
+  request-story:
+    title: One read request, end to end
+    mode: story                 # open as a story; flow and sequence stay one click away
+    lanes:                      # columns, left to right
+      - { title: Operator browser, nodes: [operator] }
+      - { title: Management stores, sub: Redis · Postgres, nodes: [redis, postgres] }
+      - { title: Network, sub: hub ⇒ tunnel ⇒ spoke, nodes: [hub, spoke] }
+    phases:
+      - title: Who, where, may they?
+        caption: on the management side     # shown under the title in the gutter
+        steps:
+          - proxy -> backend:
+              title: Who are you?            # the box heading (defaults to the label)
+              detail: |                      # one to three short lines under it
+                session cookie → session
+                tokens read from Redis
+          - backend -> redis: { label: session + tokens, kind: lookup }
+          - redis -> backend: found
+```
+
+### mode
+
+`mode: story` opens the scenario as a story. Without it, a scenario opens as packets over the diagram (`flow`). Set `mode: sequence` for a sequence diagram. The reader can always switch.
+
+To show a story on a page without the scenario picker, pass `mode` to the component:
+
+```mdx
+<Diagram name="platform" scenario="request-story" mode="story" />
+```
+
+### lanes
+
+A lane has a `title`, an optional `sub` (which defaults to the node's `sub`, or the node titles joined) and the `nodes` it holds. A lane can hold several nodes, which is how you show "the data stores" or "the network" as one column.
+
+List the lanes in the order you want. Nodes you leave out get a lane of their own at the end, and `docspp check` tells you which, so a forgotten node is never silent. A node can be in only one lane.
+
+### title and detail
+
+On a step, `title` is the heading of the box and `detail` is one to three short lines under it. Write them for a person who does not know the system:
+
+| Without | With |
+|---|---|
+| `management-backend -> redis` | **Who are you?** session cookie → session |
+| `Hub-gateway -> nginx (device)` | **Cross the tunnel** same call, same token |
+
+A step without a `title` uses its label, and without a `detail` shows `from → to`.
+
+## Writing a good story
+
+- **Phases carry the narrative.** Name them as questions or stages: "Who, where, may they?", "Across the tunnel", "The answer".
+- **Use lookups for reads of stores.** They fold into side boxes, so the main line stays about what the request does, not about every query.
+- **Write a `summary`.** In the story view it appears as "The story in one breath" above the lanes.
+- **Keep lanes to about eight.** More than that and the story scrolls sideways.
+
+<Diagram name="payments" scenario="declined" mode="story" />

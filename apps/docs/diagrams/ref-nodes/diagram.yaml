@@ -1,0 +1,57 @@
+# yaml-language-server: $schema=../diagram.schema.json
+title: What a node can show
+description: |
+  Every field of a node on one page. **Click a box** to open its drawer: the
+  connections, the `uses` tags that match other nodes, links and source files.
+
+nodes:
+  shop:
+    kind: client
+    icon: react
+    title: Storefront
+    sub: React · Vite
+    badge: 1
+  gateway:
+    kind: gateway
+    icon: nginx
+    title: Gateway
+    sub: ":443"
+    lines: [verifies the JWT, routes by path]
+    chips:
+      - { label: shop.example.com, sub: "→ storefront" }
+      - { label: api.example.com, sub: "→ catalog" }
+    badge: 2
+  catalog:
+    kind: service
+    icon: nodejs
+    title: Catalog
+    sub: ":4001 · Node.js"
+    lines: [products, prices]
+    uses: [redis, postgres]
+    badge: 3
+    description: |
+      Owns **products** and **prices**. Reads go through Redis first.
+
+      | Route | Purpose |
+      |---|---|
+      | `GET /products/:id` | one product |
+      | `GET /products` | a page of products |
+    links:
+      - { label: Runbook, url: https://example.com/runbooks/catalog }
+    refs: [packages/core/src/schema.ts]
+  redis: { kind: cache, icon: redis, title: Redis, sub: product cache }
+  postgres: { kind: database, icon: postgresql, title: PostgreSQL, sub: products · prices }
+  pricing: { kind: service, title: Pricing, sub: PHP 5, status: legacy }
+  recs: { kind: worker, title: Related items, sub: next quarter, status: planned }
+  grafana: { kind: monitor, icon: grafana, title: Grafana, status: optional }
+  ledger: { kind: service, family: violet, title: Ledger, sub: "family: violet" }
+
+edges:
+  - shop -> gateway: HTTPS
+  - gateway -> catalog: /products
+  - catalog -> redis: { kind: data }
+  - catalog -> postgres: { kind: data }
+  - catalog -> pricing
+  - catalog -> recs: { status: planned }
+  - catalog -> ledger
+  - grafana -> catalog: { kind: data, label: scrape }

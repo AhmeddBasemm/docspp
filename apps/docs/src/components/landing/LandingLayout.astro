@@ -1,0 +1,219 @@
+---
+import '@fontsource/ibm-plex-sans/400.css'
+import '@fontsource/ibm-plex-sans/500.css'
+import '@fontsource/ibm-plex-sans/600.css'
+import '@fontsource/ibm-plex-sans-condensed/600.css'
+import '@fontsource/ibm-plex-mono/400.css'
+import '@fontsource/ibm-plex-mono/500.css'
+import '../../styles/palettes.css'
+import '../../styles/landing.css'
+import { withBase } from '../../lib/base'
+import Icon from './Icon.astro'
+import Logo from './Logo.astro'
+
+interface Props {
+  title: string
+  description: string
+}
+const { title, description } = Astro.props
+
+// Social cards need an absolute address, so the image is only linked when `site` is configured.
+const image = Astro.site ? new URL(withBase('og.png'), Astro.site).href : undefined
+
+const github = 'https://github.com/AhmeddBasemm/docspp'
+const nav = [
+  { label: 'Docs', href: withBase('guides/introduction/') },
+  { label: 'Diagram format', href: withBase('format/overview/') },
+  { label: 'Scenarios', href: withBase('scenarios/overview/') },
+  { label: 'Examples', href: withBase('examples/checkout/') },
+  { label: 'Reference', href: withBase('reference/schema/') },
+]
+const footer = [
+  {
+    title: 'Learn',
+    links: [
+      { label: 'Introduction', href: withBase('guides/introduction/') },
+      { label: 'Quick start', href: withBase('guides/getting-started/') },
+      { label: 'Your first diagram', href: withBase('guides/first-diagram/') },
+      { label: 'FAQ', href: withBase('project/faq/') },
+    ],
+  },
+  {
+    title: 'Use',
+    links: [
+      { label: 'Diagram format', href: withBase('format/overview/') },
+      { label: 'Scenarios', href: withBase('scenarios/overview/') },
+      { label: 'Theming', href: withBase('customize/theming/') },
+      { label: 'Working with an agent', href: withBase('ai/workflow/') },
+    ],
+  },
+  {
+    title: 'Project',
+    links: [
+      { label: 'GitHub', href: github },
+      { label: 'npm: create-docspp', href: 'https://www.npmjs.com/package/create-docspp' },
+      { label: 'Roadmap', href: withBase('project/roadmap/') },
+      { label: 'Contributing', href: withBase('project/contributing/') },
+    ],
+  },
+]
+---
+
+<!doctype html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta name="twitter:card" content={image ? 'summary_large_image' : 'summary'} />
+    {image && <meta property="og:image" content={image} />}
+    {image && <meta name="twitter:image" content={image} />}
+    <meta name="color-scheme" content="light dark" />
+    <link rel="icon" href={withBase('favicon.svg')} type="image/svg+xml" />
+    <script is:inline>
+      // Same storage key and rules as Starlight's theme switch, so the choice carries over to the docs.
+      try {
+        const stored = localStorage.getItem('starlight-theme')
+        const theme = stored || (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark')
+        document.documentElement.dataset.theme = theme === 'light' ? 'light' : 'dark'
+      } catch {}
+    </script>
+  </head>
+  <body class="lp">
+    <a class="lp-skip" href="#main">Skip to content</a>
+    <header class="lp-header">
+      <div class="lp-wrap lp-header-row">
+        <a class="lp-brand" href={withBase()} aria-label="docspp home">
+          <Logo />
+          <span>docspp</span>
+        </a>
+        <nav class="lp-nav" aria-label="Main">
+          {nav.map((item) => <a href={item.href}>{item.label}</a>)}
+        </nav>
+        <div class="lp-header-actions">
+          <a class="lp-icon-btn" href={github} aria-label="docspp on GitHub">
+            <Icon name="simple-icons:github" />
+          </a>
+          <button class="lp-icon-btn" type="button" data-theme-toggle aria-label="Switch between light and dark">
+            <Icon class="lp-theme-moon" name="lucide:moon" />
+            <Icon class="lp-theme-sun" name="lucide:sun" />
+          </button>
+          <a class="lp-btn lp-btn-primary lp-btn-sm" href={withBase('guides/getting-started/')}>Get started</a>
+        </div>
+      </div>
+    </header>
+
+    <main id="main"><slot /></main>
+
+    <footer class="lp-footer">
+      <div class="lp-wrap">
+        <div class="lp-footer-grid">
+          <div>
+            <a class="lp-brand" href={withBase()}>
+              <Logo />
+              <span>docspp</span>
+            </a>
+            <p>Architecture diagrams that readers can click, filter and play. Open source under the MIT license.</p>
+          </div>
+          {
+            footer.map((col) => (
+              <div>
+                <h4>{col.title}</h4>
+                <ul>
+                  {col.links.map((l) => (
+                    <li>
+                      <a href={l.href}>{l.label}</a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))
+          }
+        </div>
+        <div class="lp-fineprint">
+          <span>Every diagram on this site is a YAML file, drawn by docspp.</span>
+          <span>MIT license</span>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // Theme toggle. Stores the choice where Starlight keeps it.
+      document.querySelector('[data-theme-toggle]')?.addEventListener('click', () => {
+        const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'
+        document.documentElement.dataset.theme = next
+        try {
+          localStorage.setItem('starlight-theme', next)
+        } catch {}
+      })
+
+      // Copy buttons.
+      for (const button of document.querySelectorAll<HTMLButtonElement>('[data-copy]')) {
+        button.addEventListener('click', async () => {
+          const text = button.dataset.copy ?? ''
+          try {
+            await navigator.clipboard.writeText(text)
+          } catch {
+            const area = document.createElement('textarea')
+            area.value = text
+            document.body.append(area)
+            area.select()
+            document.execCommand('copy')
+            area.remove()
+          }
+          button.dataset.done = 'true'
+          button.setAttribute('aria-label', 'Copied')
+          setTimeout(() => {
+            delete button.dataset.done
+            button.setAttribute('aria-label', 'Copy command')
+          }, 1600)
+        })
+      }
+
+      // Tabs and radio groups. Panels that start hidden are hydrated by their diagram island the
+      // first time they are shown, so each diagram is laid out at the width it is displayed at.
+      for (const group of document.querySelectorAll<HTMLElement>('[data-tabs]')) {
+        // Data attributes, not roles: the diagrams inside the panels have tabs of their own.
+        const tabs = [...group.querySelectorAll<HTMLElement>('[data-tab]')]
+        const panels = [...group.querySelectorAll<HTMLElement>('[data-panel]')]
+        const select = (index: number, focus = false) => {
+          tabs.forEach((tab, i) => {
+            const on = i === index
+            tab.setAttribute('aria-selected', String(on))
+            tab.tabIndex = on ? 0 : -1
+            if (on && focus) tab.focus()
+          })
+          panels.forEach((panel, i) => {
+            panel.hidden = i !== index
+          })
+        }
+        tabs.forEach((tab, i) => {
+          tab.addEventListener('click', () => select(i))
+          tab.addEventListener('keydown', (event) => {
+            const key = (event as KeyboardEvent).key
+            const forward = key === 'ArrowRight' || key === 'ArrowDown'
+            const back = key === 'ArrowLeft' || key === 'ArrowUp'
+            if (!forward && !back) return
+            event.preventDefault()
+            select((i + (forward ? 1 : tabs.length - 1)) % tabs.length, true)
+          })
+        })
+      }
+
+      // Style lab: pick a palette, the diagram below restyles through CSS variables.
+      for (const lab of document.querySelectorAll<HTMLElement>('.lp-lab')) {
+        const buttons = [...lab.querySelectorAll<HTMLElement>('[data-palette-btn]')]
+        for (const button of buttons) {
+          button.addEventListener('click', () => {
+            lab.dataset.palette = button.dataset.paletteBtn
+            for (const b of buttons) b.setAttribute('aria-checked', String(b === button))
+          })
+        }
+      }
+    </script>
+  </body>
+</html>

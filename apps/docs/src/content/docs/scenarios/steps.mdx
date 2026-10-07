@@ -1,0 +1,99 @@
+---
+title: Steps
+description: The three kinds of step, the five packet kinds, and every option a step accepts.
+tableOfContents:
+  maxHeadingLevel: 3
+---
+
+import Diagram from '@packagelab/docspp-astro/Diagram.astro'
+import { Aside } from '@astrojs/starlight/components'
+
+A step is one thing that happens. There are three forms.
+
+| Step | Meaning |
+|---|---|
+| `a -> b: label` | A packet travels from `a` to `b`. |
+| `at a: label` | Node `a` does something. It pulses and shows the caption. |
+| `par: [ ... ]` | The steps inside start together. See [parallel steps](../parallel-and-routes/). |
+
+<Diagram name="ref-steps" scenario="kinds" />
+
+```yaml
+steps:
+  - browser -> api: { label: GET /items, note: The default kind is a request. }
+  - api -> cache: { label: GET items, kind: lookup }
+  - cache -> api: { label: miss, kind: error }
+  - at api: { label: build the answer }
+  - api -> queue: { label: items.read, kind: event }
+  - api -> browser: 200 OK
+```
+
+## Flow steps
+
+`a -> b: label` sends a packet from `a` to `b`. A bare string is a label. Use a map for options: `a -> b: { label: GET /items, kind: lookup }`.
+
+Steps use the edges you declared. If there is no direct edge, the packet takes the shortest route, hop by hop. See [routes](../parallel-and-routes/).
+
+Flying **against** an edge makes the packet a response, so `redis -> catalog` over a `catalog -> redis` edge is drawn green without you saying so. You rarely need to set `kind: response` yourself.
+
+## Self steps
+
+`at a: label` makes one node do something: validate a token, authorise a card, write a row. The node pulses and the label appears beside it. A self step needs a `label` or a `title`.
+
+```yaml
+- at stripe: { label: authorise card, note: The slowest step, and the only one we do not control. }
+```
+
+## Kinds
+
+`kind` colours the packet and says what sort of step it is.
+
+| Kind | Draws as | Use it for |
+|---|---|---|
+| `request` | A teal packet. The default. | The call going out. |
+| `response` | A green packet. | The answer coming back. Set automatically against an edge. |
+| `error` | A red packet. | A failure: a miss, a decline, a timeout. |
+| `lookup` | A grey packet. | A quick read of a store. |
+| `event` | An amber packet. | Something published for others to react to. |
+
+In the [story view](../story-view/), a `lookup` becomes a dashed side box beside the step that asked, so reads of stores do not interrupt the main line of the story.
+
+Step kinds are separate from [edge kinds](../../format/kinds/): a `data` edge can carry a `lookup` step.
+
+## Options
+
+| Option | Meaning |
+|---|---|
+| `label` | The text on the packet and in the step list. |
+| `kind` | `request` (default), `response`, `error`, `lookup` or `event`. |
+| `note` | Markdown explaining the step, shown in the step list. |
+| `status` | `planned` draws the step dashed, with a tag. |
+| `hold` | Extra seconds to pause on the step. |
+| `via` | Force the route through these nodes. Flow steps only. |
+| `title` | The box heading in the [story view](../story-view/). Defaults to the label. |
+| `detail` | One to three short lines under the heading in the story view. Defaults to `from → to`. |
+
+### Planned steps
+
+A step that touches something that is not built yet is drawn dashed:
+
+```yaml
+- queue -> mailer: { label: send receipt, status: planned, note: Planned. Receipts are not sent yet. }
+```
+
+<Diagram name="ref-steps" scenario="planned" />
+
+<Aside type="tip" title="Label what travels">
+  `POST /orders` and `order.created` say more than "sends the order". Put the reason in `note:`: "The gateway has already checked the token, so the order service trusts the user id header."
+</Aside>
+
+## Common mistakes
+
+| Message | Cause |
+|---|---|
+| `Not a recognised step` | The step is not `a -> b`, `at node` or `par`. Check the arrow and the spacing. |
+| `A step with at needs a label or a title` | `at x:` needs text: `at x: what happens`. |
+| `"x" is not a node` | A typo in a step. The hint names the nearest id. |
+| `Invalid option: expected one of "request"\|"response"...` | `kind` is not a step kind. Edge kinds such as `data` do not apply to steps. |
+
+See [errors and warnings](../../reference/errors/) for the full list.

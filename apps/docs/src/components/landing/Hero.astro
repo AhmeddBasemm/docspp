@@ -1,0 +1,68 @@
+---
+import Diagram from '@packagelab/docspp-astro/Diagram.astro'
+import { diagrams } from 'virtual:docspp/diagrams'
+import { withBase } from '../../lib/base'
+import Icon from './Icon.astro'
+
+const demo = diagrams.checkout!
+const nodes = Object.keys(demo.nodes).length
+const scenarios = demo.scenarios.length
+const install = 'npm create docspp@latest my-docs'
+---
+
+<section class="lp-hero">
+  <svg class="lp-wires" viewBox="0 0 760 640" preserveAspectRatio="xMaxYMin slice" aria-hidden="true" focusable="false">
+    <path class="base" d="M760 96H606V236H452V122H336"></path>
+    <path class="packet" d="M760 96H606V236H452V122H336"></path>
+    <path class="base" d="M760 330H664V430H524V350H392"></path>
+    <path class="packet spark" d="M760 330H664V430H524V350H392"></path>
+    <path class="base" d="M700 640V500H560V600H430"></path>
+    <path class="packet" d="M700 640V500H560V600H430"></path>
+    <rect x="282" y="100" width="56" height="40" rx="9"></rect>
+    <rect x="338" y="328" width="56" height="40" rx="9"></rect>
+    <rect x="376" y="580" width="56" height="40" rx="9"></rect>
+    <rect x="424" y="216" width="56" height="40" rx="9"></rect>
+  </svg>
+
+  <div class="lp-wrap">
+    <p class="lp-eyebrow">Open source · MIT · Astro and Starlight</p>
+    <h1>
+      Architecture diagrams you can
+      <span class="lp-play">
+        <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M3.5 1.8v12.4L14 8z" fill="currentColor"></path></svg>press play
+      </span>
+      on.
+    </h1>
+    <p class="lp-lede">
+      Describe your system in YAML. docspp lays it out, documents every box, and replays a request
+      travelling through it, one step at a time. Readers see how it works instead of guessing.
+    </p>
+    <div class="lp-cta">
+      <a class="lp-btn lp-btn-primary" href={withBase('guides/getting-started/')}>
+        Get started
+        <Icon class="lp-arrow" name="lucide:arrow-right" />
+      </a>
+      <a class="lp-btn lp-btn-ghost" href={withBase('guides/introduction/')}>Read the docs</a>
+      <div class="lp-install">
+        <span class="lp-prompt">$</span>
+        <code>{install}</code>
+        <button class="lp-copy" type="button" data-copy={install} aria-label="Copy command">
+          <Icon name="lucide:copy" />
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="lp-wrap lp-stage-wrap">
+    <div class="lp-stage">
+      <div class="lp-stage-bar">
+        <span class="lp-live"><b>checkout</b></span>
+        <span>{nodes} nodes · {scenarios} scenarios · 2 views</span>
+        <span class="lp-hint">The real thing, not a screenshot. Click a box, or hold Ctrl or ⌘ and scroll to zoom.</span>
+      </div>
+      <div class="lp-stage-body">
+        <Diagram name="checkout" scenario="place-order" autoplay hash={false} maxHeight={520} />
+      </div>
+    </div>
+  </div>
+</section>

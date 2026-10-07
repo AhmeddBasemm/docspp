@@ -1,0 +1,132 @@
+---
+title: CLI
+description: "The docspp command line: check, list, schema, icons and new."
+sidebar:
+  label: CLI
+tableOfContents:
+  maxHeadingLevel: 3
+---
+
+import { Aside } from '@astrojs/starlight/components'
+
+The `docspp` command validates diagrams, lists what exists, writes the editor schema, finds icons and scaffolds new diagrams. It is installed as a dev dependency of every docspp project.
+
+```text
+docspp check [root...] [--json] [--strict]  Validate every diagram under <root>/diagrams
+docspp list [root] [--json]                 List diagrams, views and scenarios
+docspp schema [root]                        Write diagrams/diagram.schema.json
+docspp icons search <query>                 Find icon names
+docspp new <name> [root]                    Create diagrams/<name>/diagram.yaml
+```
+
+Run it with your package manager: `pnpm docspp check`, `npx docspp check`, `yarn docspp check`. In a project made from the starter, `pnpm check` is a shortcut for `docspp check`.
+
+## The root
+
+`<root>` is the folder that contains `diagrams/`. It defaults to the current folder. If the current folder has no `diagrams/`, docspp looks in the first `apps/*` or `templates/*` folder that has one, which suits monorepos. Pass a folder to be explicit: `docspp check apps/docs`.
+
+## check
+
+```sh
+pnpm docspp check
+pnpm docspp check --strict
+pnpm docspp check --json
+pnpm docspp check apps/docs templates/starter
+```
+
+Compiles every diagram and prints what is wrong. Each message has the file, line and column, the severity, the message and often a hint:
+
+```text
+diagrams/checkout/diagram.yaml:8:29  warning  Unknown icon "strpe"
+    Run `docspp icons search <name>` to find one.
+diagrams/checkout/diagram.yaml:13:5  error  Edge to "paymnts" is not a node
+1 diagram compiled in .: 1 error, 1 warning
+```
+
+| Option | Effect |
+|---|---|
+| `--strict` | Warnings fail the check too. |
+| `--json` | Prints JSON instead of text. For several roots, the output is `{ ok, projects: [...] }`. |
+| `[root...]` | One or more roots, checked in turn. |
+
+Beyond compiling, `check` warns when a node's `refs:` cite a file that no longer exists. It looks for the path under the root and under the current folder.
+
+**Exit code:** `0` when there are no errors (and, with `--strict`, no warnings). `1` otherwise. The same command is what a CI job should run.
+
+## list
+
+```sh
+pnpm docspp list
+pnpm docspp list --json
+```
+
+Prints each diagram with its node and edge counts, its views and its scenarios with their step counts:
+
+```text
+checkout  Online store checkout
+  12 nodes, 13 edges
+  views:     overview, backend
+  scenarios: browse (7), cache-miss (7), place-order (9), payment-declined (6)
+```
+
+Useful before you add to a diagram, so you extend one instead of starting a second for the same system. `--json` gives the same data as JSON.
+
+## schema
+
+```sh
+pnpm docspp schema
+```
+
+Writes `diagrams/diagram.schema.json`. Reference it from a diagram so editors with the YAML language server autocomplete keys and underline mistakes:
+
+```yaml
+# yaml-language-server: $schema=../diagram.schema.json
+```
+
+Run it again after you upgrade docspp, so the schema matches the version you use.
+
+## icons search
+
+```sh
+pnpm docspp icons search redis
+pnpm docspp icons search "message queue" --json
+```
+
+Finds icon names in the bundled sets. If the query resolves to an icon exactly, that is printed first. Without a match it prints `No matches.` Up to 20 results are shown.
+
+```text
+"redis" resolves to logos:redis
+
+logos:redis
+simple-icons:redis
+logos:heroku-redis
+```
+
+See [icons](../../customize/icons/) for how names are resolved.
+
+## new
+
+```sh
+pnpm docspp new payments
+```
+
+Creates `diagrams/payments/diagram.yaml`, a small working diagram with a scenario, and `diagrams/payments/nodes/api.md`. The name may contain lowercase letters, digits and dashes. It refuses to overwrite an existing folder.
+
+It prints the lines to put on a page:
+
+```mdx
+import Diagram from '@packagelab/docspp-astro/Diagram.astro'
+<Diagram name="payments" />
+```
+
+## Exit codes
+
+| Code | Meaning |
+|---|---|
+| `0` | Success. |
+| `1` | `check` found errors (or warnings with `--strict`), or `new` found the folder already exists. |
+| `2` | Usage error: an unknown command, or a missing argument. |
+
+<Aside type="tip">
+  A project built from the starter already runs `pnpm check` in its deploy workflow. Add `--strict` there if you want warnings to block a merge.
+</Aside>

@@ -35,7 +35,7 @@ export const NodeSchema = z.strictObject({
     .array(ChipSchema)
     .optional()
     .describe('Small boxes inside the card, e.g. virtual hosts.'),
-  w: z.number().int().positive().optional().describe('Card width in px (default 200).'),
+  w: z.number().int().positive().optional().describe('Card width in px (default 178).'),
   description: z.string().optional().describe('Markdown shown in the detail drawer.'),
   doc: z
     .string()

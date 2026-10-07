@@ -37,12 +37,17 @@ export interface DiagramViewProps {
   showTitle?: boolean
   /** Show the diagram's description above the first view. */
   showDescription?: boolean
+  /** Play `scenario` as soon as it is laid out. Ignored when the system asks for reduced motion. */
+  autoplay?: boolean
   /** Keep the selected scenario and step in the URL hash so they can be shared. */
   hash?: boolean
   className?: string
 }
 
 const EMPTY: EdgeState = {}
+
+const prefersReducedMotion = () =>
+  typeof matchMedia !== 'undefined' && matchMedia('(prefers-reduced-motion: reduce)').matches
 
 export function DiagramView({
   diagram,
@@ -52,6 +57,7 @@ export function DiagramView({
   maxHeight = 780,
   showTitle = false,
   showDescription = false,
+  autoplay: autoplayProp = false,
   hash = true,
   className,
 }: DiagramViewProps) {
@@ -101,13 +107,18 @@ export function DiagramView({
   const scenarioActive = !!frame && (player.t > 0 || player.playing)
   const stepIndex = frame?.stepIndex ?? -1
 
-  // Scenario chosen by clicking starts playing; one restored from props or the URL waits for the reader.
-  const autoplay = useRef(false)
+  // A scenario chosen by clicking starts playing, and so does one the page asked to autoplay.
+  // One restored from the URL waits for the reader.
+  const [startPlaying] = useState(
+    () => autoplayProp && scenarioProp !== undefined && !prefersReducedMotion(),
+  )
+  const autoplay = useRef(startPlaying)
   const pendingStep = useRef<number | null>(null)
   // biome-ignore lint/correctness/useExhaustiveDependencies: only react to a new timeline
   useEffect(() => {
     if (!timeline) return
     if (pendingStep.current !== null) {
+      autoplay.current = false
       player.showStep(Math.min(pendingStep.current, timeline.steps.length - 1))
       pendingStep.current = null
     } else if (autoplay.current) {
@@ -117,9 +128,7 @@ export function DiagramView({
   }, [timeline])
 
   const selectScenario = (id: string | null) => {
-    const reduced =
-      typeof matchMedia !== 'undefined' && matchMedia('(prefers-reduced-motion: reduce)').matches
-    autoplay.current = id !== null && !reduced
+    autoplay.current = id !== null && !prefersReducedMotion()
     setScenarioId(id)
     setHover({})
     if (id === null) setMode('flow')

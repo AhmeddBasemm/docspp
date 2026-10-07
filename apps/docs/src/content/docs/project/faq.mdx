@@ -1,0 +1,70 @@
+---
+title: FAQ
+description: Short answers to the questions people ask first.
+tableOfContents:
+  maxHeadingLevel: 2
+---
+
+## Why YAML, and not Mermaid or a drawing tool?
+
+A drawing tool gives you pixels you cannot review or diff. Mermaid gives you text, but a diagram that lays itself out in a fixed way, with no model behind it. docspp keeps a **model** (nodes, groups, edges) separate from **views** and **scenarios**, so you write a thing once and show it several ways. YAML with a JSON Schema also gets editor autocomplete for free and is easy for an agent to write.
+
+## Can readers or I drag boxes to a position?
+
+No. Layout is automatic and you steer it with hints such as `rows`, `layout: grid` and `direction`. That is deliberate: diagrams stay consistent and cannot drift, and nobody spends an afternoon nudging boxes. See [how layout works](../../layout/how-it-works/).
+
+## Do I need Astro or Starlight?
+
+The easiest path is Astro with Starlight, which the starter gives you. `<Diagram>` is an ordinary Astro component, so it works without Starlight. Without Astro at all, you can compile diagrams with `@packagelab/docspp-core/node` and render them with the React component. See [using the React component](../../embed/react/).
+
+## How big can a diagram be?
+
+About 8 to 25 nodes is the sweet spot. A diagram of 30 or more renders small until the reader zooms, goes full screen, or lets the camera follow a scenario. Past that size, make a second [view](../../format/views/) of the same model rather than a bigger picture.
+
+## Does it work without JavaScript?
+
+The page loads, but the diagram is interactive and laid out in the browser, so you see a placeholder until the script runs. The surrounding documentation is ordinary static HTML.
+
+## Can I export an image or a GIF?
+
+Not yet. Export to SVG, PNG and GIF is on the [roadmap](../roadmap/).
+
+## How do I keep diagrams from going stale?
+
+List the files each node is based on with `refs:`. `docspp check` warns when one of them moves. Run `pnpm check --strict` in CI, and review diagram changes in the same pull request as the code. [Working with an agent](../../ai/workflow/) describes the loop.
+
+## Can the same node appear in two diagrams?
+
+A node belongs to one diagram. Within a diagram you can show it in as many [views](../../format/views/) as you like. If two diagrams share many nodes, they probably want to be one diagram with two views.
+
+## Can I use my own icons and colours?
+
+Yes. See [icons](../../customize/icons/) for your own SVG files, and [theming](../../customize/theming/) and [colours](../../customize/colours/) for the tokens.
+
+## Where is my data?
+
+Nowhere but your repository. docspp is a build step and a static site. There is no service to sign up for, and nothing is sent anywhere when a reader opens a diagram.
+
+## Which versions does it need?
+
+Node 22 or later, and pnpm for the starter. In your own site: Astro 6 or later and React 19. It has been used with Astro 7 and Starlight 0.42.
+
+## I get "No path from a to b".
+
+A step needs a route over the edges of the scenario's view. Declare an edge between the two nodes (it can be `hidden: true`) or list intermediate nodes with `via:`. See [parallel steps and routes](../../scenarios/parallel-and-routes/).
+
+## My diagram is tiny.
+
+It has too much in it, or one zone is much wider than the others. [Fixing a crowded diagram](../../layout/fixing-layouts/) lists the usual causes and the smallest change for each.
+
+## How do I upgrade?
+
+```sh
+pnpm up "@packagelab/docspp-*" docspp --latest
+```
+
+The packages are versioned together. Run `pnpm docspp schema` afterwards so editor autocomplete matches, and restart the dev server.
+
+## Is it free?
+
+Yes. docspp is open source under the MIT license.

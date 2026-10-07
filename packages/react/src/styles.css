@@ -134,6 +134,12 @@
   color: inherit;
 }
 
+/* The speed picker is a <select>; without this it keeps the browser's text colour, which is
+   unreadable on a palette that is dark while the site is light. */
+.docspp select {
+  color: inherit;
+}
+
 /* ---------- header controls ---------- */
 
 .docspp-tabs {

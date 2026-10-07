@@ -1,0 +1,120 @@
+---
+title: Add docspp to an existing site
+description: Install docspp into an Astro and Starlight site you already have.
+tableOfContents:
+  maxHeadingLevel: 2
+---
+
+import { Steps, Aside } from '@astrojs/starlight/components'
+
+If you already have an [Astro](https://astro.build) site with [Starlight](https://starlight.astro.build), adding docspp takes a few minutes. For a new site, use the [quick start](../../guides/getting-started/) instead.
+
+<Steps>
+
+1. **Install the packages.**
+
+   ```sh
+   pnpm add @packagelab/docspp-astro @packagelab/docspp-react @astrojs/react react react-dom
+   pnpm add -D docspp
+   ```
+
+   On pnpm 10 or later, allow the build scripts it asks about by adding this to `pnpm-workspace.yaml`:
+
+   ```yaml
+   allowBuilds:
+     esbuild: true
+     sharp: true
+   ```
+
+2. **Register the integrations** in `astro.config.mjs`.
+
+   ```js
+   import react from '@astrojs/react'
+   import starlight from '@astrojs/starlight'
+   import docspp from '@packagelab/docspp-astro'
+   import { defineConfig } from 'astro/config'
+
+   export default defineConfig({
+     integrations: [
+       docspp(),   // compiles diagrams/ at build time; the build fails on a broken diagram
+       react(),
+       starlight({
+         title: 'My docs',
+         // Widens the content column for diagrams and keeps prose at a readable width.
+         customCss: ['@packagelab/docspp-astro/starlight.css'],
+       }),
+     ],
+   })
+   ```
+
+   `docspp({ dir: 'my-diagrams' })` changes the folder, which is `diagrams` by default.
+
+3. **Add the types.** In `src/env.d.ts`:
+
+   ```ts
+   /// <reference types="@packagelab/docspp-astro/virtual" />
+   ```
+
+4. **Create a first diagram.**
+
+   ```sh
+   pnpm docspp new shop
+   pnpm docspp schema        # editor autocomplete for diagram.yaml
+   pnpm docspp check
+   ```
+
+5. **Put it on a page**, such as `src/content/docs/shop.mdx`.
+
+   ```mdx
+   ---
+   title: Shop
+   tableOfContents: false
+   ---
+   import Diagram from '@packagelab/docspp-astro/Diagram.astro'
+
+   <Diagram name="shop" />
+   ```
+
+6. **Check in CI.** Add `"check": "docspp check"` to the `scripts` in `package.json`, and run it before you build.
+
+</Steps>
+
+## Fonts
+
+The starter loads IBM Plex Sans and IBM Plex Mono through Fontsource. To match it:
+
+```sh
+pnpm add @fontsource/ibm-plex-sans @fontsource/ibm-plex-mono
+```
+
+```js
+customCss: [
+  '@fontsource/ibm-plex-sans/400.css',
+  '@fontsource/ibm-plex-sans/600.css',
+  '@fontsource/ibm-plex-mono/400.css',
+  '@packagelab/docspp-astro/starlight.css',
+],
+```
+
+Or use your own fonts and set `--docspp-sans` and `--docspp-mono`. See [theming](../../customize/theming/).
+
+## An Astro site without Starlight
+
+The same steps apply, except for `customCss`. Give the diagram a wide container, since a diagram is wide. `<Diagram>` is a normal Astro component and does not need Starlight.
+
+<Aside type="note" title="Which versions">
+  docspp needs Astro 6 or later and React 19. It has been used with Astro 7 and Starlight 0.42.
+</Aside>
+
+## Check that it works
+
+Run `pnpm dev` and open the page. You should see the diagram, a scenario button and a player. If you do not:
+
+| Symptom | Check |
+|---|---|
+| `<Diagram name="x"> does not match a diagram` | The folder name differs. The error lists the names that exist. |
+| The page says "Loading diagram…" and nothing appears | A browser console error. Is `react()` from `@astrojs/react` in `astro.config.mjs`? |
+| The page is narrow and the diagram tiny | Add `@packagelab/docspp-astro/starlight.css` to Starlight's `customCss`. |
+| Edits to a diagram do not show | Save the file again. If you upgraded docspp, restart the dev server. |
+
+[Errors and warnings](../../reference/errors/) covers what `docspp check` reports.

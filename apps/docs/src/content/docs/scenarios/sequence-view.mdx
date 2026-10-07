@@ -1,0 +1,49 @@
+---
+title: Sequence view
+description: The same scenario as a classic sequence diagram, generated from its steps.
+tableOfContents:
+  maxHeadingLevel: 3
+---
+
+import Diagram from '@packagelab/docspp-astro/Diagram.astro'
+
+The **sequence** view draws a scenario as a sequence diagram: one lifeline per node, one arrow per step, time running down the page. It suits readers who think in lifelines, and it is the quickest way to see who talks to whom, and in what order.
+
+<Diagram name="payments" scenario="pay" mode="sequence" />
+
+Pick **Sequence** beside the player to switch any scenario to it, or open a scenario that way:
+
+```yaml
+scenarios:
+  pay:
+    title: Pay with a card
+    mode: sequence
+```
+
+```mdx
+<Diagram name="payments" scenario="pay" mode="sequence" />
+```
+
+## How it is drawn
+
+- **Lifelines** are the nodes the scenario uses, left to right in the order they first appear. Each heads its column with its icon, title and `sub`.
+- **Arrows** are flow steps, drawn from the sender to the receiver with the step's label above the line. The line style follows the step's kind: solid for requests, dashed green for responses, red for errors, dotted grey for lookups and amber for events. A planned step is dashed.
+- **Self steps** are drawn as a small labelled box on the node's lifeline.
+- **Phases** become labelled bands across the diagram, such as "I · Record it".
+- **Numbers** at the left match the numbers in the step list.
+
+A step that crosses several nodes is drawn as one arrow from the first node to the last. The nodes in between do not get arrows of their own, because the sequence diagram shows what the scenario says, not the route a packet takes. Use the flow view to see the hops.
+
+## Playing it
+
+The player works the same way in every view. Click a row to play that step, press **Play** to run the scenario, or use the scrubber. The row in progress is highlighted.
+
+## When to use it
+
+| You want to | Use |
+|---|---|
+| Show the architecture and how a request moves through it | Flow |
+| Show who talks to whom, and in what order | Sequence |
+| Walk a newcomer through what happens, in words | [Story](../story-view/) |
+
+All three come from the same steps, so there is nothing to keep in sync.

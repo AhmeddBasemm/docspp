@@ -1,0 +1,75 @@
+---
+title: Parallel steps and routes
+description: Steps that start together, how packets find a path, and how to give a scenario a route that is not drawn.
+tableOfContents:
+  maxHeadingLevel: 3
+---
+
+import Diagram from '@packagelab/docspp-astro/Diagram.astro'
+import { Aside } from '@astrojs/starlight/components'
+
+## Parallel steps
+
+Steps listed under `par:` start together. The next step waits for the slowest one.
+
+```yaml
+steps:
+  - browser -> api: POST /orders
+  - par:
+      - api -> db: { label: INSERT order, kind: lookup }
+      - api -> queue: { label: order.created, kind: event }
+  - api -> browser: 201 Created
+```
+
+<Diagram name="ref-steps" scenario="parallel" />
+
+Both packets leave `api` at the same moment. In the step list the two steps are numbered separately. `par` holds flow steps and self steps; nesting a `par` inside a `par` is not allowed.
+
+## Routes
+
+You do not have to declare every hop. If there is no direct edge between the two nodes of a step, the packet takes the **shortest route** over the edges of the scenario's view, one hop at a time. In the example below, `browser -> db` crosses the gateway and the API.
+
+```yaml
+- browser -> db: { label: SELECT, hold: 1 }
+```
+
+<Diagram name="ref-steps" scenario="route" />
+
+The step list says which nodes a packet passed through: "via Gateway, API". Routing follows these rules:
+
+- A route may use an edge **against** its direction. That is how responses find their way back, and it is why `db -> browser` works even though no edge points that way.
+- Forward hops are slightly preferred over reverse ones, so a route that can follow the arrows will. A two-way edge (`<->`) costs the same in both directions.
+- When two routes are equally short, docspp picks one of them. If it picks the wrong one, force the route with `via`.
+
+### Forcing a route
+
+Name the nodes a packet must pass through with `via`:
+
+```yaml
+- browser -> catalog: { label: GET /products/42, via: [cdn, gateway] }
+```
+
+The packet goes `browser → cdn → gateway → catalog`. docspp finds the shortest route from each node to the next, so the nodes in `via` only need to be reachable one after another over the view's edges, which may include hidden ones.
+
+### When there is no route
+
+`No path from "a" to "b" in view "v"` means no chain of edges joins them in that view. Either declare an edge between them, or list intermediate nodes with `via:`. A relationship that matters to the story but not to the picture is the case for a **hidden edge**:
+
+```yaml
+edges:
+  - { from: api, to: audit, hidden: true }
+```
+
+A hidden edge is not drawn and not in the legend, but a step can fly along it. See [edges](../../format/edges/).
+
+<Aside type="caution" title="Every node a step uses must be in the view">
+  A scenario plays on one view. If a step mentions a node that the view leaves out, `docspp check` reports `Node "x" is not in view "v"`. Add the node to the view's `include`, or set `view:` on the scenario. See [views](../../format/views/).
+</Aside>
+
+## Pauses
+
+`hold: 1` adds a second of pause on a step, which gives a reader time to read a note or look at a surprising hop. Use it sparingly.
+
+## Timing
+
+Packets move at a constant speed over the laid-out edges, with a minimum time per hop, so long edges take longer than short ones and a scenario feels the same on any diagram. Readers can switch the player between 0.5×, 1× and 2×. Playback is a pure function of time, which is why scrubbing and stepping are exact. See [playback](../playback/).

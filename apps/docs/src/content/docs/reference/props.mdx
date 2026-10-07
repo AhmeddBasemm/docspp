@@ -1,0 +1,77 @@
+---
+title: Component props and options
+description: Every prop of the Diagram component and the DiagramView component, and the options of the Astro integration.
+sidebar:
+  label: Props and options
+tableOfContents:
+  maxHeadingLevel: 3
+---
+
+## \<Diagram\>
+
+Imported from `@packagelab/docspp-astro/Diagram.astro`. See [the Diagram component](../../embed/diagram-component/) for how to use it.
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `name` | string | **required** | The folder name under `diagrams/`. The build stops with the available names if it does not match. |
+| `view` | string | the first view | The view to show first. |
+| `scenario` | string | | The scenario to select first. |
+| `mode` | `'flow' \| 'sequence' \| 'story'` | the scenario's `mode`, then `flow` | How the scenario is shown. |
+| `autoplay` | boolean | `false` | Play `scenario` as soon as the diagram is laid out. Ignored when the reader prefers reduced motion. |
+| `maxHeight` | number | `780` | The tallest the canvas may grow before it scrolls inside its frame, in pixels. The canvas is as tall as the diagram needs, between 300 px and this limit. |
+| `showTitle` | boolean | `false` | Show the diagram's `title`. |
+| `showDescription` | boolean | `false` | Show the diagram's `description` above the first view. |
+| `hash` | boolean | `true` | Keep the scenario and step in the URL hash. |
+
+The component loads its interactive part with `client:visible`. Do not add a `client:` directive.
+
+## \<DiagramView\>
+
+Imported from `@packagelab/docspp-react`. The same component, for use outside Astro. See [using the React component](../../embed/react/).
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `diagram` | `CompiledDiagram` | **required** | One compiled diagram: plain JSON from `loadProject`. |
+| `view` | string | the first view | The view to show first. |
+| `scenario` | string | | The scenario to select first. |
+| `mode` | `'flow' \| 'sequence' \| 'story'` | the scenario's `mode`, then `flow` | How the scenario is shown. |
+| `autoplay` | boolean | `false` | Play `scenario` once it is laid out. |
+| `maxHeight` | number | `780` | The tallest the canvas may grow, in pixels. |
+| `showTitle` | boolean | `false` | Show the diagram's title. |
+| `showDescription` | boolean | `false` | Show the diagram's description above the first view. |
+| `hash` | boolean | `true` | Keep the scenario and step in the URL hash so they can be shared. |
+| `className` | string | | An extra class on the root element. |
+
+## The Astro integration
+
+```js
+import docspp from '@packagelab/docspp-astro'
+
+docspp({ dir: 'diagrams' })
+```
+
+| Option | Type | Default | Description |
+|---|---|---|---|
+| `dir` | string | `'diagrams'` | The folder with one sub-folder per diagram, relative to the project root. |
+
+The integration compiles that folder into a virtual module, fails `astro build` on any diagram error, prints warnings, and reloads the dev server when a diagram file changes. Restart `pnpm dev` after upgrading docspp, because the compiler is loaded once at startup.
+
+### The virtual module
+
+```ts
+import { diagrams, diagnostics } from 'virtual:docspp/diagrams'
+```
+
+| Export | Description |
+|---|---|
+| `diagrams` | A map from diagram name to `CompiledDiagram`. Also the default export. |
+| `diagnostics` | Every error and warning from the last compile. |
+
+Add `/// <reference types="@packagelab/docspp-astro/virtual" />` to `src/env.d.ts` for the types. This is how a page can read a diagram's metadata at build time, for example to show how many nodes it has.
+
+## Stylesheets
+
+| File | What it is |
+|---|---|
+| `@packagelab/docspp-react/styles.css` | The renderer's styles and every `--docspp-*` token. Imported by `<Diagram>` for you. |
+| `@packagelab/docspp-astro/starlight.css` | Widens Starlight's content column for diagrams and holds prose to a readable width. Add it to Starlight's `customCss`. |

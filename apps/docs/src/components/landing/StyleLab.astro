@@ -1,0 +1,150 @@
+---
+import Diagram from '@packagelab/docspp-astro/Diagram.astro'
+import CodeWindow from './CodeWindow.astro'
+import { scopeSvgIds } from '@packagelab/docspp-core'
+import { resolveIcon } from '@packagelab/docspp-core/node'
+import { withBase } from '../../lib/base'
+
+const palettes = [
+  {
+    id: 'default',
+    label: 'Default',
+    swatch: ['#0a6f8f', '#e9eef2'],
+    css: `/* Nothing to write: follows the site theme. */
+.docspp {
+  --docspp-accent: #0a6f8f;
+}`,
+  },
+  {
+    id: 'blueprint',
+    label: 'Blueprint',
+    swatch: ['#7fd3ff', '#0a2540'],
+    css: `.docspp {
+  --docspp-bg: #0a2540;
+  --docspp-surface: #0f3256;
+  --docspp-zone: #0c2c4c;
+  --docspp-ink: #e6f2ff;
+  --docspp-muted: #9bbfe0;
+  --docspp-line: #35689b;
+  --docspp-accent: #7fd3ff;
+}`,
+  },
+  {
+    id: 'terminal',
+    label: 'Terminal',
+    swatch: ['#4ade80', '#050806'],
+    css: `.docspp {
+  --docspp-bg: #050806;
+  --docspp-surface: #0b110c;
+  --docspp-zone: #08100a;
+  --docspp-ink: #c9f7d3;
+  --docspp-line: #1f4a2b;
+  --docspp-accent: #4ade80;
+  --docspp-sans: var(--docspp-mono);
+}`,
+  },
+  {
+    id: 'ink',
+    label: 'Ink',
+    swatch: ['#d4281c', '#fbfaf8'],
+    css: `.docspp {
+  --docspp-bg: #fbfaf8;
+  --docspp-surface: #ffffff;
+  --docspp-zone: #f1f0ed;
+  --docspp-ink: #121212;
+  --docspp-line: #1f1f1f;
+  --docspp-accent: #d4281c;
+  --docspp-shadow: 3px 3px 0 #1f1f1f;
+}`,
+  },
+]
+
+const logos = [
+  'postgresql', 'redis', 'kafka', 'rabbitmq', 'kubernetes', 'docker', 'nginx', 'terraform',
+  'grafana', 'prometheus', 'elasticsearch', 'mongodb', 'nodejs', 'go', 'python', 'rust',
+  'typescript', 'react', 'astro', 'graphql', 'cloudflare', 'stripe', 'keycloak', 'github-actions',
+].map((name) => {
+  const { icon } = resolveIcon(name)
+  if (!icon) throw new Error(`Landing page icon "${name}" does not resolve`)
+  return { name, icon, body: scopeSvgIds(icon.body, `wall-${name}`) }
+})
+---
+
+<section class="lp-section" id="style">
+  <div class="lp-wrap">
+    <div class="lp-head">
+      <p class="lp-eyebrow">Make it yours</p>
+      <h2>Restyle every diagram with a handful of CSS variables.</h2>
+      <p class="lp-lede">
+        Every colour, font and shadow in a diagram is a <code class="lp-inline-code">--docspp-*</code> token. Pick a
+        palette and the diagram below changes. The snippet beside it is all the CSS that did it.
+      </p>
+    </div>
+
+    <div class="lp-lab" data-palette="default">
+      <div class="lp-palettes" role="radiogroup" aria-label="Palette">
+        {
+          palettes.map((p) => (
+            <button
+              class="lp-palette"
+              type="button"
+              role="radio"
+              aria-checked={p.id === 'default'}
+              data-palette-btn={p.id}
+            >
+              <span class="lp-swatch" aria-hidden="true">
+                <i style={`background:${p.swatch[0]}`} />
+                <i style={`background:${p.swatch[1]}`} />
+              </span>
+              {p.label}
+            </button>
+          ))
+        }
+      </div>
+      <div class="lp-lab-grid">
+        <div class="lp-stage">
+          <div class="lp-stage-body lp-compact">
+            <Diagram name="payments" scenario="pay" autoplay hash={false} maxHeight={420} />
+          </div>
+        </div>
+        <div>
+          <div class="lp-lab-code">
+            {
+              palettes.map((p) => (
+                <div data-palette-code={p.id}>
+                  <CodeWindow code={p.css} lang="css" title="src/styles/custom.css" />
+                </div>
+              ))
+            }
+          </div>
+          <p class="lp-lab-note">
+            Dark mode takes its own set under <code class="lp-inline-code">:root[data-theme='dark'] .docspp</code>.
+            {' '}<a href={withBase('customize/theming/')}>Every token is listed in the theming guide.</a>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="lp-wall-head">
+      <div>
+        <p class="lp-eyebrow">Icons</p>
+        <h3>Your stack is already in the box.</h3>
+      </div>
+      <p>
+        <code class="lp-inline-code">icon: postgresql</code> finds the logo. Brand logos, monochrome marks and
+        generic UI icons are bundled at build time, so nothing is fetched in the browser.{' '}
+        <a href={withBase('customize/icons/')}>How icons are found</a>.
+      </p>
+    </div>
+    <ul class="lp-wall" aria-label="Some of the bundled logos">
+      {
+        logos.map(({ name, icon, body }) => (
+          <li class={icon.mono ? 'mono' : ''}>
+            <svg viewBox={icon.viewBox} aria-hidden="true" focusable="false" set:html={body} />
+            <code>{name}</code>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

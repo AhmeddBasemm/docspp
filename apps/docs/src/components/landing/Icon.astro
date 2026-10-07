@@ -1,0 +1,21 @@
+---
+import { resolveIcon } from '@packagelab/docspp-core/node'
+
+interface Props {
+  /** Any name `docspp icons search` finds: `lucide:copy`, `simple-icons:github`, `postgresql`. */
+  name: string
+  class?: string
+}
+
+const { name, class: className } = Astro.props
+const { icon } = resolveIcon(name)
+if (!icon) throw new Error(`Icon "${name}" was not found in the bundled icon sets.`)
+---
+
+<svg
+  class={className}
+  viewBox={icon.viewBox}
+  aria-hidden="true"
+  focusable="false"
+  set:html={icon.body}
+/>

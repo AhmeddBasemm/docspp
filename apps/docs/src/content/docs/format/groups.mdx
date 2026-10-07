@@ -1,0 +1,83 @@
+---
+title: Groups
+description: Zones and frames that organise nodes, and the layout options that pack them.
+tableOfContents:
+  maxHeadingLevel: 3
+---
+
+import Diagram from '@packagelab/docspp-astro/Diagram.astro'
+import { Aside } from '@astrojs/starlight/components'
+
+A group collects related nodes into a labelled area, such as "Edge", "Backend" or "Kubernetes · namespace shop". Groups are the entries of the `groups:` map. A node joins a group with `in:`.
+
+<Diagram name="ref-groups" />
+
+```yaml
+groups:
+  edge:     { label: Edge, caption: CDN and gateway }
+  backend:  { label: Backend, caption: Kubernetes }
+  services: { label: Services, in: backend, layout: grid, columns: 2 }
+  stores:   { label: Shared stores, in: backend, layout: row }
+
+nodes:
+  gateway: { kind: gateway, title: Gateway, in: edge }
+  catalog: { kind: service, title: Catalog, in: services }
+```
+
+A bare string is a label: `backend: Backend`.
+
+## Fields
+
+| Field | Meaning |
+|---|---|
+| `label` | **Required.** Shown in capitals in the group's corner. |
+| `caption` | Muted text after the label: a network, a runtime, a namespace. |
+| `in` | The id of the parent group. |
+| `layout` | `flow` (default), `row` or `grid`. |
+| `columns` | The column count for `grid`, or where a `row` wraps. |
+| `rows` | Explicit rows of member ids, top to bottom. |
+| `direction` | `AUTO` (default), `RIGHT` or `DOWN`. For a top-level group. |
+| `family`, `status`, `icon` | As for [nodes](../nodes/). |
+
+## Zones and frames
+
+A **top-level** group is drawn as a filled **zone**. A group with `in:` is drawn as a dashed **frame** inside its parent. Nest as deep as you like. A cycle (`a` in `b` in `a`) is an error.
+
+## Three ways to arrange the members
+
+### flow, the default
+
+Members are laid out automatically, with arrows deciding the order. Use it for cards that connect to each other.
+
+### rows
+
+`rows` places members exactly as you write them, one row per entry. Each row is spread across the group's width. It is how people draw a stack: gateway, then services, then stores.
+
+```yaml
+groups:
+  backend:
+    label: Backend
+    rows:
+      - [gateway]
+      - [catalog, orders, search]
+      - [stores]
+```
+
+Every entry must be a **direct member**, a node or a group whose `in:` is this group. Nodes in a `rows` group are still connected by their own arrows.
+
+### row and grid
+
+`layout: row` and `layout: grid` pack members tightly with no space for arrows between them. They suit cards that need no arrows of their own, such as a row of data stores or a grid of services.
+
+```yaml
+stores: { label: Shared stores, in: backend, layout: row }
+services: { label: Services, in: backend, layout: grid, columns: 3 }
+```
+
+<Aside type="caution" title="Arrows to packed members end on the group's border">
+  Because the members of a `row` or `grid` group sit close together, an edge to one of them is drawn to the edge of the group, not to the card. If the arrow must reach the card, put the cards in a `flow` or `rows` group instead. For a store that many services share, drop the arrows and use `uses:` tags. [Fixing layouts](../../layout/fixing-layouts/) shows this.
+</Aside>
+
+## Direction
+
+A top-level group lays its members out left to right or top to bottom, whichever comes out squarer. Force one with `direction: RIGHT` or `direction: DOWN`. A view has its own `direction` that applies to the arrangement of the zones. See [views](../views/).

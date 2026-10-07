@@ -1,0 +1,91 @@
+---
+title: Edges
+description: The arrows between nodes, with their kinds, labels, keys and the interfaces table.
+tableOfContents:
+  maxHeadingLevel: 3
+---
+
+import Diagram from '@packagelab/docspp-astro/Diagram.astro'
+import { Aside } from '@astrojs/starlight/components'
+
+An edge is a relationship between two nodes: a request, a subscription, a tunnel. Edges are a list under `edges:`. A scenario flies its packets along them.
+
+<Diagram name="ref-edges" />
+
+## Writing an edge
+
+```yaml
+edges:
+  - browser -> cdn: HTTPS                       # from -> to: label
+  - api <-> cache                               # arrows at both ends
+  - { from: api, to: db, kind: data, label: SQL, auth: password, payload: queries }
+  - { from: api, to: audit, hidden: true }      # not drawn until a scenario uses it
+```
+
+The first form is the short one. Add options by turning the label into a map: `- a -> b: { kind: data, label: SQL }`. In the long form, `from` and `to` are required.
+
+## Fields
+
+| Field | Meaning |
+|---|---|
+| `from`, `to` | Node ids. Required in the long form. |
+| `label` | Short text on the line: a protocol, a route, an event name. |
+| `kind` | The line style. See below. |
+| `both` | An arrow at both ends. Same as `<->`. |
+| `hidden` | Not drawn and not in the legend, but scenarios can fly along it. |
+| `status` | `built`, `planned`, `legacy` or `optional`. Planned edges are dashed and can be hidden by the reader. |
+| `key` | A letter shown on the line and in the interfaces table. |
+| `auth`, `payload` | Columns of the interfaces table: how the call is authenticated and what travels over it. |
+| `transport`, `note` | Free text and Markdown kept with the edge in the compiled data. The built-in renderer does not show them yet. |
+| `id` | Optional. Defaults to the edge's position. Ids must be unique. |
+
+An edge from a node to itself is not drawn, and docspp warns about it.
+
+## Kinds
+
+`kind` picks the line style. The legend under each diagram is generated from the kinds the diagram uses, so you never maintain it.
+
+| Kind | Draws as | Use it for |
+|---|---|---|
+| `http` | Thin solid line. The default. | Requests and responses. |
+| `channel` | Teal line. | A persistent connection: a WebSocket upgrade, gRPC, a control channel. |
+| `tunnel` | Thick violet line. | An overlay network such as WireGuard or IPsec. |
+| `queue` | Green dotted line. | A broker: messages, events, jobs. |
+| `ws` | Dashed line. | WebSocket traffic. |
+| `data` | Thin grey line. | Access to a data store. |
+
+Define your own under `edgeKinds:`:
+
+```yaml
+edgeKinds:
+  grpc: { label: gRPC, color: accent, width: 2, dash: "6 4" }
+```
+
+`color` is a theme token (`ink`, `accent`, `tunnel`, `muted`, `ok`, `warn`, `bad`) or any CSS colour. `dash` is an SVG dash pattern. See [kinds](../kinds/).
+
+## Hidden edges
+
+Some relationships matter to a scenario and would only clutter the picture: every service writing to an audit log, say. Mark the edge `hidden: true`. It is not drawn and not in the legend, but a step can fly along it. In the diagram above, press play on **An edge you do not draw**.
+
+<Aside type="tip">
+  Hidden edges also give a scenario a path where none is visible. If a step reports "No path from a to b", declare an edge between them and hide it. See [parallel steps and routes](../../scenarios/parallel-and-routes/).
+</Aside>
+
+## Keys and the interfaces table
+
+Letters on edges link the picture to a table. Turn both on in a [view](../views/):
+
+```yaml
+views:
+  overview:
+    keys: true          # letters A, B, C ... on the edges
+    interfaces: true    # a table of every edge under the diagram
+```
+
+The table lists each edge's key, its two ends, its kind, its `auth` and what travels over it: the `payload`, or the `label` when there is no payload. Hidden edges are left out. Hover a row to highlight the edge, or hover an edge to highlight its row. The table in the example above comes straight from the edges' `auth` and `payload` fields, so it cannot drift from the picture.
+
+Assign a key yourself with `key:` if you need a letter to stay the same when edges are added.
+
+## Edges and groups
+
+An edge to a member of a `row` or `grid` group ends on the group's border. See [groups](../groups/).

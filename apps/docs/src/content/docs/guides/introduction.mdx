@@ -1,0 +1,82 @@
+---
+title: What is docspp
+description: Architecture diagrams described in YAML, laid out automatically and playable. What it is, what you write and what readers get.
+sidebar:
+  label: Introduction
+tableOfContents:
+  maxHeadingLevel: 2
+---
+
+import Diagram from '@packagelab/docspp-astro/Diagram.astro'
+import { CardGrid, LinkCard } from '@astrojs/starlight/components'
+
+docspp is a tool for documentation sites. You describe a system in a YAML file. docspp lays the diagram out, draws it, documents every box, and can replay a request travelling through it, step by step.
+
+The diagrams are not images. They are part of the page, so readers can click, filter and play them.
+
+<Diagram name="checkout" scenario="cache-miss" />
+
+Press **Play** above, or click any box. Everything on the page, from the cards to the step list under the picture, was generated from one YAML file.
+
+## What readers get
+
+- **A diagram they can explore.** Hover a box to follow its connections. Click it to read its documentation, see where it connects and find the source files it is based on.
+- **Stories, not just pictures.** Scenarios replay a request through the system: the happy path, a cache miss, a declined card. Readers can pause, step, scrub, change the speed and share a link to the exact moment.
+- **The right amount of detail.** Views show a slice of the same model: the whole system, the backend only, one team's part.
+- **Light and dark.** Diagrams follow the site theme and are styled with a few CSS variables.
+
+## What you write
+
+You write a **model**, some **views** of it, and **scenarios** that play over a view. Each thing is written once and reused.
+
+| Part | What it is | Where it lives |
+|---|---|---|
+| **Model** | The nodes (boxes), groups (zones) and edges (arrows) of your system. | `diagram.yaml` |
+| **Views** | Slices of the model. Without any, one view shows everything. | `diagram.yaml` |
+| **Scenarios** | Ordered steps that play over a view. | `diagram.yaml`, or one file each in `scenarios/` |
+| **Node docs** | Markdown shown when a reader clicks a box. | `nodes/<id>.md` |
+
+There are no coordinates in any of it. Layout is automatic, and you steer it with a few hints when the default is not what you want. [How layout works](../../layout/how-it-works/) explains the hints.
+
+```yaml
+nodes:
+  browser: { kind: client, title: Browser }
+  api:     { kind: service, icon: nodejs, title: API, sub: ":3000" }
+  db:      { kind: database, icon: postgresql, title: Database }
+
+edges:
+  - browser -> api: HTTPS
+  - api -> db: { kind: data, label: SQL }
+
+scenarios:
+  load-page:
+    title: Load a page
+    steps:
+      - browser -> api: GET /items
+      - api -> db: { label: SELECT, kind: lookup }
+      - db -> api: rows
+      - api -> browser: 200 OK
+```
+
+## How the pieces fit
+
+The compiler runs once, on the server, when you build the site. It validates the YAML and turns it into plain JSON. The browser receives that JSON, lays the diagram out, and plays scenarios with a small clock. Pick the scenario below to follow one diagram through the whole pipeline.
+
+<Diagram name="pipeline" scenario="build" />
+
+[How it works inside](../../project/architecture/) describes each stage.
+
+## When to use it
+
+docspp suits diagrams that explain how a system **behaves**: which service calls which, what travels over each line, and what happens when something fails. It works well for platform and architecture documentation, onboarding guides, runbooks and design reviews.
+
+It is not a drawing tool. You cannot drag boxes to a position, and very large diagrams (more than about 30 nodes) render small until the reader zooms. If you need a free-form whiteboard or pixel-exact artwork, use a drawing tool. If you want diagrams that stay in git, review like code and cannot drift from the text around them, use docspp.
+
+## Where to go next
+
+<CardGrid>
+  <LinkCard title="Quick start" description="Create a project and see it running in a minute." href="../getting-started/" />
+  <LinkCard title="Your first diagram" description="Build a small diagram step by step, from nodes to a playing scenario." href="../first-diagram/" />
+  <LinkCard title="Diagram format" description="Every field of nodes, groups, edges and views." href="../../format/overview/" />
+  <LinkCard title="Scenarios" description="Tell the story of a request, step by step." href="../../scenarios/overview/" />
+</CardGrid>

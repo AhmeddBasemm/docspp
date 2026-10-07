@@ -1,0 +1,56 @@
+# yaml-language-server: $schema=../diagram.schema.json
+title: Step kinds
+description: One small system and four scenarios, one for each thing a step can do.
+
+nodes:
+  browser: { kind: client, icon: react, title: Browser }
+  gateway: { kind: gateway, icon: nginx, title: Gateway }
+  api: { kind: service, icon: nodejs, title: API }
+  cache: { kind: cache, icon: redis, title: Redis }
+  db: { kind: database, icon: postgresql, title: Database }
+  queue: { kind: queue, icon: rabbitmq, title: Broker }
+  mailer: { kind: worker, title: Mailer, status: planned }
+
+edges:
+  - browser -> gateway: HTTPS
+  - gateway -> api
+  - api -> cache: { kind: data }
+  - api -> db: { kind: data }
+  - api -> queue: { kind: queue }
+  - queue -> mailer: { kind: queue, status: planned }
+
+scenarios:
+  kinds:
+    title: Packet kinds
+    summary: A packet is a request unless you say otherwise. Flying against an edge makes it a response.
+    steps:
+      - browser -> api: { label: GET /items, note: "The default kind is `request`. There is no direct edge, so the packet goes through the gateway." }
+      - api -> cache: { label: GET items, kind: lookup }
+      - cache -> api: { label: miss, kind: error }
+      - at api: { label: build the answer, note: "`at` makes one node do something. It pulses and shows the caption." }
+      - api -> queue: { label: items.read, kind: event }
+      - api -> browser: { label: 200 OK, note: "No `kind` is needed: this flies against the edges, so it is drawn as a response." }
+  parallel:
+    title: Parallel steps
+    summary: Steps inside `par` start together. The next step waits for the slowest one.
+    steps:
+      - browser -> api: POST /orders
+      - par:
+          - api -> db: { label: INSERT order, kind: lookup }
+          - api -> queue: { label: order.created, kind: event }
+      - api -> browser: 201 Created
+  route:
+    title: Routes and pauses
+    summary: Without a direct edge the packet takes the shortest route. `hold` pauses on a step.
+    steps:
+      - browser -> db:
+          label: SELECT
+          note: "No edge joins the browser and the database, so the packet takes the shortest route, hop by hop."
+          hold: 1
+      - db -> browser: rows
+  planned:
+    title: Planned work
+    summary: A step on something that is not built yet is drawn dashed.
+    steps:
+      - api -> queue: { label: order.created, kind: event }
+      - queue -> mailer: { label: send receipt, status: planned, note: Planned. Receipts are not sent yet. }

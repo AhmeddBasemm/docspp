@@ -1,0 +1,23 @@
+---
+import Agents from '../components/landing/Agents.astro'
+import Features from '../components/landing/Features.astro'
+import Hero from '../components/landing/Hero.astro'
+import LandingLayout from '../components/landing/LandingLayout.astro'
+import Lenses from '../components/landing/Lenses.astro'
+import Start from '../components/landing/Start.astro'
+import StyleLab from '../components/landing/StyleLab.astro'
+import Tour from '../components/landing/Tour.astro'
+---
+
+<LandingLayout
+  title="docspp: architecture diagrams you can press play on"
+  description="Describe your system in YAML. docspp lays it out, documents every box and replays a request travelling through it, step by step."
+>
+  <Hero />
+  <Tour />
+  <Lenses />
+  <StyleLab />
+  <Agents />
+  <Features />
+  <Start />
+</LandingLayout>

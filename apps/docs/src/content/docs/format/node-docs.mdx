@@ -1,0 +1,98 @@
+---
+title: Node docs
+description: What readers see when they click a box, and the ways to write it.
+tableOfContents:
+  maxHeadingLevel: 3
+---
+
+import Diagram from '@packagelab/docspp-astro/Diagram.astro'
+import { Aside } from '@astrojs/starlight/components'
+
+Clicking a box opens its **drawer**: the documentation you wrote for it, then its connections, the `uses` tags and the links and source files you listed. Press <kbd>Esc</kbd> to close it. The picture is for orientation, and the drawer is where the detail goes.
+
+<Diagram name="checkout" />
+
+Click **API gateway** or **order-service** above to see two examples.
+
+## Write it in a Markdown file
+
+Create `diagrams/<name>/nodes/<node-id>.md`. docspp picks it up automatically.
+
+```md title="diagrams/checkout/nodes/gateway.md"
+The only public entry point into the cluster.
+
+- Verifies the JWT against Keycloak's signing keys, cached for ten minutes
+- Rate limits per user: **60 requests per minute**
+- Adds the `X-User-Id` header that the services trust
+```
+
+Markdown supports headings, lists, tables, task lists, links and fenced code. Raw HTML is dropped on purpose, because compiled docs are injected into the page.
+
+````md title="diagrams/checkout/nodes/orders.md"
+**States**
+
+| State | Meaning |
+|---|---|
+| `pending` | stored, not yet charged |
+| `paid` | the payment intent succeeded |
+
+```http
+POST /orders
+Authorization: Bearer <jwt>
+```
+````
+
+A front matter block at the top of the file is ignored.
+
+## Or write it in the YAML
+
+For a sentence or two, `description:` keeps everything in one place:
+
+```yaml
+nodes:
+  cache:
+    kind: cache
+    title: Redis
+    description: Holds product pages for **60 seconds**. Safe to flush.
+```
+
+To use a file with a different name or location, point `doc:` at it. The path is relative to the diagram's folder:
+
+```yaml
+nodes:
+  cache:
+    doc: ../shared/redis.md
+```
+
+A missing `doc` file is a warning, not an error. If a node has neither a doc nor a `description`, the drawer shows its `lines` instead, or a hint to add a `nodes/<id>.md`.
+
+## Everything else in the drawer
+
+| Field | Shown as |
+|---|---|
+| `links` | A **Links** list. `- { label: Runbook, url: https://... }` |
+| `refs` | A **Source** list of the files the node is based on. |
+| `uses` | A **Uses** list. An entry that matches a node id is a link to that node. |
+| Edges | A **Connections** list: outgoing (`→`) and incoming (`←`), each a link to the other node. |
+
+### Keep the docs honest with refs
+
+List the source files a node is based on:
+
+```yaml
+nodes:
+  orders:
+    refs: [services/orders/src/api.ts, services/orders/src/states.ts:40]
+```
+
+`docspp check` warns when a listed file no longer exists: `Node "orders" cites "services/orders/src/api.ts", which does not exist`. Line suffixes such as `:40` or `#L40` are accepted, and URLs are left alone. A reviewer can then see what a change to the code should have touched in the diagram.
+
+<Aside type="tip">
+  Documentation for a connection lives on the edge: `auth` and `payload` fill the [interfaces table](../edges/) under the diagram.
+</Aside>
+
+## What to write
+
+- Say what the node **owns**, and what it deliberately does not do.
+- Give the facts a person would otherwise ask in chat: limits, timeouts, states, who to ask.
+- Do not repeat what the diagram already shows. The drawer lists the connections for you.

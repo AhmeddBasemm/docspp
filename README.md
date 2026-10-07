@@ -91,13 +91,16 @@ pnpm docspp check --strict  # treat warnings as errors, for CI
 
 | Guide | What it covers |
 |---|---|
-| [Getting started](https://ahmeddbasemm.github.io/docspp/guides/getting-started/) | create a project, add a diagram, publish it |
-| [Writing diagrams](https://ahmeddbasemm.github.io/docspp/guides/writing-diagrams/) | nodes, groups, edges, views and layout hints |
-| [Scenarios](https://ahmeddbasemm.github.io/docspp/guides/scenarios/) | step types, parallel steps, flow, sequence and story views |
-| [Icons and theming](https://ahmeddbasemm.github.io/docspp/guides/icons-and-theming/) | icon sets, your own SVGs, the `--docspp-*` CSS tokens |
-| [Authoring with AI](https://ahmeddbasemm.github.io/docspp/guides/ai-authoring/) | the schema, the CLI and the skill |
+| [Quick start](https://ahmeddbasemm.github.io/docspp/guides/getting-started/) | create a project, add a diagram, publish it |
+| [Diagram format](https://ahmeddbasemm.github.io/docspp/format/overview/) | nodes, groups, edges, views, kinds and node docs |
+| [Scenarios](https://ahmeddbasemm.github.io/docspp/scenarios/overview/) | steps, phases, routes, and the flow, sequence and story views |
+| [Layout](https://ahmeddbasemm.github.io/docspp/layout/how-it-works/) | how diagrams are laid out, and the hints that steer it |
+| [Customize](https://ahmeddbasemm.github.io/docspp/customize/theming/) | icon sets, your own SVGs, the `--docspp-*` CSS tokens |
+| [Embed and publish](https://ahmeddbasemm.github.io/docspp/embed/diagram-component/) | the `<Diagram>` component, existing sites, GitHub Pages |
+| [AI agents](https://ahmeddbasemm.github.io/docspp/ai/skill/) | the schema, the CLI and the skill |
+| [Reference](https://ahmeddbasemm.github.io/docspp/reference/schema/) | every field, the CLI, props, errors and controls |
 
-Live, playable examples: [checkout](https://ahmeddbasemm.github.io/docspp/examples/checkout/), [platform](https://ahmeddbasemm.github.io/docspp/examples/platform/) and [payments](https://ahmeddbasemm.github.io/docspp/examples/payments/).
+Live, playable examples: [checkout](https://ahmeddbasemm.github.io/docspp/examples/checkout/), [platform](https://ahmeddbasemm.github.io/docspp/examples/platform/) and [payments](https://ahmeddbasemm.github.io/docspp/examples/payments/). The site's source is in [`apps/docs`](apps/docs); add a page there in the same pull request as the change it documents.
 
 ## Use it with an AI agent
 

@@ -1,24 +1,44 @@
 ---
-title: Getting started
-description: Create a project and draw your first diagram.
+title: Quick start
+description: Create a docspp project, edit your first diagram and publish it.
 tableOfContents:
   maxHeadingLevel: 2
 ---
 
 import Diagram from '@packagelab/docspp-astro/Diagram.astro'
+import { Steps, Aside } from '@astrojs/starlight/components'
+
+You need Node 22 or later and [pnpm](https://pnpm.io). The scaffolded project uses pnpm, and `npm create` only runs the scaffolder.
 
 ## Create a project
 
-```sh
-npm create docspp@latest my-docs
-cd my-docs
-pnpm install
-pnpm dev
-```
+<Steps>
 
-The site opens on `http://localhost:4321` with a small shop diagram and three scenarios. Edit `diagrams/shop/diagram.yaml`, save, and the page reloads.
+1. Scaffold the project.
 
-You need Node 22 or later and [pnpm](https://pnpm.io). If you would rather start from the source, copy `templates/starter` from the [docspp repository](https://github.com/AhmeddBasemm/docspp).
+   ```sh
+   npm create docspp@latest my-docs
+   ```
+
+2. Install and start it.
+
+   ```sh
+   cd my-docs
+   pnpm install
+   pnpm dev
+   ```
+
+3. Open `http://localhost:4321`. You see a small shop diagram with three scenarios.
+
+4. Open `diagrams/shop/diagram.yaml`, change a title, and save. The page reloads.
+
+</Steps>
+
+If you would rather start from the source, copy `templates/starter` from the [docspp repository](https://github.com/AhmeddBasemm/docspp).
+
+<Aside type="note">
+  The folder must not exist yet, or must be empty.
+</Aside>
 
 ## What you get
 
@@ -32,7 +52,9 @@ my-docs/
 ├─ src/content/docs/*.mdx     your pages; embed a diagram with <Diagram name="shop" />
 ├─ src/styles/custom.css      theme tokens
 ├─ .github/workflows/         publishes to GitHub Pages
-└─ .claude/skills/            a skill that teaches Claude Code the format
+├─ .claude/skills/            a skill that teaches Claude Code the format
+├─ astro.config.mjs
+└─ package.json
 ```
 
 Everything you write lives in three places:
@@ -43,6 +65,8 @@ Everything you write lives in three places:
 | `diagrams/<name>/nodes/<id>.md` | Markdown shown when a reader clicks that box |
 | `src/content/docs/**/*.mdx` | The pages around your diagrams |
 
+[Project structure](../project-structure/) explains each file.
+
 ## Draw your first diagram
 
 ```sh
@@ -50,7 +74,7 @@ pnpm docspp new payments
 pnpm docspp schema
 ```
 
-That creates `diagrams/payments/diagram.yaml`. Here is a small one:
+The first command creates `diagrams/payments/diagram.yaml` with a small working example. The second writes the JSON Schema that gives your editor autocomplete. Here is a similar diagram:
 
 ```yaml
 title: Hello, diagrams
@@ -84,7 +108,7 @@ import Diagram from '@packagelab/docspp-astro/Diagram.astro'
 
 <Diagram name="hello" scenario="load-page" />
 
-Press play, click a box, or drag the canvas. Hold <kbd>Ctrl</kbd> or <kbd>⌘</kbd> and scroll to zoom.
+Press play, click a box, or drag the canvas. Hold <kbd>Ctrl</kbd> or <kbd>⌘</kbd> and scroll to zoom. [Your first diagram](../first-diagram/) builds a larger one step by step.
 
 ## Check your work
 
@@ -93,8 +117,25 @@ pnpm check          # validate every diagram; errors point at file:line:column
 pnpm check --json   # the same, for scripts and agents
 ```
 
-The build fails when a diagram has errors, so broken diagrams never reach your published site.
+The build fails when a diagram has errors, so a broken diagram never reaches your published site. [The CLI reference](../../reference/cli/) lists every command.
 
 ## Publish
 
-The template ships a GitHub Actions workflow that builds the site and deploys it to GitHub Pages. Enable Pages in your repository settings and set the source to **GitHub Actions**.
+The project ships a GitHub Actions workflow that builds the site and deploys it to GitHub Pages.
+
+<Steps>
+
+1. Push the project to GitHub.
+2. Open **Settings → Pages** and set the source to **GitHub Actions**.
+3. Push to `main`. The workflow builds the site and publishes it.
+
+</Steps>
+
+[Publishing](../../embed/publishing/) covers custom domains and other hosts.
+
+## Next steps
+
+- [Your first diagram](../first-diagram/): build one from scratch.
+- [Diagram format](../../format/overview/): every field, with live examples.
+- [Scenarios](../../scenarios/overview/): the part readers remember.
+- [Working with an AI agent](../../ai/workflow/): let an agent draw your architecture from your code.

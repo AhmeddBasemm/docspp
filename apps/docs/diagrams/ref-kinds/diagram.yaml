@@ -1,0 +1,31 @@
+# yaml-language-server: $schema=../diagram.schema.json
+title: Built-in node kinds
+description: Every node kind that ships with docspp, grouped by the colour family it uses. The kind alone gives the icon and the stripe.
+
+groups:
+  slate: { label: Slate, layout: grid, columns: 2 }
+  blue: { label: Blue, layout: grid, columns: 2 }
+  green: { label: Green, layout: grid, columns: 2 }
+  amber: { label: Amber, layout: grid, columns: 1 }
+  violet: { label: Violet, layout: grid, columns: 2 }
+  teal: { label: Teal, layout: grid, columns: 2 }
+
+nodes:
+  client: { kind: client, title: client, in: slate, w: 150 }
+  user: { kind: user, title: user, in: slate, w: 150 }
+  ui: { kind: ui, title: ui, in: slate, w: 150 }
+  external: { kind: external, title: external, in: slate, w: 150 }
+  service: { kind: service, title: service, in: blue, w: 150 }
+  gateway: { kind: gateway, title: gateway, in: blue, w: 150 }
+  worker: { kind: worker, title: worker, in: blue, w: 150 }
+  container: { kind: container, title: container, in: blue, w: 150 }
+  function: { kind: function, title: function, in: blue, w: 150 }
+  database: { kind: database, title: database, in: green, w: 150 }
+  cache: { kind: cache, title: cache, in: green, w: 150 }
+  storage: { kind: storage, title: storage, in: green, w: 150 }
+  queue: { kind: queue, title: queue, in: amber, w: 150 }
+  agent: { kind: agent, title: agent, in: violet, w: 150 }
+  network: { kind: network, title: network, in: violet, w: 150 }
+  vm: { kind: vm, title: vm, in: violet, w: 150 }
+  auth: { kind: auth, title: auth, in: teal, w: 150 }
+  monitor: { kind: monitor, title: monitor, in: teal, w: 150 }

@@ -1,15 +1,19 @@
-import type { IconData } from '@packagelab/docspp-core'
+import { type IconData, scopeSvgIds } from '@packagelab/docspp-core'
+import { useId, useMemo } from 'react'
 import { cx } from './util'
 
 /** Icon bodies come from the compiler (bundled icon sets or the project's own SVG files). */
 export function Icon({ icon, className }: { icon: IconData; className?: string }) {
+  // Two copies of one logo on a page must not share gradient ids, see scopeSvgIds.
+  const scope = `i${useId().replace(/:/g, '')}`
+  const body = useMemo(() => scopeSvgIds(icon.body, scope), [icon.body, scope])
   return (
     <svg
       className={className}
       viewBox={icon.viewBox}
       aria-hidden="true"
       focusable="false"
-      dangerouslySetInnerHTML={{ __html: icon.body }}
+      dangerouslySetInnerHTML={{ __html: body }}
     />
   )
 }

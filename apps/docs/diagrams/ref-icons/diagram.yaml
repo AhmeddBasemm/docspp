@@ -1,0 +1,14 @@
+# yaml-language-server: $schema=../diagram.schema.json
+title: Where icons come from
+description: Each box asks for its icon a different way.
+
+nodes:
+  bare: { kind: service, icon: postgresql, title: postgresql, sub: a bare name finds the logo }
+  brand: { kind: service, icon: "logos:redis", title: "logos:redis", sub: an explicit set }
+  mark: { kind: service, icon: "simple-icons:keycloak", title: "simple-icons:keycloak", sub: monochrome marks take the text colour }
+  ui: { kind: service, icon: "lucide:server", title: "lucide:server", sub: generic UI icons }
+  file: { kind: service, icon: ./assets/ledger.svg, title: ./assets/ledger.svg, sub: your own file }
+  kind: { kind: queue, title: no icon, sub: the kind supplies one }
+
+edges:
+  - bare -> brand: { hidden: true }

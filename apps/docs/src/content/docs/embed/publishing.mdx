@@ -1,0 +1,95 @@
+---
+title: Publishing
+description: Deploy a docspp site to GitHub Pages or any static host, with a custom domain or a project path.
+tableOfContents:
+  maxHeadingLevel: 2
+---
+
+import { Steps, Tabs, TabItem, Aside } from '@astrojs/starlight/components'
+
+A docspp site is a static Astro site. `pnpm build` writes it to `dist/`, and any host that serves files can serve it.
+
+```sh
+pnpm check     # validate every diagram
+pnpm build     # writes the site to dist/
+```
+
+The build fails when a diagram has errors, so a broken diagram never reaches the published site.
+
+## GitHub Pages
+
+The starter ships `.github/workflows/deploy.yml`. It installs, runs `pnpm check`, builds, and deploys to GitHub Pages on every push to `main`.
+
+<Steps>
+
+1. Push the project to a GitHub repository.
+2. Open **Settings → Pages** and set the source to **GitHub Actions**. You do this once.
+3. Push to `main`. The workflow builds the site and publishes it at `https://<owner>.github.io/<repo>/`.
+
+</Steps>
+
+<Aside type="note" title="If the first deploy is skipped">
+  Until Pages is enabled with the **GitHub Actions** source, the deploy step cannot run. The workflow detects that and skips it with a notice, so the build still succeeds. Enable Pages, then re-run the workflow.
+</Aside>
+
+### Project pages and the base path
+
+A project site lives under `/<repo>/`, not at the root. The workflow sets two variables, and `astro.config.mjs` reads them:
+
+```js
+export default defineConfig({
+  site: process.env.SITE_URL,     // https://<owner>.github.io
+  base: process.env.BASE_PATH,    // /<repo>
+})
+```
+
+Locally both are unset, so the site is served at `/`. With a **custom domain** or a `<owner>.github.io` repository, remove `BASE_PATH` from the workflow:
+
+```yaml
+- run: pnpm build
+  env:
+    SITE_URL: https://docs.example.com
+```
+
+Write links in your pages as relative links (`../../format/nodes/`), or build them from `import.meta.env.BASE_URL`. A link that starts with `/` does not include the base path.
+
+## Other hosts
+
+<Tabs>
+  <TabItem label="Netlify">
+    Build command `pnpm build`, publish directory `dist`. Set `SITE_URL` to your site's address.
+  </TabItem>
+  <TabItem label="Vercel">
+    Framework preset **Astro**. Build command `pnpm build`, output directory `dist`.
+  </TabItem>
+  <TabItem label="Cloudflare Pages">
+    Framework preset **Astro**. Build command `pnpm build`, output directory `dist`.
+  </TabItem>
+  <TabItem label="Any static host">
+    Copy the contents of `dist/` to the host. It needs no server code.
+  </TabItem>
+</Tabs>
+
+Set `SITE_URL` wherever you build, so absolute URLs in the sitemap and metadata are right.
+
+## Previewing
+
+```sh
+pnpm build
+pnpm preview
+```
+
+`pnpm preview` serves the built `dist/`, which is the closest thing to what your readers get.
+
+## What the build does with diagrams
+
+1. Reads every `diagrams/<name>/diagram.yaml`.
+2. Validates and compiles it. Errors stop the build with `file:line:column` and a suggestion.
+3. Bundles the icons it uses and renders node docs and notes to HTML.
+4. Passes the compiled diagram, as JSON, to the page that embeds it.
+
+Warnings, such as an unknown icon or a stale `refs:` path, are printed but do not stop the build. To fail on warnings too, run `pnpm docspp check --strict` before the build.
+
+## Keeping it fast
+
+Each `<Diagram>` loads its interactive part only when it scrolls into view. The layout engine is the largest piece of that code, so pages without diagrams pay nothing for it. A page with several diagrams loads the engine once.

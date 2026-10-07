@@ -1,0 +1,69 @@
+---
+title: Playback, sharing and the step list
+description: "What readers can do with a scenario: play, step, scrub, follow, jump to a step and share a link to it."
+tableOfContents:
+  maxHeadingLevel: 3
+---
+
+import Diagram from '@packagelab/docspp-astro/Diagram.astro'
+import { Aside } from '@astrojs/starlight/components'
+
+Everything a reader does with a scenario happens in the player under the diagram and in the step list below it.
+
+<Diagram name="checkout" scenario="place-order" />
+
+## The player
+
+| Control | What it does |
+|---|---|
+| **Play, Pause, Resume, Replay** | Runs the scenario. The button's label says what it will do next. |
+| **Previous step, Next step** | Moves one step at a time. If a step is half played, **Next** finishes it first. |
+| **Scrubber** | Drag to any moment. Playback pauses while you scrub. |
+| **Speed** | 0.5×, 1× or 2×. |
+| **Flow, Sequence, Story** | Switches how the scenario is drawn. See [story](../story-view/) and [sequence](../sequence-view/). |
+
+The player also shows where you are: `step 3/9 · 0:04`.
+
+## The step list
+
+Every step is listed under the player, grouped by phase. The step in progress is highlighted, finished steps are marked, and notes appear under their step. A multi-hop step names the nodes it passes through ("via CDN, API gateway").
+
+**Click a step** to play it. The path already travelled stays lit, so a reader can jump to the middle of a story and still see how it got there. The list is also keyboard-friendly: Tab to a step and press <kbd>Enter</kbd> or <kbd>Space</kbd>.
+
+## Follow
+
+On a large diagram the whole picture is small, so the camera can follow the action. A **Follow** button appears while a scenario is selected. Following starts on automatically when the diagram is wider than 1500 px or taller than 950 px, and stops as soon as the reader pans or zooms. Press it again to bring it back.
+
+## Links to a moment
+
+The address bar follows the scenario and step, so readers can share exactly what they are looking at:
+
+```text
+https://example.com/examples/checkout/#checkout=place-order.4
+```
+
+The format is `#<diagram>=<scenario>[.<step>]`, where the step is the number shown in the step list. A page with several diagrams joins them with `&`:
+
+```text
+#checkout=place-order.4&payments=pay.2
+```
+
+Opening such a link selects the scenario, switches to its view, and shows the step already played, paused, so the reader decides when to continue.
+
+<Aside type="note">
+  The address updates when playback stops, not on every frame. Embeds that should not touch the address, such as a decorative demo, can pass `hash={false}`. See [the Diagram component](../../embed/diagram-component/).
+</Aside>
+
+## Autoplay and reduced motion
+
+A scenario a reader **clicks** starts playing. One that a page selects with `scenario="..."` waits, unless the page also passes `autoplay`:
+
+```mdx
+<Diagram name="checkout" scenario="place-order" autoplay />
+```
+
+Readers who ask their system for reduced motion are never autoplayed, and clicking a scenario selects it without playing. They can still press **Play**, step through, or scrub.
+
+## How it works
+
+A scenario compiles to a **timeline**: for every step, when it starts and ends, and for every hop, when the packet is on which edge. `frameAt(t)` is a pure function that turns a time into a picture: which packets are where, which nodes are lit. The player is only a clock that advances `t`. That is why scrubbing, stepping, deep links and the tests are all exact. See [how it works inside](../../project/architecture/).

@@ -1,0 +1,185 @@
+---
+title: diagram.yaml reference
+description: Every field of a diagram file, with its type and what it does.
+sidebar:
+  label: diagram.yaml
+tableOfContents:
+  maxHeadingLevel: 3
+---
+
+import { Aside } from '@astrojs/starlight/components'
+
+Every key a diagram accepts. Unknown keys are errors. For explanations and examples see the [format guide](../../format/overview/) and [scenarios](../../scenarios/overview/). A JSON Schema with the same fields, for editors, is written by `pnpm docspp schema`.
+
+## Enumerations
+
+| Name | Values |
+|---|---|
+| **status** | `built` (default), `planned`, `legacy`, `optional` |
+| **family** | `blue`, `amber`, `violet`, `green`, `teal`, `red`, `slate` |
+| **step kind** | `request` (default), `response`, `error`, `lookup`, `event` |
+| **direction** | `AUTO` (default), `RIGHT`, `DOWN`, `LEFT`, `UP` |
+| **node kind** | `client`, `user`, `ui`, `external`, `service`, `gateway`, `worker`, `container`, `function`, `database`, `cache`, `storage`, `queue`, `agent`, `network`, `vm`, `auth`, `monitor`, or your own |
+| **edge kind** | `http` (default), `channel`, `tunnel`, `queue`, `ws`, `data`, or your own |
+
+Ids (the keys of `nodes`, `groups`, `views`, `scenarios`, `kinds` and `edgeKinds`, and edge ids) may contain letters, digits, `_`, `.` and `-`.
+
+## Top level
+
+| Key | Type | Required | Description |
+|---|---|---|---|
+| `$schema` | string | no | The path to the JSON Schema, for editors. |
+| `title` | string | **yes** | The diagram's name. |
+| `description` | Markdown | no | Shown above the first view with `showDescription`. |
+| `nodes` | map of [node](#node) | **yes** | The boxes. A bare string is a title. |
+| `groups` | map of [group](#group) | no | Zones and frames. A bare string is a label. |
+| `edges` | list of [edge](#edge) | no | The arrows. |
+| `views` | map of [view](#view) | no | Slices of the model. |
+| `scenarios` | map of [scenario](#scenario) | no | Stories that play over a view. |
+| `kinds` | map of [kind](#kinds-and-edgekinds) | no | Your own node kinds. |
+| `edgeKinds` | map of [edge kind](#kinds-and-edgekinds) | no | Your own edge kinds. |
+
+## Node
+
+| Field | Type | Default | Description |
+|---|---|---|---|
+| `title` | string | the id | The display name. |
+| `sub` | string | | One monospace line under the title. |
+| `lines` | list of strings | | Short body lines inside the card. |
+| `icon` | string | the kind's icon | `postgresql`, `logos:redis`, `simple-icons:keycloak`, `lucide:server` or `./path.svg`. |
+| `kind` | string | | A node kind. Gives a default icon and family. |
+| `family` | family | the kind's | The accent colour. |
+| `in` | id | | The group the node belongs to. |
+| `status` | status | `built` | |
+| `badge` | string or number | | A marker on the card's corner. |
+| `uses` | list of strings | | Tags drawn as `uses: a · b`. Entries matching a node id become links. |
+| `chips` | list of string or `{ label, sub? }` | | Small boxes inside the card. |
+| `w` | integer | 178 | The card width in pixels. |
+| `description` | Markdown | | Shown in the drawer. |
+| `doc` | path | `nodes/<id>.md` if present | A Markdown file for the drawer, relative to the diagram folder. |
+| `links` | list of `{ label, url }` | | Shown in the drawer. |
+| `refs` | list of strings | | Source files or URLs the node is based on. Stale paths produce a warning. |
+| `tags` | list of strings | | Free-form tags. |
+
+## Group
+
+| Field | Type | Default | Description |
+|---|---|---|---|
+| `label` | string | **required** | Shown in capitals in the corner. |
+| `caption` | string | | Muted text after the label. |
+| `in` | id | | The parent group. A group with `in` is drawn as a dashed frame. |
+| `layout` | `flow`, `row`, `grid` | `flow` | `row` and `grid` pack members tightly. |
+| `columns` | integer | | The column count of a `grid`, or where a `row` wraps. |
+| `rows` | list of lists of ids | | Explicit rows of direct members, top to bottom. |
+| `direction` | `AUTO`, `RIGHT`, `DOWN` | `AUTO` | The flow direction inside a top-level group. |
+| `family` | family | | |
+| `status` | status | `built` | |
+| `icon` | string | | |
+
+## Edge
+
+Write an edge as `a -> b: label`, `a <-> b`, `a -> b: { ... }` or with `from` and `to`.
+
+| Field | Type | Default | Description |
+|---|---|---|---|
+| `id` | id | its position | Must be unique. |
+| `from`, `to` | id | **required** | The two nodes. |
+| `label` | string | | Short text on the line. |
+| `kind` | edge kind | `http` | The line style. |
+| `both` | boolean | `false` | An arrow at both ends. |
+| `hidden` | boolean | `false` | Not drawn, but scenarios can use it. |
+| `status` | status | `built` | |
+| `key` | string | assigned | The letter on the edge and in the interfaces table. |
+| `auth` | string | | Interfaces table column. |
+| `payload` | string | | Interfaces table column: what travels. |
+| `transport` | string | | Kept with the edge. Not shown by the built-in renderer yet. |
+| `note` | Markdown | | Kept with the edge. Not shown by the built-in renderer yet. |
+
+## View
+
+| Field | Type | Default | Description |
+|---|---|---|---|
+| `title` | string | the id | The tab's label. |
+| `summary` | Markdown | | Shown above the diagram. |
+| `include` | `all` or list of ids | `all` | Node and group ids. A group includes its members. |
+| `exclude` | list of ids | | Removed after `include`. |
+| `direction` | direction | `AUTO` | The main reading direction. |
+| `keys` | boolean | `false` | Put letters on edges. |
+| `interfaces` | boolean | `false` | Show the interfaces table. |
+
+## Scenario
+
+A scenario needs `title` and at least one step in `steps` or `phases`.
+
+| Field | Type | Default | Description |
+|---|---|---|---|
+| `title` | string | **required** | |
+| `summary` | Markdown | | The story in a sentence or two. |
+| `mode` | `flow`, `sequence`, `story` | `flow` | How it opens. |
+| `view` | id | the first view | The view it plays on. |
+| `lanes` | list of [lane](#lane) | a lane per node | The story view's columns. |
+| `phases` | list of [phase](#phase) | | Steps grouped under titles. |
+| `steps` | list of [step](#step) | | A flat list of steps. |
+
+### Lane
+
+| Field | Type | Description |
+|---|---|---|
+| `title` | string | **Required.** |
+| `sub` | string | Under the title. Defaults to the node's `sub`, or the node titles joined. |
+| `nodes` | list of ids | **Required.** At least one. A node can be in one lane. |
+
+### Phase
+
+| Field | Type | Description |
+|---|---|---|
+| `title` | string | **Required.** |
+| `caption` | string | Shown after the title. |
+| `steps` | list of steps | **Required.** At least one. |
+
+### Step
+
+Write a step as `a -> b: label`, `at a: label`, `par: [ ... ]`, or with the long keys.
+
+| Form | Fields |
+|---|---|
+| **flow** | `from`, `to` (required), `label`, `via` (list of ids) |
+| **self** | `at` (required), `label` |
+| **par** | `steps`: a list of flow or self steps. At least one. |
+
+Flow and self steps also accept:
+
+| Field | Type | Description |
+|---|---|---|
+| `title` | string | The box heading in the story view. Defaults to the label. |
+| `detail` | string | One to three short lines in the story view. Defaults to `from → to`. |
+| `kind` | step kind | `request` (default), `response`, `error`, `lookup` or `event`. |
+| `note` | Markdown | Shown in the step list. |
+| `status` | status | `planned` draws the step dashed. |
+| `hold` | number | Extra seconds to pause. |
+
+## Kinds and edgeKinds
+
+```yaml
+kinds:
+  ledger: { icon: lucide:book-open, family: amber }
+
+edgeKinds:
+  grpc: { label: gRPC, color: accent, width: 2, dash: "6 4" }
+```
+
+| `kinds` field | Description |
+|---|---|
+| `icon` | The default icon for nodes of this kind. |
+| `family` | The default colour family. |
+
+| `edgeKinds` field | Description |
+|---|---|
+| `label` | **Required.** Shown in the legend. |
+| `color` | A theme token (`ink`, `accent`, `tunnel`, `muted`, `ok`, `warn`, `bad`) or any CSS colour. |
+| `width` | Line width in pixels. |
+| `dash` | An SVG dash pattern, such as `"6 4"`. |
+
+<Aside type="tip">
+  Run `pnpm docspp schema` and add `# yaml-language-server: $schema=../diagram.schema.json` to a diagram, and your editor shows these descriptions as you type.
+</Aside>

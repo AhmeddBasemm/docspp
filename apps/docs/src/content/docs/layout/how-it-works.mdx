@@ -1,0 +1,63 @@
+---
+title: How layout works
+description: How docspp places boxes and routes arrows without coordinates, and what that means for how you write a diagram.
+tableOfContents:
+  maxHeadingLevel: 3
+---
+
+import Diagram from '@packagelab/docspp-astro/Diagram.astro'
+import { Aside } from '@astrojs/starlight/components'
+
+Layout is automatic. You never write a coordinate, and when a diagram looks wrong you change the **model** or add a **hint**, not a position. Knowing how the layout works tells you which change will help.
+
+<Diagram name="platform" />
+
+## The approach
+
+docspp lays a diagram out **group by group, bottom up**.
+
+1. **Each group lays out its own members** and reports a size. Its parent then treats it as one block. How the members are placed depends on the group's `layout`:
+   - `flow` (the default): the members are arranged by [ELK](https://eclipse.dev/elk/), a layered graph layout engine, left to right or top to bottom, whichever comes out squarer.
+   - `rows`: the members sit in the rows you wrote down.
+   - `row` and `grid`: the members are packed tightly. See [groups](../../format/groups/).
+2. **The zones and any ungrouped nodes are arranged** by one more ELK run.
+3. **Edges that cross a boundary are routed afterwards** by a small orthogonal router that goes around the boxes, so every arrow ends on the real node and no arrow crosses an unrelated one.
+
+Laying out a whole hierarchy in a single ELK run forces one direction on every zone and makes platform-style diagrams several times wider than they need to be. Working group by group is what lets one zone read left to right while another reads top to bottom.
+
+## What follows for you
+
+- **Declaration order matters.** It decides the order of cards within a layer and which edges count as "backwards". Declare nodes in reading order: entry points first, stores last.
+- **Zones are the unit of layout.** Put related nodes in a group so they travel together.
+- **Heights come from the browser.** A card's height depends on its text, so docspp renders each card offscreen at its fixed width, measures it, and then lays the diagram out. A new line in a card or a longer title changes the picture without any other work. When web fonts finish loading, it measures again.
+- **A view is laid out on its own.** Hiding nodes with `include` or `exclude` gives a fresh layout of what is left, not a cropped copy of the big one.
+
+## Direction
+
+A view's `direction` sets the main reading direction. `AUTO`, the default, tries left to right and top to bottom and keeps the one that reads larger on a typical documentation column (about 1180 by 720 px). Force `DOWN` for a narrow column and `RIGHT` for a wide page. A top-level group has its own `direction` for the inside of the zone.
+
+## Limits
+
+- Auto layout is good, not perfect. Dense diagrams want a few hints.
+- Very large diagrams (30 nodes or more) render small until the reader zooms, goes full screen, or lets the camera follow a scenario.
+- An edge that ends on a member of a `row` or `grid` group stops at the group's border.
+- Layout runs in the reader's browser, on the main thread. A very large diagram may pause briefly the first time it appears.
+
+<Aside type="tip" title="When a diagram needs a lot of hints">
+  If you are adding more than a few hints, the model is probably too big for one picture. Make a second [view](../../format/views/) of the same model, or two diagrams, before adding more. See [fixing layouts](../fixing-layouts/).
+</Aside>
+
+## The hints at a glance
+
+| Hint | Where | Effect |
+|---|---|---|
+| Declaration order | nodes and edges | Order within a layer. |
+| `rows` | group | Exact rows, spread across the width. |
+| `layout: row` or `grid` | group | Pack members tightly. |
+| `columns` | group | Column count of a grid. |
+| `direction` | view or top-level group | Force the reading direction. |
+| `w` | node | A narrower or wider card. |
+| `hidden: true` | edge | Keep an edge out of the picture but available to scenarios. |
+| `include` and `exclude` | view | Show a slice of the model. |
+
+The next page, [layout hints](../hints/), explains each one with an example.

@@ -1,0 +1,85 @@
+---
+title: Layout hints
+description: The hints that steer layout, each with what it does and when to reach for it.
+tableOfContents:
+  maxHeadingLevel: 3
+---
+
+import Diagram from '@packagelab/docspp-astro/Diagram.astro'
+
+A hint changes how a diagram is arranged without ever naming a position. This page shows each one. For a symptom-first view, see [fixing layouts](../fixing-layouts/).
+
+## Declaration order
+
+Order decides the order of cards within a layer and which edges count as backwards. Reorder the YAML and the picture reorders. Write nodes in reading order: the entry point first, the stores last.
+
+```yaml
+nodes:
+  browser: ...     # first: the entry point
+  gateway: ...
+  catalog: ...
+  postgres: ...    # last: the stores
+```
+
+## rows
+
+Use `rows` on a group for a stack you want exactly as drawn: a gateway, then the services, then the stores. Each row is spread across the zone's width.
+
+```yaml
+groups:
+  backend:
+    label: Backend
+    rows:
+      - [gateway]
+      - [catalog, orders, search]
+      - [stores]
+```
+
+Every entry must be a direct member (a node or a group whose `in:` is this group). Two cards that should sit side by side belong in one row.
+
+## layout: row and layout: grid
+
+Cards that need no arrows of their own, such as a row of data stores or a grid of services, are better packed:
+
+```yaml
+groups:
+  stores: { label: Shared stores, in: backend, layout: grid, columns: 3 }
+```
+
+`columns` sets the grid's width, and it also makes a `row` wrap. Packed groups save a lot of space, at one cost: an arrow to a member ends on the group's border. When many services use one store, drop the arrows and add `uses: [PostgreSQL]` to each service instead.
+
+## direction
+
+On a **view**, `direction` forces the main reading direction (`RIGHT`, `DOWN`, `LEFT`, `UP`, or `AUTO`). On a **top-level group** it forces the flow inside that zone (`RIGHT` or `DOWN`).
+
+```yaml
+views:
+  overview:
+    direction: DOWN
+```
+
+Use `DOWN` when the diagram sits in a narrow column, as in a sidebar or a phone-width page.
+
+## w
+
+A card is 178 px wide by default. In a dense row, narrow the cards so five stores do not make a zone huge:
+
+```yaml
+postgres: { kind: database, title: PostgreSQL, in: stores, w: 132 }
+```
+
+## hidden edges
+
+An edge with `hidden: true` is not drawn, but scenarios can still fly along it. Use it for relationships a story needs and the picture does not: every service writing to an audit log, a service publishing to a queue that is already obvious.
+
+## Views
+
+A second view with `include` is often the best layout hint. Show the backend only, one team's part, or one device. See [views](../../format/views/).
+
+## Splitting a diagram
+
+If a diagram needs more than a few hints, stop adjusting. Split it into views of the same model, or into two diagrams, before reaching for more.
+
+<Diagram name="platform" view="device" />
+
+The platform example does this: the whole platform on one tab, and a single device on the other.

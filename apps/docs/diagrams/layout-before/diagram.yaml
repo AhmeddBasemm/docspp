@@ -1,0 +1,30 @@
+# yaml-language-server: $schema=../diagram.schema.json
+title: "Before: a long row of stores"
+
+groups:
+  backend: { label: Backend }
+
+nodes:
+  gateway: { kind: gateway, icon: nginx, title: Gateway, in: backend }
+  catalog: { kind: service, icon: nodejs, title: Catalog, in: backend }
+  orders: { kind: service, icon: dotnet, title: Orders, in: backend }
+  search: { kind: service, icon: python, title: Search, in: backend }
+  postgres: { kind: database, icon: postgresql, title: PostgreSQL, in: backend }
+  redis: { kind: cache, icon: redis, title: Redis, in: backend }
+  rabbit: { kind: queue, icon: rabbitmq, title: RabbitMQ, in: backend }
+  files: { kind: storage, icon: aws-s3, title: Files, in: backend }
+  elastic: { kind: database, icon: elasticsearch, title: Elasticsearch, in: backend }
+  metrics: { kind: monitor, icon: prometheus, title: Prometheus, in: backend }
+
+edges:
+  - gateway -> catalog
+  - gateway -> orders
+  - gateway -> search
+  - catalog -> postgres: { kind: data }
+  - catalog -> redis: { kind: data }
+  - orders -> postgres: { kind: data }
+  - orders -> rabbit: { kind: queue }
+  - orders -> files: { kind: data }
+  - search -> elastic: { kind: data }
+  - search -> redis: { kind: data }
+  - catalog -> metrics: { kind: data }

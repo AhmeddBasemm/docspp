@@ -1,0 +1,30 @@
+# yaml-language-server: $schema=../diagram.schema.json
+title: Zones, frames and packed groups
+
+groups:
+  edge: { label: Edge, caption: CDN and gateway }
+  backend: { label: Backend, caption: Kubernetes }
+  services: { label: Services, in: backend, layout: grid, columns: 2 }
+  stores: { label: Shared stores, in: backend, layout: row }
+
+nodes:
+  browser: { kind: client, title: Browser }
+  cdn: { kind: external, icon: cloudflare, title: CDN, in: edge }
+  gateway: { kind: gateway, icon: nginx, title: Gateway, in: edge }
+  catalog: { kind: service, icon: nodejs, title: Catalog, in: services, w: 150 }
+  cart: { kind: service, icon: go, title: Cart, in: services, w: 150 }
+  orders: { kind: service, icon: dotnet, title: Orders, in: services, w: 150 }
+  reviews: { kind: service, icon: python, title: Reviews, in: services, w: 150 }
+  postgres: { kind: database, icon: postgresql, title: PostgreSQL, in: stores, w: 140 }
+  redis: { kind: cache, icon: redis, title: Redis, in: stores, w: 140 }
+  files: { kind: storage, icon: aws-s3, title: Files, in: stores, w: 140 }
+
+edges:
+  - browser -> cdn: HTTPS
+  - cdn -> gateway
+  - gateway -> catalog
+  - gateway -> orders
+  - catalog -> postgres: { kind: data }
+  - cart -> redis: { kind: data }
+  - orders -> postgres: { kind: data }
+  - reviews -> files: { kind: data }

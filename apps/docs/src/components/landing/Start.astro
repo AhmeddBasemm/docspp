@@ -1,0 +1,77 @@
+---
+import { withBase } from '../../lib/base'
+import Icon from './Icon.astro'
+
+const create = 'npm create docspp@latest my-docs'
+const run = 'cd my-docs && pnpm install && pnpm dev'
+---
+
+<section class="lp-section lp-start" id="start">
+  <div class="lp-wrap">
+    <div class="lp-start-grid">
+      <div>
+        <p class="lp-eyebrow">Get started</p>
+        <h2>One command to a running docs site.</h2>
+        <p class="lp-lede" style="margin-top: 18px">
+          The starter has a small shop diagram with three scenarios, a docs site around it and a GitHub Pages
+          workflow. Edit the YAML, save, and the page reloads.
+        </p>
+        <div class="lp-cta">
+          <a class="lp-btn lp-btn-primary" href={withBase('guides/getting-started/')}>
+            Read the quick start
+            <Icon class="lp-arrow" name="lucide:arrow-right" />
+          </a>
+          <a class="lp-btn lp-btn-ghost" href={withBase('examples/platform/')}>See a large example</a>
+        </div>
+        <ul class="lp-facts" style="margin-top: 44px">
+          <li><b>MIT</b>Free to use and change.</li>
+          <li><b>Node 22+</b>And pnpm.</li>
+          <li><b>Astro + Starlight</b>Markdown pages, search, dark mode.</li>
+          <li><b>Static output</b>Any host works.</li>
+        </ul>
+      </div>
+
+      <ol class="lp-steps">
+        <li>
+          <div>
+            <strong>Create the project</strong>
+            <div class="lp-install">
+              <span class="lp-prompt">$</span>
+              <code>{create}</code>
+              <button class="lp-copy" type="button" data-copy={create} aria-label="Copy command">
+                <Icon name="lucide:copy" />
+              </button>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div>
+            <strong>Run it</strong>
+            <div class="lp-install">
+              <span class="lp-prompt">$</span>
+              <code>{run}</code>
+              <button class="lp-copy" type="button" data-copy={run} aria-label="Copy command">
+                <Icon name="lucide:copy" />
+              </button>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div>
+            <strong>Draw your system</strong>
+            <p>
+              Open <code>diagrams/shop/diagram.yaml</code>, rename a node, add an edge, press save. Or ask an
+              agent to write the diagram from your code.
+            </p>
+          </div>
+        </li>
+        <li>
+          <div>
+            <strong>Publish</strong>
+            <p>Enable GitHub Pages with the <em>GitHub Actions</em> source and push. The workflow is already there.</p>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </div>
+</section>
