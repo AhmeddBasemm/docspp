@@ -1,4 +1,4 @@
-/* Project theme. Override --idocs-* tokens here to restyle every diagram. */
+/* Project theme. Override --docspp-* tokens here to restyle every diagram. */
 :root {
   --sl-color-accent-high: #0a6f8f;
 }

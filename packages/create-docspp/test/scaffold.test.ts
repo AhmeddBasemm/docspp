@@ -1,7 +1,7 @@
 import { existsSync, mkdtempSync, readFileSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import { loadProject } from '@idocs/core/node'
+import { loadProject } from '@docspp/core/node'
 import { beforeAll, describe, expect, it } from 'vitest'
 import { packageName, scaffold } from '../src/scaffold'
 
@@ -12,12 +12,12 @@ const { buildTemplate } = (await import('../../../scripts/template.mjs')) as {
 
 let template: string
 beforeAll(() => {
-  template = buildTemplate(join(mkdtempSync(join(tmpdir(), 'idocs-tpl-')), 'template'), {
+  template = buildTemplate(join(mkdtempSync(join(tmpdir(), 'docspp-tpl-')), 'template'), {
     keepAliases: true,
   })
 })
 
-const fresh = () => join(mkdtempSync(join(tmpdir(), 'idocs-new-')), 'my-new-docs')
+const fresh = () => join(mkdtempSync(join(tmpdir(), 'docspp-new-')), 'my-new-docs')
 
 describe('template', () => {
   it('has no workspace: versions, no placeholders, and ships the shared skill', () => {
@@ -27,7 +27,7 @@ describe('template', () => {
       ...Object.values(pkg.devDependencies),
     ] as string[]
     expect(specs.some((s) => s.startsWith('workspace:'))).toBe(false)
-    expect(pkg.dependencies['@idocs/astro']).toMatch(/^\^\d+\.\d+\.\d+$/)
+    expect(pkg.dependencies['@docspp/astro']).toMatch(/^\^\d+\.\d+\.\d+$/)
     expect(existsSync(join(template, '.claude/skills/author-diagram/SKILL.md'))).toBe(true)
     expect(readFileSync(join(template, 'README.md'), 'utf8')).not.toContain('__DOCS_URL__')
     expect(existsSync(join(template, 'node_modules'))).toBe(false)
@@ -62,7 +62,7 @@ describe('scaffold', () => {
     const target = fresh()
     scaffold(template, target)
     expect(() => scaffold(template, target)).toThrow(/not empty/)
-    const empty = mkdtempSync(join(tmpdir(), 'idocs-empty-'))
+    const empty = mkdtempSync(join(tmpdir(), 'docspp-empty-'))
     expect(() => scaffold(template, empty)).not.toThrow()
     writeFileSync(join(empty, 'extra.txt'), 'x')
   })

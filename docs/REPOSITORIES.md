@@ -10,7 +10,7 @@
 | **A template repository** | only for the GitHub "Use this template" button | A copy of `templates/starter`, written by CI after each release. Nobody edits it by hand. |
 | A separate repository for the landing page and docs | **no** | They live in `apps/docs`, next to the code they describe. |
 
-`npm create idocs@latest my-docs` works without the template repository: the scaffolder carries its own copy of the template. Create the template repository only if you also want people to click **Use this template** on GitHub.
+`npm create docspp@latest my-docs` works without the template repository: the scaffolder carries its own copy of the template. Create the template repository only if you also want people to click **Use this template** on GitHub.
 
 ### Why the docs and landing page stay here
 
@@ -22,19 +22,19 @@ Split it out only if different people own the docs, or they need a different rel
 
 ### Why the template is generated, not hand-maintained
 
-A GitHub template has to be a repository root, and it must depend on **published** `@idocs/*` versions, not on workspace links, so users get upgrades by bumping a dependency rather than owning a copy of the engine. The monorepo cannot be that template. So `templates/starter` is the source of truth, `scripts/template.mjs` turns it into a standalone project (versions pinned to the current release, placeholders filled, the shared `author-diagram` skill added), and the sync workflow pushes the result to the template repository.
+A GitHub template has to be a repository root, and it must depend on **published** `@docspp/*` versions, not on workspace links, so users get upgrades by bumping a dependency rather than owning a copy of the engine. The monorepo cannot be that template. So `templates/starter` is the source of truth, `scripts/template.mjs` turns it into a standalone project (versions pinned to the current release, placeholders filled, the shared `author-diagram` skill added), and the sync workflow pushes the result to the template repository.
 
 ## What is where
 
 ```
 packages/
-  core/            @idocs/core        schema, compiler, layout, router, timeline
-  react/           @idocs/react       <DiagramView> and styles
-  astro/           @idocs/astro       Astro integration and <Diagram>
-  cli/             @idocs/cli         the `idocs` command
-  create-idocs/    create-idocs       `npm create idocs`; carries a copy of the template
+  core/            @docspp/core        schema, compiler, layout, router, timeline
+  react/           @docspp/react       <DiagramView> and styles
+  astro/           @docspp/astro       Astro integration and <Diagram>
+  cli/             @docspp/cli         the `docspp` command
+  create-docspp/    create-docspp       `npm create docspp`; carries a copy of the template
 apps/
-  docs/            @idocs/docs        the tool's landing page, guides and live examples (private)
+  docs/            @docspp/docs        the tool's landing page, guides and live examples (private)
 templates/
   starter/         my-docs            the project users start from (private; source of truth)
 scripts/
@@ -72,16 +72,16 @@ Both workflows are **off** until you opt in, so pushing to `main` can never publ
 These are your decisions; nothing here has been done for you.
 
 - [ ] **A license.** There is no `LICENSE` file and no `license` field. Add both before publishing or making the repository public.
-- [ ] **The npm names.** `@idocs/*` and `create-idocs` had no published packages when checked, but a scope can exist without packages. Create the `idocs` organisation on npm (`npm org create idocs` or on npmjs.com) to claim it. If you would rather use another name, it appears in `package.json` of each package, `scripts/build.mjs`, `scripts/template.mjs`, `templates/starter/package.json`, `.changeset/config.json` and the docs. Do the rename before the first publish; afterwards it is expensive.
+- [ ] **The npm names.** `@docspp/*` and `create-docspp` had no published packages when checked, but a scope can exist without packages. Create the `docspp` organisation on npm (`npm org create docspp` or on npmjs.com) to claim it. If you would rather use another name, it appears in `package.json` of each package, `scripts/build.mjs`, `scripts/template.mjs`, `templates/starter/package.json`, `.changeset/config.json` and the docs. Do the rename before the first publish; afterwards it is expensive.
 - [ ] **URLs.** `homepage` and `repository` in the root and package `package.json` files point at `github.com/AhmeddBasemm/docspp`. Update them if the repository moves.
 - [ ] **npm token.** Create an automation token that can publish the scope, and add it as the `NPM_TOKEN` repository secret.
 - [ ] **Turn it on.** Set the repository variable `RELEASE_ENABLED` to `true`.
-- [ ] **Docs site.** In repository settings, set Pages to the **GitHub Actions** source. The docs workflow deploys `apps/docs` on every push to `main`. Remove the "not published yet" note in `apps/docs/src/content/docs/guides/getting-started.mdx` once the packages are live.
+- [ ] **Docs site.** In repository settings, set Pages to the **GitHub Actions** source. Until then the docs workflow still builds the site but skips the deploy step with a notice, so CI stays green. After that it deploys `apps/docs` on every push to `main`. Remove the "not published yet" note in `apps/docs/src/content/docs/guides/getting-started.mdx` once the packages are live.
 
 ### The template repository (optional)
 
-1. Create an empty repository, for example `your-name/idocs-starter`, and tick **Template repository** in its settings.
-2. In this repository set the variable `TEMPLATE_REPO` to `your-name/idocs-starter` and the secret `TEMPLATE_REPO_TOKEN` to a token with write access to it.
+1. Create an empty repository, for example `your-name/docspp-starter`, and tick **Template repository** in its settings.
+2. In this repository set the variable `TEMPLATE_REPO` to `your-name/docspp-starter` and the secret `TEMPLATE_REPO_TOKEN` to a token with write access to it.
 3. Run **Sync template repository** once by hand (Actions tab) after the first release.
 
-You can preview what it will contain at any time: `node scripts/template.mjs --out /tmp/idocs-starter`.
+You can preview what it will contain at any time: `node scripts/template.mjs --out /tmp/docspp-starter`.

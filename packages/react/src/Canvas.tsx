@@ -1,4 +1,4 @@
-import type { Layout, Rect } from '@idocs/core'
+import type { Layout, Rect } from '@docspp/core'
 import { select } from 'd3-selection'
 import 'd3-transition'
 import { type ZoomBehavior, zoom, zoomIdentity } from 'd3-zoom'
@@ -73,7 +73,7 @@ export function Canvas({
         if (event.type === 'dblclick') return false
         if (event.type.startsWith('touch')) return (event as TouchEvent).touches.length >= 2
         if ((event as MouseEvent).button) return false
-        return !(event.target as Element).closest('.idocs-toolbar, .idocs-drawer')
+        return !(event.target as Element).closest('.docspp-toolbar, .docspp-drawer')
       })
       .on('zoom', (e) => {
         const t = e.transform
@@ -142,30 +142,30 @@ export function Canvas({
   return (
     <div
       ref={frameRef}
-      className={cx('idocs-frame', 'idocs-ui')}
+      className={cx('docspp-frame', 'docspp-ui')}
       style={fullscreen ? undefined : { height }}
       onClick={(e) => {
         if (
           e.target === e.currentTarget ||
-          (e.target as Element).closest('.idocs-world') === worldRef.current
+          (e.target as Element).closest('.docspp-world') === worldRef.current
         ) {
-          if (!(e.target as Element).closest('.idocs-node')) onBackgroundClick?.()
+          if (!(e.target as Element).closest('.docspp-node')) onBackgroundClick?.()
         }
       }}
     >
       <div
         ref={worldRef}
-        className="idocs-world"
+        className="docspp-world"
         style={{ width: layout.width, height: layout.height }}
       >
         {children}
       </div>
-      <div className="idocs-toolbar">
+      <div className="docspp-toolbar">
         {tools}
-        <div className="idocs-toolbar-group">
+        <div className="docspp-toolbar-group">
           <button
             type="button"
-            className="idocs-tool"
+            className="docspp-tool"
             title="Zoom out"
             aria-label="Zoom out"
             onClick={() => zoomBy(1 / 1.3)}
@@ -182,7 +182,7 @@ export function Canvas({
           </button>
           <button
             type="button"
-            className="idocs-tool"
+            className="docspp-tool"
             title="Zoom in"
             aria-label="Zoom in"
             onClick={() => zoomBy(1.3)}
@@ -199,7 +199,7 @@ export function Canvas({
           </button>
           <button
             type="button"
-            className="idocs-tool"
+            className="docspp-tool"
             title="Fit to view"
             aria-label="Fit to view"
             onClick={fit}
@@ -217,7 +217,7 @@ export function Canvas({
           </button>
           <button
             type="button"
-            className="idocs-tool"
+            className="docspp-tool"
             title={fullscreen ? 'Exit full screen' : 'Full screen'}
             aria-label={fullscreen ? 'Exit full screen' : 'Full screen'}
             onClick={onToggleFullscreen}

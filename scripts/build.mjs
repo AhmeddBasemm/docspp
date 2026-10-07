@@ -15,9 +15,9 @@ const pkg = JSON.parse(readFileSync(join(dir, 'package.json'), 'utf8'))
 
 /** What each package ships besides the compiled entries. */
 const CONFIG = {
-  '@idocs/core': { entries: ['src/index.ts', 'src/node.ts'] },
-  '@idocs/react': { entries: ['src/index.ts'], copy: [['src/styles.css', 'dist/styles.css']] },
-  '@idocs/astro': {
+  '@docspp/core': { entries: ['src/index.ts', 'src/node.ts'] },
+  '@docspp/react': { entries: ['src/index.ts'], copy: [['src/styles.css', 'dist/styles.css']] },
+  '@docspp/astro': {
     entries: ['src/index.ts'],
     copy: [
       ['src/Diagram.astro', 'dist/Diagram.astro'],
@@ -25,8 +25,8 @@ const CONFIG = {
       ['src/virtual.d.ts', 'dist/virtual.d.ts'],
     ],
   },
-  '@idocs/cli': { entries: ['src/index.ts', 'src/bin.ts'], bins: ['dist/bin.js'] },
-  'create-idocs': { entries: ['src/index.ts', 'src/scaffold.ts'], bins: ['dist/index.js'], template: true },
+  '@docspp/cli': { entries: ['src/index.ts', 'src/bin.ts'], bins: ['dist/bin.js'] },
+  'create-docspp': { entries: ['src/index.ts', 'src/scaffold.ts'], bins: ['dist/index.js'], template: true },
 }
 
 const config = CONFIG[pkg.name]
@@ -73,8 +73,8 @@ console.log(`built ${pkg.name}`)
 function declarations() {
   const paths = {}
   for (const dep of Object.keys({ ...pkg.dependencies, ...pkg.devDependencies })) {
-    if (!dep.startsWith('@idocs/')) continue
-    const depDir = join(root, 'packages', dep.replace('@idocs/', ''))
+    if (!dep.startsWith('@docspp/')) continue
+    const depDir = join(root, 'packages', dep.replace('@docspp/', ''))
     const depPkg = JSON.parse(readFileSync(join(depDir, 'package.json'), 'utf8'))
     for (const [sub, target] of Object.entries(depPkg.publishConfig?.exports ?? {})) {
       const types = typeof target === 'string' ? undefined : target.types

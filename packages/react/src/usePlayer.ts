@@ -1,4 +1,4 @@
-import { runBounds, stepAt, type Timeline } from '@idocs/core'
+import { runBounds, stepAt, type Timeline } from '@docspp/core'
 import { useCallback, useEffect, useRef, useState } from 'react'
 
 export interface Player {

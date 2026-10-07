@@ -3,11 +3,11 @@ title: Writing diagrams
 description: The diagram.yaml format, from nodes to views.
 ---
 
-import Diagram from '@idocs/astro/Diagram.astro'
+import Diagram from '@docspp/astro/Diagram.astro'
 
 A diagram is a **model** (nodes, groups, edges), some **views** of it, and optional **scenarios** that play over a view. You write each thing once and reuse it.
 
-Add this line at the top of a diagram file to get autocomplete and inline errors in editors that support the YAML language server (run `pnpm idocs schema` once to create the file):
+Add this line at the top of a diagram file to get autocomplete and inline errors in editors that support the YAML language server (run `pnpm docspp schema` once to create the file):
 
 ```yaml
 # yaml-language-server: $schema=../diagram.schema.json

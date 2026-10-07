@@ -4,11 +4,11 @@ import { createInterface } from 'node:readline/promises'
 import { fileURLToPath } from 'node:url'
 import { scaffold } from './scaffold'
 
-const HELP = `create-idocs: start a docs site with interactive architecture diagrams
+const HELP = `create-docspp: start a docs site with interactive architecture diagrams
 
 Usage
-  npm create idocs@latest [folder]
-  pnpm create idocs [folder]
+  npm create docspp@latest [folder]
+  pnpm create docspp [folder]
 
 The folder must not exist or must be empty. The project uses pnpm.
 `

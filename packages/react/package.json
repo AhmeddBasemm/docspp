@@ -1,5 +1,5 @@
 {
-  "name": "@idocs/react",
+  "name": "@docspp/react",
   "version": "0.1.0",
   "type": "module",
   "exports": {
@@ -11,7 +11,7 @@
     "build": "node ../../scripts/build.mjs"
   },
   "dependencies": {
-    "@idocs/core": "workspace:^",
+    "@docspp/core": "workspace:^",
     "d3-selection": "^3.0.0",
     "d3-transition": "^3.0.1",
     "d3-zoom": "^3.0.0"
@@ -29,7 +29,7 @@
     "react": "^19.3.0",
     "react-dom": "^19.3.0"
   },
-  "description": "The interactive diagram component for idocs: pan and zoom, drawer, scenario player, sequence view.",
+  "description": "The interactive diagram component for docspp: pan and zoom, drawer, scenario player, sequence view.",
   "files": [
     "dist"
   ],

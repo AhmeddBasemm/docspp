@@ -13,7 +13,7 @@ describe('committed diagram.schema.json', () => {
     ['apps/docs', docsRoot],
     ['templates/starter', templateRoot],
   ] as const) {
-    it(`${label} is up to date (run \`pnpm idocs schema ${label}\` after changing the schema)`, () => {
+    it(`${label} is up to date (run \`pnpm docspp schema ${label}\` after changing the schema)`, () => {
       expect(readFileSync(join(root, 'diagrams/diagram.schema.json'), 'utf8')).toBe(expected)
     })
   }

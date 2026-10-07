@@ -3,19 +3,19 @@ title: Editing diagrams
 description: The ten-minute tour of diagram.yaml.
 ---
 
-import Diagram from '@idocs/astro/Diagram.astro'
+import Diagram from '@docspp/astro/Diagram.astro'
 
 Every diagram is a folder under `diagrams/`. Save a file and the page reloads.
 
 ```sh
-pnpm idocs new payments      # creates diagrams/payments/diagram.yaml
+pnpm docspp new payments      # creates diagrams/payments/diagram.yaml
 pnpm check                   # validates every diagram; errors point at file:line:column
 ```
 
 Show it on any page:
 
 ```mdx
-import Diagram from '@idocs/astro/Diagram.astro'
+import Diagram from '@docspp/astro/Diagram.astro'
 
 <Diagram name="payments" />
 ```
@@ -31,7 +31,7 @@ edges:
   - api -> db: { kind: data, label: SQL }
 ```
 
-`kind` picks a default icon and colour. `icon` takes a name like `postgresql`; find one with `pnpm idocs icons search redis`. Put what a reader should see when they click a box in `diagrams/<name>/nodes/<id>.md`.
+`kind` picks a default icon and colour. `icon` takes a name like `postgresql`; find one with `pnpm docspp icons search redis`. Put what a reader should see when they click a box in `diagrams/<name>/nodes/<id>.md`.
 
 ## Stories
 

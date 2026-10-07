@@ -5,13 +5,13 @@ tableOfContents:
   maxHeadingLevel: 2
 ---
 
-import Diagram from '@idocs/astro/Diagram.astro'
+import Diagram from '@docspp/astro/Diagram.astro'
 import { Aside } from '@astrojs/starlight/components'
 
 ## Create a project
 
 ```sh
-npm create idocs@latest my-docs
+npm create docspp@latest my-docs
 cd my-docs
 pnpm install
 pnpm dev
@@ -19,10 +19,10 @@ pnpm dev
 
 The site opens on `http://localhost:4321` with a small shop diagram and three scenarios. Edit `diagrams/shop/diagram.yaml`, save, and the page reloads.
 
-If you prefer, click **Use this template** on the GitHub template repository, or copy `templates/starter` from the idocs repository.
+If you prefer, click **Use this template** on the GitHub template repository, or copy `templates/starter` from the docspp repository.
 
 <Aside type="caution" title="Pre-release">
-The packages are not on npm yet, so `npm create idocs` will not work until they are. Until then, clone the idocs repository, run `pnpm install`, and use `pnpm dev:template` to work in the starter project. `docs/REPOSITORIES.md` in that repository lists what is left before the first publish. Delete this note when it is done.
+The packages are not on npm yet, so `npm create docspp` will not work until they are. Until then, clone the docspp repository, run `pnpm install`, and use `pnpm dev:template` to work in the starter project. `docs/REPOSITORIES.md` in that repository lists what is left before the first publish. Delete this note when it is done.
 </Aside>
 
 ## What you get
@@ -51,8 +51,8 @@ Everything you write lives in three places:
 ## Draw your first diagram
 
 ```sh
-pnpm idocs new payments
-pnpm idocs schema
+pnpm docspp new payments
+pnpm docspp schema
 ```
 
 That creates `diagrams/payments/diagram.yaml`. Here is a small one:
@@ -82,7 +82,7 @@ scenarios:
 Put it on a page with two lines of MDX:
 
 ```mdx
-import Diagram from '@idocs/astro/Diagram.astro'
+import Diagram from '@docspp/astro/Diagram.astro'
 
 <Diagram name="hello" />
 ```

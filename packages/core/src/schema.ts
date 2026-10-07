@@ -265,7 +265,7 @@ export function authoringJsonSchema(): Json {
   }
   return {
     $schema: 'http://json-schema.org/draft-07/schema#',
-    title: 'interactive-docs diagram',
+    title: 'docspp diagram',
     ...schema,
   }
 }

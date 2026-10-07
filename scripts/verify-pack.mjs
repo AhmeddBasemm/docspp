@@ -1,8 +1,8 @@
 // Proves the published experience works, without publishing anything.
 //
 //   1. build and pack every package
-//   2. scaffold a project with the packed create-idocs
-//   3. point its @idocs/* dependencies at the tarballs and install like a user would
+//   2. scaffold a project with the packed create-docspp
+//   3. point its @docspp/* dependencies at the tarballs and install like a user would
 //   4. check, build, and load the built site in Chrome
 //
 // Needs network (for Astro and friends) and Google Chrome. Pass --keep to leave the project behind.
@@ -15,7 +15,7 @@ import { serve } from './static-server.mjs'
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const keep = process.argv.includes('--keep')
-const work = mkdtempSync(join(tmpdir(), 'idocs-pack-'))
+const work = mkdtempSync(join(tmpdir(), 'docspp-pack-'))
 const packs = join(work, 'packs')
 const project = join(work, 'my-docs')
 const PORT = 4601
@@ -32,7 +32,7 @@ try {
   step('pack')
   mkdirSync(packs, { recursive: true })
   const tarballs = {}
-  for (const dir of ['core', 'react', 'astro', 'cli', 'create-idocs']) {
+  for (const dir of ['core', 'react', 'astro', 'cli', 'create-docspp']) {
     const cwd = join(root, 'packages', dir)
     const name = JSON.parse(readFileSync(join(cwd, 'package.json'), 'utf8')).name
     run('pnpm', ['pack', '--pack-destination', packs], cwd)
@@ -40,8 +40,8 @@ try {
     console.log(`  ${name}  ${tarballs[name]?.split('/').pop()}`)
   }
 
-  step('scaffold with the packed create-idocs')
-  run('tar', ['-xzf', tarballs['create-idocs'], '-C', packs], work)
+  step('scaffold with the packed create-docspp')
+  run('tar', ['-xzf', tarballs['create-docspp'], '-C', packs], work)
   run('node', [join(packs, 'package/dist/index.js'), project], work)
 
   step('install the packed packages')
@@ -54,11 +54,11 @@ try {
   // Packages depend on each other by version; during this test those versions are not on npm.
   appendFileSync(
     join(project, 'pnpm-workspace.yaml'),
-    `overrides:\n${Object.entries(tarballs).filter(([n]) => n.startsWith('@idocs/')).map(([n, f]) => `  '${n}': file:${f}`).join('\n')}\n`,
+    `overrides:\n${Object.entries(tarballs).filter(([n]) => n.startsWith('@docspp/')).map(([n, f]) => `  '${n}': file:${f}`).join('\n')}\n`,
   )
   run('pnpm', ['install'], project)
 
-  step('idocs check')
+  step('docspp check')
   console.log(run('pnpm', ['check', '--strict'], project).trim().split('\n').slice(-2).join('\n'))
 
   step('astro build')
@@ -75,8 +75,8 @@ try {
   await page.goto(`${base}/architecture/`, { waitUntil: 'networkidle' })
   await page.waitForSelector('[data-node]')
   const nodes = await page.locator('[data-node]').count()
-  await page.click('.idocs-chip-btn:has-text("Place an order")')
-  await page.waitForSelector('.idocs-packet', { state: 'attached', timeout: 8000 })
+  await page.click('.docspp-chip-btn:has-text("Place an order")')
+  await page.waitForSelector('.docspp-packet', { state: 'attached', timeout: 8000 })
   await browser.close()
   if (nodes !== 7) throw new Error(`expected 7 nodes in the shop diagram, found ${nodes}`)
   if (errors.length) throw new Error(`page errors: ${errors.join('; ')}`)

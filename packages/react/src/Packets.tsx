@@ -1,4 +1,4 @@
-import type { Frame, Layout } from '@idocs/core'
+import type { Frame, Layout } from '@docspp/core'
 import { cx } from './util'
 
 interface Props {
@@ -9,7 +9,7 @@ interface Props {
 
 export function Packets({ frame, layout, paths }: Props) {
   return (
-    <div className="idocs-overlay" style={{ width: layout.width, height: layout.height }}>
+    <div className="docspp-overlay" style={{ width: layout.width, height: layout.height }}>
       {frame.pulses.map((p) => {
         const r = layout.nodes[p.node]
         if (!r) return null
@@ -17,7 +17,7 @@ export function Packets({ frame, layout, paths }: Props) {
         return (
           <div key={`${p.stepId}-${p.node}`}>
             <div
-              className="idocs-pulse"
+              className="docspp-pulse"
               style={{
                 left: r.x - grow / 2,
                 top: r.y - grow / 2,
@@ -28,7 +28,7 @@ export function Packets({ frame, layout, paths }: Props) {
             />
             {p.label && (
               <div
-                className={cx('idocs-caption', p.kind && `kind-${p.kind}`)}
+                className={cx('docspp-caption', p.kind && `kind-${p.kind}`)}
                 style={{ left: r.x + r.w / 2, top: r.y - 8 }}
               >
                 {p.label}
@@ -45,11 +45,11 @@ export function Packets({ frame, layout, paths }: Props) {
         return (
           <div
             key={`${p.stepId}-${p.edge}`}
-            className={cx('idocs-packet', `kind-${p.kind}`)}
+            className={cx('docspp-packet', `kind-${p.kind}`)}
             style={{ transform: `translate(${at.x}px, ${at.y}px)` }}
           >
-            <span className="idocs-packet-dot" />
-            {p.label && <span className="idocs-packet-label">{p.label}</span>}
+            <span className="docspp-packet-dot" />
+            {p.label && <span className="docspp-packet-label">{p.label}</span>}
           </div>
         )
       })}

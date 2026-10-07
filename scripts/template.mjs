@@ -1,5 +1,5 @@
 // Turns templates/starter into a standalone project: no workspace: versions, the shared
-// author-diagram skill included, placeholders filled in. Used by create-idocs (at build time)
+// author-diagram skill included, placeholders filled in. Used by create-docspp (at build time)
 // and by the template-repo sync workflow.
 //
 //   node scripts/template.mjs --out ../my-template-repo
@@ -47,7 +47,7 @@ export function buildTemplate(outDir, options = {}) {
   mkdirSync(skillDir, { recursive: true })
   cpSync(join(root, '.claude/skills/author-diagram/SKILL.md'), join(skillDir, 'SKILL.md'))
 
-  // A package keeps the underscore names (create-idocs renames them); a repository gets the real ones.
+  // A package keeps the underscore names (create-docspp renames them); a repository gets the real ones.
   if (!options.keepAliases) {
     for (const [from, to] of Object.entries(RENAMES)) {
       if (existsSync(join(outDir, from))) renameSync(join(outDir, from), join(outDir, to))

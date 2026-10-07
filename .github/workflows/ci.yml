@@ -33,7 +33,7 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm test:e2e
 
-  # Packs the packages, scaffolds a project from the packed create-idocs, installs it like a user
+  # Packs the packages, scaffolds a project from the packed create-docspp, installs it like a user
   # would, builds it and loads it in a browser. Nothing is published.
   pack:
     runs-on: ubuntu-latest

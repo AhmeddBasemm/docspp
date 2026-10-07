@@ -6,22 +6,22 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "check": "idocs check",
-    "idocs": "idocs"
+    "check": "docspp check",
+    "docspp": "docspp"
   },
   "dependencies": {
     "@astrojs/react": "^7.0.0",
     "@astrojs/starlight": "^0.42.0",
     "@fontsource/ibm-plex-mono": "^5.3.0",
     "@fontsource/ibm-plex-sans": "^5.3.0",
-    "@idocs/astro": "workspace:*",
-    "@idocs/react": "workspace:*",
+    "@docspp/astro": "workspace:*",
+    "@docspp/react": "workspace:*",
     "astro": "^7.0.0",
     "react": "^19.3.0",
     "react-dom": "^19.3.0"
   },
   "devDependencies": {
-    "@idocs/cli": "workspace:*",
+    "@docspp/cli": "workspace:*",
     "@types/react": "^19.2.0",
     "@types/react-dom": "^19.2.0"
   },

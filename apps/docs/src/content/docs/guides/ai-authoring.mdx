@@ -17,8 +17,8 @@ The agent should never guess whether a diagram is valid:
 
 ```sh
 pnpm check --json            # errors with file, line and column, plus suggestions
-pnpm idocs icons search kafka
-pnpm idocs list --json       # what already exists
+pnpm docspp icons search kafka
+pnpm docspp list --json       # what already exists
 ```
 
 Then it can open the page, look at the rendered diagram (with a browser tool such as Playwright), and fix overlapping or confusing layout by changing `direction`, `layout: row`, widths and grouping.

@@ -3,12 +3,12 @@ dist
 .astro
 .DS_Store
 *.log
-.idocs-cache
+.docspp-cache
 apps/docs/.astro
 apps/docs/dist
 templates/*/.astro
 templates/*/dist
-packages/create-idocs/template
+packages/create-docspp/template
 test-results
 playwright-report
 screenshots

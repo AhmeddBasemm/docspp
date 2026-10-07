@@ -9,15 +9,15 @@ Diagrams live in `diagrams/<name>/diagram.yaml`. The tool lays them out, draws t
 
 ## Workflow
 
-1. **Look first.** `pnpm idocs list --json` shows what exists. Read the code you are documenting; do not invent components, ports or flows. Put the source files on the node as `refs:` so readers (and `pnpm check`) can tell when the diagram goes stale.
+1. **Look first.** `pnpm docspp list --json` shows what exists. Read the code you are documenting; do not invent components, ports or flows. Put the source files on the node as `refs:` so readers (and `pnpm check`) can tell when the diagram goes stale.
 2. **Pick a scope.** One diagram answers one question ("how does checkout work?"). Aim for 8 to 25 nodes. Split anything bigger into views of one model, not several diagrams.
 3. **Write the model**: nodes, then groups, then edges.
 4. **Add scenarios** for the flows a reader will ask about: the happy path first, then the failures that teach something.
 5. **Check**: `pnpm check --json`. Fix every error and every warning. Messages carry `file:line:column` and a suggestion.
 6. **Look at it.** Run `pnpm dev`, open the page that embeds the diagram, and view it with a browser tool. Fix what you see (see "Layout" below). A diagram that validates can still be a mess.
-7. Add the diagram to a page: `import Diagram from '@idocs/astro/Diagram.astro'` then `<Diagram name="<name>" />`.
+7. Add the diagram to a page: `import Diagram from '@docspp/astro/Diagram.astro'` then `<Diagram name="<name>" />`.
 
-Create a new one with `pnpm idocs new <name>` and run `pnpm idocs schema` once so editors validate the YAML.
+Create a new one with `pnpm docspp new <name>` and run `pnpm docspp schema` once so editors validate the YAML.
 
 ## Format
 
@@ -106,10 +106,10 @@ Layout is automatic. Steer it with hints, never with coordinates:
 | | |
 |---|---|
 | `pnpm check [--json] [--strict]` | validate; `--strict` fails on warnings |
-| `pnpm idocs list [--json]` | diagrams, views, scenarios |
-| `pnpm idocs icons search <q>` | find an icon name |
-| `pnpm idocs new <name>` | scaffold |
-| `pnpm idocs schema` | write the JSON Schema for editors |
+| `pnpm docspp list [--json]` | diagrams, views, scenarios |
+| `pnpm docspp icons search <q>` | find an icon name |
+| `pnpm docspp new <name>` | scaffold |
+| `pnpm docspp schema` | write the JSON Schema for editors |
 | `pnpm dev` | preview at http://localhost:4321 |
 
 ## Common errors
@@ -117,5 +117,5 @@ Layout is automatic. Steer it with hints, never with coordinates:
 - `Edge from "x" is not a node`: typo or a node you have not declared; the hint suggests the nearest id.
 - `No path from "a" to "b" in view "v"`: declare an edge between them (it can be `hidden: true`) or add `via: [...]`.
 - `Node "x" is not in view "v"`: the scenario's view does not include it; add it to `include` or change the scenario's `view:`.
-- `Unknown icon`: run `pnpm idocs icons search <name>`.
+- `Unknown icon`: run `pnpm docspp icons search <name>`.
 - YAML: quote values that contain `: ` or start with `{`, `[`, `*` or `&`; in `{ ... }` flow maps, quote values that contain commas.

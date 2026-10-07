@@ -1,5 +1,5 @@
 /*
- * Starlight theme bridge for interactive-docs.
+ * Starlight theme bridge for docspp.
  * Diagrams are wide, so the content column grows and prose is held to a readable measure.
  */
 :root {
@@ -8,11 +8,11 @@
   --sl-font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
 }
 
-.sl-markdown-content > :not(.idocs-bleed, .not-prose) {
+.sl-markdown-content > :not(.docspp-bleed, .not-prose) {
   max-width: 50rem;
 }
 
-.idocs-bleed {
+.docspp-bleed {
   margin-block: 1.25rem 2rem;
   max-width: none;
 }

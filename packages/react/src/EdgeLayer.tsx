@@ -1,4 +1,4 @@
-import { type CompiledDiagram, type CompiledView, type Layout, roundedPath } from '@idocs/core'
+import { type CompiledDiagram, type CompiledView, type Layout, roundedPath } from '@docspp/core'
 import { colorVar, cx } from './util'
 
 export interface EdgeState {
@@ -22,7 +22,7 @@ interface Props {
 export function EdgeLayer({ uid, diagram, view, layout, stateOf, onHover, register }: Props) {
   const kinds = [...new Set(view.edgeIds.map((id) => diagram.edges[id]!.kind))]
   return (
-    <svg className="idocs-svg" width={layout.width} height={layout.height} aria-hidden="true">
+    <svg className="docspp-svg" width={layout.width} height={layout.height} aria-hidden="true">
       <defs>
         {kinds.map((k) => {
           const def = diagram.edgeKinds[k]!
@@ -54,11 +54,11 @@ export function EdgeLayer({ uid, diagram, view, layout, stateOf, onHover, regist
         const marker = `url(#${uid}-ah-${e.kind})`
         return (
           <g key={id} onMouseEnter={() => onHover(id)} onMouseLeave={() => onHover(null)}>
-            {!e.hidden && <path className="idocs-edge-hit" d={d} />}
+            {!e.hidden && <path className="docspp-edge-hit" d={d} />}
             <path
               ref={(el) => register(id, el)}
               className={cx(
-                'idocs-edge',
+                'docspp-edge',
                 e.hidden && 'is-ghost',
                 `st-${e.status}`,
                 s.hl && 'is-hl',
@@ -90,15 +90,15 @@ export function EdgeLayer({ uid, diagram, view, layout, stateOf, onHover, regist
         return (
           <g
             key={`l-${id}`}
-            className={cx('idocs-elabel', s.hl && 'is-hl', s.dim && 'is-dim')}
+            className={cx('docspp-elabel', s.hl && 'is-hl', s.dim && 'is-dim')}
             onMouseEnter={() => onHover(id)}
             onMouseLeave={() => onHover(null)}
           >
             {key && l.key && (
               <>
-                <circle className="idocs-key" cx={l.key.x} cy={l.key.y} r={8.5} />
+                <circle className="docspp-key" cx={l.key.x} cy={l.key.y} r={8.5} />
                 <text
-                  className="idocs-key-text"
+                  className="docspp-key-text"
                   x={l.key.x}
                   y={l.key.y}
                   textAnchor="middle"

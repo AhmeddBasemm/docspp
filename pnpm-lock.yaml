@@ -199,21 +199,21 @@ importers:
       '@astrojs/starlight':
         specifier: ^0.42.0
         version: 0.42.5(astro@7.3.5(@types/node@26.6.4)(tsx@4.23.15)(yaml@2.9.1))(typescript@7.0.2)
+      '@docspp/astro':
+        specifier: workspace:*
+        version: link:../../packages/astro
+      '@docspp/core':
+        specifier: workspace:*
+        version: link:../../packages/core
+      '@docspp/react':
+        specifier: workspace:*
+        version: link:../../packages/react
       '@fontsource/ibm-plex-mono':
         specifier: ^5.3.0
         version: 5.3.0
       '@fontsource/ibm-plex-sans':
         specifier: ^5.3.0
         version: 5.3.0
-      '@idocs/astro':
-        specifier: workspace:*
-        version: link:../../packages/astro
-      '@idocs/core':
-        specifier: workspace:*
-        version: link:../../packages/core
-      '@idocs/react':
-        specifier: workspace:*
-        version: link:../../packages/react
       astro:
         specifier: ^7.0.0
         version: 7.3.5(@types/node@26.6.4)(tsx@4.23.15)(yaml@2.9.1)
@@ -233,10 +233,10 @@ importers:
 
   packages/astro:
     dependencies:
-      '@idocs/core':
+      '@docspp/core':
         specifier: workspace:^
         version: link:../core
-      '@idocs/react':
+      '@docspp/react':
         specifier: workspace:^
         version: link:../react
     devDependencies:
@@ -249,7 +249,7 @@ importers:
 
   packages/cli:
     dependencies:
-      '@idocs/core':
+      '@docspp/core':
         specifier: workspace:^
         version: link:../core
 
@@ -298,15 +298,15 @@ importers:
         specifier: ^4.6.5
         version: 4.6.5
 
-  packages/create-idocs:
+  packages/create-docspp:
     devDependencies:
-      '@idocs/core':
+      '@docspp/core':
         specifier: workspace:^
         version: link:../core
 
   packages/react:
     dependencies:
-      '@idocs/core':
+      '@docspp/core':
         specifier: workspace:^
         version: link:../core
       d3-selection:
@@ -349,18 +349,18 @@ importers:
       '@astrojs/starlight':
         specifier: ^0.42.0
         version: 0.42.5(astro@7.3.5(@types/node@26.6.4)(tsx@4.23.15)(yaml@2.9.1))(typescript@7.0.2)
+      '@docspp/astro':
+        specifier: workspace:*
+        version: link:../../packages/astro
+      '@docspp/react':
+        specifier: workspace:*
+        version: link:../../packages/react
       '@fontsource/ibm-plex-mono':
         specifier: ^5.3.0
         version: 5.3.0
       '@fontsource/ibm-plex-sans':
         specifier: ^5.3.0
         version: 5.3.0
-      '@idocs/astro':
-        specifier: workspace:*
-        version: link:../../packages/astro
-      '@idocs/react':
-        specifier: workspace:*
-        version: link:../../packages/react
       astro:
         specifier: ^7.0.0
         version: 7.3.5(@types/node@26.6.4)(tsx@4.23.15)(yaml@2.9.1)
@@ -371,7 +371,7 @@ importers:
         specifier: ^19.3.0
         version: 19.3.0(react@19.3.0)
     devDependencies:
-      '@idocs/cli':
+      '@docspp/cli':
         specifier: workspace:*
         version: link:../../packages/cli
       '@types/react':

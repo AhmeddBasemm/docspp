@@ -1,4 +1,4 @@
-import type { Timeline } from '@idocs/core'
+import type { Timeline } from '@docspp/core'
 import type { Player as PlayerState } from './usePlayer'
 import { fmtTime } from './util'
 
@@ -26,11 +26,11 @@ export function Player({ player, timeline, mode, onMode, stepIndex }: Props) {
         ? 'Resume'
         : 'Play'
   return (
-    <div className="idocs-player" role="group" aria-label="Scenario player">
-      <div className="idocs-player-buttons">
+    <div className="docspp-player" role="group" aria-label="Scenario player">
+      <div className="docspp-player-buttons">
         <button
           type="button"
-          className="idocs-btn"
+          className="docspp-btn"
           onClick={player.prev}
           aria-label="Previous step"
           title="Previous step"
@@ -38,13 +38,13 @@ export function Player({ player, timeline, mode, onMode, stepIndex }: Props) {
         >
           {icon('M3 2.5h1.8v11H3zM13 2.5v11L6 8z')}
         </button>
-        <button type="button" className="idocs-btn is-primary" onClick={player.toggle}>
+        <button type="button" className="docspp-btn is-primary" onClick={player.toggle}>
           {player.playing ? icon('M4 2.5h2.8v11H4zM9.2 2.5H12v11H9.2z') : icon('M4 2.5v11l9-5.5z')}
           {label}
         </button>
         <button
           type="button"
-          className="idocs-btn"
+          className="docspp-btn"
           onClick={player.next}
           aria-label="Next step"
           title="Next step"
@@ -54,7 +54,7 @@ export function Player({ player, timeline, mode, onMode, stepIndex }: Props) {
         </button>
       </div>
       <input
-        className="idocs-scrub"
+        className="docspp-scrub"
         type="range"
         min={0}
         max={timeline.duration}
@@ -63,11 +63,11 @@ export function Player({ player, timeline, mode, onMode, stepIndex }: Props) {
         onChange={(e) => player.scrub(Number(e.target.value))}
         aria-label="Scenario position"
       />
-      <span className="idocs-time">
+      <span className="docspp-time">
         {stepIndex >= 0 ? `step ${stepIndex + 1}/${total}` : `${total} steps`} · {fmtTime(player.t)}
       </span>
       <select
-        className="idocs-btn"
+        className="docspp-btn"
         value={player.speed}
         onChange={(e) => player.setSpeed(Number(e.target.value))}
         aria-label="Playback speed"
@@ -76,7 +76,7 @@ export function Player({ player, timeline, mode, onMode, stepIndex }: Props) {
         <option value={1}>1×</option>
         <option value={2}>2×</option>
       </select>
-      <div className="idocs-modes" role="group" aria-label="Presentation">
+      <div className="docspp-modes" role="group" aria-label="Presentation">
         <button type="button" aria-pressed={mode === 'flow'} onClick={() => onMode('flow')}>
           Flow
         </button>

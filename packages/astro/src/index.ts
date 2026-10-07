@@ -1,32 +1,32 @@
 import { fileURLToPath } from 'node:url'
-import { formatDiagnostic, type LoadedProject, loadProject } from '@idocs/core/node'
+import { formatDiagnostic, type LoadedProject, loadProject } from '@docspp/core/node'
 import type { AstroIntegration } from 'astro'
 import type { Plugin } from 'vite'
 
-const VIRTUAL_ID = 'virtual:idocs/diagrams'
+const VIRTUAL_ID = 'virtual:docspp/diagrams'
 const RESOLVED_ID = `\0${VIRTUAL_ID}`
 
-export interface IdocsOptions {
+export interface DocsppOptions {
   /** Folder with one sub-folder per diagram. Relative to the project root. Default `diagrams`. */
   dir?: string
 }
 
-/** Compiles `diagrams/*` into the `virtual:idocs/diagrams` module and fails the build on errors. */
-export default function idocs(options: IdocsOptions = {}): AstroIntegration {
+/** Compiles `diagrams/*` into the `virtual:docspp/diagrams` module and fails the build on errors. */
+export default function docspp(options: DocsppOptions = {}): AstroIntegration {
   return {
-    name: '@idocs/astro',
+    name: '@docspp/astro',
     hooks: {
       'astro:config:setup': ({ config, updateConfig }) => {
         updateConfig({
           vite: {
             plugins: [plugin(fileURLToPath(config.root), options.dir ?? 'diagrams')],
             // Render these through Vite in dev as well; they ship TypeScript sources.
-            ssr: { noExternal: ['@idocs/react', '@idocs/core', '@idocs/astro'] },
+            ssr: { noExternal: ['@docspp/react', '@docspp/core', '@docspp/astro'] },
             optimizeDeps: {
               include: [
-                '@idocs/react > d3-selection',
-                '@idocs/react > d3-zoom',
-                '@idocs/core > elkjs/lib/elk.bundled.js',
+                '@docspp/react > d3-selection',
+                '@docspp/react > d3-zoom',
+                '@docspp/core > elkjs/lib/elk.bundled.js',
               ],
             },
           },
@@ -46,7 +46,7 @@ function plugin(root: string, dir: string): Plugin {
   }
 
   return {
-    name: 'idocs:diagrams',
+    name: 'docspp:diagrams',
     configResolved(config) {
       building = config.command === 'build'
     },
@@ -61,7 +61,7 @@ function plugin(root: string, dir: string): Plugin {
       if (errors.length && building) {
         this.error(`Diagram errors:\n${report}`)
       }
-      if (p.diagnostics.length) this.warn(`idocs\n${report}`)
+      if (p.diagnostics.length) this.warn(`docspp\n${report}`)
       for (const f of p.watch) this.addWatchFile(f)
       return `export const diagrams = ${JSON.stringify(p.diagrams)}\nexport const diagnostics = ${JSON.stringify(p.diagnostics)}\nexport default diagrams\n`
     },

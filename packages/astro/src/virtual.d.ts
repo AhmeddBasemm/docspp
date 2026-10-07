@@ -1,6 +1,6 @@
-declare module 'virtual:idocs/diagrams' {
-  import type { CompiledDiagram } from '@idocs/core'
-  import type { Diagnostic } from '@idocs/core/node'
+declare module 'virtual:docspp/diagrams' {
+  import type { CompiledDiagram } from '@docspp/core'
+  import type { Diagnostic } from '@docspp/core/node'
   export const diagrams: Record<string, CompiledDiagram>
   export const diagnostics: Diagnostic[]
   export default diagrams

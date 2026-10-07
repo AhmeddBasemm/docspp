@@ -7,16 +7,16 @@ import {
   loadProject,
   resolveIcon,
   searchIcons,
-} from '@idocs/core/node'
+} from '@docspp/core/node'
 
-const HELP = `idocs: interactive diagrams for your docs
+const HELP = `docspp: interactive diagrams for your docs
 
 Usage
-  idocs check [root...] [--json] [--strict]  Validate every diagram under <root>/diagrams
-  idocs list [root] [--json]               List diagrams, views and scenarios
-  idocs schema [root]                      Write diagrams/diagram.schema.json for editor autocomplete
-  idocs icons search <query>               Find icon names ("postgresql", "logos:redis", ...)
-  idocs new <name> [root]                  Create diagrams/<name>/diagram.yaml
+  docspp check [root...] [--json] [--strict]  Validate every diagram under <root>/diagrams
+  docspp list [root] [--json]               List diagrams, views and scenarios
+  docspp schema [root]                      Write diagrams/diagram.schema.json for editor autocomplete
+  docspp icons search <query>               Find icon names ("postgresql", "logos:redis", ...)
+  docspp new <name> [root]                  Create diagrams/<name>/diagram.yaml
 
 <root> is the folder that contains "diagrams/". It defaults to the current folder,
 or the first apps/* or templates/* folder that has one.
@@ -121,7 +121,7 @@ function check(roots: string[], flags: Flags): number {
         `${r.errors.length} error${r.errors.length === 1 ? '' : 's'}, ${r.warnings.length} warning${r.warnings.length === 1 ? '' : 's'}`,
     )
     if (names.length === 0 && r.errors.length === 0)
-      console.log('No diagrams found. Create one with `idocs new <name>`.')
+      console.log('No diagrams found. Create one with `docspp new <name>`.')
   }
   return ok ? 0 : 1
 }
@@ -177,7 +177,7 @@ function schema(root: string): number {
 
 function icons(query: string, flags: Flags): number {
   if (!query) {
-    console.error('Usage: idocs icons search <query>')
+    console.error('Usage: docspp icons search <query>')
     return 2
   }
   const hits = searchIcons(query, 20)
@@ -200,7 +200,7 @@ function icons(query: string, flags: Flags): number {
 
 function create(name: string | undefined, root: string): number {
   if (!name || !/^[a-z0-9][a-z0-9-]*$/.test(name)) {
-    console.error('Usage: idocs new <name>   (lowercase letters, digits and dashes)')
+    console.error('Usage: docspp new <name>   (lowercase letters, digits and dashes)')
     return 2
   }
   const dir = join(root, 'diagrams', name)
@@ -216,7 +216,7 @@ function create(name: string | undefined, root: string): number {
   )
   console.log(`Created ${relative(process.cwd(), dir)}`)
   console.log(
-    `Use it in a page:\n  import Diagram from '@idocs/astro/Diagram.astro'\n  <Diagram name="${name}" />`,
+    `Use it in a page:\n  import Diagram from '@docspp/astro/Diagram.astro'\n  <Diagram name="${name}" />`,
   )
   return 0
 }

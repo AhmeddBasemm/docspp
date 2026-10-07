@@ -1,2 +1,2 @@
 /// <reference path="../.astro/types.d.ts" />
-/// <reference types="@idocs/astro/virtual" />
+/// <reference types="@docspp/astro/virtual" />

@@ -1,5 +1,5 @@
 {
-  "name": "@idocs/astro",
+  "name": "@docspp/astro",
   "version": "0.1.0",
   "type": "module",
   "exports": {
@@ -15,8 +15,8 @@
     "build": "node ../../scripts/build.mjs"
   },
   "dependencies": {
-    "@idocs/core": "workspace:^",
-    "@idocs/react": "workspace:^"
+    "@docspp/core": "workspace:^",
+    "@docspp/react": "workspace:^"
   },
   "peerDependencies": {
     "astro": ">=6"
@@ -25,7 +25,7 @@
     "astro": "^7.0.0",
     "vite": "*"
   },
-  "description": "Astro integration for idocs: compiles diagrams/ at build time and provides the <Diagram> component.",
+  "description": "Astro integration for docspp: compiles diagrams/ at build time and provides the <Diagram> component.",
   "files": [
     "dist"
   ],

@@ -1,4 +1,4 @@
-# Interactive docs
+# docspp
 
 Describe your system in YAML. Get architecture diagrams your readers can click, filter and **play**: pick a scenario and watch a request travel through the system, step by step.
 
@@ -13,7 +13,7 @@ Describe your system in YAML. Get architecture diagrams your readers can click, 
 ## Start a project
 
 ```sh
-npm create idocs@latest my-docs
+npm create docspp@latest my-docs
 cd my-docs
 pnpm install
 pnpm dev
@@ -52,8 +52,8 @@ A monorepo. One place to change the tool, its documentation and its starter proj
 | `packages/core` | schema, compiler, layout, edge router, scenario timeline |
 | `packages/react` | the diagram component and its styles |
 | `packages/astro` | Astro integration and `<Diagram>` |
-| `packages/cli` | the `idocs` command |
-| `packages/create-idocs` | `npm create idocs` |
+| `packages/cli` | the `docspp` command |
+| `packages/create-docspp` | `npm create docspp` |
 | `apps/docs` | the tool's landing page, guides and live examples |
 | `templates/starter` | the project new users start from |
 

@@ -1,19 +1,19 @@
-# @idocs/astro
+# @docspp/astro
 
-Astro integration for idocs. It compiles `diagrams/` at build time (the build fails on a broken diagram) and provides the `<Diagram>` component.
+Astro integration for docspp. It compiles `diagrams/` at build time (the build fails on a broken diagram) and provides the `<Diagram>` component.
 
 ```js
 // astro.config.mjs
 import react from '@astrojs/react'
-import idocs from '@idocs/astro'
+import docspp from '@docspp/astro'
 
-export default defineConfig({ integrations: [idocs(), react()] })
+export default defineConfig({ integrations: [docspp(), react()] })
 ```
 
 ```mdx
-import Diagram from '@idocs/astro/Diagram.astro'
+import Diagram from '@docspp/astro/Diagram.astro'
 
 <Diagram name="shop" scenario="checkout" />
 ```
 
-Also exports `@idocs/astro/starlight.css`, which widens the Starlight content column for diagrams.
+Also exports `@docspp/astro/starlight.css`, which widens the Starlight content column for diagrams.

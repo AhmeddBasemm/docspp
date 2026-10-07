@@ -13,7 +13,7 @@
       "!**/node_modules",
       "!**/diagram.schema.json",
       "!**/*.svg",
-      "!packages/create-idocs/template",
+      "!packages/create-docspp/template",
       "!**/*.astro"
     ]
   },

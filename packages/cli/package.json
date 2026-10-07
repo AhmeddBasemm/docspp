@@ -1,9 +1,9 @@
 {
-  "name": "@idocs/cli",
+  "name": "@docspp/cli",
   "version": "0.1.0",
   "type": "module",
   "bin": {
-    "idocs": "./src/bin.ts"
+    "docspp": "./src/bin.ts"
   },
   "exports": {
     ".": "./src/index.ts"
@@ -13,9 +13,9 @@
     "build": "node ../../scripts/build.mjs"
   },
   "dependencies": {
-    "@idocs/core": "workspace:^"
+    "@docspp/core": "workspace:^"
   },
-  "description": "The idocs command line: check, list, schema, icons search, new.",
+  "description": "The docspp command line: check, list, schema, icons search, new.",
   "files": [
     "dist"
   ],
@@ -27,7 +27,7 @@
   "publishConfig": {
     "access": "public",
     "bin": {
-      "idocs": "./dist/bin.js"
+      "docspp": "./dist/bin.js"
     },
     "exports": {
       ".": {

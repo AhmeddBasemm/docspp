@@ -1,4 +1,4 @@
-import type { CompiledDiagram, CompiledView } from '@idocs/core'
+import type { CompiledDiagram, CompiledView } from '@docspp/core'
 import { cx } from './util'
 
 interface Props {
@@ -13,8 +13,8 @@ export function InterfaceTable({ diagram, view, hover, onHover }: Props) {
   if (edges.length === 0) return null
   const title = (id: string) => diagram.nodes[id]?.title ?? id
   return (
-    <div className="idocs-table-wrap">
-      <table className="idocs-table">
+    <div className="docspp-table-wrap">
+      <table className="docspp-table">
         <thead>
           <tr>
             <th>Key</th>
@@ -37,7 +37,7 @@ export function InterfaceTable({ diagram, view, hover, onHover }: Props) {
                 {title(e.from)} {e.both ? '↔' : '→'} {title(e.to)}
               </td>
               <td>
-                <span className="idocs-kind-tag">{e.kind}</span>
+                <span className="docspp-kind-tag">{e.kind}</span>
               </td>
               <td>{e.auth ?? '—'}</td>
               <td>{e.payload ?? e.label ?? '—'}</td>
