@@ -1,0 +1,26 @@
+---
+import LandingLayout from '../components/landing/LandingLayout.astro'
+import Playground from '../components/playground/Playground'
+import { withBase } from '../lib/base'
+---
+
+<LandingLayout title="Playground | docspp" description="Write YAML and see your architecture diagram live. Build nodes, groups and connections visually, and take the generated YAML with you.">
+  <section class="playground-page">
+    <div class="playground-heading">
+      <p class="lp-eyebrow">Try it in your browser</p>
+      <h1>From text to diagram. And back.</h1>
+      <p>Write YAML and see it live, or build visually and watch the text take shape. Your draft stays in this browser.</p>
+    </div>
+    <Playground client:only="react" iconsUrl={withBase('playground-icons.json')} starterIconsUrl={withBase('playground-icons-starter.json')} formatUrl={withBase('format/overview/')}>
+      <p slot="fallback">Loading the playground…</p>
+    </Playground>
+    <noscript>Enable JavaScript to use the live playground and visual builder.</noscript>
+  </section>
+</LandingLayout>
+
+<style>
+  .playground-page { max-width: 1680px; margin: 0 auto; padding: 48px var(--lp-gutter) 72px; }
+  .playground-heading { margin-bottom: 26px; }
+  h1 { font: 600 clamp(30px, 4vw, 48px)/1.1 var(--lp-display); letter-spacing: -.02em; margin: 10px 0 14px; }
+  .playground-heading > p:last-child { color: var(--lp-muted); margin: 0; max-width: 750px; font-size: 16px; }
+</style>

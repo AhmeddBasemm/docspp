@@ -42,6 +42,10 @@ export interface DiagramViewProps {
   /** Keep the selected scenario and step in the URL hash so they can be shared. */
   hash?: boolean
   className?: string
+  /** Handle node clicks externally, for example in a visual editor. Replaces the detail drawer. */
+  onNodeSelect?: (id: string) => void
+  /** Highlight a node selected by an external editor. */
+  selectedNode?: string | null
 }
 
 const EMPTY: EdgeState = {}
@@ -60,6 +64,8 @@ export function DiagramView({
   autoplay: autoplayProp = false,
   hash = true,
   className,
+  onNodeSelect,
+  selectedNode,
 }: DiagramViewProps) {
   const uid = useId().replace(/:/g, '')
   const rootRef = useRef<HTMLDivElement>(null)
@@ -84,7 +90,8 @@ export function DiagramView({
     () => modeProp ?? diagram.scenarios.find((s) => s.id === scenarioProp)?.mode ?? 'flow',
   )
   const [hover, setHover] = useState<{ node?: string; edge?: string }>({})
-  const [selected, setSelected] = useState<string | null>(null)
+  const [internalSelected, setSelected] = useState<string | null>(null)
+  const selected = selectedNode === undefined ? internalSelected : selectedNode
   const [hidePlanned, setHidePlanned] = useState(false)
   const [fullscreen, setFullscreen] = useState(false)
   // null means automatic: follow the action when the diagram is too big to read at once.
@@ -178,7 +185,13 @@ export function DiagramView({
 
   const onHoverNode = useCallback((id: string | null) => setHover(id ? { node: id } : {}), [])
   const onHoverEdge = useCallback((id: string | null) => setHover(id ? { edge: id } : {}), [])
-  const onSelect = useCallback((id: string) => setSelected((cur) => (cur === id ? null : id)), [])
+  const onSelect = useCallback(
+    (id: string) => {
+      if (onNodeSelect) onNodeSelect(id)
+      else setSelected((cur) => (cur === id ? null : id))
+    },
+    [onNodeSelect],
+  )
   const select = useCallback((id: string) => setSelected(id), [])
   const closeDrawer = useCallback(() => setSelected(null), [])
 
@@ -412,7 +425,8 @@ export function DiagramView({
             </>
           }
           overlay={
-            selected && (
+            selected &&
+            !onNodeSelect && (
               <Drawer
                 diagram={diagram}
                 view={view}

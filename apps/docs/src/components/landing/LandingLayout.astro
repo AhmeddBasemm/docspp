@@ -22,6 +22,7 @@ const image = Astro.site ? new URL(withBase('og.png'), Astro.site).href : undefi
 
 const github = 'https://github.com/AhmeddBasemm/docspp'
 const nav = [
+  { label: 'Playground', href: withBase('playground/') },
   { label: 'Docs', href: withBase('guides/introduction/') },
   { label: 'Diagram format', href: withBase('format/overview/') },
   { label: 'Scenarios', href: withBase('scenarios/overview/') },
@@ -41,6 +42,7 @@ const footer = [
   {
     title: 'Use',
     links: [
+      { label: 'Playground', href: withBase('playground/') },
       { label: 'Diagram format', href: withBase('format/overview/') },
       { label: 'Scenarios', href: withBase('scenarios/overview/') },
       { label: 'Theming', href: withBase('customize/theming/') },

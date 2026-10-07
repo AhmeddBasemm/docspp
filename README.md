@@ -13,6 +13,7 @@ Describe a system in YAML. Get a clean, interactive diagram with markdown docs b
 [![PRs welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 
 [Documentation](https://ahmeddbasemm.github.io/docspp/) ·
+[Playground](https://ahmeddbasemm.github.io/docspp/playground/) ·
 [Live examples](https://ahmeddbasemm.github.io/docspp/examples/platform/) ·
 [Report a bug](https://github.com/AhmeddBasemm/docspp/issues/new?template=bug_report.yml) ·
 [Request a feature](https://github.com/AhmeddBasemm/docspp/issues/new?template=feature_request.yml)
@@ -27,11 +28,12 @@ Describe a system in YAML. Get a clean, interactive diagram with markdown docs b
 
 Architecture diagrams go stale because they are pictures. docspp keeps the system as data, so the diagram, the docs and the walkthroughs come from one place that lives in your repository and changes in the same pull request as the code.
 
+- **Playground.** Write YAML with a live preview, or build nodes, groups and connections visually and export the YAML. Local drafts, undo/redo and examples included.
 - **Declarative.** Nodes, groups and edges in `diagram.yaml`. No coordinates: layout is automatic and steerable with a few hints.
 - **Scenarios.** Any number per diagram: the happy path, a cache miss, a declined card. Each plays as packets over the architecture, as a sequence diagram, or as a swimlane story, with a step list, scrubbing, speed control and shareable deep links.
 - **One model, many views.** Write a node once; show it in an overview, a backend-only view, a per-team view.
 - **Docs inside the picture.** Click a box for its markdown, connections and source references. Edge keys link to an interfaces table generated from the model.
-- **Icons.** Brand logos for your stack (`postgresql`, `redis`, `keycloak`…), [Lucide](https://lucide.dev) for the rest, and your own SVGs. Bundled at build time, nothing fetched at runtime.
+- **Icons.** Brand logos for your stack (`postgresql`, `redis`, `keycloak`…), [Lucide](https://lucide.dev) for the rest, and your own SVGs. Embedded in published diagrams; the playground loads its bundled catalog from the same site.
 - **A real docs site.** Astro and Starlight: markdown pages, search, light and dark themes, static output you can host anywhere, GitHub Pages included.
 - **Written to be generated.** A JSON Schema for your editor, a CLI whose errors say `file:line:col` and suggest fixes, and a skill that teaches AI agents the format.
 

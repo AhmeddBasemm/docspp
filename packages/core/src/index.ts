@@ -1,4 +1,4 @@
-// Browser-safe entry: types, layout, timeline and geometry. Compilation lives in ./node.
+// Browser-safe rendering entry. Authoring lives in ./browser; filesystem loading in ./node.
 
 export * from './defaults'
 export * from './geometry'

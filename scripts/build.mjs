@@ -18,7 +18,7 @@ const SCOPE = '@packagelab/docspp-'
 
 /** What each package ships besides the compiled entries. */
 const CONFIG = {
-  '@packagelab/docspp-core': { entries: ['src/index.ts', 'src/node.ts'] },
+  '@packagelab/docspp-core': { entries: ['src/index.ts', 'src/node.ts', 'src/browser.ts'] },
   '@packagelab/docspp-react': { entries: ['src/index.ts'], copy: [['src/styles.css', 'dist/styles.css']] },
   '@packagelab/docspp-astro': {
     entries: ['src/index.ts'],

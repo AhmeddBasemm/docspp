@@ -5,7 +5,7 @@ import { compileDiagram, type Diagnostic } from './compile'
 import type { CompiledDiagram } from './types'
 
 export * from './compile'
-export { resolveIcon, searchIcons } from './icons'
+export { loadIconSets, resolveIcon, searchIcons } from './icons'
 export { renderMarkdown } from './markdown'
 export { authoringJsonSchema, FamilySchema, KNOWN_KEYS, RootSchema } from './schema'
 

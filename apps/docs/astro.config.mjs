@@ -15,6 +15,10 @@ const image = process.env.SITE_URL
 export default defineConfig({
   site: process.env.SITE_URL,
   base: process.env.BASE_PATH,
+  vite: {
+    // The Markdown decoder's browser entry needs `document`; its worker entry uses a pure lookup.
+    resolve: { conditions: ['worker', 'module', 'browser', 'development|production'] },
+  },
   // The first guides were split into sections; keep their old addresses working.
   redirects: {
     '/guides/writing-diagrams': `${base}/format/overview/`,
@@ -81,6 +85,7 @@ export default defineConfig({
             { slug: 'guides/getting-started' },
             { slug: 'guides/project-structure' },
             { slug: 'guides/first-diagram' },
+            { label: 'Playground', link: `${base}/playground/` },
           ],
         },
         {
