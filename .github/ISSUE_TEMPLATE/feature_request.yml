@@ -1,0 +1,21 @@
+name: Feature request
+description: Suggest an improvement or a new capability.
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What are you trying to do?
+      description: Describe the diagram or documentation you want to produce, and what stops you. The problem matters more than the solution.
+    validations:
+      required: true
+  - type: textarea
+    id: idea
+    attributes:
+      label: What would you like docspp to do?
+      description: A YAML sketch of how you would write it is ideal.
+      render: yaml
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: What have you tried instead?
