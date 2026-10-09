@@ -28,11 +28,15 @@ export default function docspp(options: DocsppOptions = {}): AstroIntegration {
                 '@packagelab/docspp-astro',
               ],
             },
+            // Vite resolves `a > b` by finding `a` from the project root, and a strict layout (pnpm)
+            // only shows it what the project lists. Every chain therefore starts at this package,
+            // the one thing the project is sure to depend on, and walks down to the library.
             optimizeDeps: {
               include: [
-                '@packagelab/docspp-react > d3-selection',
-                '@packagelab/docspp-react > d3-zoom',
-                '@packagelab/docspp-core > elkjs/lib/elk.bundled.js',
+                '@packagelab/docspp-astro > @packagelab/docspp-react > d3-selection',
+                '@packagelab/docspp-astro > @packagelab/docspp-react > d3-transition',
+                '@packagelab/docspp-astro > @packagelab/docspp-react > d3-zoom',
+                '@packagelab/docspp-astro > @packagelab/docspp-core > elkjs/lib/elk.bundled.js',
               ],
             },
           },

@@ -32,6 +32,40 @@ The starter ships `.github/workflows/deploy.yml`. It installs, runs `pnpm check`
   Until Pages is enabled with the **GitHub Actions** source, the deploy step cannot run. The workflow detects that and skips it with a notice, so the build still succeeds. Enable Pages, then re-run the workflow.
 </Aside>
 
+GitHub Pages on a private repository needs a paid GitHub plan. On a free plan, use one of the [other hosts](#other-hosts) below.
+
+### When the docs live in a subfolder
+
+GitHub only runs workflows from the `.github/workflows/` folder at the root of a repository. If the docspp project sits in a folder of a larger repository (say `docs/`), the starter's workflow never runs there. Move it to the repository root and point each step at the folder:
+
+```yaml
+on:
+  push:
+    branches: [main]
+    paths: [docs/**]          # only rebuild when the docs change
+
+defaults:
+  run:
+    working-directory: docs   # every `run:` step starts here
+
+# ...and in the steps:
+- uses: pnpm/action-setup@v4
+  with:
+    package_json_file: docs/package.json
+- uses: actions/setup-node@v4
+  with:
+    node-version: 22
+    cache: pnpm
+    cache-dependency-path: docs/pnpm-lock.yaml
+- uses: actions/upload-pages-artifact@v3
+  with:
+    path: docs/dist
+```
+
+`BASE_PATH` stays `/<repo>`, because the folder is not part of the published address.
+
+If a node cites code in a sibling repository, give `refs:` the repository's URL instead of a relative path. `docspp check` only looks for paths, so `pnpm check --strict` keeps passing in a checkout that has no neighbours.
+
 ### Project pages and the base path
 
 A project site lives under `/<repo>/`, not at the root. The workflow sets two variables, and `astro.config.mjs` reads them:
