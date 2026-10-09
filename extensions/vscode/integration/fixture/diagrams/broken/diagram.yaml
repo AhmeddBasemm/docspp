@@ -1,0 +1,8 @@
+title: Broken
+nodes:
+  a:
+    kind: service
+    nope: 1
+  b: B
+edges:
+  - a -> missing: oops

@@ -67,7 +67,8 @@ export function compileDiagram(src: DiagramSource, assets: CompilerAssets): Comp
   if (!main) return { diagnostics }
 
   const scenarioSources = new Map<string, Source>()
-  const rawRoot = main.doc.toJS({ maxAliasCount: 50 }) as unknown
+  const rawRoot = toJS(main, diagnostics, { maxAliasCount: 50 })
+  if (rawRoot === undefined) return { diagnostics }
   const root = (
     rawRoot && typeof rawRoot === 'object' ? { ...(rawRoot as object) } : rawRoot
   ) as Record<string, unknown>
@@ -85,7 +86,9 @@ export function compileDiagram(src: DiagramSource, assets: CompilerAssets): Comp
       })
       continue
     }
-    scenarios[f.id] = s.doc.toJS()
+    const body = toJS(s, diagnostics)
+    if (body === undefined) continue
+    scenarios[f.id] = body
     scenarioSources.set(f.id, s)
   }
 
@@ -107,11 +110,10 @@ export function compileDiagram(src: DiagramSource, assets: CompilerAssets): Comp
   if (!parsed.success) {
     for (const issue of parsed.error.issues) {
       const { message, hint } = describeIssue(issue)
-      error(
-        message,
-        issue.path.filter((k): k is string | number => typeof k !== 'symbol'),
-        hint,
-      )
+      const path = issue.path.filter((k): k is string | number => typeof k !== 'symbol')
+      // An unknown key is reported on the mapping that holds it; point at the key itself.
+      const unknown = issue.code === 'unrecognized_keys' ? issue.keys[0] : undefined
+      error(message, unknown === undefined ? path : [...path, unknown], hint)
     }
     return { diagnostics }
   }
@@ -690,6 +692,28 @@ function parse(file: string, text: string, diagnostics: Diagnostic[]): Source | 
   }
   if (doc.errors.length) return undefined
   return { file, doc, lines }
+}
+
+/**
+ * The document as plain data. The parser accepts a document that `toJS` then refuses (an alias
+ * whose anchor does not exist yet), and a half-typed file in an editor is exactly that.
+ */
+function toJS(
+  source: Source,
+  diagnostics: Diagnostic[],
+  options?: { maxAliasCount: number },
+): unknown {
+  try {
+    return source.doc.toJS(options)
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error)
+    diagnostics.push({
+      severity: 'error',
+      message: message.split('\n')[0] ?? message,
+      file: source.file,
+    })
+    return undefined
+  }
 }
 
 /** Walk the YAML tree as far as the path goes and report where it stops. */

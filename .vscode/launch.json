@@ -1,0 +1,16 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "docspp extension (apps/docs)",
+      "type": "extensionHost",
+      "request": "launch",
+      "args": [
+        "--extensionDevelopmentPath=${workspaceFolder}/extensions/vscode",
+        "${workspaceFolder}/apps/docs"
+      ],
+      "outFiles": ["${workspaceFolder}/extensions/vscode/dist/**/*.js"],
+      "preLaunchTask": "docspp: build extension"
+    }
+  ]
+}

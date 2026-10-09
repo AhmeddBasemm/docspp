@@ -1,0 +1,6 @@
+title: Another one
+nodes:
+  one: One
+  two: Two
+edges:
+  - one -> two: calls

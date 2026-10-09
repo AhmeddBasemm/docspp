@@ -1,0 +1,38 @@
+title: The shop
+description: |
+  A small shop used by the editor tests.
+
+groups:
+  backend:
+    label: Backend
+    caption: Kubernetes
+
+nodes:
+  web:
+    kind: client
+    title: Web app
+  api:
+    kind: service
+    icon: nodejs
+    title: API
+    sub: ":8080"
+    in: backend
+    refs: [src/api.ts, src/gone.ts]
+  db:
+    kind: database
+    icon: postgresql
+    title: Database
+    in: backend
+
+edges:
+  - web -> api: HTTPS
+  - api -> db: { kind: data, label: SQL }
+
+scenarios:
+  load:
+    title: Load a page
+    steps:
+      - web -> api: GET /items
+      - api -> db: { label: SELECT, kind: lookup }
+      - db -> api: rows
+      - api -> web: 200 OK

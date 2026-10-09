@@ -1,0 +1,6 @@
+title: Refund an order
+steps:
+  - web -> api: POST /refunds
+  - at api: check the order
+  - api -> db: { label: UPDATE, kind: lookup }
+  - api -> web: 204

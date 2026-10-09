@@ -17,7 +17,8 @@ interface Props {
   layout: Layout
   maxHeight: number
   fullscreen: boolean
-  onToggleFullscreen: () => void
+  /** Absent where the page may not go full screen (an iframe without permission), which hides the button. */
+  onToggleFullscreen?: () => void
   /** Rendered inside the transformed world, in layout coordinates. */
   children: React.ReactNode
   /** Rendered over the frame, untransformed (drawer). */
@@ -217,28 +218,30 @@ export function Canvas({
               <path d="M2.5 5.5V3a.5.5 0 0 1 .5-.5h2.5M10.5 2.5H13a.5.5 0 0 1 .5.5v2.5M13.5 10.5V13a.5.5 0 0 1-.5.5h-2.5M5.5 13.5H3a.5.5 0 0 1-.5-.5v-2.5M6 6h4v4H6z" />
             </svg>
           </button>
-          <button
-            type="button"
-            className="docspp-tool"
-            title={fullscreen ? 'Exit full screen' : 'Full screen'}
-            aria-label={fullscreen ? 'Exit full screen' : 'Full screen'}
-            onClick={onToggleFullscreen}
-          >
-            <svg
-              viewBox="0 0 16 16"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.6"
-              strokeLinecap="round"
-              strokeLinejoin="round"
+          {onToggleFullscreen && (
+            <button
+              type="button"
+              className="docspp-tool"
+              title={fullscreen ? 'Exit full screen' : 'Full screen'}
+              aria-label={fullscreen ? 'Exit full screen' : 'Full screen'}
+              onClick={onToggleFullscreen}
             >
-              {fullscreen ? (
-                <path d="M13.5 6.5H9.5v-4M9.5 6.5l4.5-4.5M2.5 9.5h4v4M6.5 9.5L2 14" />
-              ) : (
-                <path d="M9.5 2.5h4v4M13.5 2.5l-5 5M6.5 13.5h-4v-4M2.5 13.5l5-5" />
-              )}
-            </svg>
-          </button>
+              <svg
+                viewBox="0 0 16 16"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.6"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                {fullscreen ? (
+                  <path d="M13.5 6.5H9.5v-4M9.5 6.5l4.5-4.5M2.5 9.5h4v4M6.5 9.5L2 14" />
+                ) : (
+                  <path d="M9.5 2.5h4v4M13.5 2.5l-5 5M6.5 13.5h-4v-4M2.5 13.5l5-5" />
+                )}
+              </svg>
+            </button>
+          )}
         </div>
       </div>
       {overlay}

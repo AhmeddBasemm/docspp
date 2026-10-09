@@ -2,4 +2,4 @@
 export * from './compiler'
 export { createIconResolver } from './icon-resolver'
 export { normalizeRoot } from './normalize'
-export { type RootInput, RootSchema } from './schema'
+export { authoringJsonSchema, KNOWN_KEYS, type RootInput, RootSchema } from './schema'

@@ -1,0 +1,17 @@
+# What `vsce package` leaves out. Only dist/, the grammars, snippets, images and docs ship.
+**
+!dist/extension.js
+!dist/webview/main.js
+!dist/webview/main.css
+!dist/icons/*.json
+!syntaxes/*.json
+!snippets/*.code-snippets
+!language-configuration.json
+!images/icon.png
+!images/icon-light.svg
+!images/icon-dark.svg
+!walkthrough/*.md
+!package.json
+!README.md
+!CHANGELOG.md
+!LICENSE

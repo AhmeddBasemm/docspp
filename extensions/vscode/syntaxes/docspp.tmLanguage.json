@@ -1,0 +1,816 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "docspp",
+  "scopeName": "source.docspp",
+  "patterns": [
+    {
+      "include": "#document"
+    },
+    {
+      "include": "#comment"
+    },
+    {
+      "include": "#block-scalars"
+    },
+    {
+      "include": "#arrows"
+    },
+    {
+      "include": "#mapping-keys"
+    },
+    {
+      "include": "#sequence-items"
+    },
+    {
+      "include": "#block-value"
+    }
+  ],
+  "repository": {
+    "comment": {
+      "match": "(?<![^\\s])(#).*$",
+      "name": "comment.line.number-sign.yaml",
+      "captures": {
+        "1": {
+          "name": "punctuation.definition.comment.yaml"
+        }
+      }
+    },
+    "document": {
+      "patterns": [
+        {
+          "match": "^---(?=\\s|$)",
+          "name": "entity.other.document.begin.yaml"
+        },
+        {
+          "match": "^\\.\\.\\.(?=\\s|$)",
+          "name": "entity.other.document.end.yaml"
+        },
+        {
+          "match": "^%.*$",
+          "name": "meta.directive.yaml"
+        }
+      ]
+    },
+    "string": {
+      "patterns": [
+        {
+          "name": "string.quoted.double.yaml",
+          "begin": "\"",
+          "end": "\"",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.definition.string.begin.yaml"
+            }
+          },
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.definition.string.end.yaml"
+            }
+          },
+          "patterns": [
+            {
+              "match": "\\\\(?:[0abt\\tnvfre \"/\\\\N_LP]|x\\h{2}|u\\h{4}|U\\h{8})",
+              "name": "constant.character.escape.yaml"
+            }
+          ]
+        },
+        {
+          "name": "string.quoted.single.yaml",
+          "begin": "'",
+          "end": "'(?!')",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.definition.string.begin.yaml"
+            }
+          },
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.definition.string.end.yaml"
+            }
+          },
+          "patterns": [
+            {
+              "match": "''",
+              "name": "constant.character.escape.yaml"
+            }
+          ]
+        }
+      ]
+    },
+    "properties": {
+      "patterns": [
+        {
+          "match": "(&)([^\\s,\\[\\]{}]+)",
+          "name": "meta.property.anchor.yaml",
+          "captures": {
+            "1": {
+              "name": "punctuation.definition.anchor.yaml"
+            },
+            "2": {
+              "name": "entity.name.type.anchor.yaml"
+            }
+          }
+        },
+        {
+          "match": "(\\*)([^\\s,\\[\\]{}]+)",
+          "captures": {
+            "1": {
+              "name": "punctuation.definition.alias.yaml"
+            },
+            "2": {
+              "name": "variable.other.alias.yaml"
+            }
+          }
+        },
+        {
+          "match": "![^\\s,\\[\\]{}]*",
+          "name": "storage.type.tag-handle.yaml"
+        }
+      ]
+    },
+    "constants": {
+      "patterns": [
+        {
+          "match": "(?<![\\w.-])(?:true|false)(?=[ \\t]*(?:$|#|,|\\]|\\}))",
+          "name": "constant.language.boolean.yaml"
+        },
+        {
+          "match": "(?<![\\w.-])(?:null|~)(?=[ \\t]*(?:$|#|,|\\]|\\}))",
+          "name": "constant.language.null.yaml"
+        },
+        {
+          "match": "(?<![\\w.-])[-+]?(?:\\d[\\d_]*(?:\\.\\d*)?|\\.\\d+)(?:[eE][-+]?\\d+)?(?=[ \\t]*(?:$|#|,|\\]|\\}))",
+          "name": "constant.numeric.yaml"
+        }
+      ]
+    },
+    "flow-collections": {
+      "patterns": [
+        {
+          "include": "#flow-sequence"
+        },
+        {
+          "include": "#flow-mapping"
+        }
+      ]
+    },
+    "flow-sequence": {
+      "name": "meta.flow-sequence.docspp",
+      "begin": "\\[",
+      "end": "\\]",
+      "beginCaptures": {
+        "0": {
+          "name": "punctuation.definition.sequence.begin.yaml"
+        }
+      },
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.definition.sequence.end.yaml"
+        }
+      },
+      "patterns": [
+        {
+          "include": "#comment"
+        },
+        {
+          "match": ",",
+          "name": "punctuation.separator.sequence.yaml"
+        },
+        {
+          "include": "#flow-value"
+        }
+      ]
+    },
+    "flow-mapping": {
+      "name": "meta.flow-mapping.docspp",
+      "begin": "\\{",
+      "end": "\\}",
+      "beginCaptures": {
+        "0": {
+          "name": "punctuation.definition.mapping.begin.yaml"
+        }
+      },
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.definition.mapping.end.yaml"
+        }
+      },
+      "patterns": [
+        {
+          "include": "#comment"
+        },
+        {
+          "match": ",",
+          "name": "punctuation.separator.mapping.yaml"
+        },
+        {
+          "begin": "((?:from|to|at|in|via|include|exclude|nodes|view))(?=[ \\t]*:(?:\\s|$))([ \\t]*)(:)",
+          "beginCaptures": {
+            "1": {
+              "name": "entity.name.tag.yaml"
+            },
+            "3": {
+              "name": "punctuation.separator.key-value.mapping.yaml"
+            }
+          },
+          "end": "(?=[,}\\]])",
+          "name": "meta.mapping.pair.docspp",
+          "patterns": [
+            {
+              "name": "meta.flow-sequence.docspp",
+              "begin": "\\[",
+              "end": "\\]",
+              "beginCaptures": {
+                "0": {
+                  "name": "punctuation.definition.sequence.begin.yaml"
+                }
+              },
+              "endCaptures": {
+                "0": {
+                  "name": "punctuation.definition.sequence.end.yaml"
+                }
+              },
+              "patterns": [
+                {
+                  "include": "#comment"
+                },
+                {
+                  "match": ",",
+                  "name": "punctuation.separator.sequence.yaml"
+                },
+                {
+                  "include": "#string"
+                },
+                {
+                  "match": "[A-Za-z0-9_.-]+(?=[ \\t]*(?:,|\\]|$))",
+                  "name": "variable.other.reference.docspp"
+                },
+                {
+                  "include": "#flow-value"
+                }
+              ]
+            },
+            {
+              "include": "#string"
+            },
+            {
+              "match": "[A-Za-z0-9_.-]+(?=[ \\t]*(?:$|#|,|\\]|\\}))",
+              "name": "variable.other.reference.docspp"
+            },
+            {
+              "include": "#flow-value"
+            }
+          ]
+        },
+        {
+          "begin": "((?:kind))(?=[ \\t]*:(?:\\s|$))([ \\t]*)(:)",
+          "beginCaptures": {
+            "1": {
+              "name": "entity.name.tag.yaml"
+            },
+            "3": {
+              "name": "punctuation.separator.key-value.mapping.yaml"
+            }
+          },
+          "end": "(?=[,}\\]])",
+          "name": "meta.mapping.pair.docspp",
+          "patterns": [
+            {
+              "include": "#string"
+            },
+            {
+              "match": "[A-Za-z0-9_.-]+(?=[ \\t]*(?:$|#|,|\\]|\\}))",
+              "name": "support.constant.kind.docspp"
+            },
+            {
+              "include": "#flow-value"
+            }
+          ]
+        },
+        {
+          "begin": "((?:status|family|direction|layout|mode|type))(?=[ \\t]*:(?:\\s|$))([ \\t]*)(:)",
+          "beginCaptures": {
+            "1": {
+              "name": "entity.name.tag.yaml"
+            },
+            "3": {
+              "name": "punctuation.separator.key-value.mapping.yaml"
+            }
+          },
+          "end": "(?=[,}\\]])",
+          "name": "meta.mapping.pair.docspp",
+          "patterns": [
+            {
+              "include": "#string"
+            },
+            {
+              "match": "[A-Za-z0-9_.-]+(?=[ \\t]*(?:$|#|,|\\]|\\}))",
+              "name": "support.constant.enum.docspp"
+            },
+            {
+              "include": "#flow-value"
+            }
+          ]
+        },
+        {
+          "begin": "((?:icon))(?=[ \\t]*:(?:\\s|$))([ \\t]*)(:)",
+          "beginCaptures": {
+            "1": {
+              "name": "entity.name.tag.yaml"
+            },
+            "3": {
+              "name": "punctuation.separator.key-value.mapping.yaml"
+            }
+          },
+          "end": "(?=[,}\\]])",
+          "name": "meta.mapping.pair.docspp",
+          "patterns": [
+            {
+              "include": "#string"
+            },
+            {
+              "match": "[^\\s#'\",\\[\\]{}&*!|>%@`][^#,\\[\\]{}]*?(?=[ \\t]*(?:$|#|,|\\}))",
+              "name": "support.constant.icon.docspp"
+            },
+            {
+              "include": "#flow-value"
+            }
+          ]
+        },
+        {
+          "begin": "((?:\"(?:[^\"\\\\]|\\\\.)*\"|'(?:[^']|'')*'|[^\\s#,\\[\\]{}&*!|>'\"%@`:][^#,\\[\\]{}:\\n]*?))(?=[ \\t]*:(?:[\\s,}\\]]|$))([ \\t]*)(:)",
+          "beginCaptures": {
+            "1": {
+              "name": "entity.name.tag.yaml"
+            },
+            "3": {
+              "name": "punctuation.separator.key-value.mapping.yaml"
+            }
+          },
+          "end": "(?=[,}\\]])",
+          "name": "meta.mapping.pair.docspp",
+          "patterns": [
+            {
+              "include": "#flow-value"
+            }
+          ]
+        },
+        {
+          "include": "#flow-value"
+        }
+      ]
+    },
+    "flow-value": {
+      "patterns": [
+        {
+          "include": "#comment"
+        },
+        {
+          "include": "#properties"
+        },
+        {
+          "include": "#string"
+        },
+        {
+          "include": "#flow-collections"
+        },
+        {
+          "include": "#constants"
+        },
+        {
+          "match": "[^\\s,\\[\\]{}#'\"&*!|>%@`][^,\\[\\]{}#]*?(?=[ \\t]*(?:[,\\]}]|[ \\t]#|$))",
+          "name": "string.unquoted.plain.in.yaml"
+        }
+      ]
+    },
+    "block-value": {
+      "patterns": [
+        {
+          "include": "#comment"
+        },
+        {
+          "include": "#properties"
+        },
+        {
+          "include": "#string"
+        },
+        {
+          "include": "#flow-collections"
+        },
+        {
+          "include": "#constants"
+        },
+        {
+          "match": "\\S.*?(?=[ \\t]+#|[ \\t]*$)",
+          "name": "string.unquoted.plain.out.yaml"
+        }
+      ]
+    },
+    "block-scalars": {
+      "patterns": [
+        {
+          "begin": "^(\\s*)((?:description|summary|note))(?=[ \\t]*:(?:\\s|$))([ \\t]*)(:)[ \\t]+([|>](?:[1-9][-+]?|[-+][1-9]?)?)[ \\t]*(#.*)?$",
+          "end": "^(?!\\s*$)(?!\\1\\s)",
+          "beginCaptures": {
+            "2": {
+              "name": "entity.name.tag.yaml"
+            },
+            "4": {
+              "name": "punctuation.separator.key-value.mapping.yaml"
+            },
+            "5": {
+              "name": "keyword.control.flow.block-scalar.yaml"
+            },
+            "6": {
+              "name": "comment.line.number-sign.yaml"
+            }
+          },
+          "contentName": "meta.embedded.block.markdown",
+          "patterns": [
+            {
+              "include": "text.html.markdown"
+            }
+          ],
+          "name": "meta.block-scalar.docspp"
+        },
+        {
+          "begin": "^(\\s*)-([ \\t]+)((?:description|summary|note))(?=[ \\t]*:(?:\\s|$))([ \\t]*)(:)[ \\t]+([|>](?:[1-9][-+]?|[-+][1-9]?)?)[ \\t]*(#.*)?$",
+          "end": "^(?!\\s*$)(?!\\1 \\2\\s)",
+          "beginCaptures": {
+            "3": {
+              "name": "entity.name.tag.yaml"
+            },
+            "5": {
+              "name": "punctuation.separator.key-value.mapping.yaml"
+            },
+            "6": {
+              "name": "keyword.control.flow.block-scalar.yaml"
+            },
+            "7": {
+              "name": "comment.line.number-sign.yaml"
+            }
+          },
+          "contentName": "meta.embedded.block.markdown",
+          "patterns": [
+            {
+              "include": "text.html.markdown"
+            }
+          ],
+          "name": "meta.block-scalar.docspp"
+        },
+        {
+          "begin": "^(\\s*)((?:\"(?:[^\"\\\\]|\\\\.)*\"|'(?:[^']|'')*'|[^\\s#,\\[\\]{}&*!|>'\"%@`-][^#\\n]*?|-(?=\\S)[^#\\n]*?))(?=[ \\t]*:(?:\\s|$))([ \\t]*)(:)[ \\t]+([|>](?:[1-9][-+]?|[-+][1-9]?)?)[ \\t]*(#.*)?$",
+          "end": "^(?!\\s*$)(?!\\1\\s)",
+          "beginCaptures": {
+            "2": {
+              "name": "entity.name.tag.yaml"
+            },
+            "4": {
+              "name": "punctuation.separator.key-value.mapping.yaml"
+            },
+            "5": {
+              "name": "keyword.control.flow.block-scalar.yaml"
+            },
+            "6": {
+              "name": "comment.line.number-sign.yaml"
+            }
+          },
+          "contentName": "string.unquoted.block.yaml",
+          "name": "meta.block-scalar.docspp"
+        },
+        {
+          "begin": "^(\\s*)-([ \\t]+)((?:\"(?:[^\"\\\\]|\\\\.)*\"|'(?:[^']|'')*'|[^\\s#,\\[\\]{}&*!|>'\"%@`-][^#\\n]*?|-(?=\\S)[^#\\n]*?))(?=[ \\t]*:(?:\\s|$))([ \\t]*)(:)[ \\t]+([|>](?:[1-9][-+]?|[-+][1-9]?)?)[ \\t]*(#.*)?$",
+          "end": "^(?!\\s*$)(?!\\1 \\2\\s)",
+          "beginCaptures": {
+            "3": {
+              "name": "entity.name.tag.yaml"
+            },
+            "5": {
+              "name": "punctuation.separator.key-value.mapping.yaml"
+            },
+            "6": {
+              "name": "keyword.control.flow.block-scalar.yaml"
+            },
+            "7": {
+              "name": "comment.line.number-sign.yaml"
+            }
+          },
+          "contentName": "string.unquoted.block.yaml",
+          "name": "meta.block-scalar.docspp"
+        },
+        {
+          "begin": "^(\\s*)-[ \\t]+([|>](?:[1-9][-+]?|[-+][1-9]?)?)[ \\t]*(#.*)?$",
+          "end": "^(?!\\s*$)(?!\\1\\s)",
+          "beginCaptures": {
+            "2": {
+              "name": "keyword.control.flow.block-scalar.yaml"
+            },
+            "3": {
+              "name": "comment.line.number-sign.yaml"
+            }
+          },
+          "contentName": "string.unquoted.block.yaml",
+          "name": "meta.block-scalar.docspp"
+        }
+      ]
+    },
+    "sequence-items": {
+      "patterns": [
+        {
+          "match": "^(\\s*)((?:-(?:[ \\t]+|$))+)",
+          "captures": {
+            "2": {
+              "patterns": [
+                {
+                  "match": "-",
+                  "name": "punctuation.definition.block.sequence.item.yaml"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "arrows": {
+      "patterns": [
+        {
+          "begin": "^(\\s*)((?:-[ \\t]+)+)([A-Za-z0-9_.-]+)([ \\t]*)(<->|->)([ \\t]*)([A-Za-z0-9_.-]+)(?=[ \\t]*(?::(?:\\s|$)|#|$))",
+          "beginCaptures": {
+            "2": {
+              "patterns": [
+                {
+                  "match": "-",
+                  "name": "punctuation.definition.block.sequence.item.yaml"
+                }
+              ]
+            },
+            "3": {
+              "name": "variable.other.reference.docspp"
+            },
+            "5": {
+              "name": "keyword.operator.arrow.docspp"
+            },
+            "7": {
+              "name": "variable.other.reference.docspp"
+            }
+          },
+          "end": "$",
+          "name": "meta.arrow.docspp",
+          "patterns": [
+            {
+              "include": "#comment"
+            },
+            {
+              "match": "(:)(?=\\s|$)",
+              "name": "punctuation.separator.key-value.mapping.yaml"
+            },
+            {
+              "include": "#block-value"
+            }
+          ]
+        },
+        {
+          "begin": "^(\\s*)((?:-[ \\t]+)+)(at)([ \\t]+)([A-Za-z0-9_.-]+)(?=[ \\t]*(?::(?:\\s|$)|#|$))",
+          "beginCaptures": {
+            "2": {
+              "patterns": [
+                {
+                  "match": "-",
+                  "name": "punctuation.definition.block.sequence.item.yaml"
+                }
+              ]
+            },
+            "3": {
+              "name": "entity.name.tag.yaml"
+            },
+            "5": {
+              "name": "variable.other.reference.docspp"
+            }
+          },
+          "end": "$",
+          "name": "meta.arrow.docspp",
+          "patterns": [
+            {
+              "include": "#comment"
+            },
+            {
+              "match": "(:)(?=\\s|$)",
+              "name": "punctuation.separator.key-value.mapping.yaml"
+            },
+            {
+              "include": "#block-value"
+            }
+          ]
+        }
+      ]
+    },
+    "mapping-keys": {
+      "patterns": [
+        {
+          "begin": "^(\\s*)((?:-[ \\t]+)*)((?:from|to|at|in|via|include|exclude|nodes|view))(?=[ \\t]*:(?:\\s|$))([ \\t]*)(:)(?=\\s|$)",
+          "beginCaptures": {
+            "2": {
+              "patterns": [
+                {
+                  "match": "-",
+                  "name": "punctuation.definition.block.sequence.item.yaml"
+                }
+              ]
+            },
+            "3": {
+              "name": "entity.name.tag.yaml"
+            },
+            "5": {
+              "name": "punctuation.separator.key-value.mapping.yaml"
+            }
+          },
+          "end": "$",
+          "name": "meta.mapping.pair.docspp",
+          "patterns": [
+            {
+              "include": "#comment"
+            },
+            {
+              "name": "meta.flow-sequence.docspp",
+              "begin": "\\[",
+              "end": "\\]",
+              "beginCaptures": {
+                "0": {
+                  "name": "punctuation.definition.sequence.begin.yaml"
+                }
+              },
+              "endCaptures": {
+                "0": {
+                  "name": "punctuation.definition.sequence.end.yaml"
+                }
+              },
+              "patterns": [
+                {
+                  "include": "#comment"
+                },
+                {
+                  "match": ",",
+                  "name": "punctuation.separator.sequence.yaml"
+                },
+                {
+                  "include": "#string"
+                },
+                {
+                  "match": "[A-Za-z0-9_.-]+(?=[ \\t]*(?:,|\\]|$))",
+                  "name": "variable.other.reference.docspp"
+                },
+                {
+                  "include": "#flow-value"
+                }
+              ]
+            },
+            {
+              "include": "#string"
+            },
+            {
+              "match": "[A-Za-z0-9_.-]+(?=[ \\t]*(?:$|#))",
+              "name": "variable.other.reference.docspp"
+            },
+            {
+              "include": "#block-value"
+            }
+          ]
+        },
+        {
+          "begin": "^(\\s*)((?:-[ \\t]+)*)((?:kind))(?=[ \\t]*:(?:\\s|$))([ \\t]*)(:)(?=\\s|$)",
+          "beginCaptures": {
+            "2": {
+              "patterns": [
+                {
+                  "match": "-",
+                  "name": "punctuation.definition.block.sequence.item.yaml"
+                }
+              ]
+            },
+            "3": {
+              "name": "entity.name.tag.yaml"
+            },
+            "5": {
+              "name": "punctuation.separator.key-value.mapping.yaml"
+            }
+          },
+          "end": "$",
+          "name": "meta.mapping.pair.docspp",
+          "patterns": [
+            {
+              "include": "#comment"
+            },
+            {
+              "include": "#string"
+            },
+            {
+              "match": "[A-Za-z0-9_.-]+(?=[ \\t]*(?:$|#))",
+              "name": "support.constant.kind.docspp"
+            },
+            {
+              "include": "#block-value"
+            }
+          ]
+        },
+        {
+          "begin": "^(\\s*)((?:-[ \\t]+)*)((?:status|family|direction|layout|mode|type))(?=[ \\t]*:(?:\\s|$))([ \\t]*)(:)(?=\\s|$)",
+          "beginCaptures": {
+            "2": {
+              "patterns": [
+                {
+                  "match": "-",
+                  "name": "punctuation.definition.block.sequence.item.yaml"
+                }
+              ]
+            },
+            "3": {
+              "name": "entity.name.tag.yaml"
+            },
+            "5": {
+              "name": "punctuation.separator.key-value.mapping.yaml"
+            }
+          },
+          "end": "$",
+          "name": "meta.mapping.pair.docspp",
+          "patterns": [
+            {
+              "include": "#comment"
+            },
+            {
+              "include": "#string"
+            },
+            {
+              "match": "[A-Za-z0-9_.-]+(?=[ \\t]*(?:$|#))",
+              "name": "support.constant.enum.docspp"
+            },
+            {
+              "include": "#block-value"
+            }
+          ]
+        },
+        {
+          "begin": "^(\\s*)((?:-[ \\t]+)*)((?:icon))(?=[ \\t]*:(?:\\s|$))([ \\t]*)(:)(?=\\s|$)",
+          "beginCaptures": {
+            "2": {
+              "patterns": [
+                {
+                  "match": "-",
+                  "name": "punctuation.definition.block.sequence.item.yaml"
+                }
+              ]
+            },
+            "3": {
+              "name": "entity.name.tag.yaml"
+            },
+            "5": {
+              "name": "punctuation.separator.key-value.mapping.yaml"
+            }
+          },
+          "end": "$",
+          "name": "meta.mapping.pair.docspp",
+          "patterns": [
+            {
+              "include": "#comment"
+            },
+            {
+              "include": "#string"
+            },
+            {
+              "match": "[^\\s#'\",\\[\\]{}&*!|>%@`][^#]*?(?=[ \\t]+#|[ \\t]*$)",
+              "name": "support.constant.icon.docspp"
+            },
+            {
+              "include": "#block-value"
+            }
+          ]
+        },
+        {
+          "begin": "^(\\s*)((?:-[ \\t]+)*)((?:\"(?:[^\"\\\\]|\\\\.)*\"|'(?:[^']|'')*'|[^\\s#,\\[\\]{}&*!|>'\"%@`-][^#\\n]*?|-(?=\\S)[^#\\n]*?))(?=[ \\t]*:(?:\\s|$))([ \\t]*)(:)(?=\\s|$)",
+          "beginCaptures": {
+            "2": {
+              "patterns": [
+                {
+                  "match": "-",
+                  "name": "punctuation.definition.block.sequence.item.yaml"
+                }
+              ]
+            },
+            "3": {
+              "name": "entity.name.tag.yaml"
+            },
+            "5": {
+              "name": "punctuation.separator.key-value.mapping.yaml"
+            }
+          },
+          "end": "$",
+          "name": "meta.mapping.pair.docspp",
+          "patterns": [
+            {
+              "include": "#block-value"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

@@ -81,12 +81,26 @@ nodes:
     expect(d.line).toBe(6)
   })
 
+  it('reports an alias with no anchor instead of throwing', () => {
+    const r = compileText('title: T\nnodes:\n  a: { kind: *x }\n')
+    expect(r.diagram).toBeUndefined()
+    expect(r.diagnostics[0]).toMatchObject({ severity: 'error', file: 't.yaml' })
+    expect(r.diagnostics[0]!.message).toContain('Unresolved alias')
+  })
+
   it('rejects unknown keys and suggests the intended one', () => {
     const r = compileText('title: T\nnodes:\n  api: { titel: API }\n')
     const d = r.diagnostics[0]!
     expect(d.message).toContain('Unknown key "titel"')
     expect(d.hint).toContain('title')
     expect(d.line).toBe(3)
+    // The column is the unknown key, not the node that holds it.
+    expect(d.col).toBe(10)
+  })
+
+  it('points at the unknown key when it is on its own line', () => {
+    const r = compileText('title: T\nnodes:\n  api:\n    kind: service\n    titel: API\n')
+    expect(r.diagnostics[0]).toMatchObject({ line: 5, col: 5 })
   })
 
   it('reports a step with no route', () => {

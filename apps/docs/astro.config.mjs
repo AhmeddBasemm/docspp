@@ -85,6 +85,7 @@ export default defineConfig({
             { slug: 'guides/getting-started' },
             { slug: 'guides/project-structure' },
             { slug: 'guides/first-diagram' },
+            { slug: 'guides/editor' },
             { label: 'Playground', link: `${base}/playground/` },
           ],
         },

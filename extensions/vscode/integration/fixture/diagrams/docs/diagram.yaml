@@ -1,0 +1,10 @@
+title: Docs
+nodes:
+  alpha:
+    title: Alpha
+    doc: ./nodes/alpha.md
+  beta:
+    title: Beta
+    doc: notes/beta.md
+edges:
+  - alpha -> beta: calls

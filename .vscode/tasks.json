@@ -1,0 +1,18 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "docspp: build extension",
+      "type": "shell",
+      "command": "pnpm --filter docspp-vscode build",
+      "problemMatcher": []
+    },
+    {
+      "label": "docspp: watch extension",
+      "type": "shell",
+      "command": "pnpm --filter docspp-vscode watch",
+      "isBackground": true,
+      "problemMatcher": []
+    }
+  ]
+}

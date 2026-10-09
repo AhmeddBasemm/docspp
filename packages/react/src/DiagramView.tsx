@@ -46,6 +46,10 @@ export interface DiagramViewProps {
   onNodeSelect?: (id: string) => void
   /** Highlight a node selected by an external editor. */
   selectedNode?: string | null
+  /** Called when a node is clicked, in addition to whatever the click already does (opening the drawer). */
+  onNodeOpen?: (id: string) => void
+  /** Outline a node from outside without opening its drawer, for example the one under an editor's cursor. */
+  highlightNode?: string | null
 }
 
 const EMPTY: EdgeState = {}
@@ -66,6 +70,8 @@ export function DiagramView({
   className,
   onNodeSelect,
   selectedNode,
+  onNodeOpen,
+  highlightNode,
 }: DiagramViewProps) {
   const uid = useId().replace(/:/g, '')
   const rootRef = useRef<HTMLDivElement>(null)
@@ -179,26 +185,34 @@ export function DiagramView({
     return () => document.removeEventListener('fullscreenchange', onChange)
   }, [])
   const toggleFullscreen = () => {
-    if (document.fullscreenElement) void document.exitFullscreen()
-    else void rootRef.current?.requestFullscreen?.()
+    // Refused, for example, in an iframe that was not given the permission; nothing to report.
+    if (document.fullscreenElement) document.exitFullscreen().catch(() => {})
+    else rootRef.current?.requestFullscreen?.()?.catch(() => {})
   }
+  const canFullscreen = typeof document !== 'undefined' && document.fullscreenEnabled !== false
 
   const onHoverNode = useCallback((id: string | null) => setHover(id ? { node: id } : {}), [])
   const onHoverEdge = useCallback((id: string | null) => setHover(id ? { edge: id } : {}), [])
   const onSelect = useCallback(
     (id: string) => {
+      onNodeOpen?.(id)
       if (onNodeSelect) onNodeSelect(id)
       else setSelected((cur) => (cur === id ? null : id))
     },
-    [onNodeSelect],
+    [onNodeSelect, onNodeOpen],
   )
   const select = useCallback((id: string) => setSelected(id), [])
   const closeDrawer = useCallback(() => setSelected(null), [])
 
+  // A highlight from outside counts while it names a node of this view and no scenario is under
+  // way; otherwise it would dim a diagram it cannot point into, or fight a paused scenario.
+  const outside =
+    !scenarioActive && highlightNode && view.nodeIds.includes(highlightNode) ? highlightNode : null
+
   // Which nodes and edges the pointer (or the open drawer) is pointing at.
   const focus = useMemo(() => {
     if (scenarioActive && player.playing) return null
-    const nodeId = hover.node ?? (hover.edge ? undefined : (selected ?? undefined))
+    const nodeId = hover.node ?? (hover.edge ? undefined : (selected ?? outside ?? undefined))
     if (!nodeId && !hover.edge) return null
     const nodes = new Set<string>()
     const edges = new Set<string>()
@@ -221,7 +235,7 @@ export function DiagramView({
       }
     }
     return { nodes, edges }
-  }, [hover, selected, scenarioActive, player.playing, diagram, view])
+  }, [hover, selected, outside, scenarioActive, player.playing, diagram, view])
 
   const activeKey = frame?.activeEdges.join() ?? ''
   const trailKey = frame?.trailEdges.join() ?? ''
@@ -232,7 +246,7 @@ export function DiagramView({
     const out: Record<string, NodeCardState> = {}
     for (const id of view.nodeIds) {
       out[id] = {
-        selected: selected === id,
+        selected: selected === id || outside === id,
         hl: !!focus?.nodes.has(id),
         dim: focus ? !focus.nodes.has(id) : scenarioActive ? !visited.has(id) : false,
         visited: scenarioActive && visited.has(id),
@@ -240,7 +254,7 @@ export function DiagramView({
       }
     }
     return out
-  }, [view, focus, selected, scenarioActive, visitedKey, hidePlanned, diagram])
+  }, [view, focus, selected, outside, scenarioActive, visitedKey, hidePlanned, diagram])
 
   const edgeStates = useMemo(() => {
     const active = new Set(activeKey ? activeKey.split(',') : [])
@@ -390,7 +404,7 @@ export function DiagramView({
           layout={layout}
           maxHeight={maxHeight}
           fullscreen={fullscreen}
-          onToggleFullscreen={toggleFullscreen}
+          onToggleFullscreen={canFullscreen ? toggleFullscreen : undefined}
           onBackgroundClick={closeDrawer}
           focus={camera}
           onUserMove={stopFollowing}

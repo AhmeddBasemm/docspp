@@ -1,0 +1,363 @@
+{
+  "name": "docspp-vscode",
+  "displayName": "docspp",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Syntax highlighting, validation, completion and a live preview for docspp architecture diagrams.",
+  "license": "MIT",
+  "publisher": "packagelab",
+  "preview": true,
+  "icon": "images/icon.png",
+  "galleryBanner": {
+    "color": "#0d1920",
+    "theme": "dark"
+  },
+  "categories": [
+    "Programming Languages",
+    "Visualization",
+    "Snippets",
+    "Linters"
+  ],
+  "keywords": [
+    "docspp",
+    "architecture",
+    "diagram",
+    "diagrams",
+    "yaml",
+    "documentation",
+    "preview"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AhmeddBasemm/docspp.git",
+    "directory": "extensions/vscode"
+  },
+  "homepage": "https://github.com/AhmeddBasemm/docspp/tree/main/extensions/vscode#readme",
+  "bugs": {
+    "url": "https://github.com/AhmeddBasemm/docspp/issues"
+  },
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "extensionKind": [
+    "workspace"
+  ],
+  "main": "./dist/extension.js",
+  "activationEvents": [
+    "onLanguage:docspp",
+    "workspaceContains:**/diagrams/*/diagram.yaml",
+    "workspaceContains:**/diagrams/*/diagram.yml",
+    "onWebviewPanel:docspp.preview"
+  ],
+  "capabilities": {
+    "virtualWorkspaces": {
+      "supported": false,
+      "description": "docspp reads the files of a diagram folder from disk."
+    },
+    "untrustedWorkspaces": {
+      "supported": true
+    }
+  },
+  "contributes": {
+    "languages": [
+      {
+        "id": "docspp",
+        "aliases": [
+          "docspp",
+          "docspp diagram"
+        ],
+        "filenamePatterns": [
+          "**/diagrams/*/diagram.yaml",
+          "**/diagrams/*/diagram.yml",
+          "**/diagrams/*/scenarios/*.yaml",
+          "**/diagrams/*/scenarios/*.yml"
+        ],
+        "configuration": "./language-configuration.json",
+        "icon": {
+          "light": "./images/icon-light.svg",
+          "dark": "./images/icon-dark.svg"
+        }
+      }
+    ],
+    "grammars": [
+      {
+        "language": "docspp",
+        "scopeName": "source.docspp",
+        "path": "./syntaxes/docspp.tmLanguage.json",
+        "embeddedLanguages": {
+          "meta.embedded.block.markdown": "markdown"
+        }
+      },
+      {
+        "scopeName": "markdown.docspp.codeblock",
+        "path": "./syntaxes/docspp-markdown.injection.tmLanguage.json",
+        "injectTo": [
+          "text.html.markdown"
+        ],
+        "embeddedLanguages": {
+          "meta.embedded.block.docspp": "docspp"
+        }
+      }
+    ],
+    "snippets": [
+      {
+        "language": "docspp",
+        "path": "./snippets/docspp.code-snippets"
+      }
+    ],
+    "commands": [
+      {
+        "command": "docspp.openPreview",
+        "title": "Open Preview",
+        "category": "docspp",
+        "icon": "$(open-preview)"
+      },
+      {
+        "command": "docspp.openPreviewToSide",
+        "title": "Open Preview to the Side",
+        "category": "docspp",
+        "icon": "$(open-preview)"
+      },
+      {
+        "command": "docspp.lockPreview",
+        "title": "Keep Preview on This Diagram",
+        "category": "docspp",
+        "icon": "$(unlock)"
+      },
+      {
+        "command": "docspp.unlockPreview",
+        "title": "Let Preview Follow the Active Diagram",
+        "category": "docspp",
+        "icon": "$(lock)"
+      },
+      {
+        "command": "docspp.refreshPreview",
+        "title": "Refresh Preview",
+        "category": "docspp",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "docspp.newDiagram",
+        "title": "New Diagram",
+        "category": "docspp",
+        "icon": "$(new-file)"
+      },
+      {
+        "command": "docspp.insertIcon",
+        "title": "Insert Icon",
+        "category": "docspp"
+      },
+      {
+        "command": "docspp.checkAll",
+        "title": "Check All Diagrams",
+        "category": "docspp"
+      },
+      {
+        "command": "docspp.showOutput",
+        "title": "Show Output",
+        "category": "docspp"
+      }
+    ],
+    "menus": {
+      "editor/title": [
+        {
+          "command": "docspp.openPreviewToSide",
+          "when": "editorLangId == docspp && !docspp.previewOpen",
+          "group": "navigation@1"
+        },
+        {
+          "command": "docspp.lockPreview",
+          "when": "activeWebviewPanelId == docspp.preview && !docspp.previewLocked",
+          "group": "navigation@1"
+        },
+        {
+          "command": "docspp.unlockPreview",
+          "when": "activeWebviewPanelId == docspp.preview && docspp.previewLocked",
+          "group": "navigation@1"
+        },
+        {
+          "command": "docspp.refreshPreview",
+          "when": "activeWebviewPanelId == docspp.preview",
+          "group": "navigation@2"
+        }
+      ],
+      "explorer/context": [
+        {
+          "command": "docspp.openPreviewToSide",
+          "when": "resourceFilename =~ /^diagram\\.ya?ml$/",
+          "group": "navigation@50"
+        }
+      ],
+      "editor/context": [
+        {
+          "command": "docspp.openPreviewToSide",
+          "when": "editorLangId == docspp",
+          "group": "docspp@1"
+        },
+        {
+          "command": "docspp.insertIcon",
+          "when": "editorLangId == docspp",
+          "group": "docspp@2"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "docspp.lockPreview",
+          "when": "docspp.previewOpen && !docspp.previewLocked"
+        },
+        {
+          "command": "docspp.unlockPreview",
+          "when": "docspp.previewOpen && docspp.previewLocked"
+        },
+        {
+          "command": "docspp.refreshPreview",
+          "when": "docspp.previewOpen"
+        },
+        {
+          "command": "docspp.insertIcon",
+          "when": "editorLangId == docspp"
+        }
+      ]
+    },
+    "keybindings": [
+      {
+        "command": "docspp.openPreview",
+        "key": "ctrl+shift+v",
+        "mac": "cmd+shift+v",
+        "when": "editorLangId == docspp"
+      },
+      {
+        "command": "docspp.openPreviewToSide",
+        "key": "ctrl+k v",
+        "mac": "cmd+k v",
+        "when": "editorLangId == docspp && !terminalFocus"
+      }
+    ],
+    "configuration": {
+      "title": "docspp",
+      "properties": {
+        "docspp.diagnostics.enable": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "Check diagrams as you type and show errors and warnings in the Problems panel. The same checks run with `docspp check`."
+        },
+        "docspp.updateDelay": {
+          "type": "number",
+          "default": 250,
+          "minimum": 0,
+          "maximum": 5000,
+          "markdownDescription": "Milliseconds to wait after typing before checking the diagram and updating the preview."
+        },
+        "docspp.preview.refreshOn": {
+          "type": "string",
+          "enum": [
+            "type",
+            "save"
+          ],
+          "default": "type",
+          "enumDescriptions": [
+            "Update the preview as you type, from unsaved text.",
+            "Update the preview only when the file is saved."
+          ],
+          "markdownDescription": "When the preview shows your changes. Problems are always checked as you type."
+        },
+        "docspp.preview.followCursor": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "Outline the node in the preview that the editor cursor is in."
+        }
+      }
+    },
+    "configurationDefaults": {
+      "[docspp]": {
+        "editor.tabSize": 2,
+        "editor.insertSpaces": true,
+        "editor.quickSuggestions": {
+          "other": true,
+          "comments": false,
+          "strings": true
+        },
+        "editor.autoIndent": "advanced"
+      }
+    },
+    "walkthroughs": [
+      {
+        "id": "docspp.start",
+        "title": "Get started with docspp",
+        "description": "Write an architecture diagram and watch it draw itself.",
+        "steps": [
+          {
+            "id": "create",
+            "title": "Start a diagram",
+            "description": "Create a diagram folder with a small working example.\n[New Diagram](command:docspp.newDiagram)",
+            "media": {
+              "markdown": "walkthrough/create.md"
+            },
+            "completionEvents": [
+              "onCommand:docspp.newDiagram"
+            ]
+          },
+          {
+            "id": "preview",
+            "title": "See it as you type",
+            "description": "Open the live preview beside the file.\n[Open Preview to the Side](command:docspp.openPreviewToSide)",
+            "media": {
+              "markdown": "walkthrough/preview.md"
+            },
+            "completionEvents": [
+              "onCommand:docspp.openPreviewToSide",
+              "onCommand:docspp.openPreview"
+            ]
+          },
+          {
+            "id": "write",
+            "title": "Write faster",
+            "description": "Completion, hover, rename and go to definition work on node ids, kinds and icons.\n[Insert Icon](command:docspp.insertIcon)",
+            "media": {
+              "markdown": "walkthrough/write.md"
+            },
+            "completionEvents": [
+              "onCommand:docspp.insertIcon"
+            ]
+          },
+          {
+            "id": "check",
+            "title": "Check your work",
+            "description": "Problems show as you type; check every diagram at once.\n[Check All Diagrams](command:docspp.checkAll)",
+            "media": {
+              "markdown": "walkthrough/check.md"
+            },
+            "completionEvents": [
+              "onCommand:docspp.checkAll"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "watch": "node scripts/build.mjs --watch",
+    "grammar": "node scripts/grammar.mjs",
+    "typecheck": "tsc -p tsconfig.json && tsc -p webview/tsconfig.json && tsc -p e2e/tsconfig.json",
+    "package": "node scripts/package.mjs",
+    "test:integration": "node scripts/integration.mjs"
+  },
+  "devDependencies": {
+    "@iconify-json/logos": "^1.2.15",
+    "@iconify-json/lucide": "^1.2.141",
+    "@iconify-json/simple-icons": "^1.2.99",
+    "@packagelab/docspp-core": "workspace:^",
+    "@packagelab/docspp-react": "workspace:^",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@types/vscode": "1.90.0",
+    "@vscode/test-electron": "^3.1.0",
+    "@vscode/vsce": "^4.0.0",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "vscode-oniguruma": "^2.0.1",
+    "vscode-textmate": "^9.3.2",
+    "yaml": "^2.9.1"
+  }
+}

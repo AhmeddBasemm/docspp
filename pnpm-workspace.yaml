@@ -1,7 +1,10 @@
 packages:
   - packages/*
   - apps/*
+  - extensions/*
   - templates/*
 allowBuilds:
   esbuild: true
   sharp: true
+  # Only used by `vsce verify-signature`; packaging the extension does not need its native binary.
+  "@vscode/vsce-sign": false

@@ -7,5 +7,5 @@
   "access": "public",
   "baseBranch": "main",
   "updateInternalDependencies": "patch",
-  "ignore": ["docspp-docs", "my-docs"]
+  "ignore": ["docspp-docs", "my-docs", "docspp-vscode"]
 }

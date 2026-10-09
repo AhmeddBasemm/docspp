@@ -36,6 +36,7 @@ pnpm refuses package releases that are very new (a minimum release age). If an i
 | `packages/react` | `DiagramView`, its parts and `styles.css` |
 | `packages/astro` | the Astro integration and `<Diagram>` |
 | `packages/cli` | the `docspp` command |
+| `extensions/vscode` | the VS Code extension; see its [DEVELOPMENT.md](extensions/vscode/DEVELOPMENT.md) |
 | `packages/create-docspp` | `npm create docspp` |
 | `apps/docs` | landing page, guides, live examples and the end-to-end tests |
 | `templates/starter` | the project new users start from |
@@ -51,6 +52,7 @@ pnpm dev:template      # the starter project
 pnpm test              # unit tests (vitest)
 pnpm test:e2e          # builds the docs and drives them in Chrome
 pnpm verify:pack       # packs everything and installs it like a user would (network + Chrome)
+pnpm vscode:test       # the VS Code extension in a real VS Code (opens a window)
 pnpm typecheck         # tsc everywhere
 pnpm lint              # Biome; `pnpm format` fixes what it can
 pnpm check             # validate the example diagrams in apps/docs and templates/starter

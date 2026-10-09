@@ -112,9 +112,13 @@ npx skills add AhmeddBasemm/docspp --skill docspp
 
 The [skills](https://skills.sh) installer puts the **docspp skill** into your project for Claude Code, Cursor, Copilot and other agents. It knows how to set docspp up, the whole diagram format, how to write scenarios and stories, and how to fix layout and errors. Projects from the starter template already include it. The skill lives in [`skills/docspp`](skills/docspp).
 
+## Use it in VS Code
+
+The [VS Code extension](extensions/vscode) highlights diagram files, checks them as you type, completes node ids and icon names, renames ids everywhere, and shows the diagram in a **live preview** beside the file, following your cursor. See [Use it in VS Code](https://ahmeddbasemm.github.io/docspp/guides/editor/).
+
 ## Packages
 
-Everything is published to npm and versioned together.
+Everything here is published to npm and versioned together. The VS Code extension is released separately.
 
 | Package | Purpose |
 |---|---|
@@ -146,6 +150,7 @@ A monorepo: the tool, its documentation and its starter project change together.
 | Path | Contents |
 |---|---|
 | [`packages/`](packages) | `core`, `react`, `astro`, `cli` and `create-docspp` |
+| [`extensions/vscode`](extensions/vscode) | the VS Code extension: grammar, language features and the live preview |
 | [`apps/docs`](apps/docs) | the landing page, guides and live examples (also the end-to-end tests) |
 | [`templates/starter`](templates/starter) | the project new users start from |
 | [`skills/docspp`](skills/docspp) | the agent skill |
@@ -161,6 +166,7 @@ pnpm dev:template     # the starter project
 pnpm test             # unit tests
 pnpm test:e2e         # builds the docs and drives them in Chrome (needs Google Chrome)
 pnpm verify:pack      # packs everything and installs it the way a user would
+pnpm vscode:test      # the VS Code extension, inside a real VS Code
 pnpm lint             # Biome
 pnpm typecheck
 ```

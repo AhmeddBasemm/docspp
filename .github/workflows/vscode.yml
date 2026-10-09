@@ -1,0 +1,85 @@
+name: VS Code extension
+# Unit and end-to-end tests of the extension run in the CI workflow with everything else. This one
+# packs the .vsix, installs it into a clean VS Code and runs the integration suite against it.
+#
+# Pushing a tag `vscode-v<version>` also attaches the .vsix to a GitHub release. It is published
+# to the marketplaces only when the repository variable VSCODE_PUBLISH is "true" and the secrets
+# VSCE_PAT (Visual Studio Marketplace) and OVSX_PAT (Open VSX) exist. See extensions/vscode/DEVELOPMENT.md.
+on:
+  pull_request:
+    paths:
+      - extensions/vscode/**
+      - packages/core/**
+      - packages/react/**
+      - .github/workflows/vscode.yml
+  push:
+    branches: [main]
+    paths:
+      - extensions/vscode/**
+      - packages/core/**
+      - packages/react/**
+      - .github/workflows/vscode.yml
+    tags: ['vscode-v*']
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - id: version
+        run: echo "version=$(node -p "require('./extensions/vscode/package.json').version")" >> "$GITHUB_OUTPUT"
+      - name: The tag matches the version
+        if: startsWith(github.ref, 'refs/tags/vscode-v')
+        run: test "${GITHUB_REF_NAME}" = "vscode-v${{ steps.version.outputs.version }}"
+      # Installs the packed .vsix into a clean profile and tests that, not the source folder.
+      - name: Integration tests against the packed extension
+        run: xvfb-run -a pnpm --filter docspp-vscode test:integration --vsix
+      - uses: actions/upload-artifact@v4
+        with:
+          name: docspp-vscode-${{ steps.version.outputs.version }}
+          path: extensions/vscode/*.vsix
+          if-no-files-found: error
+
+  release:
+    needs: package
+    if: startsWith(github.ref, 'refs/tags/vscode-v')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - uses: actions/download-artifact@v4
+        with:
+          name: docspp-vscode-${{ needs.package.outputs.version }}
+          path: dist-vsix
+      - name: GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "${GITHUB_REF_NAME}" dist-vsix/*.vsix \
+            --title "VS Code extension ${{ needs.package.outputs.version }}" \
+            --notes "See extensions/vscode/CHANGELOG.md."
+      - name: Visual Studio Marketplace
+        if: vars.VSCODE_PUBLISH == 'true'
+        env:
+          VSCE_PAT: ${{ secrets.VSCE_PAT }}
+        run: pnpm --filter docspp-vscode exec vsce publish --no-dependencies --packagePath "$(ls $GITHUB_WORKSPACE/dist-vsix/*.vsix)"
+      - name: Open VSX
+        if: vars.VSCODE_PUBLISH == 'true'
+        env:
+          OVSX_PAT: ${{ secrets.OVSX_PAT }}
+        run: pnpm dlx ovsx publish dist-vsix/*.vsix -p "$OVSX_PAT"

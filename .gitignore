@@ -10,7 +10,11 @@ templates/*/.astro
 templates/*/dist
 packages/create-docspp/template
 packages/*/LICENSE
+extensions/*/LICENSE
+*.vsix
+.vscode-test
 test-results
 playwright-report
 screenshots
 private
+.env

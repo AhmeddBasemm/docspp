@@ -33,6 +33,8 @@ packages/
   astro/           @packagelab/docspp-astro       Astro integration and <Diagram>
   cli/             docspp                         the `docspp` command
   create-docspp/    create-docspp       `npm create docspp`; carries a copy of the template
+extensions/
+  vscode/          docspp-vscode      the VS Code extension (private; published to the marketplaces, not npm)
 apps/
   docs/            docspp-docs        the tool's landing page, guides and live examples (private)
 templates/
@@ -58,6 +60,10 @@ In the monorepo, every package's `exports` point at its TypeScript sources, so n
 
 `packages/cli/test/skill.test.ts` keeps it honest: the example diagram must compile, every link must resolve, and the node, edge and step kinds, the schema fields and the CLI commands it describes must match the code. Change the format and that test tells you which part of the skill to update.
 
+## The VS Code extension
+
+`extensions/vscode` is a workspace of its own and not one of the five packages: it is released to the Visual Studio Marketplace and Open VSX, not npm, and has its own version and `CHANGELOG.md`. Changesets ignore it. It bundles `@packagelab/docspp-core` and `@packagelab/docspp-react` from the workspace, so a format change reaches users when the extension is next released. How it is built, tested and released is in [extensions/vscode/DEVELOPMENT.md](../extensions/vscode/DEVELOPMENT.md).
+
 ## Everyday tasks
 
 | I want to | Do |
@@ -68,6 +74,7 @@ In the monorepo, every package's `exports` point at its TypeScript sources, so n
 | Change the agent skill | Edit `skills/docspp`, then `pnpm test`. To try an install: `npx skills add . --skill docspp --copy` from an empty folder. |
 | Check everything CI checks | `pnpm lint && pnpm typecheck && pnpm test && pnpm check --strict && pnpm build:all` |
 | Try the published experience without publishing | `pnpm verify:pack` (add `--keep` to keep the generated project). |
+| Change the editor experience | Edit `extensions/vscode`, then `pnpm test`, `pnpm test:e2e` and `pnpm vscode:test`. Add `--vsix` to test the packed file. |
 | Add a package | Create `packages/<name>`, add it to `CONFIG` in `scripts/build.mjs` and to the `fixed` list in `.changeset/config.json`. |
 
 ## Releasing

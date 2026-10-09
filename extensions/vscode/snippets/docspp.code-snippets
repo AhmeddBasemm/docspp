@@ -1,0 +1,167 @@
+{
+  "New diagram": {
+    "prefix": "diagram",
+    "description": "A small diagram with a scenario",
+    "body": [
+      "title: ${1:System name}",
+      "description: ${2:One sentence about what this diagram shows.}",
+      "",
+      "nodes:",
+      "  ${3:web}:",
+      "    kind: client",
+      "    title: ${4:Web app}",
+      "  ${5:api}:",
+      "    kind: service",
+      "    title: ${6:API}",
+      "    sub: \":${7:8080}\"",
+      "",
+      "edges:",
+      "  - ${3} -> ${5}: ${8:HTTPS}",
+      "",
+      "scenarios:",
+      "  ${9:load-page}:",
+      "    title: ${10:Load a page}",
+      "    steps:",
+      "      - ${3} -> ${5}: ${11:GET /items}",
+      "      - ${5} -> ${3}: ${12:200 OK}$0"
+    ]
+  },
+  "Node": {
+    "prefix": "node",
+    "description": "A box in the diagram",
+    "body": [
+      "${1:id}:",
+      "  kind: ${2|service,database,cache,queue,gateway,client,external,worker,storage,auth,monitor|}",
+      "  title: ${3:Name}",
+      "  sub: \"${4::port · stack}\"$0"
+    ]
+  },
+  "Node with icon, group and sources": {
+    "prefix": "node-full",
+    "description": "A node with an icon, a group and the files it is based on",
+    "body": [
+      "${1:id}:",
+      "  kind: ${2|service,database,cache,queue,gateway,client,external,worker,storage,auth,monitor|}",
+      "  icon: ${3:nodejs}",
+      "  title: ${4:Name}",
+      "  sub: \"${5::port · stack}\"",
+      "  in: ${6:group}",
+      "  refs: [${7:src/index.ts}]$0"
+    ]
+  },
+  "Group": {
+    "prefix": "group",
+    "description": "A zone that boxes nodes together",
+    "body": ["${1:id}:", "  label: ${2:Backend}", "  caption: ${3:Kubernetes}$0"]
+  },
+  "Edge": {
+    "prefix": "edge",
+    "description": "A connection: from -> to: label",
+    "body": ["- ${1:from} -> ${2:to}: ${3:label}$0"]
+  },
+  "Edge with details": {
+    "prefix": "edge-full",
+    "description": "A connection with a kind, auth and payload",
+    "body": [
+      "- ${1:from} -> ${2:to}: { kind: ${3|http,channel,tunnel,queue,ws,data|}, label: ${4:label}, auth: ${5:JWT}, payload: ${6:order} }$0"
+    ]
+  },
+  "Two-way edge": {
+    "prefix": "edge-both",
+    "description": "A connection with an arrow at both ends",
+    "body": ["- ${1:a} <-> ${2:b}: ${3:label}$0"]
+  },
+  "View": {
+    "prefix": "view",
+    "description": "A subset of the model with its own layout",
+    "body": [
+      "${1:id}:",
+      "  title: ${2:Backend only}",
+      "  include: [${3:api, db}]",
+      "  direction: ${4|AUTO,RIGHT,DOWN,LEFT,UP|}$0"
+    ]
+  },
+  "Scenario": {
+    "prefix": "scenario",
+    "description": "A request travelling through the system",
+    "body": [
+      "${1:scenario-id}:",
+      "  title: ${2:What happens}",
+      "  summary: ${3:One sentence that tells the story.}",
+      "  steps:",
+      "    - ${4:from} -> ${5:to}: ${6:request}",
+      "    - ${5} -> ${4}: ${7:response}$0"
+    ]
+  },
+  "Scenario with phases": {
+    "prefix": "scenario-phases",
+    "description": "A scenario grouped into phases",
+    "body": [
+      "${1:scenario-id}:",
+      "  title: ${2:What happens}",
+      "  summary: ${3:One sentence that tells the story.}",
+      "  phases:",
+      "    - title: ${4:Submit}",
+      "      steps:",
+      "        - ${5:from} -> ${6:to}: ${7:request}",
+      "    - title: ${8:Finish}",
+      "      steps:",
+      "        - ${6} -> ${5}: ${9:response}$0"
+    ]
+  },
+  "Step": {
+    "prefix": "step",
+    "description": "A packet from one node to another",
+    "body": ["- ${1:from} -> ${2:to}: ${3:label}$0"]
+  },
+  "Step with a note": {
+    "prefix": "step-note",
+    "description": "A step with a kind and an explanation",
+    "body": [
+      "- ${1:from} -> ${2:to}: { label: ${3:label}, kind: ${4|request,response,error,lookup,event|}, note: ${5:Why this happens.} }$0"
+    ]
+  },
+  "Self step": {
+    "prefix": "step-self",
+    "description": "Something happens inside one node",
+    "body": ["- at ${1:node}: ${2:what it does}$0"]
+  },
+  "Parallel steps": {
+    "prefix": "step-par",
+    "description": "Steps that start together",
+    "body": [
+      "- par:",
+      "    - ${1:from} -> ${2:to}: ${3:label}",
+      "    - ${1} -> ${4:other}: ${5:label}$0"
+    ]
+  },
+  "Lane": {
+    "prefix": "lane",
+    "description": "A column of the story view",
+    "body": ["- title: ${1:Client}", "  nodes: [${2:web}]$0"]
+  },
+  "Kind": {
+    "prefix": "kind",
+    "description": "A node kind of your own",
+    "body": [
+      "${1:partner}:",
+      "  icon: ${2:lucide:handshake}",
+      "  family: ${3|blue,amber,violet,green,teal,red,slate|}$0"
+    ]
+  },
+  "Edge kind": {
+    "prefix": "edgekind",
+    "description": "A connection style of your own",
+    "body": [
+      "${1:batch}:",
+      "  label: ${2:Nightly batch}",
+      "  color: ${3:accent}",
+      "  dash: \"${4:6 4}\"$0"
+    ]
+  },
+  "Markdown description": {
+    "prefix": "description",
+    "description": "A markdown description",
+    "body": ["description: |", "  ${1:Markdown. **Bold** and [links](https://example.com) work.}$0"]
+  }
+}
