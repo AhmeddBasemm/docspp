@@ -1,0 +1,20 @@
+# @packagelab/docspp-astro
+
+## 0.2.0
+
+### Minor Changes
+
+- aa76c88: Add an `autoplay` prop to `<Diagram>` and `<DiagramView>`. It plays the scenario given by `scenario` as soon as the diagram is laid out, and is ignored when the reader prefers reduced motion. `<Diagram>` also accepts `hash`, which `<DiagramView>` already had: `hash={false}` stops the diagram writing the scenario and step into the page address, which suits decorative embeds.
+  
+  Fix icons going blank when the same logo appears twice on a page and the first copy is hidden (a tab that is not selected, "Hide planned"). Icon sets reuse gradient ids inside each logo, so the copies shared ids; every instance now has its own.
+  
+  Fix the playback speed picker keeping the browser's text colour, which made it unreadable when a diagram's palette is dark on a light site (or the other way round).
+
+### Patch Changes
+
+- eae176e: Fix `astro dev` not rendering diagrams in a project made with `npm create docspp`. The integration asked Vite to pre-bundle `elkjs` through `@packagelab/docspp-core`, which a project that does not list that package itself (the starter, under pnpm) cannot see, so Vite found the layout library only after the page loaded and reloaded in the middle of hydration. Every pre-bundled entry is now reached through `@packagelab/docspp-astro`, and `d3-transition` is pre-bundled as well. If you added a workaround to `vite.optimizeDeps` in `astro.config.mjs`, you can remove it.
+- Updated dependencies [aa76c88]
+- Updated dependencies [f01b737]
+- Updated dependencies [5871024]
+  - @packagelab/docspp-react@0.2.0
+  - @packagelab/docspp-core@0.2.0

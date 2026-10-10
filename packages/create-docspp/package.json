@@ -1,6 +1,6 @@
 {
   "name": "create-docspp",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Scaffold a docs site with interactive diagrams: npm create docspp@latest my-docs",
   "type": "module",
   "bin": {

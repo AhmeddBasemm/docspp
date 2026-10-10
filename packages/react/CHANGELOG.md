@@ -1,0 +1,24 @@
+# @packagelab/docspp-react
+
+## 0.2.0
+
+### Minor Changes
+
+- aa76c88: Add an `autoplay` prop to `<Diagram>` and `<DiagramView>`. It plays the scenario given by `scenario` as soon as the diagram is laid out, and is ignored when the reader prefers reduced motion. `<Diagram>` also accepts `hash`, which `<DiagramView>` already had: `hash={false}` stops the diagram writing the scenario and step into the page address, which suits decorative embeds.
+  
+  Fix icons going blank when the same logo appears twice on a page and the first copy is hidden (a tab that is not selected, "Hide planned"). Icon sets reuse gradient ids inside each logo, so the copies shared ids; every instance now has its own.
+  
+  Fix the playback speed picker keeping the browser's text colour, which made it unreadable when a diagram's palette is dark on a light site (or the other way round).
+- f01b737: `DiagramView` gains `onNodeOpen` (called when a node is clicked, without replacing the drawer) and `highlightNode` (outlines a node from outside, for editors that follow the cursor). The browser-safe authoring entry of `@packagelab/docspp-core` now also exports `authoringJsonSchema` and `KNOWN_KEYS`, which the VS Code extension uses for completion.
+  
+  An "Unknown key" error now points at the unknown key itself instead of the node, group or step that holds it, so `docspp check` and editors underline the right word.
+  
+  The compiler reports an alias whose anchor does not exist as an error instead of throwing, so `docspp check` no longer crashes on a half-written file. `DiagramView` hides the full-screen button where the page is not allowed to go full screen (such as an iframe without the permission), and ignores a `highlightNode` that is not in the current view.
+- 5871024: Add a browser-safe compiler entry with host-provided icons and external node selection hooks for visual editors, powering the documentation site's live YAML playground and visual builder.
+
+### Patch Changes
+
+- Updated dependencies [aa76c88]
+- Updated dependencies [f01b737]
+- Updated dependencies [5871024]
+  - @packagelab/docspp-core@0.2.0
