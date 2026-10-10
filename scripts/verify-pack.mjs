@@ -19,7 +19,10 @@ const work = mkdtempSync(join(tmpdir(), 'docspp-pack-'))
 const packs = join(work, 'packs')
 const project = join(work, 'my-docs')
 const PORT = 4601
+const DEV_PORT = 4602
 let server
+let devStarted = false
+const browsers = []
 
 const step = (msg) => console.log(`\n▸ ${msg}`)
 const run = (cmd, args, cwd, quiet = true) =>
@@ -79,6 +82,7 @@ try {
   const base = server.url
   const { chromium } = await import(pathToFileURL(join(root, 'node_modules/playwright-core/index.mjs')).href)
   const browser = await chromium.launch({ channel: process.env.PW_CHANNEL ?? 'chrome' })
+  browsers.push(browser)
   const page = await (await browser.newContext({ viewport: { width: 1500, height: 1000 } })).newPage()
   const errors = []
   page.on('pageerror', (e) => errors.push(e.message))
@@ -92,13 +96,51 @@ try {
   if (errors.length) throw new Error(`page errors: ${errors.join('; ')}`)
   console.log(`  ${nodes} nodes rendered, scenario played`)
 
+  // The build above does not use the dev server's dependency optimizer, which is where a project
+  // that does not list @packagelab/docspp-core itself once broke. A dependency Vite finds only
+  // after the first page load makes it re-optimize and reload, so any such line is a failure.
+  step('astro dev')
+  const dev = (...args) => run('pnpm', ['exec', 'astro', ...args], project)
+  dev('dev', '--port', String(DEV_PORT))
+  devStarted = true
+  for (let i = 0; i < 60; i++) {
+    if (await fetch(`http://localhost:${DEV_PORT}/`, { signal: AbortSignal.timeout(3000) }).then((r) => r.ok, () => false)) break
+    await new Promise((r) => setTimeout(r, 1000))
+  }
+  const devBrowser = await chromium.launch({ channel: process.env.PW_CHANNEL ?? 'chrome' })
+  browsers.push(devBrowser)
+  const devPage = await devBrowser.newPage()
+  const devErrors = []
+  devPage.on('pageerror', (e) => devErrors.push(e.message))
+  await devPage.goto(`http://localhost:${DEV_PORT}/architecture/`, { waitUntil: 'networkidle' })
+  await devPage.waitForSelector('[data-node]')
+  // Give a late optimization time to show up in the log.
+  await devPage.waitForTimeout(4000)
+  const devNodes = await devPage.locator('[data-node]').count()
+  await devBrowser.close()
+  const late = dev('dev', 'logs')
+    .split('\n')
+    .filter((line) => /Failed to resolve dependency|optimized dependencies changed/.test(line))
+  if (late.length) throw new Error(`the dev server found dependencies late:\n${late.join('\n')}`)
+  if (devNodes !== 7) throw new Error(`expected 7 nodes in the dev server, found ${devNodes}`)
+  if (devErrors.length) throw new Error(`dev page errors: ${devErrors.join('; ')}`)
+  console.log(`  ${devNodes} nodes rendered, no late dependency optimization`)
+
   console.log('\n✓ the packed packages install, build and run')
 } catch (err) {
   console.error('\n✗ verify-pack failed')
   console.error(err.stderr?.toString() || err.stdout?.toString() || err.message)
   process.exitCode = 1
 } finally {
+  // The static server waits for open connections, so a browser left open by a failure would hang it.
+  for (const b of browsers) await b.close().catch(() => {})
   await server?.close()
+  // `astro dev` detaches, so it outlives this script unless it is stopped.
+  if (devStarted) {
+    try {
+      run('pnpm', ['exec', 'astro', 'dev', 'stop'], project)
+    } catch {}
+  }
   if (keep) console.log(`\nProject kept at ${project}`)
   else rmSync(work, { recursive: true, force: true })
 }
