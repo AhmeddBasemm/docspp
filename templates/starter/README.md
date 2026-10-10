@@ -26,5 +26,5 @@ The `idocs` skill in `.claude/skills/` teaches Claude Code the diagram format. F
 ## Update idocs
 
 ```sh
-pnpm up "@packagelab/idocs-*" --latest
+pnpm up "@the-package-labs/idocs-*" --latest
 ```

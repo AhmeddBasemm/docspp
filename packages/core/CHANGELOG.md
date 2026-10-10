@@ -1,4 +1,4 @@
-# @packagelab/idocs-core
+# @the-package-labs/idocs-core
 
 Versions up to 0.2.0 were published as `@packagelab/docspp-core`.
 

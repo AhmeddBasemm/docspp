@@ -15,7 +15,7 @@ No. Layout is automatic and you steer it with hints such as `rows`, `layout: gri
 
 ## Do I need Astro or Starlight?
 
-The easiest path is Astro with Starlight, which the starter gives you. `<Diagram>` is an ordinary Astro component, so it works without Starlight. Without Astro at all, you can compile diagrams with `@packagelab/idocs-core/node` and render them with the React component. See [using the React component](../../embed/react/).
+The easiest path is Astro with Starlight, which the starter gives you. `<Diagram>` is an ordinary Astro component, so it works without Starlight. Without Astro at all, you can compile diagrams with `@the-package-labs/idocs-core/node` and render them with the React component. See [using the React component](../../embed/react/).
 
 ## How big can a diagram be?
 
@@ -60,7 +60,7 @@ It has too much in it, or one zone is much wider than the others. [Fixing a crow
 ## How do I upgrade?
 
 ```sh
-pnpm up "@packagelab/idocs-*" idocs --latest
+pnpm up "@the-package-labs/idocs-*" idocs --latest
 ```
 
 The packages are versioned together. Run `pnpm idocs schema` afterwards so editor autocomplete matches, and restart the dev server.

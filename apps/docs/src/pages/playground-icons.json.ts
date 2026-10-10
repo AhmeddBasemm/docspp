@@ -1,4 +1,4 @@
-import { loadIconSets } from '@packagelab/idocs-core/node'
+import { loadIconSets } from '@the-package-labs/idocs-core/node'
 
 export function GET() {
   return new Response(JSON.stringify(loadIconSets()), {

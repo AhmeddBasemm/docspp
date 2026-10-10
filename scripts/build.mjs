@@ -14,13 +14,13 @@ const dir = process.cwd()
 const pkg = JSON.parse(readFileSync(join(dir, 'package.json'), 'utf8'))
 
 /** Prefix of the scoped library packages; the part after it is the folder under packages/. */
-const SCOPE = '@packagelab/idocs-'
+const SCOPE = '@the-package-labs/idocs-'
 
 /** What each package ships besides the compiled entries. */
 const CONFIG = {
-  '@packagelab/idocs-core': { entries: ['src/index.ts', 'src/node.ts', 'src/browser.ts'] },
-  '@packagelab/idocs-react': { entries: ['src/index.ts'], copy: [['src/styles.css', 'dist/styles.css']] },
-  '@packagelab/idocs-astro': {
+  '@the-package-labs/idocs-core': { entries: ['src/index.ts', 'src/node.ts', 'src/browser.ts'] },
+  '@the-package-labs/idocs-react': { entries: ['src/index.ts'], copy: [['src/styles.css', 'dist/styles.css']] },
+  '@the-package-labs/idocs-astro': {
     entries: ['src/index.ts'],
     copy: [
       ['src/Diagram.astro', 'dist/Diagram.astro'],

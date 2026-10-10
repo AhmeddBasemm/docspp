@@ -1,4 +1,4 @@
-import { KNOWN_KEYS, RootSchema } from '@packagelab/idocs-core/browser'
+import { KNOWN_KEYS, RootSchema } from '@the-package-labs/idocs-core/browser'
 import { describe, expect, it } from 'vitest'
 import { edgeKinds, nodeKinds, propsFor, STEP_PROPS } from '../src/language/vocabulary'
 

@@ -5,7 +5,7 @@ import {
   BUILTIN_KINDS,
   type CompiledDiagram,
   type IconData,
-} from '@packagelab/idocs-core'
+} from '@the-package-labs/idocs-core'
 import type { Declaration } from '../model/declarations'
 import { declarationOf, type Reference, type SymbolRef, symbolAt } from '../model/references'
 import { type Parsed, type Pos, type Span, whereIs } from '../model/yaml'

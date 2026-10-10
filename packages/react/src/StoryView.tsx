@@ -6,7 +6,7 @@ import {
   STEP_KIND_COLORS,
   type StepKind,
   type StoryBox,
-} from '@packagelab/idocs-core'
+} from '@the-package-labs/idocs-core'
 import { useCallback, useId, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { Icon } from './Icon'
 import { colorVar, cx, roman } from './util'

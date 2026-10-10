@@ -2,7 +2,7 @@
 //
 //   1. build and pack every package
 //   2. scaffold a project with the packed create-idocs
-//   3. point its @packagelab/idocs-* dependencies at the tarballs and install like a user would
+//   3. point its @the-package-labs/idocs-* dependencies at the tarballs and install like a user would
 //   4. check, build, and load the built site in Chrome
 //
 // Needs network (for Astro and friends) and Google Chrome. Pass --keep to leave the project behind.
@@ -67,7 +67,7 @@ try {
   // Packages depend on each other by version; during this test those versions are not on npm.
   appendFileSync(
     join(project, 'pnpm-workspace.yaml'),
-    `overrides:\n${Object.entries(tarballs).filter(([n]) => n.startsWith('@packagelab/')).map(([n, f]) => `  '${n}': file:${f}`).join('\n')}\n`,
+    `overrides:\n${Object.entries(tarballs).filter(([n]) => n.startsWith('@the-package-labs/')).map(([n, f]) => `  '${n}': file:${f}`).join('\n')}\n`,
   )
   run('pnpm', ['install'], project)
 
@@ -97,7 +97,7 @@ try {
   console.log(`  ${nodes} nodes rendered, scenario played`)
 
   // The build above does not use the dev server's dependency optimizer, which is where a project
-  // that does not list @packagelab/idocs-core itself once broke. A dependency Vite finds only
+  // that does not list @the-package-labs/idocs-core itself once broke. A dependency Vite finds only
   // after the first page load makes it re-optimize and reload, so any such line is a failure.
   step('astro dev')
   const dev = (...args) => run('pnpm', ['exec', 'astro', ...args], project)

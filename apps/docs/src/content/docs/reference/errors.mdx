@@ -80,6 +80,6 @@ diagrams/checkout/diagram.yaml:5:3  error  Unknown key "titel"
 | `Diagram errors:` and a failed build | Run `idocs check`. The build fails on any diagram error, by design. |
 | `<Diagram name="x"> does not match a diagram` | The folder name is different. The error lists the names that exist. |
 | The diagram shows "Loading diagram…" and never appears | A browser console error. Is `react()` from `@astrojs/react` in `astro.config.mjs`? |
-| The page is narrow and the diagram tiny | Add `@packagelab/idocs-astro/starlight.css` to Starlight's `customCss`. |
+| The page is narrow and the diagram tiny | Add `@the-package-labs/idocs-astro/starlight.css` to Starlight's `customCss`. |
 | Fonts differ from the screenshots | The starter uses IBM Plex through Fontsource. Add it, or set `--idocs-sans` and `--idocs-mono`. |
 | Edits to a diagram do not show in `pnpm dev` | Save the file again. If the compiler itself changed after an upgrade, restart the dev server. |

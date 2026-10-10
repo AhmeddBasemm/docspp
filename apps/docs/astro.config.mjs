@@ -1,6 +1,6 @@
 import react from '@astrojs/react'
 import starlight from '@astrojs/starlight'
-import idocs from '@packagelab/idocs-astro'
+import idocs from '@the-package-labs/idocs-astro'
 import { defineConfig } from 'astro/config'
 
 const repo = 'https://github.com/The-Package-Labs/idocs'
@@ -73,7 +73,7 @@ export default defineConfig({
         '@fontsource/ibm-plex-sans-condensed/600.css',
         '@fontsource/ibm-plex-mono/400.css',
         '@fontsource/ibm-plex-mono/500.css',
-        '@packagelab/idocs-astro/starlight.css',
+        '@the-package-labs/idocs-astro/starlight.css',
         './src/styles/palettes.css',
         './src/styles/custom.css',
       ],

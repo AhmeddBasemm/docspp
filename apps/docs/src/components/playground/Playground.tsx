@@ -1,13 +1,13 @@
-import type { CompiledDiagram } from '@packagelab/idocs-core'
-import type { CompileResult, RootInput } from '@packagelab/idocs-core/browser'
-import { DiagramView } from '@packagelab/idocs-react'
+import type { CompiledDiagram } from '@the-package-labs/idocs-core'
+import type { CompileResult, RootInput } from '@the-package-labs/idocs-core/browser'
+import { DiagramView } from '@the-package-labs/idocs-react'
 import { type KeyboardEvent, useEffect, useMemo, useRef, useState } from 'react'
 import type { Document } from 'yaml'
 import { Builder } from './Builder'
 import { examples } from './examples'
 import { editSource, readModel, type Selection } from './model'
 import './playground.css'
-import '@packagelab/idocs-react/styles.css'
+import '@the-package-labs/idocs-react/styles.css'
 
 const STORAGE_KEY = 'idocs-playground-v1'
 interface History {

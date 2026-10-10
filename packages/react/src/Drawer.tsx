@@ -1,4 +1,4 @@
-import type { CompiledDiagram, CompiledView } from '@packagelab/idocs-core'
+import type { CompiledDiagram, CompiledView } from '@the-package-labs/idocs-core'
 import { useEffect, useRef } from 'react'
 import { IconTile } from './Icon'
 import { cx } from './util'

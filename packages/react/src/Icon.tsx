@@ -1,4 +1,4 @@
-import { type IconData, scopeSvgIds } from '@packagelab/idocs-core'
+import { type IconData, scopeSvgIds } from '@the-package-labs/idocs-core'
 import { useId, useMemo } from 'react'
 import { cx } from './util'
 

@@ -1,6 +1,6 @@
 // The messages between the extension and the preview webview. Both sides import these types;
 // everything in a message must survive structured cloning (plain JSON).
-import type { CompiledDiagram } from '@packagelab/idocs-core'
+import type { CompiledDiagram } from '@the-package-labs/idocs-core'
 
 export interface Problem {
   severity: 'error' | 'warning'

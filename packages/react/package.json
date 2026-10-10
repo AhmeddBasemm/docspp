@@ -1,5 +1,5 @@
 {
-  "name": "@packagelab/idocs-react",
+  "name": "@the-package-labs/idocs-react",
   "version": "0.2.0",
   "type": "module",
   "exports": {
@@ -11,7 +11,7 @@
     "build": "node ../../scripts/build.mjs"
   },
   "dependencies": {
-    "@packagelab/idocs-core": "workspace:^",
+    "@the-package-labs/idocs-core": "workspace:^",
     "d3-selection": "^3.0.0",
     "d3-transition": "^3.0.1",
     "d3-zoom": "^3.0.0"

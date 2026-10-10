@@ -8,11 +8,11 @@ idocs renders diagrams inside an **Astro** site (usually with **Starlight** for 
 |---|---|
 | `create-idocs` | `npm create idocs@latest`: scaffolds a new site. |
 | `idocs` | The CLI: `idocs check`, `list`, `schema`, `icons search`, `new`. |
-| `@packagelab/idocs-astro` | The Astro integration and the `<Diagram>` component. |
-| `@packagelab/idocs-react` | The interactive diagram component (a dependency of the integration). |
-| `@packagelab/idocs-core` | Schema, compiler and layout (a dependency of the others). |
+| `@the-package-labs/idocs-astro` | The Astro integration and the `<Diagram>` component. |
+| `@the-package-labs/idocs-react` | The interactive diagram component (a dependency of the integration). |
+| `@the-package-labs/idocs-core` | Schema, compiler and layout (a dependency of the others). |
 
-The source is `https://github.com/The-Package-Labs/idocs`. If an install fails with "not found", check `npm view @packagelab/idocs-core version`: it should print a version. A company registry mirror may simply not have the `@packagelab` scope yet.
+The source is `https://github.com/The-Package-Labs/idocs`. If an install fails with "not found", check `npm view @the-package-labs/idocs-core version`: it should print a version. A company registry mirror may simply not have the `@packagelab` scope yet.
 
 ## Start a new site
 
@@ -29,7 +29,7 @@ This creates an Astro + Starlight project with an example diagram (`diagrams/sho
 
 1. **Install.**
    ```sh
-   pnpm add @packagelab/idocs-astro @packagelab/idocs-react @astrojs/react react react-dom
+   pnpm add @the-package-labs/idocs-astro @the-package-labs/idocs-react @astrojs/react react react-dom
    pnpm add -D idocs
    ```
    On pnpm 10 or later, allow the build scripts it asks about by adding to `pnpm-workspace.yaml`:
@@ -42,7 +42,7 @@ This creates an Astro + Starlight project with an example diagram (`diagrams/sho
    ```js
    import react from '@astrojs/react'
    import starlight from '@astrojs/starlight'
-   import idocs from '@packagelab/idocs-astro'
+   import idocs from '@the-package-labs/idocs-astro'
    import { defineConfig } from 'astro/config'
 
    export default defineConfig({
@@ -52,13 +52,13 @@ This creates an Astro + Starlight project with an example diagram (`diagrams/sho
        starlight({
          title: 'My docs',
          // Widens the content column for diagrams and keeps prose at a readable width.
-         customCss: ['@packagelab/idocs-astro/starlight.css'],
+         customCss: ['@the-package-labs/idocs-astro/starlight.css'],
        }),
      ],
    })
    ```
    `idocs({ dir: 'my-diagrams' })` changes the folder (default `diagrams`).
-3. **Types.** In `src/env.d.ts` add `/// <reference types="@packagelab/idocs-astro/virtual" />`.
+3. **Types.** In `src/env.d.ts` add `/// <reference types="@the-package-labs/idocs-astro/virtual" />`.
 4. **A first diagram.**
    ```sh
    pnpm idocs new shop
@@ -71,7 +71,7 @@ This creates an Astro + Starlight project with an example diagram (`diagrams/sho
    title: Shop
    tableOfContents: false
    ---
-   import Diagram from '@packagelab/idocs-astro/Diagram.astro'
+   import Diagram from '@the-package-labs/idocs-astro/Diagram.astro'
 
    <Diagram name="shop" />
    ```

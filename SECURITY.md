@@ -19,7 +19,7 @@ Please include:
 
 - what you found and why it matters
 - the smallest diagram, page or command that reproduces it
-- the version of each `@packagelab/idocs-*` package, `idocs` and `create-idocs` you used, plus Node and browser versions
+- the version of each `@the-package-labs/idocs-*` package, `idocs` and `create-idocs` you used, plus Node and browser versions
 
 You can expect an acknowledgement within a few days. We will keep you informed, agree a fix and a disclosure date with you, and credit you in the release notes unless you prefer otherwise.
 

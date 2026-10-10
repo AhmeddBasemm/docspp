@@ -13,9 +13,9 @@ idocs is five packages, versioned together. Most people only ever install `creat
 |---|---|---|
 | [`create-idocs`](#create-idocs) | Scaffolds a new site: `npm create idocs@latest`. | never; `npm create` runs it |
 | [`idocs`](#idocs) | The command line. | as a dev dependency |
-| [`@packagelab/idocs-astro`](#packagelabidocs-astro) | The Astro integration and the `<Diagram>` component. | in your site |
-| [`@packagelab/idocs-react`](#packagelabidocs-react) | The interactive diagram component and its styles. | in your site |
-| [`@packagelab/idocs-core`](#packagelabidocs-core) | Schema, compiler, layout, router and timeline. | pulled in by the others |
+| [`@the-package-labs/idocs-astro`](#the-package-labsidocs-astro) | The Astro integration and the `<Diagram>` component. | in your site |
+| [`@the-package-labs/idocs-react`](#the-package-labsidocs-react) | The interactive diagram component and its styles. | in your site |
+| [`@the-package-labs/idocs-core`](#the-package-labsidocs-core) | Schema, compiler, layout, router and timeline. | pulled in by the others |
 
 All five need Node 22 or later. All are published under the MIT license.
 
@@ -31,7 +31,7 @@ Copies the starter project into a folder that does not exist yet or is empty, fi
 
 The `idocs` command. See the [CLI reference](../cli/).
 
-## @packagelab/idocs-astro
+## @the-package-labs/idocs-astro
 
 | Export | What it is |
 |---|---|
@@ -42,7 +42,7 @@ The `idocs` command. See the [CLI reference](../cli/).
 
 Needs `astro` 6 or later. See [props and options](../props/).
 
-## @packagelab/idocs-react
+## @the-package-labs/idocs-react
 
 | Export | What it is |
 |---|---|
@@ -53,11 +53,11 @@ Needs `astro` 6 or later. See [props and options](../props/).
 
 Needs `react` and `react-dom` 19 or later.
 
-## @packagelab/idocs-core
+## @the-package-labs/idocs-core
 
 Two entry points.
 
-### `@packagelab/idocs-core`
+### `@the-package-labs/idocs-core`
 
 Browser-safe: no `node:*`, YAML, Zod or Iconify. This is the part the client bundle gets.
 
@@ -71,7 +71,7 @@ Browser-safe: no `node:*`, YAML, Zod or Iconify. This is the part the client bun
 | `scopeSvgIds` | Gives an inline SVG's ids a prefix, so two copies on a page do not collide. |
 | Constants | The built-in node and edge kinds, step kind colours and the default card width. |
 
-### `@packagelab/idocs-core/node`
+### `@the-package-labs/idocs-core/node`
 
 Node only. Everything that reads files or parses YAML.
 
@@ -86,7 +86,7 @@ Node only. Everything that reads files or parses YAML.
 | `RootSchema`, `FamilySchema`, `KNOWN_KEYS` | The Zod schema, for tooling. |
 
 <Aside type="caution" title="Keep the entry points apart">
-  Importing `@packagelab/idocs-core/node` from code that ships to the browser pulls YAML, Zod and the icon sets into your bundle. Compile on the server or in a build script, and pass the JSON to the client.
+  Importing `@the-package-labs/idocs-core/node` from code that ships to the browser pulls YAML, Zod and the icon sets into your bundle. Compile on the server or in a build script, and pass the JSON to the client.
 </Aside>
 
 ## Versions
@@ -94,7 +94,7 @@ Node only. Everything that reads files or parses YAML.
 The five packages are versioned together, so upgrade them together:
 
 ```sh
-pnpm up "@packagelab/idocs-*" idocs create-idocs --latest
+pnpm up "@the-package-labs/idocs-*" idocs create-idocs --latest
 ```
 
 In the idocs repository, each package's `exports` point at TypeScript sources so nothing has to be built to develop. The published packages point at compiled `dist/` files.

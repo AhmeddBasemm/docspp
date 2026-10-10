@@ -1,10 +1,10 @@
 // Gathers the text of a diagram folder the way the compiler's loader does (`loadProject` in
-// @packagelab/idocs-core/node): diagram.yaml, scenarios/*.yaml sorted by name, and a reader for
+// @the-package-labs/idocs-core/node): diagram.yaml, scenarios/*.yaml sorted by name, and a reader for
 // documentation and icons that cannot leave the folder. The file system is injected so the editor
 // can substitute unsaved buffers. test/sources.test.ts checks the result against the real loader.
 import { existsSync, readdirSync, readFileSync } from 'node:fs'
 import { basename, join, resolve, sep } from 'node:path'
-import type { DiagramSource } from '@packagelab/idocs-core/browser'
+import type { DiagramSource } from '@the-package-labs/idocs-core/browser'
 import { diagramFileIn } from './paths'
 
 export interface Fs {

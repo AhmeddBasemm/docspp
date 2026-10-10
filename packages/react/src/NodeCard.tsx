@@ -1,4 +1,4 @@
-import type { CompiledNode } from '@packagelab/idocs-core'
+import type { CompiledNode } from '@the-package-labs/idocs-core'
 import { memo } from 'react'
 import { IconTile } from './Icon'
 import { cx } from './util'

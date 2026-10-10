@@ -1,6 +1,6 @@
 // What the status bar says about a diagram. Pure, so the wording is tested.
-import type { CompiledDiagram } from '@packagelab/idocs-core'
-import type { Diagnostic } from '@packagelab/idocs-core/browser'
+import type { CompiledDiagram } from '@the-package-labs/idocs-core'
+import type { Diagnostic } from '@the-package-labs/idocs-core/browser'
 
 export interface Summary {
   name: string

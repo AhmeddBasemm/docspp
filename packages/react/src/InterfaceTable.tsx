@@ -1,4 +1,4 @@
-import type { CompiledDiagram, CompiledView } from '@packagelab/idocs-core'
+import type { CompiledDiagram, CompiledView } from '@the-package-labs/idocs-core'
 import { cx } from './util'
 
 interface Props {

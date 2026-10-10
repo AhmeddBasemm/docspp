@@ -1,9 +1,9 @@
-import type { IconData } from '@packagelab/idocs-core'
+import type { IconData } from '@the-package-labs/idocs-core'
 import {
   type CompilerAssets,
   compileDiagram,
   createIconResolver,
-} from '@packagelab/idocs-core/browser'
+} from '@the-package-labs/idocs-core/browser'
 
 let starterAssets: Promise<CompilerAssets> | undefined
 let fullAssets: Promise<CompilerAssets> | undefined

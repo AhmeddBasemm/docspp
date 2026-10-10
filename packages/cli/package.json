@@ -13,7 +13,7 @@
     "build": "node ../../scripts/build.mjs"
   },
   "dependencies": {
-    "@packagelab/idocs-core": "workspace:^"
+    "@the-package-labs/idocs-core": "workspace:^"
   },
   "description": "The idocs command line: check, list, schema, icons search, new.",
   "files": [

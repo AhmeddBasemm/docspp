@@ -1,4 +1,4 @@
-import { type CompiledDiagram, type Layout, layoutView } from '@packagelab/idocs-core'
+import { type CompiledDiagram, type Layout, layoutView } from '@the-package-labs/idocs-core'
 import { useEffect, useRef, useState } from 'react'
 
 /**

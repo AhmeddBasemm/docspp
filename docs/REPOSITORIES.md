@@ -22,15 +22,15 @@ Split it out only if different people own the docs, or they need a different rel
 
 ### Why the template is generated, not hand-maintained
 
-A GitHub template has to be a repository root, and it must depend on **published** `@packagelab/idocs-*` versions, not on workspace links, so users get upgrades by bumping a dependency rather than owning a copy of the engine. The monorepo cannot be that template. So `templates/starter` is the source of truth, `scripts/template.mjs` turns it into a standalone project (versions pinned to the current release, placeholders filled, the shared `author-diagram` skill added), and the sync workflow pushes the result to the template repository.
+A GitHub template has to be a repository root, and it must depend on **published** `@the-package-labs/idocs-*` versions, not on workspace links, so users get upgrades by bumping a dependency rather than owning a copy of the engine. The monorepo cannot be that template. So `templates/starter` is the source of truth, `scripts/template.mjs` turns it into a standalone project (versions pinned to the current release, placeholders filled, the shared `author-diagram` skill added), and the sync workflow pushes the result to the template repository.
 
 ## What is where
 
 ```
 packages/
-  core/            @packagelab/idocs-core        schema, compiler, layout, router, timeline
-  react/           @packagelab/idocs-react       <DiagramView> and styles
-  astro/           @packagelab/idocs-astro       Astro integration and <Diagram>
+  core/            @the-package-labs/idocs-core        schema, compiler, layout, router, timeline
+  react/           @the-package-labs/idocs-react       <DiagramView> and styles
+  astro/           @the-package-labs/idocs-astro       Astro integration and <Diagram>
   cli/             idocs                         the `idocs` command
   create-idocs/    create-idocs       `npm create idocs`; carries a copy of the template
 extensions/
@@ -62,7 +62,7 @@ In the monorepo, every package's `exports` point at its TypeScript sources, so n
 
 ## The VS Code extension
 
-`extensions/vscode` is a workspace of its own and not one of the five packages: it is released to the Visual Studio Marketplace and Open VSX, not npm, and has its own version and `CHANGELOG.md`. Changesets ignore it. It bundles `@packagelab/idocs-core` and `@packagelab/idocs-react` from the workspace, so a format change reaches users when the extension is next released. How it is built, tested and released is in [extensions/vscode/DEVELOPMENT.md](../extensions/vscode/DEVELOPMENT.md).
+`extensions/vscode` is a workspace of its own and not one of the five packages: it is released to the Visual Studio Marketplace and Open VSX, not npm, and has its own version and `CHANGELOG.md`. Changesets ignore it. It bundles `@the-package-labs/idocs-core` and `@the-package-labs/idocs-react` from the workspace, so a format change reaches users when the extension is next released. How it is built, tested and released is in [extensions/vscode/DEVELOPMENT.md](../extensions/vscode/DEVELOPMENT.md).
 
 ## Everyday tasks
 
@@ -79,7 +79,7 @@ In the monorepo, every package's `exports` point at its TypeScript sources, so n
 
 ## Releasing
 
-**Published:** `0.1.0` of all five packages went out on 2026-10-07 under the `packagelab` org, and `0.2.0` on 2026-10-10 (from a laptop, with a granular npm token that bypasses two-factor authentication; an ordinary token is refused with a 403). Both were published under the project's first name, docspp: `@packagelab/docspp-core`, `-react`, `-astro`, `docspp` and `create-docspp`. The next release is the first under the idocs names; once it is out, deprecate the old ones with `npm deprecate <old-name> "Renamed to <new-name>"` so their users find the new packages. New scoped packages show a stray `0.0.0-stage` placeholder version on npm; it is created by npm, not by us, and `latest` points at the real release.
+**Published:** `0.1.0` of all five packages went out on 2026-10-07 under the `packagelab` org, and `0.2.0` on 2026-10-10 (from a laptop, with a granular npm token that bypasses two-factor authentication; an ordinary token is refused with a 403). Both were published under the project's first name, docspp, in the `packagelab` org: `@packagelab/docspp-core`, `-react`, `-astro`, `docspp` and `create-docspp`. The next release is the first under the idocs names; once it is out, deprecate the old ones with `npm deprecate <old-name> "Renamed to <new-name>"` so their users find the new packages. New scoped packages show a stray `0.0.0-stage` placeholder version on npm; it is created by npm, not by us, and `latest` points at the real release.
 
 Releases use [changesets](https://github.com/changesets/changesets).
 
@@ -94,9 +94,9 @@ Both workflows are **off** until you opt in, so pushing to `main` can never publ
 These are your decisions; nothing here has been done for you.
 
 - [x] **A license.** MIT, in `LICENSE`; each build copies it into the package folders, and `verify:pack` checks it is in every tarball.
-- [x] **The npm names.** The org is `packagelab`. Libraries are `@packagelab/idocs-core`, `-react` and `-astro`; the CLI is the unscoped `idocs` (so `npx idocs check` works) and the scaffolder is the unscoped `create-idocs` (so `npm create idocs` works). They replaced the docspp names after `0.2.0`; renaming again is expensive, so treat these as fixed. They appear in each `package.json`, `scripts/build.mjs`, `templates/starter/package.json`, `.changeset/config.json`, the skill and the docs.
+- [x] **The npm names.** The org is `the-package-labs`. Libraries are `@the-package-labs/idocs-core`, `-react` and `-astro`; the CLI is the unscoped `idocs` (so `npx idocs check` works) and the scaffolder is the unscoped `create-idocs` (so `npm create idocs` works). They replaced the docspp names (and the `packagelab` org) after `0.2.0`; renaming again is expensive, so treat these as fixed. They appear in each `package.json`, `scripts/build.mjs`, `templates/starter/package.json`, `.changeset/config.json`, the skill and the docs.
 - [x] **URLs.** `homepage` and `repository` in the root and package `package.json` files point at `github.com/The-Package-Labs/idocs` (the project moved there from `AhmeddBasemm/docspp`). Update them if the repository moves again.
-- [ ] **npm token.** For automated releases, create an automation token that can publish to the `packagelab` org and add it as the `NPM_TOKEN` repository secret. The first publish can be done from a laptop with `npm login` and `pnpm release`.
+- [ ] **npm token.** For automated releases, create an automation token that can publish to the `the-package-labs` org and the unscoped `idocs` and `create-idocs`, and add it as the `NPM_TOKEN` repository secret. The first publish can be done from a laptop with `npm login` and `pnpm release`.
 - [ ] **Turn it on.** Set the repository variable `RELEASE_ENABLED` to `true`.
 - [x] **Make the repository public** if people should be able to run `npx skills add <you>/idocs` against it.
 - [x] **Docs site.** Pages is on the **GitHub Actions** source and `apps/docs` deploys on every push to `main`. In a repository without Pages enabled the workflow still builds the site and skips the deploy step with a notice, so CI stays green.

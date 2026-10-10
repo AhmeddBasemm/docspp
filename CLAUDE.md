@@ -50,7 +50,7 @@ Repository topology, the template repository and releasing: `docs/REPOSITORIES.m
 
 ## Rules that keep it working
 
-- **`@packagelab/idocs-core` main entry must stay browser-safe.** No `node:*`, `yaml`, `zod`, Iconify or unified imports reachable from `src/index.ts`; they belong behind `src/node.ts`. The client bundle only gets layout, route, timeline and types.
+- **`@the-package-labs/idocs-core` main entry must stay browser-safe.** No `node:*`, `yaml`, `zod`, Iconify or unified imports reachable from `src/index.ts`; they belong behind `src/node.ts`. The client bundle only gets layout, route, timeline and types.
 - **The story model is pure too.** `buildStory(diagram, scenario)` in `core/src/story.ts` turns a scenario into lanes, boxes and links; `StoryView` only measures the DOM and draws connectors over it. Add behaviour to the model, with a test, not to the component.
 - **The timeline is pure.** `buildTimeline(scenario, edgeLengths)` and `frameAt(timeline, t)` hold all playback logic; the React player is only a clock. Keep it that way: it makes scrubbing, stepping and tests trivial.
 - **Never leave `will-change: transform` on the zoomed layer.** It makes the browser scale a bitmap, which blurs everything when zoomed in. `Canvas` sets it only while panning or zooming; an e2e test guards the resting state.
@@ -71,7 +71,7 @@ Details are in `extensions/vscode/DEVELOPMENT.md`. The rules:
 
 - **`src/model` and `src/language` never import `vscode`.** They take text and positions and return plain data, so they are unit tested. Adapters live in `src/vscode`.
 - **The grammar is generated.** Edit `scripts/grammar.mjs`, run `pnpm --filter idocs-vscode grammar`, commit both. Tests tokenize every diagram in the repo and compare with the `yaml` parser.
-- **Do not import `@packagelab/idocs-core/node` in the extension.** Its icon loader uses `import.meta.url`, which a CommonJS bundle breaks on. Use `/browser` and pass icon sets (`src/model/icons.ts`).
+- **Do not import `@the-package-labs/idocs-core/node` in the extension.** Its icon loader uses `import.meta.url`, which a CommonJS bundle breaks on. Use `/browser` and pass icon sets (`src/model/icons.ts`).
 - **`src/model/sources.ts` mirrors `loadProject`, `src/model/scaffold.ts` mirrors `idocs new`.** Tests compare each with the real thing; change the original and those tests tell you what to update.
 - **Changing the format?** Completion reads the JSON schema, but steps are listed by hand in `src/language/vocabulary.ts` and a test compares them with the zod schema. The grammar's key lists (`REF_KEYS`, `KIND_KEYS`, `ENUM_KEYS`) are in `scripts/grammar.mjs`.
 - **Rendering and the webview** are covered by `pnpm test:e2e` (Chrome, real content security policy); the host by `pnpm vscode:test`. Run both after touching `src/vscode`, `webview/` or `DiagramView`.

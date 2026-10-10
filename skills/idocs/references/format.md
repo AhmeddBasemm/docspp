@@ -108,7 +108,7 @@ Edges whose two ends are both in the view are included. A scenario plays on the 
 ## Pages
 
 ```mdx
-import Diagram from '@packagelab/idocs-astro/Diagram.astro'
+import Diagram from '@the-package-labs/idocs-astro/Diagram.astro'
 
 <Diagram name="shop" />                                  # first view, overview
 <Diagram name="shop" view="backend" />

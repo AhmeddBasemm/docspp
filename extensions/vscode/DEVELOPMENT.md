@@ -52,8 +52,8 @@ The rule that keeps it testable: **`src/model` and `src/language` never import `
 
 - **The grammar is generated.** Edit `scripts/grammar.mjs`, run `pnpm --filter idocs-vscode grammar`, commit both. A test fails when they differ. Another test tokenizes every diagram in the repository and compares what it finds with the `yaml` parser.
 - **Completion works on text that does not parse**, so it reads indentation (`src/language/context.ts`) instead of the YAML tree. Navigation, rename and outline use the tree.
-- **The extension bundles its own compiler.** `@packagelab/idocs-core` is built into `dist/extension.js`, so a diagram that uses a key newer than the extension reports it as unknown. Release the extension after the packages when the format changes.
-- **Do not import `@packagelab/idocs-core/node`.** Its icon loader resolves files with `import.meta.url`, which a CommonJS bundle cannot do. Use the `browser` entry and pass it the icon sets (`src/model/icons.ts`).
+- **The extension bundles its own compiler.** `@the-package-labs/idocs-core` is built into `dist/extension.js`, so a diagram that uses a key newer than the extension reports it as unknown. Release the extension after the packages when the format changes.
+- **Do not import `@the-package-labs/idocs-core/node`.** Its icon loader resolves files with `import.meta.url`, which a CommonJS bundle cannot do. Use the `browser` entry and pass it the icon sets (`src/model/icons.ts`).
 - **`src/model/sources.ts` mirrors `loadProject`.** A test compiles every example diagram both ways and requires identical output. `src/model/scaffold.ts` mirrors `idocs new` the same way.
 - **The webview may only run scripts with the nonce.** `src/preview/html.ts` sets the policy and `e2e/` loads the same page, so a dependency that wants `eval` fails there first.
 

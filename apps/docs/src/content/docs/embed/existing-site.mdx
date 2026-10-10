@@ -14,7 +14,7 @@ If you already have an [Astro](https://astro.build) site with [Starlight](https:
 1. **Install the packages.**
 
    ```sh
-   pnpm add @packagelab/idocs-astro @packagelab/idocs-react @astrojs/react react react-dom
+   pnpm add @the-package-labs/idocs-astro @the-package-labs/idocs-react @astrojs/react react react-dom
    pnpm add -D idocs
    ```
 
@@ -31,7 +31,7 @@ If you already have an [Astro](https://astro.build) site with [Starlight](https:
    ```js
    import react from '@astrojs/react'
    import starlight from '@astrojs/starlight'
-   import idocs from '@packagelab/idocs-astro'
+   import idocs from '@the-package-labs/idocs-astro'
    import { defineConfig } from 'astro/config'
 
    export default defineConfig({
@@ -41,7 +41,7 @@ If you already have an [Astro](https://astro.build) site with [Starlight](https:
        starlight({
          title: 'My docs',
          // Widens the content column for diagrams and keeps prose at a readable width.
-         customCss: ['@packagelab/idocs-astro/starlight.css'],
+         customCss: ['@the-package-labs/idocs-astro/starlight.css'],
        }),
      ],
    })
@@ -52,7 +52,7 @@ If you already have an [Astro](https://astro.build) site with [Starlight](https:
 3. **Add the types.** In `src/env.d.ts`:
 
    ```ts
-   /// <reference types="@packagelab/idocs-astro/virtual" />
+   /// <reference types="@the-package-labs/idocs-astro/virtual" />
    ```
 
 4. **Create a first diagram.**
@@ -70,7 +70,7 @@ If you already have an [Astro](https://astro.build) site with [Starlight](https:
    title: Shop
    tableOfContents: false
    ---
-   import Diagram from '@packagelab/idocs-astro/Diagram.astro'
+   import Diagram from '@the-package-labs/idocs-astro/Diagram.astro'
 
    <Diagram name="shop" />
    ```
@@ -92,7 +92,7 @@ customCss: [
   '@fontsource/ibm-plex-sans/400.css',
   '@fontsource/ibm-plex-sans/600.css',
   '@fontsource/ibm-plex-mono/400.css',
-  '@packagelab/idocs-astro/starlight.css',
+  '@the-package-labs/idocs-astro/starlight.css',
 ],
 ```
 
@@ -114,7 +114,7 @@ Run `pnpm dev` and open the page. You should see the diagram, a scenario button 
 |---|---|
 | `<Diagram name="x"> does not match a diagram` | The folder name differs. The error lists the names that exist. |
 | The page says "Loading diagram…" and nothing appears | A browser console error. Is `react()` from `@astrojs/react` in `astro.config.mjs`? |
-| The page is narrow and the diagram tiny | Add `@packagelab/idocs-astro/starlight.css` to Starlight's `customCss`. |
+| The page is narrow and the diagram tiny | Add `@the-package-labs/idocs-astro/starlight.css` to Starlight's `customCss`. |
 | Edits to a diagram do not show | Save the file again. If you upgraded idocs, restart the dev server. |
 
 [Errors and warnings](../../reference/errors/) covers what `idocs check` reports.

@@ -5,7 +5,7 @@ import { describe, expect, it } from 'vitest'
 import idocs from '../src'
 
 // The starter is the strictest consumer: pnpm links only what its package.json lists, which does
-// not include `@packagelab/idocs-core`.
+// not include `@the-package-labs/idocs-core`.
 const starter = fileURLToPath(new URL('../../../templates/starter/', import.meta.url))
 
 /** Finds `name` the way Node does: in the closest `node_modules` going up from `from`. */

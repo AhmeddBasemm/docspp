@@ -32,8 +32,8 @@ body:
     id: versions
     attributes:
       label: Versions
-      description: "`idocs --version` is not needed; paste the versions from your package.json (idocs, @packagelab/idocs-astro, create-idocs) and your Node version."
-      placeholder: "idocs 0.1.0, @packagelab/idocs-astro 0.1.0, Node 22.11"
+      description: "`idocs --version` is not needed; paste the versions from your package.json (idocs, @the-package-labs/idocs-astro, create-idocs) and your Node version."
+      placeholder: "idocs 0.1.0, @the-package-labs/idocs-astro 0.1.0, Node 22.11"
     validations:
       required: true
   - type: input

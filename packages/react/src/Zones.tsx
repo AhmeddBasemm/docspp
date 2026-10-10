@@ -1,4 +1,4 @@
-import type { CompiledDiagram, Layout } from '@packagelab/idocs-core'
+import type { CompiledDiagram, Layout } from '@the-package-labs/idocs-core'
 import { Icon } from './Icon'
 import { cx } from './util'
 

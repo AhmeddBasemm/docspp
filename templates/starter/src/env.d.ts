@@ -1,2 +1,2 @@
 /// <reference path="../.astro/types.d.ts" />
-/// <reference types="@packagelab/idocs-astro/virtual" />
+/// <reference types="@the-package-labs/idocs-astro/virtual" />

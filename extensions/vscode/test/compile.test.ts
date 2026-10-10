@@ -1,6 +1,6 @@
 import { readdirSync, statSync } from 'node:fs'
 import { join, relative } from 'node:path'
-import { loadProject } from '@packagelab/idocs-core/node'
+import { loadProject } from '@the-package-labs/idocs-core/node'
 import { describe, expect, it } from 'vitest'
 import { compileFolder, refBasesFor, refPath, staleRefs } from '../src/model/compile'
 import { gatherSource, nodeFs } from '../src/model/sources'

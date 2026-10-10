@@ -1,4 +1,4 @@
-import type { CompiledDiagram, CompiledView } from '@packagelab/idocs-core'
+import type { CompiledDiagram, CompiledView } from '@the-package-labs/idocs-core'
 import { colorVar } from './util'
 
 export function Legend({ diagram, view }: { diagram: CompiledDiagram; view: CompiledView }) {

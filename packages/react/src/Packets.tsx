@@ -1,4 +1,4 @@
-import type { Frame, Layout } from '@packagelab/idocs-core'
+import type { Frame, Layout } from '@the-package-labs/idocs-core'
 import { cx } from './util'
 
 interface Props {

@@ -3,7 +3,7 @@ import {
   type CompiledView,
   type Layout,
   roundedPath,
-} from '@packagelab/idocs-core'
+} from '@the-package-labs/idocs-core'
 import { colorVar, cx } from './util'
 
 export interface EdgeState {

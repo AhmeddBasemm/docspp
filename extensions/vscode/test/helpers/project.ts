@@ -2,7 +2,7 @@ import { mkdirSync, mkdtempSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { loadIconSets } from '@packagelab/idocs-core/node'
+import { loadIconSets } from '@the-package-labs/idocs-core/node'
 import { type IconResolver, lazyIconResolver } from '../../src/model/icons'
 
 export const repo = resolve(dirname(fileURLToPath(import.meta.url)), '../../../..')

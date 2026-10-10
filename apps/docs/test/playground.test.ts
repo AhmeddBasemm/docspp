@@ -1,8 +1,8 @@
 import {
   compileDiagram as compileBrowser,
   createIconResolver,
-} from '@packagelab/idocs-core/browser'
-import { compileDiagram, loadIconSets } from '@packagelab/idocs-core/node'
+} from '@the-package-labs/idocs-core/browser'
+import { compileDiagram, loadIconSets } from '@the-package-labs/idocs-core/node'
 import { describe, expect, it } from 'vitest'
 import { examples } from '../src/components/playground/examples'
 import {

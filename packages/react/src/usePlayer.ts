@@ -1,4 +1,4 @@
-import { runBounds, stepAt, type Timeline } from '@packagelab/idocs-core'
+import { runBounds, stepAt, type Timeline } from '@the-package-labs/idocs-core'
 import { useCallback, useEffect, useRef, useState } from 'react'
 
 export interface Player {

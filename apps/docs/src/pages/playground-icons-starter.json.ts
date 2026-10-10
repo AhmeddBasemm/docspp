@@ -1,5 +1,5 @@
-import { BUILTIN_KINDS } from '@packagelab/idocs-core'
-import { resolveIcon } from '@packagelab/idocs-core/node'
+import { BUILTIN_KINDS } from '@the-package-labs/idocs-core'
+import { resolveIcon } from '@the-package-labs/idocs-core/node'
 
 /** Start quickly with built-in kinds and common stack icons; the full catalog is loaded on demand. */
 export function GET() {

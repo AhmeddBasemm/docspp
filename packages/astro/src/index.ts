@@ -1,5 +1,9 @@
 import { fileURLToPath } from 'node:url'
-import { formatDiagnostic, type LoadedProject, loadProject } from '@packagelab/idocs-core/node'
+import {
+  formatDiagnostic,
+  type LoadedProject,
+  loadProject,
+} from '@the-package-labs/idocs-core/node'
 import type { AstroIntegration } from 'astro'
 import type { Plugin } from 'vite'
 
@@ -14,7 +18,7 @@ export interface IdocsOptions {
 /** Compiles `diagrams/*` into the `virtual:idocs/diagrams` module and fails the build on errors. */
 export default function idocs(options: IdocsOptions = {}): AstroIntegration {
   return {
-    name: '@packagelab/idocs-astro',
+    name: '@the-package-labs/idocs-astro',
     hooks: {
       'astro:config:setup': ({ config, updateConfig }) => {
         updateConfig({
@@ -23,9 +27,9 @@ export default function idocs(options: IdocsOptions = {}): AstroIntegration {
             // Render these through Vite in dev as well; they ship TypeScript sources.
             ssr: {
               noExternal: [
-                '@packagelab/idocs-react',
-                '@packagelab/idocs-core',
-                '@packagelab/idocs-astro',
+                '@the-package-labs/idocs-react',
+                '@the-package-labs/idocs-core',
+                '@the-package-labs/idocs-astro',
               ],
             },
             // Vite resolves `a > b` by finding `a` from the project root, and a strict layout (pnpm)
@@ -33,10 +37,10 @@ export default function idocs(options: IdocsOptions = {}): AstroIntegration {
             // the one thing the project is sure to depend on, and walks down to the library.
             optimizeDeps: {
               include: [
-                '@packagelab/idocs-astro > @packagelab/idocs-react > d3-selection',
-                '@packagelab/idocs-astro > @packagelab/idocs-react > d3-transition',
-                '@packagelab/idocs-astro > @packagelab/idocs-react > d3-zoom',
-                '@packagelab/idocs-astro > @packagelab/idocs-core > elkjs/lib/elk.bundled.js',
+                '@the-package-labs/idocs-astro > @the-package-labs/idocs-react > d3-selection',
+                '@the-package-labs/idocs-astro > @the-package-labs/idocs-react > d3-transition',
+                '@the-package-labs/idocs-astro > @the-package-labs/idocs-react > d3-zoom',
+                '@the-package-labs/idocs-astro > @the-package-labs/idocs-core > elkjs/lib/elk.bundled.js',
               ],
             },
           },

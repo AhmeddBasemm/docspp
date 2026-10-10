@@ -14,8 +14,8 @@
     "@astrojs/starlight": "^0.42.0",
     "@fontsource/ibm-plex-mono": "^5.3.0",
     "@fontsource/ibm-plex-sans": "^5.3.0",
-    "@packagelab/idocs-astro": "workspace:*",
-    "@packagelab/idocs-react": "workspace:*",
+    "@the-package-labs/idocs-astro": "workspace:*",
+    "@the-package-labs/idocs-react": "workspace:*",
     "astro": "^7.0.0",
     "react": "^19.3.0",
     "react-dom": "^19.3.0"

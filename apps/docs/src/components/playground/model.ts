@@ -1,4 +1,4 @@
-import { normalizeRoot, type RootInput, RootSchema } from '@packagelab/idocs-core/browser'
+import { normalizeRoot, type RootInput, RootSchema } from '@the-package-labs/idocs-core/browser'
 import { type Document, isMap, parseDocument } from 'yaml'
 
 export type Entity = 'nodes' | 'groups' | 'edges'

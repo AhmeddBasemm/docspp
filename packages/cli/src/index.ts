@@ -7,7 +7,7 @@ import {
   loadProject,
   resolveIcon,
   searchIcons,
-} from '@packagelab/idocs-core/node'
+} from '@the-package-labs/idocs-core/node'
 
 const HELP = `idocs: interactive diagrams for your docs
 
@@ -216,7 +216,7 @@ function create(name: string | undefined, root: string): number {
   )
   console.log(`Created ${relative(process.cwd(), dir)}`)
   console.log(
-    `Use it in a page:\n  import Diagram from '@packagelab/idocs-astro/Diagram.astro'\n  <Diagram name="${name}" />`,
+    `Use it in a page:\n  import Diagram from '@the-package-labs/idocs-astro/Diagram.astro'\n  <Diagram name="${name}" />`,
   )
   return 0
 }

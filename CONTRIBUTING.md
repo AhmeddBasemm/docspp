@@ -75,7 +75,7 @@ Restart `pnpm dev` after editing compile code in `packages/core`. Layout and ren
 
 These keep the project working. A pull request that breaks one will be asked to change.
 
-- **`@packagelab/idocs-core`'s main entry stays browser-safe.** Nothing reachable from `src/index.ts` may import `node:*`, `yaml`, `zod`, Iconify or unified. They belong behind `src/node.ts`.
+- **`@the-package-labs/idocs-core`'s main entry stays browser-safe.** Nothing reachable from `src/index.ts` may import `node:*`, `yaml`, `zod`, Iconify or unified. They belong behind `src/node.ts`.
 - **The timeline and the story model are pure.** `buildTimeline`, `frameAt` and `buildStory` hold the logic; React components only draw. Add behaviour to the model with a test, not to a component.
 - **Compiled output is JSON.** No functions, classes, Maps or Dates in `CompiledDiagram`: it crosses the server and client boundary as props.
 - **Validate in the compiler, not the renderer.** A diagram that compiles must render. Error messages should name the file, line and column and suggest a fix.

@@ -3,7 +3,7 @@ import {
   type CompiledScenario,
   type CompiledStep,
   scopeSvgIds,
-} from '@packagelab/idocs-core'
+} from '@the-package-labs/idocs-core'
 import { useId } from 'react'
 import { cx, roman } from './util'
 

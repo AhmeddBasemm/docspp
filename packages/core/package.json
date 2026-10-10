@@ -1,5 +1,5 @@
 {
-  "name": "@packagelab/idocs-core",
+  "name": "@the-package-labs/idocs-core",
   "version": "0.2.0",
   "type": "module",
   "exports": {

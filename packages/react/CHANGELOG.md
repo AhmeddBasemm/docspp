@@ -1,4 +1,4 @@
-# @packagelab/idocs-react
+# @the-package-labs/idocs-react
 
 Versions up to 0.2.0 were published as `@packagelab/docspp-react`.
 

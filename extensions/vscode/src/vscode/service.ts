@@ -2,7 +2,7 @@
 // diagram folder from the editor's buffers (so unsaved edits count), remembers the last version
 // that compiled, publishes diagnostics, and tells the preview when something changed.
 import { basename, join } from 'node:path'
-import type { CompiledDiagram } from '@packagelab/idocs-core'
+import type { CompiledDiagram } from '@the-package-labs/idocs-core'
 import * as vscode from 'vscode'
 import type { Entity, ProjectIds } from '../language/completion'
 import { diagnosticSpan } from '../language/diagnostics'

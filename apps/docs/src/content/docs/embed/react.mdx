@@ -12,14 +12,14 @@ import { Aside } from '@astrojs/starlight/components'
 The Astro integration is a thin layer. The diagram itself is a React component, `DiagramView`, that takes **compiled JSON** and nothing else. If you do not use Astro, you can compile your diagrams yourself and render them in any React app.
 
 <Aside type="note" title="Browser-safe by design">
-  `@packagelab/idocs-core` has two entry points. The main one is browser-safe (types, layout, route and timeline) and is what the component imports. `@packagelab/idocs-core/node` holds YAML parsing, validation and icons, and must stay on the server or in a build script.
+  `@the-package-labs/idocs-core` has two entry points. The main one is browser-safe (types, layout, route and timeline) and is what the component imports. `@the-package-labs/idocs-core/node` holds YAML parsing, validation and icons, and must stay on the server or in a build script.
 </Aside>
 
 ## 1. Compile at build time
 
 ```js title="scripts/diagrams.mjs"
 import { writeFileSync } from 'node:fs'
-import { formatDiagnostic, loadProject } from '@packagelab/idocs-core/node'
+import { formatDiagnostic, loadProject } from '@the-package-labs/idocs-core/node'
 
 const { diagrams, diagnostics } = loadProject(process.cwd()) // reads ./diagrams/*/diagram.yaml
 
@@ -34,8 +34,8 @@ writeFileSync('src/diagrams.json', JSON.stringify(diagrams))
 ## 2. Render it
 
 ```tsx title="src/Architecture.tsx"
-import { DiagramView } from '@packagelab/idocs-react'
-import '@packagelab/idocs-react/styles.css'
+import { DiagramView } from '@the-package-labs/idocs-react'
+import '@the-package-labs/idocs-react/styles.css'
 import diagrams from './diagrams.json'
 
 export function Architecture() {
@@ -43,7 +43,7 @@ export function Architecture() {
 }
 ```
 
-Import the stylesheet once. Install `@packagelab/idocs-react` with `react` and `react-dom` 19 or later.
+Import the stylesheet once. Install `@the-package-labs/idocs-react` with `react` and `react-dom` 19 or later.
 
 ## Props
 
@@ -69,4 +69,4 @@ Import the stylesheet once. Install `@packagelab/idocs-react` with `react` and `
 
 ## Other exports
 
-`@packagelab/idocs-react` also exports the building blocks, if you want to compose your own view: `NodeCard`, `Icon`, `IconTile` and `SequenceView`. See [packages](../../reference/packages/).
+`@the-package-labs/idocs-react` also exports the building blocks, if you want to compose your own view: `NodeCard`, `Icon`, `IconTile` and `SequenceView`. See [packages](../../reference/packages/).

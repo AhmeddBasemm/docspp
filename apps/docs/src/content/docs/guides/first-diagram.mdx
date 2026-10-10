@@ -5,7 +5,7 @@ tableOfContents:
   maxHeadingLevel: 2
 ---
 
-import Diagram from '@packagelab/idocs-astro/Diagram.astro'
+import Diagram from '@the-package-labs/idocs-astro/Diagram.astro'
 import { Code, Aside } from '@astrojs/starlight/components'
 import { addedLines } from '../../../lib/diff'
 import step1 from '../../../../diagrams/tour-1/diagram.yaml?raw'
@@ -108,7 +108,7 @@ pnpm check
 Then add it to a page in `src/content/docs/`:
 
 ```mdx
-import Diagram from '@packagelab/idocs-astro/Diagram.astro'
+import Diagram from '@the-package-labs/idocs-astro/Diagram.astro'
 
 <Diagram name="photos" scenario="upload" />
 ```

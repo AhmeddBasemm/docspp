@@ -9,7 +9,7 @@ tableOfContents:
 
 ## \<Diagram\>
 
-Imported from `@packagelab/idocs-astro/Diagram.astro`. See [the Diagram component](../../embed/diagram-component/) for how to use it.
+Imported from `@the-package-labs/idocs-astro/Diagram.astro`. See [the Diagram component](../../embed/diagram-component/) for how to use it.
 
 | Prop | Type | Default | Description |
 |---|---|---|---|
@@ -27,7 +27,7 @@ The component loads its interactive part with `client:visible`. Do not add a `cl
 
 ## \<DiagramView\>
 
-Imported from `@packagelab/idocs-react`. The same component, for use outside Astro. See [using the React component](../../embed/react/).
+Imported from `@the-package-labs/idocs-react`. The same component, for use outside Astro. See [using the React component](../../embed/react/).
 
 | Prop | Type | Default | Description |
 |---|---|---|---|
@@ -47,7 +47,7 @@ Imported from `@packagelab/idocs-react`. The same component, for use outside Ast
 ## The Astro integration
 
 ```js
-import idocs from '@packagelab/idocs-astro'
+import idocs from '@the-package-labs/idocs-astro'
 
 idocs({ dir: 'diagrams' })
 ```
@@ -69,11 +69,11 @@ import { diagrams, diagnostics } from 'virtual:idocs/diagrams'
 | `diagrams` | A map from diagram name to `CompiledDiagram`. Also the default export. |
 | `diagnostics` | Every error and warning from the last compile. |
 
-Add `/// <reference types="@packagelab/idocs-astro/virtual" />` to `src/env.d.ts` for the types. This is how a page can read a diagram's metadata at build time, for example to show how many nodes it has.
+Add `/// <reference types="@the-package-labs/idocs-astro/virtual" />` to `src/env.d.ts` for the types. This is how a page can read a diagram's metadata at build time, for example to show how many nodes it has.
 
 ## Stylesheets
 
 | File | What it is |
 |---|---|
-| `@packagelab/idocs-react/styles.css` | The renderer's styles and every `--idocs-*` token. Imported by `<Diagram>` for you. |
-| `@packagelab/idocs-astro/starlight.css` | Widens Starlight's content column for diagrams and holds prose to a readable width. Add it to Starlight's `customCss`. |
+| `@the-package-labs/idocs-react/styles.css` | The renderer's styles and every `--idocs-*` token. Imported by `<Diagram>` for you. |
+| `@the-package-labs/idocs-astro/starlight.css` | Widens Starlight's content column for diagrams and holds prose to a readable width. Add it to Starlight's `customCss`. |

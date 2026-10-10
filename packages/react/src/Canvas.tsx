@@ -1,4 +1,4 @@
-import type { Layout, Rect } from '@packagelab/idocs-core'
+import type { Layout, Rect } from '@the-package-labs/idocs-core'
 import { select } from 'd3-selection'
 import 'd3-transition'
 import { type ZoomBehavior, zoom, zoomIdentity } from 'd3-zoom'

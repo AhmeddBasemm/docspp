@@ -1,7 +1,7 @@
 import { mkdirSync, mkdtempSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import { loadProject } from '@packagelab/idocs-core/node'
+import { loadProject } from '@the-package-labs/idocs-core/node'
 import { describe, expect, it } from 'vitest'
 import { run, staleRefs } from '../src'
 

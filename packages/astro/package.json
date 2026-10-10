@@ -1,5 +1,5 @@
 {
-  "name": "@packagelab/idocs-astro",
+  "name": "@the-package-labs/idocs-astro",
   "version": "0.2.0",
   "type": "module",
   "exports": {
@@ -15,8 +15,8 @@
     "build": "node ../../scripts/build.mjs"
   },
   "dependencies": {
-    "@packagelab/idocs-core": "workspace:^",
-    "@packagelab/idocs-react": "workspace:^"
+    "@the-package-labs/idocs-core": "workspace:^",
+    "@the-package-labs/idocs-react": "workspace:^"
   },
   "peerDependencies": {
     "astro": ">=6"

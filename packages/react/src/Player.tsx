@@ -1,4 +1,4 @@
-import type { Timeline } from '@packagelab/idocs-core'
+import type { Timeline } from '@the-package-labs/idocs-core'
 import type { Player as PlayerState } from './usePlayer'
 import { fmtTime } from './util'
 

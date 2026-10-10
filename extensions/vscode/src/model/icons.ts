@@ -2,7 +2,7 @@
 // the bundle and are read the first time an icon is resolved or searched, not at activation.
 import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
-import { createIconResolver } from '@packagelab/idocs-core/browser'
+import { createIconResolver } from '@the-package-labs/idocs-core/browser'
 
 export const ICON_SETS = ['logos', 'simple-icons', 'lucide'] as const
 
