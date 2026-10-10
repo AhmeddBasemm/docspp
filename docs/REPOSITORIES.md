@@ -79,7 +79,7 @@ In the monorepo, every package's `exports` point at its TypeScript sources, so n
 
 ## Releasing
 
-**Published:** `0.1.0` of all five packages went out on 2026-10-07 under the `packagelab` org. New scoped packages show a stray `0.0.0-stage` placeholder version on npm; it is created by npm, not by us, and `latest` points at the real release.
+**Published:** `0.1.0` of all five packages went out on 2026-10-07 under the `packagelab` org, and `0.2.0` on 2026-10-10 (from a laptop, with a granular npm token that bypasses two-factor authentication; an ordinary token is refused with a 403). New scoped packages show a stray `0.0.0-stage` placeholder version on npm; it is created by npm, not by us, and `latest` points at the real release.
 
 Releases use [changesets](https://github.com/changesets/changesets).
 
