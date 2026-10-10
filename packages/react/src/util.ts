@@ -21,7 +21,7 @@ export function cx(...parts: (string | false | null | undefined)[]): string {
 
 /** Edge kinds name a theme token (`accent`) or carry any CSS colour. */
 export function colorVar(color: string): string {
-  return TOKENS.has(color) ? `var(--docspp-${color})` : color
+  return TOKENS.has(color) ? `var(--idocs-${color})` : color
 }
 
 export function fmtTime(seconds: number): string {

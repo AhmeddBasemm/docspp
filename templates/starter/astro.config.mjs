@@ -1,6 +1,6 @@
 import react from '@astrojs/react'
 import starlight from '@astrojs/starlight'
-import docspp from '@packagelab/docspp-astro'
+import idocs from '@packagelab/idocs-astro'
 import { defineConfig } from 'astro/config'
 
 // Publishing to GitHub Pages: the deploy workflow sets SITE_URL and BASE_PATH for you.
@@ -8,7 +8,7 @@ export default defineConfig({
   site: process.env.SITE_URL,
   base: process.env.BASE_PATH,
   integrations: [
-    docspp(),
+    idocs(),
     react(),
     starlight({
       title: 'My docs',
@@ -19,7 +19,7 @@ export default defineConfig({
         '@fontsource/ibm-plex-sans/600.css',
         '@fontsource/ibm-plex-mono/400.css',
         '@fontsource/ibm-plex-mono/500.css',
-        '@packagelab/docspp-astro/starlight.css',
+        '@packagelab/idocs-astro/starlight.css',
         './src/styles/custom.css',
       ],
       sidebar: [

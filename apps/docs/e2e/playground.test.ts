@@ -42,7 +42,7 @@ describe('playground', () => {
   it('renders live edits and keeps the last diagram while invalid YAML is being fixed', async () => {
     const { page, problems, close } = await open()
     expect(await page.locator('[data-node]').count()).toBe(3)
-    expect(await page.locator('[data-node] .docspp-icon svg').count()).toBe(3)
+    expect(await page.locator('[data-node] .idocs-icon svg').count()).toBe(3)
     await editor(page).fill('title: Live\nnodes: {hello: {title: Live node, kind: service}}')
     await page.waitForSelector('[data-node="hello"]')
     await editor(page).fill('title: [broken\nnodes: {}')
@@ -93,7 +93,7 @@ describe('playground', () => {
     await page.getByLabel('Label', { exact: true }).fill('Backend')
     await page.locator('[data-node="service"]').click()
     await page.getByLabel('Group', { exact: true }).selectOption('group')
-    await page.waitForSelector('.docspp-zone')
+    await page.waitForSelector('.idocs-zone')
     await page.getByRole('button', { name: 'Connections', exact: true }).click()
     await page.getByRole('button', { name: '+ Add connection', exact: true }).click()
     await page.getByLabel('Connection label', { exact: true }).fill('SQL query')
@@ -133,7 +133,7 @@ describe('playground', () => {
       .setInputFiles({ name: 'custom.yaml', mimeType: 'text/yaml', buffer: Buffer.from(text) })
     await page.waitForSelector('[data-node="imported"]')
     await page.waitForFunction(() =>
-      localStorage.getItem('docspp-playground-v1')?.includes('# Imported'),
+      localStorage.getItem('idocs-playground-v1')?.includes('# Imported'),
     )
     await page.reload()
     await page.waitForSelector('[data-node="imported"]')
@@ -154,7 +154,7 @@ describe('playground', () => {
     const { page, problems, close } = await open()
     await page.getByLabel('Example diagram').selectOption('scenario')
     await page.getByRole('button', { name: 'Read a profile', exact: true }).click()
-    await page.waitForSelector('.docspp-player')
+    await page.waitForSelector('.idocs-player')
     await editor(page).fill('')
     await page.waitForSelector('.pg-diagnostic.pg-error')
     await page.getByRole('button', { name: 'Visual builder', exact: true }).click()
@@ -192,7 +192,7 @@ describe('playground', () => {
     await page.unroute('**/playground-icons.json')
     await editor(page).fill(`${text}\n# Retry`)
     await page.waitForSelector('[data-node="circle"]')
-    expect(await page.locator('[data-node="circle"] .docspp-icon svg').count()).toBe(1)
+    expect(await page.locator('[data-node="circle"] .idocs-icon svg').count()).toBe(1)
     await ready(page)
     expect(await page.locator('.pg-diagnostics').count()).toBe(0)
     expect(problems).toEqual([])

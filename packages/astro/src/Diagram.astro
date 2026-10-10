@@ -1,7 +1,7 @@
 ---
-import { DiagramView } from '@packagelab/docspp-react'
-import '@packagelab/docspp-react/styles.css'
-import { diagrams } from 'virtual:docspp/diagrams'
+import { DiagramView } from '@packagelab/idocs-react'
+import '@packagelab/idocs-react/styles.css'
+import { diagrams } from 'virtual:idocs/diagrams'
 
 interface Props {
   /** Folder name under `diagrams/`. */
@@ -32,6 +32,6 @@ if (!diagram) {
 }
 ---
 
-<div class="docspp-bleed not-content">
+<div class="idocs-bleed not-content">
   <DiagramView client:visible diagram={diagram} {...props} />
 </div>

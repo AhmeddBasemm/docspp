@@ -1,4 +1,4 @@
-// Generates syntaxes/docspp.tmLanguage.json.
+// Generates syntaxes/idocs.tmLanguage.json.
 //
 // The grammar is self-contained instead of including `source.yaml`: the built-in YAML grammar's
 // internals change between VS Code releases, and rules injected into it cannot see the line a
@@ -10,7 +10,7 @@
 // need different value rules (a comma is text in one and a separator in the other), which is why
 // the rules are built here and not written out twice.
 //
-// Run `pnpm --filter docspp-vscode grammar` after changing this file; a test fails when the
+// Run `pnpm --filter idocs-vscode grammar` after changing this file; a test fails when the
 // committed JSON is stale.
 import { writeFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
@@ -39,7 +39,7 @@ const FLOW_KEY = String.raw`(?:${QUOTED_KEY}|[^\s#,\[\]{}&*!|>'"%@${BT}:][^#,\[\
 
 const LINE_PREFIX = String.raw`^(\s*)((?:-[ \t]+)*)`
 
-const scope = (name) => `${name}.docspp`
+const scope = (name) => `${name}.idocs`
 
 /** What a value token may be followed by, per context. */
 const tokenEnd = (flow) =>
@@ -240,8 +240,8 @@ function build() {
 
   return {
     $schema: 'https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json',
-    name: 'docspp',
-    scopeName: 'source.docspp',
+    name: 'idocs',
+    scopeName: 'source.idocs',
     patterns: [
       { include: '#document' },
       { include: '#comment' },
@@ -422,7 +422,7 @@ export function buildGrammar() {
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
-  const out = fileURLToPath(new URL('../syntaxes/docspp.tmLanguage.json', import.meta.url))
+  const out = fileURLToPath(new URL('../syntaxes/idocs.tmLanguage.json', import.meta.url))
   writeFileSync(out, `${JSON.stringify(build(), null, 2)}\n`)
   console.log(`wrote ${out}`)
 }

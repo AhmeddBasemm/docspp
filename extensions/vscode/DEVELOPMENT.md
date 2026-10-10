@@ -3,10 +3,10 @@
 ```sh
 pnpm install
 pnpm vscode:build                       # dist/ (extension host, webview, icon sets)
-pnpm --filter docspp-vscode watch       # rebuild on change
+pnpm --filter idocs-vscode watch       # rebuild on change
 ```
 
-Press <kbd>F5</kbd> in the repository root and pick **docspp extension (apps/docs)**. It builds the extension and opens a second VS Code on `apps/docs`, which has a dozen real diagrams.
+Press <kbd>F5</kbd> in the repository root and pick **idocs extension (apps/docs)**. It builds the extension and opens a second VS Code on `apps/docs`, which has a dozen real diagrams.
 
 ## How it is laid out
 
@@ -14,12 +14,12 @@ Press <kbd>F5</kbd> in the repository root and pick **docspp extension (apps/doc
 extensions/vscode/
   package.json               the manifest: language, grammar, commands, menus, settings
   language-configuration.json  comments, brackets, indentation, folding
-  syntaxes/                  TextMate grammars. docspp.tmLanguage.json is GENERATED
-  snippets/                  snippets for the docspp language
+  syntaxes/                  TextMate grammars. idocs.tmLanguage.json is GENERATED
+  snippets/                  snippets for the idocs language
   images/                    marketplace icon (generated), panel icons, README screenshot
   scripts/
     build.mjs                esbuild: host bundle, webview bundle, copies the icon sets
-    grammar.mjs              generates syntaxes/docspp.tmLanguage.json
+    grammar.mjs              generates syntaxes/idocs.tmLanguage.json
     icon.mjs                 renders images/icon.png
     package.mjs              builds for production and packs the .vsix
     integration.mjs          runs integration/ inside a real VS Code
@@ -44,17 +44,17 @@ The rule that keeps it testable: **`src/model` and `src/language` never import `
 | `pnpm test` | unit tests, including the grammar against the real YAML parser and the compile path against `loadProject` |
 | `pnpm test:e2e` | the preview page in Chrome (also runs the docs site tests) |
 | `pnpm vscode:test` | the extension in a real VS Code: language detection, problems, completion, rename, the preview panel |
-| `pnpm --filter docspp-vscode test:integration --vsix` | the same, but installs the packed `.vsix` into a clean profile first |
+| `pnpm --filter idocs-vscode test:integration --vsix` | the same, but installs the packed `.vsix` into a clean profile first |
 
 `vscode:test` opens a VS Code window while it runs. It uses the VS Code installed on your machine (`VSCODE_EXECUTABLE` overrides), or downloads one. Started from a VS Code terminal it needs `ELECTRON_RUN_AS_NODE` unset, which the script checks for.
 
 ## Things that are easy to get wrong
 
-- **The grammar is generated.** Edit `scripts/grammar.mjs`, run `pnpm --filter docspp-vscode grammar`, commit both. A test fails when they differ. Another test tokenizes every diagram in the repository and compares what it finds with the `yaml` parser.
+- **The grammar is generated.** Edit `scripts/grammar.mjs`, run `pnpm --filter idocs-vscode grammar`, commit both. A test fails when they differ. Another test tokenizes every diagram in the repository and compares what it finds with the `yaml` parser.
 - **Completion works on text that does not parse**, so it reads indentation (`src/language/context.ts`) instead of the YAML tree. Navigation, rename and outline use the tree.
-- **The extension bundles its own compiler.** `@packagelab/docspp-core` is built into `dist/extension.js`, so a diagram that uses a key newer than the extension reports it as unknown. Release the extension after the packages when the format changes.
-- **Do not import `@packagelab/docspp-core/node`.** Its icon loader resolves files with `import.meta.url`, which a CommonJS bundle cannot do. Use the `browser` entry and pass it the icon sets (`src/model/icons.ts`).
-- **`src/model/sources.ts` mirrors `loadProject`.** A test compiles every example diagram both ways and requires identical output. `src/model/scaffold.ts` mirrors `docspp new` the same way.
+- **The extension bundles its own compiler.** `@packagelab/idocs-core` is built into `dist/extension.js`, so a diagram that uses a key newer than the extension reports it as unknown. Release the extension after the packages when the format changes.
+- **Do not import `@packagelab/idocs-core/node`.** Its icon loader resolves files with `import.meta.url`, which a CommonJS bundle cannot do. Use the `browser` entry and pass it the icon sets (`src/model/icons.ts`).
+- **`src/model/sources.ts` mirrors `loadProject`.** A test compiles every example diagram both ways and requires identical output. `src/model/scaffold.ts` mirrors `idocs new` the same way.
 - **The webview may only run scripts with the nonce.** `src/preview/html.ts` sets the policy and `e2e/` loads the same page, so a dependency that wants `eval` fails there first.
 
 ## Releasing

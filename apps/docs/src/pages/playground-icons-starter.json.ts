@@ -1,5 +1,5 @@
-import { BUILTIN_KINDS } from '@packagelab/docspp-core'
-import { resolveIcon } from '@packagelab/docspp-core/node'
+import { BUILTIN_KINDS } from '@packagelab/idocs-core'
+import { resolveIcon } from '@packagelab/idocs-core/node'
 
 /** Start quickly with built-in kinds and common stack icons; the full catalog is loaded on demand. */
 export function GET() {

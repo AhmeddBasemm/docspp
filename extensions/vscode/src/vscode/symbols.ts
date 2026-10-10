@@ -20,7 +20,7 @@ export const toRange = (s: Span) =>
 
 export function registerSymbols(service: DiagramService): vscode.Disposable {
   return vscode.languages.registerDocumentSymbolProvider(
-    { language: 'docspp', scheme: 'file' },
+    { language: 'idocs', scheme: 'file' },
     {
       provideDocumentSymbols(document) {
         const where = service.locate(document.uri)
@@ -29,7 +29,7 @@ export function registerSymbols(service: DiagramService): vscode.Disposable {
         return model ? outline(model.parsed, where.role).map(convert) : undefined
       },
     },
-    { label: 'docspp' },
+    { label: 'idocs' },
   )
 }
 

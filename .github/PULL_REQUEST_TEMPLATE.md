@@ -11,6 +11,6 @@
 - [ ] `pnpm lint`, `pnpm typecheck` and `pnpm test` pass
 - [ ] `pnpm test:e2e` passes (needed for anything the reader sees or clicks)
 - [ ] Behaviour changes have a test; layout changes were checked in light and dark mode
-- [ ] Docs in `apps/docs` and the skill in `skills/docspp` are updated if the format or CLI changed
-- [ ] `diagram.schema.json` files are regenerated if the schema changed (`pnpm docspp schema apps/docs && pnpm docspp schema templates/starter`)
+- [ ] Docs in `apps/docs` and the skill in `skills/idocs` are updated if the format or CLI changed
+- [ ] `diagram.schema.json` files are regenerated if the schema changed (`pnpm idocs schema apps/docs && pnpm idocs schema templates/starter`)
 - [ ] A changeset was added for user-visible changes (`pnpm changeset`)

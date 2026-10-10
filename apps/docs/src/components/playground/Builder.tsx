@@ -1,5 +1,5 @@
-import { BUILTIN_EDGE_KINDS, BUILTIN_KINDS } from '@packagelab/docspp-core'
-import type { RootInput } from '@packagelab/docspp-core/browser'
+import { BUILTIN_EDGE_KINDS, BUILTIN_KINDS } from '@packagelab/idocs-core'
+import type { RootInput } from '@packagelab/idocs-core/browser'
 import { useState } from 'react'
 import type { Document } from 'yaml'
 import { type Entity, groupOptions, nextId, removeEntity, type Selection, setFields } from './model'

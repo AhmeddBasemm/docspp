@@ -1,6 +1,6 @@
 ---
 title: CLI
-description: "The docspp command line: check, list, schema, icons and new."
+description: "The idocs command line: check, list, schema, icons and new."
 sidebar:
   label: CLI
 tableOfContents:
@@ -9,36 +9,36 @@ tableOfContents:
 
 import { Aside } from '@astrojs/starlight/components'
 
-The `docspp` command validates diagrams, lists what exists, writes the editor schema, finds icons and scaffolds new diagrams. It is installed as a dev dependency of every docspp project.
+The `idocs` command validates diagrams, lists what exists, writes the editor schema, finds icons and scaffolds new diagrams. It is installed as a dev dependency of every idocs project.
 
 ```text
-docspp check [root...] [--json] [--strict]  Validate every diagram under <root>/diagrams
-docspp list [root] [--json]                 List diagrams, views and scenarios
-docspp schema [root]                        Write diagrams/diagram.schema.json
-docspp icons search <query>                 Find icon names
-docspp new <name> [root]                    Create diagrams/<name>/diagram.yaml
+idocs check [root...] [--json] [--strict]  Validate every diagram under <root>/diagrams
+idocs list [root] [--json]                 List diagrams, views and scenarios
+idocs schema [root]                        Write diagrams/diagram.schema.json
+idocs icons search <query>                 Find icon names
+idocs new <name> [root]                    Create diagrams/<name>/diagram.yaml
 ```
 
-Run it with your package manager: `pnpm docspp check`, `npx docspp check`, `yarn docspp check`. In a project made from the starter, `pnpm check` is a shortcut for `docspp check`.
+Run it with your package manager: `pnpm idocs check`, `npx idocs check`, `yarn idocs check`. In a project made from the starter, `pnpm check` is a shortcut for `idocs check`.
 
 ## The root
 
-`<root>` is the folder that contains `diagrams/`. It defaults to the current folder. If the current folder has no `diagrams/`, docspp looks in the first `apps/*` or `templates/*` folder that has one, which suits monorepos. Pass a folder to be explicit: `docspp check apps/docs`.
+`<root>` is the folder that contains `diagrams/`. It defaults to the current folder. If the current folder has no `diagrams/`, idocs looks in the first `apps/*` or `templates/*` folder that has one, which suits monorepos. Pass a folder to be explicit: `idocs check apps/docs`.
 
 ## check
 
 ```sh
-pnpm docspp check
-pnpm docspp check --strict
-pnpm docspp check --json
-pnpm docspp check apps/docs templates/starter
+pnpm idocs check
+pnpm idocs check --strict
+pnpm idocs check --json
+pnpm idocs check apps/docs templates/starter
 ```
 
 Compiles every diagram and prints what is wrong. Each message has the file, line and column, the severity, the message and often a hint:
 
 ```text
 diagrams/checkout/diagram.yaml:8:29  warning  Unknown icon "strpe"
-    Run `docspp icons search <name>` to find one.
+    Run `idocs icons search <name>` to find one.
 diagrams/checkout/diagram.yaml:13:5  error  Edge to "paymnts" is not a node
 1 diagram compiled in .: 1 error, 1 warning
 ```
@@ -56,8 +56,8 @@ Beyond compiling, `check` warns when a node's `refs:` cite a file that no longer
 ## list
 
 ```sh
-pnpm docspp list
-pnpm docspp list --json
+pnpm idocs list
+pnpm idocs list --json
 ```
 
 Prints each diagram with its node and edge counts, its views and its scenarios with their step counts:
@@ -74,7 +74,7 @@ Useful before you add to a diagram, so you extend one instead of starting a seco
 ## schema
 
 ```sh
-pnpm docspp schema
+pnpm idocs schema
 ```
 
 Writes `diagrams/diagram.schema.json`. Reference it from a diagram so editors with the YAML language server autocomplete keys and underline mistakes:
@@ -83,13 +83,13 @@ Writes `diagrams/diagram.schema.json`. Reference it from a diagram so editors wi
 # yaml-language-server: $schema=../diagram.schema.json
 ```
 
-Run it again after you upgrade docspp, so the schema matches the version you use.
+Run it again after you upgrade idocs, so the schema matches the version you use.
 
 ## icons search
 
 ```sh
-pnpm docspp icons search redis
-pnpm docspp icons search "message queue" --json
+pnpm idocs icons search redis
+pnpm idocs icons search "message queue" --json
 ```
 
 Finds icon names in the bundled sets. If the query resolves to an icon exactly, that is printed first. Without a match it prints `No matches.` Up to 20 results are shown.
@@ -107,7 +107,7 @@ See [icons](../../customize/icons/) for how names are resolved.
 ## new
 
 ```sh
-pnpm docspp new payments
+pnpm idocs new payments
 ```
 
 Creates `diagrams/payments/diagram.yaml`, a small working diagram with a scenario, and `diagrams/payments/nodes/api.md`. The name may contain lowercase letters, digits and dashes. It refuses to overwrite an existing folder.
@@ -115,7 +115,7 @@ Creates `diagrams/payments/diagram.yaml`, a small working diagram with a scenari
 It prints the lines to put on a page:
 
 ```mdx
-import Diagram from '@packagelab/docspp-astro/Diagram.astro'
+import Diagram from '@packagelab/idocs-astro/Diagram.astro'
 <Diagram name="payments" />
 ```
 

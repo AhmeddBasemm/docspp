@@ -12,8 +12,8 @@ What this repository is: a **template** for documentation sites in which archite
 | Renderer | Pan/zoom (Ctrl/⌘ + scroll, drag), fit, fullscreen. Cards with icons, status, chips, badges. Zones and frames. Edge kinds with a generated legend, letter keys, hover focus, planned-item toggle. Detail drawer. Interfaces table generated from the model. Light and dark. |
 | Scenarios | Several per diagram. Phases, self steps, parallel steps, automatic multi-hop routing, request/response/error/lookup/event packets, notes, hidden edges. Player: play, pause, previous/next step, scrub, speed. Flow, sequence or swimlane-story presentation (`story.ts`: lanes, phase bands, lookups folded into side boxes). Follow-the-action camera. Deep links (`#checkout=place-order.4`). |
 | Site | Astro + Starlight, `<Diagram name="..." />`, GitHub Pages workflow, CI. |
-| Tooling | `docspp check/list/schema/icons/new`, stale `refs:` warnings, the `docspp` agent skill (installable with `npx skills add`). |
-| Distribution | Five publishable packages built to `dist/`, `create-docspp` scaffolder, a minimal `templates/starter`, changesets, release and template-sync workflows (both off until opted in), and `pnpm verify:pack`, which installs the packed packages like a user would. See [REPOSITORIES.md](REPOSITORIES.md). |
+| Tooling | `idocs check/list/schema/icons/new`, stale `refs:` warnings, the `idocs` agent skill (installable with `npx skills add`). |
+| Distribution | Five publishable packages built to `dist/`, `create-idocs` scaffolder, a minimal `templates/starter`, changesets, release and template-sync workflows (both off until opted in), and `pnpm verify:pack`, which installs the packed packages like a user would. See [REPOSITORIES.md](REPOSITORIES.md). |
 | Tests | Unit tests for compiler, layout invariants, router, timeline, CLI. End-to-end tests in real Chrome (`pnpm test:e2e`). |
 
 ## Decisions

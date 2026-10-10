@@ -1,11 +1,11 @@
 ---
 title: Quick start
-description: Create a docspp project, edit your first diagram and publish it.
+description: Create an idocs project, edit your first diagram and publish it.
 tableOfContents:
   maxHeadingLevel: 2
 ---
 
-import Diagram from '@packagelab/docspp-astro/Diagram.astro'
+import Diagram from '@packagelab/idocs-astro/Diagram.astro'
 import { Steps, Aside } from '@astrojs/starlight/components'
 
 You need Node 22 or later and [pnpm](https://pnpm.io). The scaffolded project uses pnpm, and `npm create` only runs the scaffolder.
@@ -17,7 +17,7 @@ You need Node 22 or later and [pnpm](https://pnpm.io). The scaffolded project us
 1. Scaffold the project.
 
    ```sh
-   npm create docspp@latest my-docs
+   npm create idocs@latest my-docs
    ```
 
 2. Install and start it.
@@ -34,7 +34,7 @@ You need Node 22 or later and [pnpm](https://pnpm.io). The scaffolded project us
 
 </Steps>
 
-If you would rather start from the source, copy `templates/starter` from the [docspp repository](https://github.com/AhmeddBasemm/docspp).
+If you would rather start from the source, copy `templates/starter` from the [idocs repository](https://github.com/The-Package-Labs/idocs).
 
 <Aside type="note">
   The folder must not exist yet, or must be empty.
@@ -70,8 +70,8 @@ Everything you write lives in three places:
 ## Draw your first diagram
 
 ```sh
-pnpm docspp new payments
-pnpm docspp schema
+pnpm idocs new payments
+pnpm idocs schema
 ```
 
 The first command creates `diagrams/payments/diagram.yaml` with a small working example. The second writes the JSON Schema that gives your editor autocomplete. Here is a similar diagram:
@@ -101,7 +101,7 @@ scenarios:
 Put it on a page with two lines of MDX:
 
 ```mdx
-import Diagram from '@packagelab/docspp-astro/Diagram.astro'
+import Diagram from '@packagelab/idocs-astro/Diagram.astro'
 
 <Diagram name="hello" />
 ```

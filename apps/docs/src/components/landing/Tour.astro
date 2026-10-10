@@ -1,5 +1,5 @@
 ---
-import Diagram from '@packagelab/docspp-astro/Diagram.astro'
+import Diagram from '@packagelab/idocs-astro/Diagram.astro'
 import CodeWindow from './CodeWindow.astro'
 import modelSrc from '../../../diagrams/tour-1/diagram.yaml?raw'
 import zonesSrc from '../../../diagrams/tour-2/diagram.yaml?raw'
@@ -17,7 +17,7 @@ const stages = [
     diagram: 'tour-1',
     src: clean(modelSrc),
     caption:
-      '<strong>Name the parts and say who talks to whom.</strong> Pick a kind and an icon for each node and docspp draws the cards. Edges become arrows, and the legend is generated. There are no coordinates in the file.',
+      '<strong>Name the parts and say who talks to whom.</strong> Pick a kind and an icon for each node and idocs draws the cards. Edges become arrows, and the legend is generated. There are no coordinates in the file.',
   },
   {
     id: 'zones',
@@ -59,7 +59,7 @@ const stages = [
       <h2>Write the model. The picture, the docs and the replay follow.</h2>
       <p class="lp-lede">
         One YAML file per diagram. Add a concept at a time and watch what it buys you. Each tab below is a
-        real file, compiled and drawn by docspp as the page loaded.
+        real file, compiled and drawn by idocs as the page loaded.
       </p>
     </div>
 

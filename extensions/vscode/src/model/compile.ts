@@ -1,12 +1,8 @@
-// Compiles one diagram folder with the same compiler `docspp check` uses, then adds the checks the
+// Compiles one diagram folder with the same compiler `idocs check` uses, then adds the checks the
 // CLI does on top of it (a node citing a source file that no longer exists).
 import { dirname, resolve } from 'node:path'
-import type { CompiledDiagram } from '@packagelab/docspp-core'
-import {
-  type CompileResult,
-  compileDiagram,
-  type Diagnostic,
-} from '@packagelab/docspp-core/browser'
+import type { CompiledDiagram } from '@packagelab/idocs-core'
+import { type CompileResult, compileDiagram, type Diagnostic } from '@packagelab/idocs-core/browser'
 import type { IconResolver } from './icons'
 import { type Fs, gatherSource } from './sources'
 import { nodeAt, Parsed } from './yaml'

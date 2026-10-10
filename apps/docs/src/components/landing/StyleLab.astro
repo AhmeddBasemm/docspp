@@ -1,8 +1,8 @@
 ---
-import Diagram from '@packagelab/docspp-astro/Diagram.astro'
+import Diagram from '@packagelab/idocs-astro/Diagram.astro'
 import CodeWindow from './CodeWindow.astro'
-import { scopeSvgIds } from '@packagelab/docspp-core'
-import { resolveIcon } from '@packagelab/docspp-core/node'
+import { scopeSvgIds } from '@packagelab/idocs-core'
+import { resolveIcon } from '@packagelab/idocs-core/node'
 import { withBase } from '../../lib/base'
 
 const palettes = [
@@ -11,50 +11,50 @@ const palettes = [
     label: 'Default',
     swatch: ['#0a6f8f', '#e9eef2'],
     css: `/* Nothing to write: follows the site theme. */
-.docspp {
-  --docspp-accent: #0a6f8f;
+.idocs {
+  --idocs-accent: #0a6f8f;
 }`,
   },
   {
     id: 'blueprint',
     label: 'Blueprint',
     swatch: ['#7fd3ff', '#0a2540'],
-    css: `.docspp {
-  --docspp-bg: #0a2540;
-  --docspp-surface: #0f3256;
-  --docspp-zone: #0c2c4c;
-  --docspp-ink: #e6f2ff;
-  --docspp-muted: #9bbfe0;
-  --docspp-line: #35689b;
-  --docspp-accent: #7fd3ff;
+    css: `.idocs {
+  --idocs-bg: #0a2540;
+  --idocs-surface: #0f3256;
+  --idocs-zone: #0c2c4c;
+  --idocs-ink: #e6f2ff;
+  --idocs-muted: #9bbfe0;
+  --idocs-line: #35689b;
+  --idocs-accent: #7fd3ff;
 }`,
   },
   {
     id: 'terminal',
     label: 'Terminal',
     swatch: ['#4ade80', '#050806'],
-    css: `.docspp {
-  --docspp-bg: #050806;
-  --docspp-surface: #0b110c;
-  --docspp-zone: #08100a;
-  --docspp-ink: #c9f7d3;
-  --docspp-line: #1f4a2b;
-  --docspp-accent: #4ade80;
-  --docspp-sans: var(--docspp-mono);
+    css: `.idocs {
+  --idocs-bg: #050806;
+  --idocs-surface: #0b110c;
+  --idocs-zone: #08100a;
+  --idocs-ink: #c9f7d3;
+  --idocs-line: #1f4a2b;
+  --idocs-accent: #4ade80;
+  --idocs-sans: var(--idocs-mono);
 }`,
   },
   {
     id: 'ink',
     label: 'Ink',
     swatch: ['#d4281c', '#fbfaf8'],
-    css: `.docspp {
-  --docspp-bg: #fbfaf8;
-  --docspp-surface: #ffffff;
-  --docspp-zone: #f1f0ed;
-  --docspp-ink: #121212;
-  --docspp-line: #1f1f1f;
-  --docspp-accent: #d4281c;
-  --docspp-shadow: 3px 3px 0 #1f1f1f;
+    css: `.idocs {
+  --idocs-bg: #fbfaf8;
+  --idocs-surface: #ffffff;
+  --idocs-zone: #f1f0ed;
+  --idocs-ink: #121212;
+  --idocs-line: #1f1f1f;
+  --idocs-accent: #d4281c;
+  --idocs-shadow: 3px 3px 0 #1f1f1f;
 }`,
   },
 ]
@@ -76,7 +76,7 @@ const logos = [
       <p class="lp-eyebrow">Make it yours</p>
       <h2>Restyle every diagram with a handful of CSS variables.</h2>
       <p class="lp-lede">
-        Every colour, font and shadow in a diagram is a <code class="lp-inline-code">--docspp-*</code> token. Pick a
+        Every colour, font and shadow in a diagram is a <code class="lp-inline-code">--idocs-*</code> token. Pick a
         palette and the diagram below changes. The snippet beside it is all the CSS that did it.
       </p>
     </div>
@@ -118,7 +118,7 @@ const logos = [
             }
           </div>
           <p class="lp-lab-note">
-            Dark mode takes its own set under <code class="lp-inline-code">:root[data-theme='dark'] .docspp</code>.
+            Dark mode takes its own set under <code class="lp-inline-code">:root[data-theme='dark'] .idocs</code>.
             {' '}<a href={withBase('customize/theming/')}>Every token is listed in the theming guide.</a>
           </p>
         </div>

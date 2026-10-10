@@ -1,4 +1,4 @@
-import { loadIconSets } from '@packagelab/docspp-core/node'
+import { loadIconSets } from '@packagelab/idocs-core/node'
 
 export function GET() {
   return new Response(JSON.stringify(loadIconSets()), {

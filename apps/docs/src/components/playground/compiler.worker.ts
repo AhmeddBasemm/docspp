@@ -1,9 +1,9 @@
-import type { IconData } from '@packagelab/docspp-core'
+import type { IconData } from '@packagelab/idocs-core'
 import {
   type CompilerAssets,
   compileDiagram,
   createIconResolver,
-} from '@packagelab/docspp-core/browser'
+} from '@packagelab/idocs-core/browser'
 
 let starterAssets: Promise<CompilerAssets> | undefined
 let fullAssets: Promise<CompilerAssets> | undefined

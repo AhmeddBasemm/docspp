@@ -5,7 +5,7 @@ import assert from 'node:assert/strict'
 import { existsSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import * as vscode from 'vscode'
-import type { DocsppApi } from '../src/extension'
+import type { IdocsApi } from '../src/extension'
 
 interface Case {
   name: string
@@ -71,7 +71,7 @@ async function completions(uri: vscode.Uri, at: vscode.Position): Promise<string
 
 const diagnosticsOf = (...parts: string[]) => vscode.languages.getDiagnostics(file(...parts))
 
-let api: DocsppApi
+let api: IdocsApi
 
 // -- Starting up --------------------------------------------------------------------------------
 
@@ -81,12 +81,9 @@ test('activates and finds every diagram in the workspace', async () => {
   assert.deepEqual(names, ['broken', 'docs', 'other', 'shop'])
 })
 
-test('treats diagram and scenario files as docspp, and other yaml as yaml', async () => {
-  assert.equal((await open('diagrams', 'shop', 'diagram.yaml')).doc.languageId, 'docspp')
-  assert.equal(
-    (await open('diagrams', 'shop', 'scenarios', 'refund.yaml')).doc.languageId,
-    'docspp',
-  )
+test('treats diagram and scenario files as idocs, and other yaml as yaml', async () => {
+  assert.equal((await open('diagrams', 'shop', 'diagram.yaml')).doc.languageId, 'idocs')
+  assert.equal((await open('diagrams', 'shop', 'scenarios', 'refund.yaml')).doc.languageId, 'idocs')
   const doc = await vscode.workspace.openTextDocument({ language: 'yaml', content: 'a: 1' })
   assert.equal(doc.languageId, 'yaml')
 })
@@ -101,7 +98,7 @@ test('shows the compiler errors in the Problems panel, on the word that is wrong
   const unknown = found.find((d) => d.message.includes('nope'))
   assert.ok(unknown, `got: ${found.map((d) => d.message).join(' | ')}`)
   assert.equal(unknown.severity, vscode.DiagnosticSeverity.Error)
-  assert.equal(unknown.source, 'docspp')
+  assert.equal(unknown.source, 'idocs')
   assert.equal(unknown.range.start.line, 4)
   assert.equal(unknown.range.start.character, 4)
   assert.equal(unknown.range.end.character, 8)
@@ -161,9 +158,9 @@ test('shows the state of the diagram being edited in the status bar', async () =
   await open('diagrams', 'other', 'diagram.yaml')
   const good = await until('a clean status', () => {
     const s = api.status()
-    return s.text === '$(check) docspp' ? s : undefined
+    return s.text === '$(check) idocs' ? s : undefined
   })
-  assert.equal(good.command, 'docspp.openPreviewToSide')
+  assert.equal(good.command, 'idocs.openPreviewToSide')
   assert.match(good.tooltip ?? '', /2 nodes, 1 edge, 0 scenarios/)
 
   const plain = await vscode.workspace.openTextDocument({ language: 'yaml', content: 'a: 1' })
@@ -277,12 +274,12 @@ const webviewTabs = () =>
     .flatMap((g) => g.tabs)
     .filter(
       (t) =>
-        t.input instanceof vscode.TabInputWebview && t.input.viewType.endsWith('docspp.preview'),
+        t.input instanceof vscode.TabInputWebview && t.input.viewType.endsWith('idocs.preview'),
     )
 
 test('opens the preview beside the editor and shows the diagram being edited', async () => {
   await open('diagrams', 'shop', 'diagram.yaml')
-  await vscode.commands.executeCommand('docspp.openPreviewToSide')
+  await vscode.commands.executeCommand('idocs.openPreviewToSide')
   const state = await until(
     'the preview to load',
     () => {
@@ -303,12 +300,12 @@ test('follows you to another diagram', async () => {
 })
 
 test('stays on its diagram while locked, and follows again when unlocked', async () => {
-  await vscode.commands.executeCommand('docspp.lockPreview')
+  await vscode.commands.executeCommand('idocs.lockPreview')
   assert.equal(api.preview().locked, true)
   await open('diagrams', 'shop', 'diagram.yaml')
   await new Promise((r) => setTimeout(r, 400))
   assert.ok(api.preview().folder?.endsWith('other'), 'a locked preview must not move')
-  await vscode.commands.executeCommand('docspp.unlockPreview')
+  await vscode.commands.executeCommand('idocs.unlockPreview')
   assert.equal(api.preview().locked, false)
   await open('diagrams', 'other', 'diagram.yaml')
   await open('diagrams', 'shop', 'diagram.yaml')
@@ -326,7 +323,7 @@ test('outlines the node the cursor is in', async () => {
 })
 
 test('only updates when a file is saved, if that is what you asked for', async () => {
-  const config = vscode.workspace.getConfiguration('docspp')
+  const config = vscode.workspace.getConfiguration('idocs')
   await config.update('preview.refreshOn', 'save', vscode.ConfigurationTarget.Workspace)
   try {
     const { doc, editor } = await open('diagrams', 'other', 'diagram.yaml')
@@ -428,11 +425,11 @@ test('leaves a doc: that points somewhere else where it is', async () => {
 })
 
 test('checks every diagram on request', async () => {
-  await vscode.commands.executeCommand('docspp.checkAll')
+  await vscode.commands.executeCommand('idocs.checkAll')
 })
 
 export async function run(): Promise<void> {
-  const extension = vscode.extensions.getExtension<DocsppApi>('packagelab.docspp-vscode')
+  const extension = vscode.extensions.getExtension<IdocsApi>('packagelab.idocs-vscode')
   assert.ok(extension, 'the extension is not installed')
   api = await extension.activate()
 

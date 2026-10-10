@@ -1,13 +1,13 @@
 /*
- * docspp docs theme.
+ * idocs docs theme.
  * The diagram palette (cool slate, one teal accent, an amber spark) carried over to Starlight, so the
- * page around a diagram looks like part of it. Override --docspp-* tokens here to restyle every diagram.
+ * page around a diagram looks like part of it. Override --idocs-* tokens here to restyle every diagram.
  */
 
 :root {
   --sl-font-display: "IBM Plex Sans Condensed", "IBM Plex Sans", system-ui, sans-serif;
   --sl-text-body: 1.0625rem;
-  --docspp-spark: #c9780f;
+  --idocs-spark: #c9780f;
 }
 
 :root[data-theme="light"] {
@@ -40,7 +40,7 @@
   --sl-color-accent: #1d86a4;
   --sl-color-accent-high: #7fcfe6;
   --sl-color-text-accent: #7fcfe6;
-  --docspp-spark: #f2a759;
+  --idocs-spark: #f2a759;
 }
 
 /* ---------- header ---------- */
@@ -119,7 +119,7 @@ h1#_top {
 }
 
 /* A page's own diagrams sit in the wide column; this keeps them clear of the text above and below. */
-.sl-markdown-content .docspp-bleed {
+.sl-markdown-content .idocs-bleed {
   margin-block: 1.5rem 2.25rem;
 }
 
@@ -140,7 +140,7 @@ h1#_top {
 .sl-markdown-content .pair > * {
   min-width: 0;
 }
-.sl-markdown-content .pair .docspp-bleed {
+.sl-markdown-content .pair .idocs-bleed {
   margin-block: 0;
 }
 .sl-markdown-content .pair-label {

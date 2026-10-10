@@ -6,9 +6,9 @@ const problem = (severity: 'error' | 'warning') => ({ severity, message: 'm', fi
 describe('status bar', () => {
   it('says all is well when there is nothing to fix', () => {
     const s = summarize('shop', undefined, [])
-    expect(statusText(s)).toBe('$(check) docspp')
+    expect(statusText(s)).toBe('$(check) idocs')
     expect(statusTooltip(s)).toBe('shop: no problems')
-    expect(statusCommand(s)).toBe('docspp.openPreviewToSide')
+    expect(statusCommand(s)).toBe('idocs.openPreviewToSide')
   })
 
   it('counts errors and warnings, errors first', () => {

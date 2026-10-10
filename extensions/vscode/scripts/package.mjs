@@ -1,4 +1,4 @@
-// Builds a production bundle and packs it into docspp-vscode-<version>.vsix next to package.json.
+// Builds a production bundle and packs it into idocs-vscode-<version>.vsix next to package.json.
 // The bundle already contains its dependencies, so vsce is told not to look at node_modules.
 import { execFileSync } from 'node:child_process'
 import { readFileSync } from 'node:fs'

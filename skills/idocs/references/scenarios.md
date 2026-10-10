@@ -47,7 +47,7 @@ Every step can be written compactly (`a -> b: label`) or as a map (`a -> b: { la
 | `hold` | Extra pause in seconds. |
 | `title`, `detail` | The heading and short body of the step's box in the story view. |
 
-**Routing.** Steps follow the edges you declared. If `a` and `b` are not directly connected, the packet takes the shortest route through the nodes between them, hop by hop (`browser -> db` flies through the API). If there is no route, `docspp check` says so: declare an edge (it can be `hidden: true`) or add `via`.
+**Routing.** Steps follow the edges you declared. If `a` and `b` are not directly connected, the packet takes the shortest route through the nodes between them, hop by hop (`browser -> db` flies through the API). If there is no route, `idocs check` says so: declare an edge (it can be `hidden: true`) or add `via`.
 
 **Responses.** A packet that flies against an edge's direction is a response automatically (green), so `db -> api` over an `api -> db` edge needs no `kind`. Write `kind: error` for failures.
 
@@ -88,7 +88,7 @@ scenarios:
           - at backend: { title: Which device?, detail: id → URL + org }
 ```
 
-- Without `lanes` you get one lane per node, in order of first appearance. With `lanes`, list them in the order you want; nodes you leave out get their own lane at the end, and `docspp check` warns about them.
+- Without `lanes` you get one lane per node, in order of first appearance. With `lanes`, list them in the order you want; nodes you leave out get their own lane at the end, and `idocs check` warns about them.
 - Write `title` as a short question or verb phrase ("Who are you?", "Cross the tunnel") and `detail` as what is concrete: a route, a header, a store. They are for the story only; the packet label stays short.
 - Use `at` steps for "this component does something" moments, and lookups for questions to a data store.
 - Keep a story to about 8 lanes and 15 boxes. Past that, split it into two scenarios.

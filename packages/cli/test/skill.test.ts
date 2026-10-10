@@ -1,8 +1,8 @@
 import { existsSync, readdirSync, readFileSync, realpathSync, statSync } from 'node:fs'
 import { dirname, join, relative, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { BUILTIN_EDGE_KINDS, BUILTIN_KINDS } from '@packagelab/docspp-core'
-import { compileDiagram, FamilySchema, KNOWN_KEYS } from '@packagelab/docspp-core/node'
+import { BUILTIN_EDGE_KINDS, BUILTIN_KINDS } from '@packagelab/idocs-core'
+import { compileDiagram, FamilySchema, KNOWN_KEYS } from '@packagelab/idocs-core/node'
 import { describe, expect, it } from 'vitest'
 import { parse } from 'yaml'
 import { run } from '../src'
@@ -10,7 +10,7 @@ import { run } from '../src'
 // The skill is what other people install with `npx skills add`, and what agents follow. It must
 // not drift from the code: these tests fail when the format, the commands or the examples change.
 const repo = resolve(dirname(fileURLToPath(import.meta.url)), '../../..')
-const skillDir = join(repo, 'skills/docspp')
+const skillDir = join(repo, 'skills/idocs')
 
 function files(dir: string, ext: string): string[] {
   return readdirSync(dir).flatMap((name) => {
@@ -31,7 +31,7 @@ describe('skill metadata', () => {
   }
 
   it('is named after its folder, as the installer requires', () => {
-    expect(front.name).toBe('docspp')
+    expect(front.name).toBe('idocs')
     expect(front.name).toBe(skillDir.split('/').pop())
   })
 
@@ -43,7 +43,7 @@ describe('skill metadata', () => {
   })
 
   it('is reachable by Claude Code in this repository through the same files', () => {
-    const linked = join(repo, '.claude/skills/docspp')
+    const linked = join(repo, '.claude/skills/idocs')
     expect(existsSync(join(linked, 'SKILL.md'))).toBe(true)
     expect(realpathSync(linked)).toBe(realpathSync(skillDir))
   })
@@ -139,13 +139,13 @@ describe('skill matches the code', () => {
       console.log = log
     }
     const help = out.join('\n')
-    const commands = new Set([...help.matchAll(/^\s{2}docspp (\w+)/gm)].map((m) => m[1]!))
+    const commands = new Set([...help.matchAll(/^\s{2}idocs (\w+)/gm)].map((m) => m[1]!))
     expect([...commands].sort()).toEqual(['check', 'icons', 'list', 'new', 'schema'])
 
-    // A command is `docspp <word>` in a code span, or `pnpm|npx|yarn docspp <word>` anywhere.
+    // A command is `idocs <word>` in a code span, or `pnpm|npx|yarn idocs <word>` anywhere.
     const used = [
-      ...allText.matchAll(/`docspp ([a-z]+)/g),
-      ...allText.matchAll(/(?:pnpm|npx|yarn) docspp ([a-z]+)/g),
+      ...allText.matchAll(/`idocs ([a-z]+)/g),
+      ...allText.matchAll(/(?:pnpm|npx|yarn) idocs ([a-z]+)/g),
     ].map((m) => m[1]!)
     expect(used.length).toBeGreaterThan(5)
     expect(used.filter((c) => !commands.has(c))).toEqual([])

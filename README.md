@@ -1,22 +1,22 @@
 <div align="center">
 
-# docspp
+# idocs
 
 **Architecture diagrams your readers can play.**
 
 Describe a system in YAML. Get a clean, interactive diagram with markdown docs behind every box, and scenarios that show a request travelling through it, step by step.
 
-[![CI](https://github.com/AhmeddBasemm/docspp/actions/workflows/ci.yml/badge.svg)](https://github.com/AhmeddBasemm/docspp/actions/workflows/ci.yml)
-[![npm](https://img.shields.io/npm/v/create-docspp?label=npm&color=cb3837)](https://www.npmjs.com/package/create-docspp)
+[![CI](https://github.com/The-Package-Labs/idocs/actions/workflows/ci.yml/badge.svg)](https://github.com/The-Package-Labs/idocs/actions/workflows/ci.yml)
+[![npm](https://img.shields.io/npm/v/create-idocs?label=npm&color=cb3837)](https://www.npmjs.com/package/create-idocs)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Node](https://img.shields.io/badge/node-%E2%89%A522-339933)](https://nodejs.org)
 [![PRs welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 
-[Documentation](https://ahmeddbasemm.github.io/docspp/) ·
-[Playground](https://ahmeddbasemm.github.io/docspp/playground/) ·
-[Live examples](https://ahmeddbasemm.github.io/docspp/examples/platform/) ·
-[Report a bug](https://github.com/AhmeddBasemm/docspp/issues/new?template=bug_report.yml) ·
-[Request a feature](https://github.com/AhmeddBasemm/docspp/issues/new?template=feature_request.yml)
+[Documentation](https://the-package-labs.github.io/idocs/) ·
+[Playground](https://the-package-labs.github.io/idocs/playground/) ·
+[Live examples](https://the-package-labs.github.io/idocs/examples/platform/) ·
+[Report a bug](https://github.com/The-Package-Labs/idocs/issues/new?template=bug_report.yml) ·
+[Request a feature](https://github.com/The-Package-Labs/idocs/issues/new?template=feature_request.yml)
 
 <br>
 
@@ -24,9 +24,9 @@ Describe a system in YAML. Get a clean, interactive diagram with markdown docs b
 
 </div>
 
-## Why docspp
+## Why idocs
 
-Architecture diagrams go stale because they are pictures. docspp keeps the system as data, so the diagram, the docs and the walkthroughs come from one place that lives in your repository and changes in the same pull request as the code.
+Architecture diagrams go stale because they are pictures. idocs keeps the system as data, so the diagram, the docs and the walkthroughs come from one place that lives in your repository and changes in the same pull request as the code.
 
 - **Playground.** Write YAML with a live preview, or build nodes, groups and connections visually and export the YAML. Local drafts, undo/redo and examples included.
 - **Declarative.** Nodes, groups and edges in `diagram.yaml`. No coordinates: layout is automatic and steerable with a few hints.
@@ -52,7 +52,7 @@ Architecture diagrams go stale because they are pictures. docspp keeps the syste
 You need Node 22 or newer.
 
 ```sh
-npm create docspp@latest my-docs
+npm create idocs@latest my-docs
 cd my-docs
 pnpm install
 pnpm dev
@@ -80,41 +80,41 @@ scenarios:
       - api -> browser: 200 OK
 ```
 
-That is a diagram with three boxes, two connections and one scenario a reader can play. The [getting started guide](https://ahmeddbasemm.github.io/docspp/guides/getting-started/) goes on from here.
+That is a diagram with three boxes, two connections and one scenario a reader can play. The [getting started guide](https://the-package-labs.github.io/idocs/guides/getting-started/) goes on from here.
 
 ### Check your work
 
 ```sh
 pnpm check                  # validate every diagram; errors point at file:line:col
-pnpm docspp check --strict  # treat warnings as errors, for CI
+pnpm idocs check --strict  # treat warnings as errors, for CI
 ```
 
 ## Documentation
 
 | Guide | What it covers |
 |---|---|
-| [Quick start](https://ahmeddbasemm.github.io/docspp/guides/getting-started/) | create a project, add a diagram, publish it |
-| [Diagram format](https://ahmeddbasemm.github.io/docspp/format/overview/) | nodes, groups, edges, views, kinds and node docs |
-| [Scenarios](https://ahmeddbasemm.github.io/docspp/scenarios/overview/) | steps, phases, routes, and the flow, sequence and story views |
-| [Layout](https://ahmeddbasemm.github.io/docspp/layout/how-it-works/) | how diagrams are laid out, and the hints that steer it |
-| [Customize](https://ahmeddbasemm.github.io/docspp/customize/theming/) | icon sets, your own SVGs, the `--docspp-*` CSS tokens |
-| [Embed and publish](https://ahmeddbasemm.github.io/docspp/embed/diagram-component/) | the `<Diagram>` component, existing sites, GitHub Pages |
-| [AI agents](https://ahmeddbasemm.github.io/docspp/ai/skill/) | the schema, the CLI and the skill |
-| [Reference](https://ahmeddbasemm.github.io/docspp/reference/schema/) | every field, the CLI, props, errors and controls |
+| [Quick start](https://the-package-labs.github.io/idocs/guides/getting-started/) | create a project, add a diagram, publish it |
+| [Diagram format](https://the-package-labs.github.io/idocs/format/overview/) | nodes, groups, edges, views, kinds and node docs |
+| [Scenarios](https://the-package-labs.github.io/idocs/scenarios/overview/) | steps, phases, routes, and the flow, sequence and story views |
+| [Layout](https://the-package-labs.github.io/idocs/layout/how-it-works/) | how diagrams are laid out, and the hints that steer it |
+| [Customize](https://the-package-labs.github.io/idocs/customize/theming/) | icon sets, your own SVGs, the `--idocs-*` CSS tokens |
+| [Embed and publish](https://the-package-labs.github.io/idocs/embed/diagram-component/) | the `<Diagram>` component, existing sites, GitHub Pages |
+| [AI agents](https://the-package-labs.github.io/idocs/ai/skill/) | the schema, the CLI and the skill |
+| [Reference](https://the-package-labs.github.io/idocs/reference/schema/) | every field, the CLI, props, errors and controls |
 
-Live, playable examples: [checkout](https://ahmeddbasemm.github.io/docspp/examples/checkout/), [platform](https://ahmeddbasemm.github.io/docspp/examples/platform/) and [payments](https://ahmeddbasemm.github.io/docspp/examples/payments/). The site's source is in [`apps/docs`](apps/docs); add a page there in the same pull request as the change it documents.
+Live, playable examples: [checkout](https://the-package-labs.github.io/idocs/examples/checkout/), [platform](https://the-package-labs.github.io/idocs/examples/platform/) and [payments](https://the-package-labs.github.io/idocs/examples/payments/). The site's source is in [`apps/docs`](apps/docs); add a page there in the same pull request as the change it documents.
 
 ## Use it with an AI agent
 
 ```sh
-npx skills add AhmeddBasemm/docspp --skill docspp
+npx skills add The-Package-Labs/idocs --skill idocs
 ```
 
-The [skills](https://skills.sh) installer puts the **docspp skill** into your project for Claude Code, Cursor, Copilot and other agents. It knows how to set docspp up, the whole diagram format, how to write scenarios and stories, and how to fix layout and errors. Projects from the starter template already include it. The skill lives in [`skills/docspp`](skills/docspp).
+The [skills](https://skills.sh) installer puts the **idocs skill** into your project for Claude Code, Cursor, Copilot and other agents. It knows how to set idocs up, the whole diagram format, how to write scenarios and stories, and how to fix layout and errors. Projects from the starter template already include it. The skill lives in [`skills/idocs`](skills/idocs).
 
 ## Use it in VS Code
 
-The [VS Code extension](extensions/vscode) highlights diagram files, checks them as you type, completes node ids and icon names, renames ids everywhere, and shows the diagram in a **live preview** beside the file, following your cursor. See [Use it in VS Code](https://ahmeddbasemm.github.io/docspp/guides/editor/).
+The [VS Code extension](extensions/vscode) highlights diagram files, checks them as you type, completes node ids and icon names, renames ids everywhere, and shows the diagram in a **live preview** beside the file, following your cursor. See [Use it in VS Code](https://the-package-labs.github.io/idocs/guides/editor/).
 
 ## Packages
 
@@ -122,11 +122,11 @@ Everything here is published to npm and versioned together. The VS Code extensio
 
 | Package | Purpose |
 |---|---|
-| [`create-docspp`](https://www.npmjs.com/package/create-docspp) | `npm create docspp`: scaffolds a project from the starter template |
-| [`docspp`](https://www.npmjs.com/package/docspp) | the command line: `check`, `list`, `schema`, `icons search` and `new` |
-| [`@packagelab/docspp-core`](https://www.npmjs.com/package/@packagelab/docspp-core) | schema, compiler, layout, edge router, scenario timeline. The main entry is browser-safe |
-| [`@packagelab/docspp-react`](https://www.npmjs.com/package/@packagelab/docspp-react) | the `DiagramView` component and its styles |
-| [`@packagelab/docspp-astro`](https://www.npmjs.com/package/@packagelab/docspp-astro) | the Astro integration and the `<Diagram>` component |
+| [`create-idocs`](https://www.npmjs.com/package/create-idocs) | `npm create idocs`: scaffolds a project from the starter template |
+| [`idocs`](https://www.npmjs.com/package/idocs) | the command line: `check`, `list`, `schema`, `icons search` and `new` |
+| [`@packagelab/idocs-core`](https://www.npmjs.com/package/@packagelab/idocs-core) | schema, compiler, layout, edge router, scenario timeline. The main entry is browser-safe |
+| [`@packagelab/idocs-react`](https://www.npmjs.com/package/@packagelab/idocs-react) | the `DiagramView` component and its styles |
+| [`@packagelab/idocs-astro`](https://www.npmjs.com/package/@packagelab/idocs-astro) | the Astro integration and the `<Diagram>` component |
 
 ## How it works
 
@@ -149,11 +149,11 @@ A monorepo: the tool, its documentation and its starter project change together.
 
 | Path | Contents |
 |---|---|
-| [`packages/`](packages) | `core`, `react`, `astro`, `cli` and `create-docspp` |
+| [`packages/`](packages) | `core`, `react`, `astro`, `cli` and `create-idocs` |
 | [`extensions/vscode`](extensions/vscode) | the VS Code extension: grammar, language features and the live preview |
 | [`apps/docs`](apps/docs) | the landing page, guides and live examples (also the end-to-end tests) |
 | [`templates/starter`](templates/starter) | the project new users start from |
-| [`skills/docspp`](skills/docspp) | the agent skill |
+| [`skills/idocs`](skills/idocs) | the agent skill |
 | [`scripts/`](scripts) | build, template and release tooling |
 | [`docs/`](docs) | design notes: [PLAN.md](docs/PLAN.md) and [REPOSITORIES.md](docs/REPOSITORIES.md) |
 
@@ -175,7 +175,7 @@ Needs Node 22 or newer and [pnpm](https://pnpm.io). [CONTRIBUTING.md](CONTRIBUTI
 
 ## Roadmap
 
-Where docspp is heading, roughly in order. The reasoning is in [docs/PLAN.md](docs/PLAN.md).
+Where idocs is heading, roughly in order. The reasoning is in [docs/PLAN.md](docs/PLAN.md).
 
 - [ ] Automated releases from the main branch
 - [ ] More diagram types: state machines and entity relationships
@@ -186,7 +186,7 @@ Where docspp is heading, roughly in order. The reasoning is in [docs/PLAN.md](do
 - [ ] Import from Mermaid and OpenAPI
 - [ ] An MCP server for agents
 
-Ideas and votes are welcome in [issues](https://github.com/AhmeddBasemm/docspp/issues).
+Ideas and votes are welcome in [issues](https://github.com/The-Package-Labs/idocs/issues).
 
 ## Contributing
 
@@ -194,19 +194,19 @@ Contributions of all sizes are welcome: a typo, a bug report, a new icon mapping
 
 ## Contributors
 
-docspp is created and maintained by [Ahmed Basem](https://github.com/AhmeddBasemm), and shaped by everyone who files an issue, sends a pull request or improves the docs. See [CONTRIBUTORS.md](CONTRIBUTORS.md) for the people behind the project, and the [contributors graph](https://github.com/AhmeddBasemm/docspp/graphs/contributors) for the full history.
+idocs is created and maintained by [Ahmed Basem](https://github.com/AhmeddBasemm), and shaped by everyone who files an issue, sends a pull request or improves the docs. See [CONTRIBUTORS.md](CONTRIBUTORS.md) for the people behind the project, and the [contributors graph](https://github.com/The-Package-Labs/idocs/graphs/contributors) for the full history.
 
-[![Contributors](https://contrib.rocks/image?repo=AhmeddBasemm/docspp)](https://github.com/AhmeddBasemm/docspp/graphs/contributors)
+[![Contributors](https://contrib.rocks/image?repo=The-Package-Labs/idocs)](https://github.com/The-Package-Labs/idocs/graphs/contributors)
 
 ## License
 
-docspp is released under the [MIT License](LICENSE). You can use it in personal, commercial and closed-source projects. Contributions are accepted under the same license.
+idocs is released under the [MIT License](LICENSE). You can use it in personal, commercial and closed-source projects. Contributions are accepted under the same license.
 
 ### Acknowledgements
 
-docspp stands on open source work, and bundles some of it:
+idocs stands on open source work, and bundles some of it:
 
 - [Iconify](https://iconify.design) icon sets: [`logos`](https://github.com/gilbarbara/logos) and [Simple Icons](https://simpleicons.org) (CC0-1.0), and [Lucide](https://lucide.dev) (ISC).
 - [ELK](https://github.com/kieler/elkjs) for layout (EPL-2.0 OR GPL-3.0-or-later), [zod](https://zod.dev) (MIT), [yaml](https://github.com/eemeli/yaml) (ISC), [Astro](https://astro.build) and [Starlight](https://starlight.astro.build) (MIT), [React](https://react.dev) and [d3](https://d3js.org) for rendering and zoom.
 
-Brand logos shown in diagrams are trademarks of their respective owners, used only to identify the technologies a diagram describes. Their presence does not imply any endorsement of, or affiliation with, docspp.
+Brand logos shown in diagrams are trademarks of their respective owners, used only to identify the technologies a diagram describes. Their presence does not imply any endorsement of, or affiliation with, idocs.

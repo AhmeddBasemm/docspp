@@ -6,7 +6,7 @@ import {
   frameAt,
   type Layout,
   type Rect,
-} from '@packagelab/docspp-core'
+} from '@packagelab/idocs-core'
 import { memo, useCallback, useEffect, useId, useMemo, useRef, useState } from 'react'
 import { Canvas, type Focus } from './Canvas'
 import { Drawer } from './Drawer'
@@ -320,23 +320,23 @@ export function DiagramView({
   const presentation = scenario ? mode : 'flow'
 
   return (
-    <div ref={rootRef} className={cx('docspp', className)}>
+    <div ref={rootRef} className={cx('idocs', className)}>
       {showTitle && <h3 style={{ margin: 0 }}>{diagram.title}</h3>}
       {(showTitle || showDescription) && diagram.descriptionHtml && (
         <div
-          className="docspp-summary"
+          className="idocs-summary"
           dangerouslySetInnerHTML={{ __html: diagram.descriptionHtml }}
         />
       )}
 
       {diagram.views.length > 1 && (
-        <div className="docspp-tabs" role="tablist" aria-label="Views">
+        <div className="idocs-tabs" role="tablist" aria-label="Views">
           {diagram.views.map((v) => (
             <button
               key={v.id}
               type="button"
               role="tab"
-              className="docspp-tab"
+              className="idocs-tab"
               aria-selected={v.id === view.id}
               onClick={() => selectView(v.id)}
             >
@@ -346,15 +346,15 @@ export function DiagramView({
         </div>
       )}
       {view.summaryHtml && (
-        <div className="docspp-summary" dangerouslySetInnerHTML={{ __html: view.summaryHtml }} />
+        <div className="idocs-summary" dangerouslySetInnerHTML={{ __html: view.summaryHtml }} />
       )}
 
       {scenarios.length > 0 && (
-        <div className="docspp-scenarios" role="group" aria-label="Scenarios">
-          <span className="docspp-scenarios-label">Scenario</span>
+        <div className="idocs-scenarios" role="group" aria-label="Scenarios">
+          <span className="idocs-scenarios-label">Scenario</span>
           <button
             type="button"
-            className="docspp-chip-btn"
+            className="idocs-chip-btn"
             aria-pressed={!scenario}
             onClick={() => selectScenario(null)}
           >
@@ -364,7 +364,7 @@ export function DiagramView({
             <button
               key={s.id}
               type="button"
-              className="docspp-chip-btn"
+              className="idocs-chip-btn"
               aria-pressed={s.id === scenario?.id}
               onClick={() => selectScenario(s.id)}
             >
@@ -374,9 +374,9 @@ export function DiagramView({
         </div>
       )}
       {scenario?.summaryHtml && (
-        <div className={cx('docspp-summary', presentation === 'story' && 'is-card')}>
+        <div className={cx('idocs-summary', presentation === 'story' && 'is-card')}>
           {presentation === 'story' && (
-            <strong className="docspp-summary-title">The story in one breath</strong>
+            <strong className="idocs-summary-title">The story in one breath</strong>
           )}
           <div dangerouslySetInnerHTML={{ __html: scenario.summaryHtml }} />
         </div>
@@ -411,10 +411,10 @@ export function DiagramView({
           tools={
             <>
               {scenario && (
-                <div className="docspp-toolbar-group">
+                <div className="idocs-toolbar-group">
                   <button
                     type="button"
-                    className="docspp-tool is-text"
+                    className="idocs-tool is-text"
                     aria-pressed={following}
                     onClick={() => setFollow(!following)}
                     title="Move the view to wherever the action is"
@@ -424,10 +424,10 @@ export function DiagramView({
                 </div>
               )}
               {hasPlanned && (
-                <div className="docspp-toolbar-group">
+                <div className="idocs-toolbar-group">
                   <button
                     type="button"
-                    className="docspp-tool is-text"
+                    className="idocs-tool is-text"
                     aria-pressed={hidePlanned}
                     onClick={() => setHidePlanned((v) => !v)}
                     title="Hide items that are not built yet"
@@ -467,8 +467,8 @@ export function DiagramView({
           {frame && scenarioActive && <Packets frame={frame} layout={layout} paths={paths} />}
         </Canvas>
       ) : (
-        <div className="docspp-frame docspp-skeleton">
-          {error ? <div className="docspp-error">{error}</div> : 'Loading diagram…'}
+        <div className="idocs-frame idocs-skeleton">
+          {error ? <div className="idocs-error">{error}</div> : 'Loading diagram…'}
         </div>
       )}
 
@@ -499,7 +499,7 @@ export function DiagramView({
         />
       )}
 
-      <div className="docspp-measure" ref={measureRef} aria-hidden="true">
+      <div className="idocs-measure" ref={measureRef} aria-hidden="true">
         {view.nodeIds.map((id) => {
           const n = diagram.nodes[id]!
           return <NodeCard key={id} node={n} measure style={{ width: n.w ?? DEFAULT_NODE_WIDTH }} />

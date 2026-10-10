@@ -1,4 +1,4 @@
-import { DiagramView } from '@packagelab/docspp-react'
+import { DiagramView } from '@packagelab/idocs-react'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import type { Problem, ToWebview } from '../src/preview/protocol'
 import { ProblemList } from './ProblemList'

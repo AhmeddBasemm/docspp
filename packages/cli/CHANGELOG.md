@@ -1,4 +1,6 @@
-# docspp
+# idocs
+
+Versions up to 0.2.0 were published as `docspp`.
 
 ## 0.2.0
 

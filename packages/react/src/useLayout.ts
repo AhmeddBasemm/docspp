@@ -1,4 +1,4 @@
-import { type CompiledDiagram, type Layout, layoutView } from '@packagelab/docspp-core'
+import { type CompiledDiagram, type Layout, layoutView } from '@packagelab/idocs-core'
 import { useEffect, useRef, useState } from 'react'
 
 /**

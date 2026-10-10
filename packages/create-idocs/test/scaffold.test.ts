@@ -1,7 +1,7 @@
 import { existsSync, mkdtempSync, readFileSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import { loadProject } from '@packagelab/docspp-core/node'
+import { loadProject } from '@packagelab/idocs-core/node'
 import { beforeAll, describe, expect, it } from 'vitest'
 import { packageName, scaffold } from '../src/scaffold'
 
@@ -12,12 +12,12 @@ const { buildTemplate } = (await import('../../../scripts/template.mjs')) as {
 
 let template: string
 beforeAll(() => {
-  template = buildTemplate(join(mkdtempSync(join(tmpdir(), 'docspp-tpl-')), 'template'), {
+  template = buildTemplate(join(mkdtempSync(join(tmpdir(), 'idocs-tpl-')), 'template'), {
     keepAliases: true,
   })
 })
 
-const fresh = () => join(mkdtempSync(join(tmpdir(), 'docspp-new-')), 'my-new-docs')
+const fresh = () => join(mkdtempSync(join(tmpdir(), 'idocs-new-')), 'my-new-docs')
 
 describe('template', () => {
   it('has no workspace: versions, no placeholders, and ships the shared skill', () => {
@@ -27,12 +27,12 @@ describe('template', () => {
       ...Object.values(pkg.devDependencies),
     ] as string[]
     expect(specs.some((s) => s.startsWith('workspace:'))).toBe(false)
-    expect(pkg.dependencies['@packagelab/docspp-astro']).toMatch(/^\^\d+\.\d+\.\d+$/)
-    expect(existsSync(join(template, '.claude/skills/docspp/SKILL.md'))).toBe(true)
+    expect(pkg.dependencies['@packagelab/idocs-astro']).toMatch(/^\^\d+\.\d+\.\d+$/)
+    expect(existsSync(join(template, '.claude/skills/idocs/SKILL.md'))).toBe(true)
     // The whole skill travels, not just its entry file.
-    expect(existsSync(join(template, '.claude/skills/docspp/references/format.md'))).toBe(true)
+    expect(existsSync(join(template, '.claude/skills/idocs/references/format.md'))).toBe(true)
     expect(
-      existsSync(join(template, '.claude/skills/docspp/assets/examples/shop.diagram.yaml')),
+      existsSync(join(template, '.claude/skills/idocs/assets/examples/shop.diagram.yaml')),
     ).toBe(true)
     expect(readFileSync(join(template, 'README.md'), 'utf8')).not.toContain('__DOCS_URL__')
     expect(existsSync(join(template, 'node_modules'))).toBe(false)
@@ -67,7 +67,7 @@ describe('scaffold', () => {
     const target = fresh()
     scaffold(template, target)
     expect(() => scaffold(template, target)).toThrow(/not empty/)
-    const empty = mkdtempSync(join(tmpdir(), 'docspp-empty-'))
+    const empty = mkdtempSync(join(tmpdir(), 'idocs-empty-'))
     expect(() => scaffold(template, empty)).not.toThrow()
     writeFileSync(join(empty, 'extra.txt'), 'x')
   })

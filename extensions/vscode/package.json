@@ -1,9 +1,9 @@
 {
-  "name": "docspp-vscode",
-  "displayName": "docspp",
+  "name": "idocs-vscode",
+  "displayName": "idocs",
   "version": "0.1.0",
   "private": true,
-  "description": "Syntax highlighting, validation, completion and a live preview for docspp architecture diagrams.",
+  "description": "Syntax highlighting, validation, completion and a live preview for idocs architecture diagrams.",
   "license": "MIT",
   "publisher": "packagelab",
   "preview": true,
@@ -19,7 +19,7 @@
     "Linters"
   ],
   "keywords": [
-    "docspp",
+    "idocs",
     "architecture",
     "diagram",
     "diagrams",
@@ -29,12 +29,12 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/AhmeddBasemm/docspp.git",
+    "url": "git+https://github.com/The-Package-Labs/idocs.git",
     "directory": "extensions/vscode"
   },
-  "homepage": "https://github.com/AhmeddBasemm/docspp/tree/main/extensions/vscode#readme",
+  "homepage": "https://github.com/The-Package-Labs/idocs/tree/main/extensions/vscode#readme",
   "bugs": {
-    "url": "https://github.com/AhmeddBasemm/docspp/issues"
+    "url": "https://github.com/The-Package-Labs/idocs/issues"
   },
   "engines": {
     "vscode": "^1.90.0"
@@ -44,15 +44,15 @@
   ],
   "main": "./dist/extension.js",
   "activationEvents": [
-    "onLanguage:docspp",
+    "onLanguage:idocs",
     "workspaceContains:**/diagrams/*/diagram.yaml",
     "workspaceContains:**/diagrams/*/diagram.yml",
-    "onWebviewPanel:docspp.preview"
+    "onWebviewPanel:idocs.preview"
   ],
   "capabilities": {
     "virtualWorkspaces": {
       "supported": false,
-      "description": "docspp reads the files of a diagram folder from disk."
+      "description": "idocs reads the files of a diagram folder from disk."
     },
     "untrustedWorkspaces": {
       "supported": true
@@ -61,10 +61,10 @@
   "contributes": {
     "languages": [
       {
-        "id": "docspp",
+        "id": "idocs",
         "aliases": [
-          "docspp",
-          "docspp diagram"
+          "idocs",
+          "idocs diagram"
         ],
         "filenamePatterns": [
           "**/diagrams/*/diagram.yaml",
@@ -81,174 +81,174 @@
     ],
     "grammars": [
       {
-        "language": "docspp",
-        "scopeName": "source.docspp",
-        "path": "./syntaxes/docspp.tmLanguage.json",
+        "language": "idocs",
+        "scopeName": "source.idocs",
+        "path": "./syntaxes/idocs.tmLanguage.json",
         "embeddedLanguages": {
           "meta.embedded.block.markdown": "markdown"
         }
       },
       {
-        "scopeName": "markdown.docspp.codeblock",
-        "path": "./syntaxes/docspp-markdown.injection.tmLanguage.json",
+        "scopeName": "markdown.idocs.codeblock",
+        "path": "./syntaxes/idocs-markdown.injection.tmLanguage.json",
         "injectTo": [
           "text.html.markdown"
         ],
         "embeddedLanguages": {
-          "meta.embedded.block.docspp": "docspp"
+          "meta.embedded.block.idocs": "idocs"
         }
       }
     ],
     "snippets": [
       {
-        "language": "docspp",
-        "path": "./snippets/docspp.code-snippets"
+        "language": "idocs",
+        "path": "./snippets/idocs.code-snippets"
       }
     ],
     "commands": [
       {
-        "command": "docspp.openPreview",
+        "command": "idocs.openPreview",
         "title": "Open Preview",
-        "category": "docspp",
+        "category": "idocs",
         "icon": "$(open-preview)"
       },
       {
-        "command": "docspp.openPreviewToSide",
+        "command": "idocs.openPreviewToSide",
         "title": "Open Preview to the Side",
-        "category": "docspp",
+        "category": "idocs",
         "icon": "$(open-preview)"
       },
       {
-        "command": "docspp.lockPreview",
+        "command": "idocs.lockPreview",
         "title": "Keep Preview on This Diagram",
-        "category": "docspp",
+        "category": "idocs",
         "icon": "$(unlock)"
       },
       {
-        "command": "docspp.unlockPreview",
+        "command": "idocs.unlockPreview",
         "title": "Let Preview Follow the Active Diagram",
-        "category": "docspp",
+        "category": "idocs",
         "icon": "$(lock)"
       },
       {
-        "command": "docspp.refreshPreview",
+        "command": "idocs.refreshPreview",
         "title": "Refresh Preview",
-        "category": "docspp",
+        "category": "idocs",
         "icon": "$(refresh)"
       },
       {
-        "command": "docspp.newDiagram",
+        "command": "idocs.newDiagram",
         "title": "New Diagram",
-        "category": "docspp",
+        "category": "idocs",
         "icon": "$(new-file)"
       },
       {
-        "command": "docspp.insertIcon",
+        "command": "idocs.insertIcon",
         "title": "Insert Icon",
-        "category": "docspp"
+        "category": "idocs"
       },
       {
-        "command": "docspp.checkAll",
+        "command": "idocs.checkAll",
         "title": "Check All Diagrams",
-        "category": "docspp"
+        "category": "idocs"
       },
       {
-        "command": "docspp.showOutput",
+        "command": "idocs.showOutput",
         "title": "Show Output",
-        "category": "docspp"
+        "category": "idocs"
       }
     ],
     "menus": {
       "editor/title": [
         {
-          "command": "docspp.openPreviewToSide",
-          "when": "editorLangId == docspp && !docspp.previewOpen",
+          "command": "idocs.openPreviewToSide",
+          "when": "editorLangId == idocs && !idocs.previewOpen",
           "group": "navigation@1"
         },
         {
-          "command": "docspp.lockPreview",
-          "when": "activeWebviewPanelId == docspp.preview && !docspp.previewLocked",
+          "command": "idocs.lockPreview",
+          "when": "activeWebviewPanelId == idocs.preview && !idocs.previewLocked",
           "group": "navigation@1"
         },
         {
-          "command": "docspp.unlockPreview",
-          "when": "activeWebviewPanelId == docspp.preview && docspp.previewLocked",
+          "command": "idocs.unlockPreview",
+          "when": "activeWebviewPanelId == idocs.preview && idocs.previewLocked",
           "group": "navigation@1"
         },
         {
-          "command": "docspp.refreshPreview",
-          "when": "activeWebviewPanelId == docspp.preview",
+          "command": "idocs.refreshPreview",
+          "when": "activeWebviewPanelId == idocs.preview",
           "group": "navigation@2"
         }
       ],
       "explorer/context": [
         {
-          "command": "docspp.openPreviewToSide",
+          "command": "idocs.openPreviewToSide",
           "when": "resourceFilename =~ /^diagram\\.ya?ml$/",
           "group": "navigation@50"
         }
       ],
       "editor/context": [
         {
-          "command": "docspp.openPreviewToSide",
-          "when": "editorLangId == docspp",
-          "group": "docspp@1"
+          "command": "idocs.openPreviewToSide",
+          "when": "editorLangId == idocs",
+          "group": "idocs@1"
         },
         {
-          "command": "docspp.insertIcon",
-          "when": "editorLangId == docspp",
-          "group": "docspp@2"
+          "command": "idocs.insertIcon",
+          "when": "editorLangId == idocs",
+          "group": "idocs@2"
         }
       ],
       "commandPalette": [
         {
-          "command": "docspp.lockPreview",
-          "when": "docspp.previewOpen && !docspp.previewLocked"
+          "command": "idocs.lockPreview",
+          "when": "idocs.previewOpen && !idocs.previewLocked"
         },
         {
-          "command": "docspp.unlockPreview",
-          "when": "docspp.previewOpen && docspp.previewLocked"
+          "command": "idocs.unlockPreview",
+          "when": "idocs.previewOpen && idocs.previewLocked"
         },
         {
-          "command": "docspp.refreshPreview",
-          "when": "docspp.previewOpen"
+          "command": "idocs.refreshPreview",
+          "when": "idocs.previewOpen"
         },
         {
-          "command": "docspp.insertIcon",
-          "when": "editorLangId == docspp"
+          "command": "idocs.insertIcon",
+          "when": "editorLangId == idocs"
         }
       ]
     },
     "keybindings": [
       {
-        "command": "docspp.openPreview",
+        "command": "idocs.openPreview",
         "key": "ctrl+shift+v",
         "mac": "cmd+shift+v",
-        "when": "editorLangId == docspp"
+        "when": "editorLangId == idocs"
       },
       {
-        "command": "docspp.openPreviewToSide",
+        "command": "idocs.openPreviewToSide",
         "key": "ctrl+k v",
         "mac": "cmd+k v",
-        "when": "editorLangId == docspp && !terminalFocus"
+        "when": "editorLangId == idocs && !terminalFocus"
       }
     ],
     "configuration": {
-      "title": "docspp",
+      "title": "idocs",
       "properties": {
-        "docspp.diagnostics.enable": {
+        "idocs.diagnostics.enable": {
           "type": "boolean",
           "default": true,
-          "markdownDescription": "Check diagrams as you type and show errors and warnings in the Problems panel. The same checks run with `docspp check`."
+          "markdownDescription": "Check diagrams as you type and show errors and warnings in the Problems panel. The same checks run with `idocs check`."
         },
-        "docspp.updateDelay": {
+        "idocs.updateDelay": {
           "type": "number",
           "default": 250,
           "minimum": 0,
           "maximum": 5000,
           "markdownDescription": "Milliseconds to wait after typing before checking the diagram and updating the preview."
         },
-        "docspp.preview.refreshOn": {
+        "idocs.preview.refreshOn": {
           "type": "string",
           "enum": [
             "type",
@@ -261,7 +261,7 @@
           ],
           "markdownDescription": "When the preview shows your changes. Problems are always checked as you type."
         },
-        "docspp.preview.followCursor": {
+        "idocs.preview.followCursor": {
           "type": "boolean",
           "default": true,
           "markdownDescription": "Outline the node in the preview that the editor cursor is in."
@@ -269,7 +269,7 @@
       }
     },
     "configurationDefaults": {
-      "[docspp]": {
+      "[idocs]": {
         "editor.tabSize": 2,
         "editor.insertSpaces": true,
         "editor.quickSuggestions": {
@@ -282,53 +282,53 @@
     },
     "walkthroughs": [
       {
-        "id": "docspp.start",
-        "title": "Get started with docspp",
+        "id": "idocs.start",
+        "title": "Get started with idocs",
         "description": "Write an architecture diagram and watch it draw itself.",
         "steps": [
           {
             "id": "create",
             "title": "Start a diagram",
-            "description": "Create a diagram folder with a small working example.\n[New Diagram](command:docspp.newDiagram)",
+            "description": "Create a diagram folder with a small working example.\n[New Diagram](command:idocs.newDiagram)",
             "media": {
               "markdown": "walkthrough/create.md"
             },
             "completionEvents": [
-              "onCommand:docspp.newDiagram"
+              "onCommand:idocs.newDiagram"
             ]
           },
           {
             "id": "preview",
             "title": "See it as you type",
-            "description": "Open the live preview beside the file.\n[Open Preview to the Side](command:docspp.openPreviewToSide)",
+            "description": "Open the live preview beside the file.\n[Open Preview to the Side](command:idocs.openPreviewToSide)",
             "media": {
               "markdown": "walkthrough/preview.md"
             },
             "completionEvents": [
-              "onCommand:docspp.openPreviewToSide",
-              "onCommand:docspp.openPreview"
+              "onCommand:idocs.openPreviewToSide",
+              "onCommand:idocs.openPreview"
             ]
           },
           {
             "id": "write",
             "title": "Write faster",
-            "description": "Completion, hover, rename and go to definition work on node ids, kinds and icons.\n[Insert Icon](command:docspp.insertIcon)",
+            "description": "Completion, hover, rename and go to definition work on node ids, kinds and icons.\n[Insert Icon](command:idocs.insertIcon)",
             "media": {
               "markdown": "walkthrough/write.md"
             },
             "completionEvents": [
-              "onCommand:docspp.insertIcon"
+              "onCommand:idocs.insertIcon"
             ]
           },
           {
             "id": "check",
             "title": "Check your work",
-            "description": "Problems show as you type; check every diagram at once.\n[Check All Diagrams](command:docspp.checkAll)",
+            "description": "Problems show as you type; check every diagram at once.\n[Check All Diagrams](command:idocs.checkAll)",
             "media": {
               "markdown": "walkthrough/check.md"
             },
             "completionEvents": [
-              "onCommand:docspp.checkAll"
+              "onCommand:idocs.checkAll"
             ]
           }
         ]
@@ -347,8 +347,8 @@
     "@iconify-json/logos": "^1.2.15",
     "@iconify-json/lucide": "^1.2.141",
     "@iconify-json/simple-icons": "^1.2.99",
-    "@packagelab/docspp-core": "workspace:^",
-    "@packagelab/docspp-react": "workspace:^",
+    "@packagelab/idocs-core": "workspace:^",
+    "@packagelab/idocs-react": "workspace:^",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "@types/vscode": "1.90.0",

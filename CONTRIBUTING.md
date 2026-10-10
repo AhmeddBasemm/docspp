@@ -1,4 +1,4 @@
-# Contributing to docspp
+# Contributing to idocs
 
 Thank you for wanting to help. Bug reports, fixes, documentation, new ideas and questions are all contributions, and all of them are welcome.
 
@@ -6,8 +6,8 @@ By taking part you agree to follow the [Code of Conduct](CODE_OF_CONDUCT.md). Fo
 
 ## Ways to help
 
-- **Report a bug.** Use the [bug report form](https://github.com/AhmeddBasemm/docspp/issues/new?template=bug_report.yml). The most useful thing you can attach is the smallest `diagram.yaml` that shows the problem, plus the output of `pnpm docspp check --json`.
-- **Suggest a feature.** Use the [feature request form](https://github.com/AhmeddBasemm/docspp/issues/new?template=feature_request.yml) and describe the diagram you are trying to draw. The problem matters more than the proposed solution.
+- **Report a bug.** Use the [bug report form](https://github.com/The-Package-Labs/idocs/issues/new?template=bug_report.yml). The most useful thing you can attach is the smallest `diagram.yaml` that shows the problem, plus the output of `pnpm idocs check --json`.
+- **Suggest a feature.** Use the [feature request form](https://github.com/The-Package-Labs/idocs/issues/new?template=feature_request.yml) and describe the diagram you are trying to draw. The problem matters more than the proposed solution.
 - **Improve the docs.** The guides live in [`apps/docs/src/content/docs`](apps/docs/src/content/docs). Fixing a confusing sentence is a real contribution.
 - **Fix something.** Look for issues labelled `good first issue` or `help wanted`. If nobody is assigned, say you are picking it up.
 
@@ -18,8 +18,8 @@ For anything bigger than a small fix, please open an issue first so we can agree
 You need Node 22 or newer and [pnpm](https://pnpm.io). End-to-end tests also need Google Chrome.
 
 ```sh
-git clone https://github.com/AhmeddBasemm/docspp.git
-cd docspp
+git clone https://github.com/The-Package-Labs/idocs.git
+cd idocs
 pnpm install
 pnpm dev
 ```
@@ -35,12 +35,12 @@ pnpm refuses package releases that are very new (a minimum release age). If an i
 | `packages/core` | schema, compiler, layout, edge router, scenario timeline, story model. No UI |
 | `packages/react` | `DiagramView`, its parts and `styles.css` |
 | `packages/astro` | the Astro integration and `<Diagram>` |
-| `packages/cli` | the `docspp` command |
+| `packages/cli` | the `idocs` command |
 | `extensions/vscode` | the VS Code extension; see its [DEVELOPMENT.md](extensions/vscode/DEVELOPMENT.md) |
-| `packages/create-docspp` | `npm create docspp` |
+| `packages/create-idocs` | `npm create idocs` |
 | `apps/docs` | landing page, guides, live examples and the end-to-end tests |
 | `templates/starter` | the project new users start from |
-| `skills/docspp` | the agent skill |
+| `skills/idocs` | the agent skill |
 
 There is a longer tour, with the rationale for each rule below, in [CLAUDE.md](CLAUDE.md) and [docs/REPOSITORIES.md](docs/REPOSITORIES.md).
 
@@ -75,7 +75,7 @@ Restart `pnpm dev` after editing compile code in `packages/core`. Layout and ren
 
 These keep the project working. A pull request that breaks one will be asked to change.
 
-- **`@packagelab/docspp-core`'s main entry stays browser-safe.** Nothing reachable from `src/index.ts` may import `node:*`, `yaml`, `zod`, Iconify or unified. They belong behind `src/node.ts`.
+- **`@packagelab/idocs-core`'s main entry stays browser-safe.** Nothing reachable from `src/index.ts` may import `node:*`, `yaml`, `zod`, Iconify or unified. They belong behind `src/node.ts`.
 - **The timeline and the story model are pure.** `buildTimeline`, `frameAt` and `buildStory` hold the logic; React components only draw. Add behaviour to the model with a test, not to a component.
 - **Compiled output is JSON.** No functions, classes, Maps or Dates in `CompiledDiagram`: it crosses the server and client boundary as props.
 - **Validate in the compiler, not the renderer.** A diagram that compiles must render. Error messages should name the file, line and column and suggest a fix.
@@ -86,11 +86,11 @@ These keep the project working. A pull request that breaks one will be asked to 
 ### When you change the format or the CLI
 
 - Update the guides in `apps/docs`.
-- Update the skill in `skills/docspp` (edit it there, not through the `.claude/skills` symlink). A test compares it with the code and fails when they drift.
+- Update the skill in `skills/idocs` (edit it there, not through the `.claude/skills` symlink). A test compares it with the code and fails when they drift.
 - If you changed the schema, regenerate the editor schemas. A test fails when they are stale:
 
   ```sh
-  pnpm docspp schema apps/docs && pnpm docspp schema templates/starter
+  pnpm idocs schema apps/docs && pnpm idocs schema templates/starter
   ```
 
 - The starter template is generated from `templates/starter`. Edit it there. Keep it minimal and free of tool documentation.
@@ -124,8 +124,8 @@ Maintainers release. In short: changesets accumulate on `main`, `pnpm changeset 
 
 ## Licensing
 
-docspp is released under the [MIT License](LICENSE). By submitting a contribution you agree that it is licensed under the same terms, and that you have the right to submit it.
+idocs is released under the [MIT License](LICENSE). By submitting a contribution you agree that it is licensed under the same terms, and that you have the right to submit it.
 
 ## Recognition
 
-Contributors are listed in [CONTRIBUTORS.md](CONTRIBUTORS.md) and on the [contributors graph](https://github.com/AhmeddBasemm/docspp/graphs/contributors). Thank you.
+Contributors are listed in [CONTRIBUTORS.md](CONTRIBUTORS.md) and on the [contributors graph](https://github.com/The-Package-Labs/idocs/graphs/contributors). Thank you.

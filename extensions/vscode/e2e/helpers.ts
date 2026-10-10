@@ -3,8 +3,8 @@ import { copyFileSync, mkdirSync, mkdtempSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import type { CompiledDiagram } from '@packagelab/docspp-core'
-import { loadIconSets } from '@packagelab/docspp-core/node'
+import type { CompiledDiagram } from '@packagelab/idocs-core'
+import { loadIconSets } from '@packagelab/idocs-core/node'
 import { type Browser, chromium, type Page } from 'playwright-core'
 import { serve } from '../../../scripts/static-server.mjs'
 import { compileFolder } from '../src/model/compile'
@@ -53,7 +53,7 @@ export interface Server {
 /** Build the webview, serve it as the extension would, and start Chrome. */
 export async function start(port: number): Promise<Server> {
   execFileSync('node', ['scripts/build.mjs'], { cwd: extensionRoot, stdio: 'ignore' })
-  const dir = mkdtempSync(join(tmpdir(), 'docspp-webview-'))
+  const dir = mkdtempSync(join(tmpdir(), 'idocs-webview-'))
   mkdirSync(join(dir, 'dist/webview'), { recursive: true })
   for (const f of ['main.js', 'main.css']) {
     copyFileSync(join(extensionRoot, 'dist/webview', f), join(dir, 'dist/webview', f))
@@ -65,7 +65,7 @@ export async function start(port: number): Promise<Server> {
     cspSource: base,
     script: `${base}/dist/webview/main.js`,
     style: `${base}/dist/webview/main.css`,
-    title: 'docspp preview',
+    title: 'idocs preview',
   })
   writeFileSync(join(dir, 'index.html'), html)
   const server = await serve(dir, port)

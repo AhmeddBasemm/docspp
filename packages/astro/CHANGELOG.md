@@ -1,4 +1,6 @@
-# @packagelab/docspp-astro
+# @packagelab/idocs-astro
+
+Versions up to 0.2.0 were published as `@packagelab/docspp-astro`.
 
 ## 0.2.0
 

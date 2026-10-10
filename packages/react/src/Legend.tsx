@@ -1,4 +1,4 @@
-import type { CompiledDiagram, CompiledView } from '@packagelab/docspp-core'
+import type { CompiledDiagram, CompiledView } from '@packagelab/idocs-core'
 import { colorVar } from './util'
 
 export function Legend({ diagram, view }: { diagram: CompiledDiagram; view: CompiledView }) {
@@ -9,7 +9,7 @@ export function Legend({ diagram, view }: { diagram: CompiledDiagram; view: Comp
     view.nodeIds.some((id) => diagram.nodes[id]!.status === 'planned')
   if (kinds.length === 0 && !planned) return null
   return (
-    <div className="docspp-legend" role="group" aria-label="Legend">
+    <div className="idocs-legend" role="group" aria-label="Legend">
       {kinds.map((k) => {
         const def = diagram.edgeKinds[k]!
         const color = colorVar(def.color)
@@ -40,11 +40,11 @@ export function Legend({ diagram, view }: { diagram: CompiledDiagram; view: Comp
               y1="6"
               x2="34"
               y2="6"
-              stroke="var(--docspp-accent)"
+              stroke="var(--idocs-accent)"
               strokeWidth="2"
               strokeDasharray="6 5"
             />
-            <path d="M32 2L41 6L32 10z" fill="var(--docspp-accent)" />
+            <path d="M32 2L41 6L32 10z" fill="var(--idocs-accent)" />
           </svg>
           Dashed: planned
         </span>

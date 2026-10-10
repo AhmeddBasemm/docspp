@@ -1,6 +1,6 @@
 # Troubleshooting
 
-Run `docspp check --json` first. Each message has a file, line, column and often a hint.
+Run `idocs check --json` first. Each message has a file, line, column and often a hint.
 
 ## Diagram errors
 
@@ -17,7 +17,7 @@ Run `docspp check --json` first. Each message has a file, line, column and often
 | `Groups are nested in a cycle` | A group's `in:` chain loops back on itself. |
 | `Edge id "e" is used twice` | Give edges distinct ids or drop the ids. |
 | `Unknown edge kind "x"` | Use a built-in kind or define it under `edgeKinds:`. |
-| warning `Unknown icon "x"` | `docspp icons search x`, then use the suggested name. |
+| warning `Unknown icon "x"` | `idocs icons search x`, then use the suggested name. |
 | warning `Doc file "x" was not found` | A `doc:` path that does not exist. Paths are relative to the diagram folder. |
 | warning `... appears in the story but is in no lane` | A `lanes:` list that leaves out a node the scenario uses. Add it to a lane or ignore: it gets its own lane at the end. |
 | warning `Node "x" cites "src/y.ts", which does not exist` | A `refs:` path that moved. Update the diagram or the reference. |
@@ -41,9 +41,9 @@ Run `docspp check --json` first. Each message has a file, line, column and often
 | Symptom | Check |
 |---|---|
 | `<Diagram name="x"> does not match a diagram` | The folder name differs. The error lists the available names. |
-| Build fails with `Diagram errors:` | Run `docspp check`; the build fails on any diagram error by design. |
+| Build fails with `Diagram errors:` | Run `idocs check`; the build fails on any diagram error by design. |
 | The diagram shows "Loading diagram..." and never appears | A browser console error. Is `react()` from `@astrojs/react` in `astro.config.mjs`? |
-| Edits to a diagram do not show in dev | Save the file again; if the compiler itself changed (a docspp upgrade), restart the dev server. |
-| The page is narrow with a tiny diagram | The Starlight content column. Add `@packagelab/docspp-astro/starlight.css` to Starlight's `customCss`. |
-| Fonts differ from the screenshots | The templates use IBM Plex via `@fontsource/ibm-plex-sans` and `-mono`; add them or set `--docspp-sans` and `--docspp-mono`. |
-| Diagram looks blurry when zoomed | Use the current `@packagelab/docspp-react`; older builds kept the zoom layer on the GPU. |
+| Edits to a diagram do not show in dev | Save the file again; if the compiler itself changed (an idocs upgrade), restart the dev server. |
+| The page is narrow with a tiny diagram | The Starlight content column. Add `@packagelab/idocs-astro/starlight.css` to Starlight's `customCss`. |
+| Fonts differ from the screenshots | The templates use IBM Plex via `@fontsource/ibm-plex-sans` and `-mono`; add them or set `--idocs-sans` and `--idocs-mono`. |
+| Diagram looks blurry when zoomed | Use the current `@packagelab/idocs-react`; older builds kept the zoom layer on the GPU. |

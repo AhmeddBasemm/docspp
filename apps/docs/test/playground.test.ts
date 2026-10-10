@@ -1,8 +1,8 @@
 import {
   compileDiagram as compileBrowser,
   createIconResolver,
-} from '@packagelab/docspp-core/browser'
-import { compileDiagram, loadIconSets } from '@packagelab/docspp-core/node'
+} from '@packagelab/idocs-core/browser'
+import { compileDiagram, loadIconSets } from '@packagelab/idocs-core/node'
 import { describe, expect, it } from 'vitest'
 import { examples } from '../src/components/playground/examples'
 import {

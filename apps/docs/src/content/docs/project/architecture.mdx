@@ -5,17 +5,17 @@ tableOfContents:
   maxHeadingLevel: 2
 ---
 
-import Diagram from '@packagelab/docspp-astro/Diagram.astro'
+import Diagram from '@packagelab/idocs-astro/Diagram.astro'
 import { Aside } from '@astrojs/starlight/components'
 
-This page is for contributors and the curious. You do not need any of it to use docspp.
+This page is for contributors and the curious. You do not need any of it to use idocs.
 
 ## The pipeline
 
 <Diagram name="pipeline" scenario="build" maxHeight={560} />
 
-1. **Compile, on the server.** `@packagelab/docspp-core/node` reads `diagram.yaml`, expands shorthand, validates it with a Zod schema and resolves icons and Markdown. The result is a `CompiledDiagram`: plain JSON.
-2. **Hand over.** The Astro integration exposes every compiled diagram as `virtual:docspp/diagrams` and fails the build on errors. `<Diagram>` passes one diagram to a React island as props.
+1. **Compile, on the server.** `@packagelab/idocs-core/node` reads `diagram.yaml`, expands shorthand, validates it with a Zod schema and resolves icons and Markdown. The result is a `CompiledDiagram`: plain JSON.
+2. **Hand over.** The Astro integration exposes every compiled diagram as `virtual:idocs/diagrams` and fails the build on errors. `<Diagram>` passes one diagram to a React island as props.
 3. **Measure and lay out, in the browser.** The island renders each card offscreen at its fixed width to learn its height, then calls `layoutView`. That runs ELK once per group, bottom up, then arranges the zones and routes the edges ELK cannot see.
 4. **Play.** `buildTimeline(scenario, edgeLengths)` turns a scenario into a timeline. `frameAt(timeline, t)` turns a time into a frame: where each packet is, which nodes are lit. The player is a clock that advances `t`.
 
@@ -25,10 +25,10 @@ This page is for contributors and the curious. You do not need any of it to use 
 packages/core     schema, compiler, layout, router, timeline. No UI.
   src/index.ts    browser-safe entry: types, layout, route, timeline, geometry
   src/node.ts     node-only entry: YAML, Zod, compiler, icons, loader
-packages/react    <DiagramView> and its parts, plus styles.css (all tokens are --docspp-*)
+packages/react    <DiagramView> and its parts, plus styles.css (all tokens are --idocs-*)
 packages/astro    Astro integration (a Vite plugin) and <Diagram>
-packages/cli      the docspp command
-packages/create-docspp   npm create docspp; carries a copy of the template
+packages/cli      the idocs command
+packages/create-idocs   npm create idocs; carries a copy of the template
 ```
 
 ## Rules that keep it working
@@ -37,7 +37,7 @@ packages/create-docspp   npm create docspp; carries a copy of the template
 - **Compiled output is JSON.** It crosses the server and client boundary as island props: no functions, classes, Maps or Dates.
 - **The timeline is pure.** `buildTimeline` and `frameAt` hold all playback logic. The React player only runs the clock, which makes scrubbing, stepping and testing trivial.
 - **The story model is pure too.** `buildStory(diagram, scenario)` turns a scenario into lanes, boxes and links. The view only measures the DOM and draws connectors over it.
-- **Layout is group by group, bottom up.** Flow groups use ELK, `rows` and `row`/`grid` groups are packed by docspp, zones are arranged by one more ELK run, and every edge ELK cannot see end to end goes through the router.
+- **Layout is group by group, bottom up.** Flow groups use ELK, `rows` and `row`/`grid` groups are packed by idocs, zones are arranged by one more ELK run, and every edge ELK cannot see end to end goes through the router.
 - **Validate in the compiler, not the renderer.** A diagram that compiles must render.
 - **Raw HTML in Markdown is dropped on purpose.** Compiled docs are injected into the page.
 - **Never leave `will-change: transform` on the zoomed layer.** It makes the browser scale a bitmap, which blurs everything when zoomed in. The canvas sets it only while panning or zooming, and an end-to-end test guards the resting state.
@@ -50,7 +50,7 @@ packages/create-docspp   npm create docspp; carries a copy of the template
 
 **Model, views, scenarios.** A node is written once. Views choose subsets, and scenarios play over a view. This is what keeps a large system maintainable.
 
-**Layout by group, not one ELK run.** A single run over the whole hierarchy forces one direction on every zone. A platform-style diagram came out about three times too wide (3500 px against 1800 px) until each zone was laid out separately and the zones arranged afterwards. The price is routing the edges between zones in docspp's own router. `rows:` exists because explicit rows are how people draw stacks, and ELK cannot do that on its own.
+**Layout by group, not one ELK run.** A single run over the whole hierarchy forces one direction on every zone. A platform-style diagram came out about three times too wide (3500 px against 1800 px) until each zone was laid out separately and the zones arranged afterwards. The price is routing the edges between zones in idocs's own router. `rows:` exists because explicit rows are how people draw stacks, and ELK cannot do that on its own.
 
 **Hints, never coordinates.** Declaration order, `rows`, `layout: row` and `grid`, `direction` and `w`. If a diagram needs more than that, the model is probably too big for one picture.
 

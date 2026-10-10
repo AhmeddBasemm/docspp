@@ -6,8 +6,8 @@ import { NAME_PATTERN, newDiagramFiles } from '../src/model/scaffold'
 import { makeProject } from './helpers/project'
 
 describe('newDiagramFiles', () => {
-  // `docspp new` is the reference; the editor command must create the same thing.
-  it('creates the same files as `docspp new`', async () => {
+  // `idocs new` is the reference; the editor command must create the same thing.
+  it('creates the same files as `idocs new`', async () => {
     const root = makeProject({})
     vi.spyOn(console, 'log').mockImplementation(() => {})
     expect(await run(['new', 'demo', root])).toBe(0)

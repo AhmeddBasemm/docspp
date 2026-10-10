@@ -1,13 +1,13 @@
 ---
 title: Publishing
-description: Deploy a docspp site to GitHub Pages or any static host, with a custom domain or a project path.
+description: Deploy an idocs site to GitHub Pages or any static host, with a custom domain or a project path.
 tableOfContents:
   maxHeadingLevel: 2
 ---
 
 import { Steps, Tabs, TabItem, Aside } from '@astrojs/starlight/components'
 
-A docspp site is a static Astro site. `pnpm build` writes it to `dist/`, and any host that serves files can serve it.
+An idocs site is a static Astro site. `pnpm build` writes it to `dist/`, and any host that serves files can serve it.
 
 ```sh
 pnpm check     # validate every diagram
@@ -36,7 +36,7 @@ GitHub Pages on a private repository needs a paid GitHub plan. On a free plan, u
 
 ### When the docs live in a subfolder
 
-GitHub only runs workflows from the `.github/workflows/` folder at the root of a repository. If the docspp project sits in a folder of a larger repository (say `docs/`), the starter's workflow never runs there. Move it to the repository root and point each step at the folder:
+GitHub only runs workflows from the `.github/workflows/` folder at the root of a repository. If the idocs project sits in a folder of a larger repository (say `docs/`), the starter's workflow never runs there. Move it to the repository root and point each step at the folder:
 
 ```yaml
 on:
@@ -64,7 +64,7 @@ defaults:
 
 `BASE_PATH` stays `/<repo>`, because the folder is not part of the published address.
 
-If a node cites code in a sibling repository, give `refs:` the repository's URL instead of a relative path. `docspp check` only looks for paths, so `pnpm check --strict` keeps passing in a checkout that has no neighbours.
+If a node cites code in a sibling repository, give `refs:` the repository's URL instead of a relative path. `idocs check` only looks for paths, so `pnpm check --strict` keeps passing in a checkout that has no neighbours.
 
 ### Project pages and the base path
 
@@ -122,7 +122,7 @@ pnpm preview
 3. Bundles the icons it uses and renders node docs and notes to HTML.
 4. Passes the compiled diagram, as JSON, to the page that embeds it.
 
-Warnings, such as an unknown icon or a stale `refs:` path, are printed but do not stop the build. To fail on warnings too, run `pnpm docspp check --strict` before the build.
+Warnings, such as an unknown icon or a stale `refs:` path, are printed but do not stop the build. To fail on warnings too, run `pnpm idocs check --strict` before the build.
 
 ## Keeping it fast
 

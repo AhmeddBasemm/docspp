@@ -1,7 +1,7 @@
-/* Your theme. Override --docspp-* tokens to restyle every diagram, for example:
+/* Your theme. Override --idocs-* tokens to restyle every diagram, for example:
 
-   .docspp { --docspp-accent: #7a4ec4; }
-   :root[data-theme='dark'] .docspp { --docspp-accent: #b79bf0; }
+   .idocs { --idocs-accent: #7a4ec4; }
+   :root[data-theme='dark'] .idocs { --idocs-accent: #b79bf0; }
 */
 :root {
   --sl-color-accent-high: #0a6f8f;

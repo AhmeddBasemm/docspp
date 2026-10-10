@@ -9,7 +9,7 @@ tableOfContents:
 
 ## \<Diagram\>
 
-Imported from `@packagelab/docspp-astro/Diagram.astro`. See [the Diagram component](../../embed/diagram-component/) for how to use it.
+Imported from `@packagelab/idocs-astro/Diagram.astro`. See [the Diagram component](../../embed/diagram-component/) for how to use it.
 
 | Prop | Type | Default | Description |
 |---|---|---|---|
@@ -27,7 +27,7 @@ The component loads its interactive part with `client:visible`. Do not add a `cl
 
 ## \<DiagramView\>
 
-Imported from `@packagelab/docspp-react`. The same component, for use outside Astro. See [using the React component](../../embed/react/).
+Imported from `@packagelab/idocs-react`. The same component, for use outside Astro. See [using the React component](../../embed/react/).
 
 | Prop | Type | Default | Description |
 |---|---|---|---|
@@ -47,21 +47,21 @@ Imported from `@packagelab/docspp-react`. The same component, for use outside As
 ## The Astro integration
 
 ```js
-import docspp from '@packagelab/docspp-astro'
+import idocs from '@packagelab/idocs-astro'
 
-docspp({ dir: 'diagrams' })
+idocs({ dir: 'diagrams' })
 ```
 
 | Option | Type | Default | Description |
 |---|---|---|---|
 | `dir` | string | `'diagrams'` | The folder with one sub-folder per diagram, relative to the project root. |
 
-The integration compiles that folder into a virtual module, fails `astro build` on any diagram error, prints warnings, and reloads the dev server when a diagram file changes. Restart `pnpm dev` after upgrading docspp, because the compiler is loaded once at startup.
+The integration compiles that folder into a virtual module, fails `astro build` on any diagram error, prints warnings, and reloads the dev server when a diagram file changes. Restart `pnpm dev` after upgrading idocs, because the compiler is loaded once at startup.
 
 ### The virtual module
 
 ```ts
-import { diagrams, diagnostics } from 'virtual:docspp/diagrams'
+import { diagrams, diagnostics } from 'virtual:idocs/diagrams'
 ```
 
 | Export | Description |
@@ -69,11 +69,11 @@ import { diagrams, diagnostics } from 'virtual:docspp/diagrams'
 | `diagrams` | A map from diagram name to `CompiledDiagram`. Also the default export. |
 | `diagnostics` | Every error and warning from the last compile. |
 
-Add `/// <reference types="@packagelab/docspp-astro/virtual" />` to `src/env.d.ts` for the types. This is how a page can read a diagram's metadata at build time, for example to show how many nodes it has.
+Add `/// <reference types="@packagelab/idocs-astro/virtual" />` to `src/env.d.ts` for the types. This is how a page can read a diagram's metadata at build time, for example to show how many nodes it has.
 
 ## Stylesheets
 
 | File | What it is |
 |---|---|
-| `@packagelab/docspp-react/styles.css` | The renderer's styles and every `--docspp-*` token. Imported by `<Diagram>` for you. |
-| `@packagelab/docspp-astro/starlight.css` | Widens Starlight's content column for diagrams and holds prose to a readable width. Add it to Starlight's `customCss`. |
+| `@packagelab/idocs-react/styles.css` | The renderer's styles and every `--idocs-*` token. Imported by `<Diagram>` for you. |
+| `@packagelab/idocs-astro/starlight.css` | Widens Starlight's content column for diagrams and holds prose to a readable width. Add it to Starlight's `customCss`. |

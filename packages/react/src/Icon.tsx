@@ -1,4 +1,4 @@
-import { type IconData, scopeSvgIds } from '@packagelab/docspp-core'
+import { type IconData, scopeSvgIds } from '@packagelab/idocs-core'
 import { useId, useMemo } from 'react'
 import { cx } from './util'
 
@@ -20,7 +20,7 @@ export function Icon({ icon, className }: { icon: IconData; className?: string }
 
 export function IconTile({ icon }: { icon: IconData }) {
   return (
-    <span className={cx('docspp-icon', icon.mono ? 'is-mono' : 'is-brand')}>
+    <span className={cx('idocs-icon', icon.mono ? 'is-mono' : 'is-brand')}>
       <Icon icon={icon} />
     </span>
   )

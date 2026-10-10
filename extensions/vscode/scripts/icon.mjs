@@ -1,4 +1,4 @@
-// Renders images/icon.png, the extension's marketplace icon: the docspp mark on a dark tile.
+// Renders images/icon.png, the extension's marketplace icon: the idocs mark on a dark tile.
 // The marketplace takes PNG only. Run `node scripts/icon.mjs` after changing images/icon-dark.svg.
 // Needs Google Chrome.
 import { readFileSync } from 'node:fs'

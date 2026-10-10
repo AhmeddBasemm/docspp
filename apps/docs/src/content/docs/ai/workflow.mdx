@@ -30,7 +30,7 @@ The agent never has to guess whether a diagram is valid:
 1. **See what exists.**
 
    ```sh
-   pnpm docspp list --json
+   pnpm idocs list --json
    ```
 
    It lists every diagram with its views and scenarios, so the agent extends a diagram instead of starting a second one for the same system.
@@ -40,21 +40,21 @@ The agent never has to guess whether a diagram is valid:
 3. **Check.**
 
    ```sh
-   pnpm docspp check --json
+   pnpm idocs check --json
    ```
 
    Every message has a file, a line and a column, and often a suggestion:
 
    ```text
    diagrams/checkout/diagram.yaml:8:29  warning  Unknown icon "strpe"
-       Run `docspp icons search <name>` to find one.
+       Run `idocs icons search <name>` to find one.
    diagrams/checkout/diagram.yaml:13:5  error  Edge to "paymnts" is not a node
    ```
 
 4. **Find icons** it is unsure of.
 
    ```sh
-   pnpm docspp icons search kafka
+   pnpm idocs icons search kafka
    ```
 
 5. **Look.** It opens the page, views the rendered diagram with a browser tool if it has one, and fixes crowding with [layout hints](../../layout/hints/), not coordinates.
@@ -62,14 +62,14 @@ The agent never has to guess whether a diagram is valid:
 6. **Finish strictly.**
 
    ```sh
-   pnpm docspp check --strict
+   pnpm idocs check --strict
    ```
 
 </Steps>
 
 ## Machine-readable output
 
-`--json` makes the CLI easy for scripts and agents to use. `docspp list --json` returns a summary per diagram:
+`--json` makes the CLI easy for scripts and agents to use. `idocs list --json` returns a summary per diagram:
 
 ```json
 {
@@ -83,7 +83,7 @@ The agent never has to guess whether a diagram is valid:
 }
 ```
 
-`docspp check --json` returns `ok`, the diagrams it compiled, and a list of diagnostics:
+`idocs check --json` returns `ok`, the diagrams it compiled, and a list of diagnostics:
 
 ```json
 {
@@ -117,7 +117,7 @@ A diagram that validates can still be wrong. Look for these:
 
 ## Keeping diagrams honest over time
 
-Ask for `refs:` on every node. When the code moves, `docspp check` warns about the stale reference, and a reviewer can see what a change to the diagram should have touched.
+Ask for `refs:` on every node. When the code moves, `idocs check` warns about the stale reference, and a reviewer can see what a change to the diagram should have touched.
 
 ```yaml
 nodes:
@@ -125,7 +125,7 @@ nodes:
     refs: [services/orders/src/api.ts]
 ```
 
-Run `pnpm docspp check --strict` in CI so warnings fail the build too. The starter's deploy workflow already runs `pnpm check`.
+Run `pnpm idocs check --strict` in CI so warnings fail the build too. The starter's deploy workflow already runs `pnpm check`.
 
 <Aside type="tip">
   Review a diagram change like a code change: in a pull request, from the YAML diff. A change of one line in a scenario is a visible change in the story.

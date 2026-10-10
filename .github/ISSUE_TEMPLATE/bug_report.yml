@@ -6,7 +6,7 @@ body:
     attributes:
       value: |
         Thanks for taking the time. A small reproduction gets a bug fixed fastest.
-        For a security problem, please do **not** file it here: see [SECURITY.md](https://github.com/AhmeddBasemm/docspp/blob/main/SECURITY.md).
+        For a security problem, please do **not** file it here: see [SECURITY.md](https://github.com/The-Package-Labs/idocs/blob/main/SECURITY.md).
   - type: textarea
     id: what
     attributes:
@@ -25,15 +25,15 @@ body:
   - type: textarea
     id: check
     attributes:
-      label: Output of `docspp check --json`
+      label: Output of `idocs check --json`
       description: Leave empty if you have none.
       render: json
   - type: input
     id: versions
     attributes:
       label: Versions
-      description: "`docspp --version` is not needed; paste the versions from your package.json (docspp, @packagelab/docspp-astro, create-docspp) and your Node version."
-      placeholder: "docspp 0.1.0, @packagelab/docspp-astro 0.1.0, Node 22.11"
+      description: "`idocs --version` is not needed; paste the versions from your package.json (idocs, @packagelab/idocs-astro, create-idocs) and your Node version."
+      placeholder: "idocs 0.1.0, @packagelab/idocs-astro 0.1.0, Node 22.11"
     validations:
       required: true
   - type: input

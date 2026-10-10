@@ -18,7 +18,7 @@ const html = await codeToHtml(code, {
   theme: 'vitesse-dark',
   transformers: [
     {
-      name: 'docspp-added',
+      name: 'idocs-added',
       line(node, line) {
         if (added.has(line)) this.addClassToHast(node, 'ins')
       },

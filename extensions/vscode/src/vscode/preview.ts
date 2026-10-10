@@ -10,7 +10,7 @@ import type { DiagramService, FolderState } from './service'
 import { settings } from './settings'
 import { toRange } from './symbols'
 
-const VIEW_TYPE = 'docspp.preview'
+const VIEW_TYPE = 'idocs.preview'
 
 export interface PreviewSnapshot {
   open: boolean
@@ -51,7 +51,7 @@ export class PreviewManager implements vscode.Disposable {
       vscode.window.onDidChangeActiveTextEditor((editor) => this.onActiveEditor(editor)),
       vscode.window.onDidChangeTextEditorSelection((e) => this.onSelection(e)),
       vscode.workspace.onDidChangeConfiguration((e) => {
-        if (!e.affectsConfiguration('docspp.preview')) return
+        if (!e.affectsConfiguration('idocs.preview')) return
         // `refreshOn` may have just changed from `save` to `type`: show what is in the editor now.
         this.lastPosted = ''
         this.push()
@@ -92,7 +92,7 @@ export class PreviewManager implements vscode.Disposable {
     } else {
       const panel = vscode.window.createWebviewPanel(
         VIEW_TYPE,
-        'docspp preview',
+        'idocs preview',
         { viewColumn: column, preserveFocus: true },
         {
           enableScripts: true,
@@ -108,7 +108,7 @@ export class PreviewManager implements vscode.Disposable {
 
   setLocked(locked: boolean): void {
     this.locked = locked
-    void vscode.commands.executeCommand('setContext', 'docspp.previewLocked', locked)
+    void vscode.commands.executeCommand('setContext', 'idocs.previewLocked', locked)
     this.send({ type: 'lock', locked })
     this.updateTitle()
   }
@@ -142,7 +142,7 @@ export class PreviewManager implements vscode.Disposable {
       cspSource: webview.cspSource,
       script: media('main.js').toString(),
       style: media('main.css').toString(),
-      title: 'docspp preview',
+      title: 'idocs preview',
     })
     panel.iconPath = {
       light: vscode.Uri.joinPath(this.context.extensionUri, 'images', 'icon-light.svg'),
@@ -153,12 +153,12 @@ export class PreviewManager implements vscode.Disposable {
       this.panel = undefined
       this.target = undefined
       this.ready = false
-      void vscode.commands.executeCommand('setContext', 'docspp.previewOpen', false)
-      void vscode.commands.executeCommand('setContext', 'docspp.previewLocked', false)
+      void vscode.commands.executeCommand('setContext', 'idocs.previewOpen', false)
+      void vscode.commands.executeCommand('setContext', 'idocs.previewLocked', false)
     })
     panel.webview.onDidReceiveMessage((m: FromWebview) => this.onMessage(m))
-    void vscode.commands.executeCommand('setContext', 'docspp.previewOpen', true)
-    void vscode.commands.executeCommand('setContext', 'docspp.previewLocked', this.locked)
+    void vscode.commands.executeCommand('setContext', 'idocs.previewOpen', true)
+    void vscode.commands.executeCommand('setContext', 'idocs.previewLocked', this.locked)
   }
 
   private send(message: ToWebview): void {
@@ -169,7 +169,7 @@ export class PreviewManager implements vscode.Disposable {
   private updateTitle(): void {
     if (!this.panel) return
     const name = this.target ? this.service.state(this.target)?.name : undefined
-    this.panel.title = name ? `${this.locked ? '🔒 ' : ''}Preview ${name}` : 'docspp preview'
+    this.panel.title = name ? `${this.locked ? '🔒 ' : ''}Preview ${name}` : 'idocs preview'
   }
 
   // -- What it shows ----------------------------------------------------------------------------

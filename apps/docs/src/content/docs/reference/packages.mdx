@@ -7,42 +7,42 @@ tableOfContents:
 
 import { Aside } from '@astrojs/starlight/components'
 
-docspp is five packages, versioned together. Most people only ever install `create-docspp`, which pulls in the rest.
+idocs is five packages, versioned together. Most people only ever install `create-idocs`, which pulls in the rest.
 
 | Package | Role | You install it |
 |---|---|---|
-| [`create-docspp`](#create-docspp) | Scaffolds a new site: `npm create docspp@latest`. | never; `npm create` runs it |
-| [`docspp`](#docspp) | The command line. | as a dev dependency |
-| [`@packagelab/docspp-astro`](#packagelabdocspp-astro) | The Astro integration and the `<Diagram>` component. | in your site |
-| [`@packagelab/docspp-react`](#packagelabdocspp-react) | The interactive diagram component and its styles. | in your site |
-| [`@packagelab/docspp-core`](#packagelabdocspp-core) | Schema, compiler, layout, router and timeline. | pulled in by the others |
+| [`create-idocs`](#create-idocs) | Scaffolds a new site: `npm create idocs@latest`. | never; `npm create` runs it |
+| [`idocs`](#idocs) | The command line. | as a dev dependency |
+| [`@packagelab/idocs-astro`](#packagelabidocs-astro) | The Astro integration and the `<Diagram>` component. | in your site |
+| [`@packagelab/idocs-react`](#packagelabidocs-react) | The interactive diagram component and its styles. | in your site |
+| [`@packagelab/idocs-core`](#packagelabidocs-core) | Schema, compiler, layout, router and timeline. | pulled in by the others |
 
 All five need Node 22 or later. All are published under the MIT license.
 
-## create-docspp
+## create-idocs
 
 ```sh
-npm create docspp@latest my-docs
+npm create idocs@latest my-docs
 ```
 
 Copies the starter project into a folder that does not exist yet or is empty, filling in its name. The project uses pnpm. It carries its own copy of the template, so it works without any template repository.
 
-## docspp
+## idocs
 
-The `docspp` command. See the [CLI reference](../cli/).
+The `idocs` command. See the [CLI reference](../cli/).
 
-## @packagelab/docspp-astro
+## @packagelab/idocs-astro
 
 | Export | What it is |
 |---|---|
-| `default` | The Astro integration: `docspp({ dir })`. |
+| `default` | The Astro integration: `idocs({ dir })`. |
 | `./Diagram.astro` | The `<Diagram>` component. |
 | `./starlight.css` | The Starlight bridge stylesheet. |
-| `./virtual` | Types for `virtual:docspp/diagrams`. |
+| `./virtual` | Types for `virtual:idocs/diagrams`. |
 
 Needs `astro` 6 or later. See [props and options](../props/).
 
-## @packagelab/docspp-react
+## @packagelab/idocs-react
 
 | Export | What it is |
 |---|---|
@@ -53,11 +53,11 @@ Needs `astro` 6 or later. See [props and options](../props/).
 
 Needs `react` and `react-dom` 19 or later.
 
-## @packagelab/docspp-core
+## @packagelab/idocs-core
 
 Two entry points.
 
-### `@packagelab/docspp-core`
+### `@packagelab/idocs-core`
 
 Browser-safe: no `node:*`, YAML, Zod or Iconify. This is the part the client bundle gets.
 
@@ -71,7 +71,7 @@ Browser-safe: no `node:*`, YAML, Zod or Iconify. This is the part the client bun
 | `scopeSvgIds` | Gives an inline SVG's ids a prefix, so two copies on a page do not collide. |
 | Constants | The built-in node and edge kinds, step kind colours and the default card width. |
 
-### `@packagelab/docspp-core/node`
+### `@packagelab/idocs-core/node`
 
 Node only. Everything that reads files or parses YAML.
 
@@ -82,11 +82,11 @@ Node only. Everything that reads files or parses YAML.
 | `formatDiagnostic(d)` | Formats a diagnostic as `file:line:col  severity  message`. |
 | `resolveIcon(spec)`, `searchIcons(query)` | Find icons in the bundled sets. |
 | `renderMarkdown(md)` | The Markdown renderer used for notes and node docs. Raw HTML is dropped. |
-| `authoringJsonSchema()` | The JSON Schema written by `docspp schema`. |
+| `authoringJsonSchema()` | The JSON Schema written by `idocs schema`. |
 | `RootSchema`, `FamilySchema`, `KNOWN_KEYS` | The Zod schema, for tooling. |
 
 <Aside type="caution" title="Keep the entry points apart">
-  Importing `@packagelab/docspp-core/node` from code that ships to the browser pulls YAML, Zod and the icon sets into your bundle. Compile on the server or in a build script, and pass the JSON to the client.
+  Importing `@packagelab/idocs-core/node` from code that ships to the browser pulls YAML, Zod and the icon sets into your bundle. Compile on the server or in a build script, and pass the JSON to the client.
 </Aside>
 
 ## Versions
@@ -94,7 +94,7 @@ Node only. Everything that reads files or parses YAML.
 The five packages are versioned together, so upgrade them together:
 
 ```sh
-pnpm up "@packagelab/docspp-*" docspp create-docspp --latest
+pnpm up "@packagelab/idocs-*" idocs create-idocs --latest
 ```
 
-In the docspp repository, each package's `exports` point at TypeScript sources so nothing has to be built to develop. The published packages point at compiled `dist/` files.
+In the idocs repository, each package's `exports` point at TypeScript sources so nothing has to be built to develop. The published packages point at compiled `dist/` files.

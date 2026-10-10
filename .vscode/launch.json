@@ -2,7 +2,7 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "docspp extension (apps/docs)",
+      "name": "idocs extension (apps/docs)",
       "type": "extensionHost",
       "request": "launch",
       "args": [
@@ -10,7 +10,7 @@
         "${workspaceFolder}/apps/docs"
       ],
       "outFiles": ["${workspaceFolder}/extensions/vscode/dist/**/*.js"],
-      "preLaunchTask": "docspp: build extension"
+      "preLaunchTask": "idocs: build extension"
     }
   ]
 }

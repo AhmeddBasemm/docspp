@@ -1,7 +1,7 @@
-# create-docspp
+# create-idocs
 
 ```sh
-npm create docspp@latest my-docs
+npm create idocs@latest my-docs
 cd my-docs
 pnpm install
 pnpm dev

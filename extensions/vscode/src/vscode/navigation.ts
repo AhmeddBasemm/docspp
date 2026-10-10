@@ -6,7 +6,7 @@ import { declarationOf, isUseOf, type SymbolRef, symbolAt } from '../model/refer
 import type { DiagramService, FileModel } from './service'
 import { toRange } from './symbols'
 
-const SELECTOR = { language: 'docspp', scheme: 'file' }
+const SELECTOR = { language: 'idocs', scheme: 'file' }
 const ID = /^[A-Za-z0-9_.-]+$/
 
 interface Found {

@@ -26,10 +26,10 @@ async function load(): Promise<Registry> {
     onigLib: Promise.resolve({ createOnigScanner, createOnigString }),
     loadGrammar: async (scopeName) => {
       const file =
-        scopeName === 'source.docspp'
-          ? 'syntaxes/docspp.tmLanguage.json'
-          : scopeName === 'markdown.docspp.codeblock'
-            ? 'syntaxes/docspp-markdown.injection.tmLanguage.json'
+        scopeName === 'source.idocs'
+          ? 'syntaxes/idocs.tmLanguage.json'
+          : scopeName === 'markdown.idocs.codeblock'
+            ? 'syntaxes/idocs-markdown.injection.tmLanguage.json'
             : undefined
       // VS Code has the markdown grammar; the tests only need the scope name to resolve.
       if (scopeName === 'text.html.markdown') {
@@ -45,8 +45,8 @@ async function load(): Promise<Registry> {
   return registry
 }
 
-/** Tokenize `text` with the docspp grammar. Every character belongs to exactly one token. */
-export async function tokenize(text: string, scopeName = 'source.docspp'): Promise<Token[][]> {
+/** Tokenize `text` with the idocs grammar. Every character belongs to exactly one token. */
+export async function tokenize(text: string, scopeName = 'source.idocs'): Promise<Token[][]> {
   const grammar = await (await load()).loadGrammar(scopeName)
   if (!grammar) throw new Error(`grammar ${scopeName} not found`)
   let stack = INITIAL

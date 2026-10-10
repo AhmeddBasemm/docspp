@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "docspp diagram",
+  "title": "idocs diagram",
   "type": "object",
   "properties": {
     "$schema": {

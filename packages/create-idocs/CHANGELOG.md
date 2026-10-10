@@ -1,4 +1,6 @@
-# create-docspp
+# create-idocs
+
+Versions up to 0.2.0 were published as `create-docspp`.
 
 ## 0.2.0
 

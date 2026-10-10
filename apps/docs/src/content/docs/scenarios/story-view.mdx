@@ -5,7 +5,7 @@ tableOfContents:
   maxHeadingLevel: 3
 ---
 
-import Diagram from '@packagelab/docspp-astro/Diagram.astro'
+import Diagram from '@packagelab/idocs-astro/Diagram.astro'
 
 The **story** is the version of a scenario to put in front of someone who has not seen the system before. It reads as swimlanes: one column per actor, the steps running down the page in order, and the phases as horizontal bands.
 
@@ -65,7 +65,7 @@ To show a story on a page without the scenario picker, pass `mode` to the compon
 
 A lane has a `title`, an optional `sub` (which defaults to the node's `sub`, or the node titles joined) and the `nodes` it holds. A lane can hold several nodes, which is how you show "the data stores" or "the network" as one column.
 
-List the lanes in the order you want. Nodes you leave out get a lane of their own at the end, and `docspp check` tells you which, so a forgotten node is never silent. A node can be in only one lane.
+List the lanes in the order you want. Nodes you leave out get a lane of their own at the end, and `idocs check` tells you which, so a forgotten node is never silent. A node can be in only one lane.
 
 ### title and detail
 

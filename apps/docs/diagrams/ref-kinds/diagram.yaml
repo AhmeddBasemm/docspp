@@ -1,6 +1,6 @@
 # yaml-language-server: $schema=../diagram.schema.json
 title: Built-in node kinds
-description: Every node kind that ships with docspp, grouped by the colour family it uses. The kind alone gives the icon and the stripe.
+description: Every node kind that ships with idocs, grouped by the colour family it uses. The kind alone gives the icon and the stripe.
 
 groups:
   slate: { label: Slate, layout: grid, columns: 2 }

@@ -54,7 +54,7 @@ describe('landing page', () => {
     expect(await page.locator('h1').textContent()).toContain('press play')
     await page.waitForSelector('.lp-hero [data-node]')
     expect(await page.locator('.lp-hero [data-node]').count()).toBe(12)
-    await page.waitForSelector('.lp-hero .docspp-packet', { state: 'attached', timeout: 15_000 })
+    await page.waitForSelector('.lp-hero .idocs-packet', { state: 'attached', timeout: 15_000 })
     // A decorative demo must not write into the address bar.
     expect(await page.evaluate(() => location.hash)).toBe('')
     expect(problems).toEqual([])
@@ -72,7 +72,7 @@ describe('landing page', () => {
       // The views tab opens on the processing view, which keeps four of the six boxes.
       expect(await panel.locator('[data-node]').count(), id).toBe(nodes)
       expect(await panel.locator('.lp-win').textContent(), id).toContain('title: Photo uploads')
-      expect(await panel.locator('[data-node] .docspp-icon svg').count(), id).toBe(nodes)
+      expect(await panel.locator('[data-node] .idocs-icon svg').count(), id).toBe(nodes)
     }
     // Marks the lines each step adds to the file.
     expect(await page.locator('#tour-panel-views .lp-win .line.ins').count()).toBeGreaterThan(5)
@@ -103,10 +103,10 @@ describe('landing page', () => {
     await reveal(page, '#scenarios')
     await page.locator('#lens-panel-flow [data-node]').first().waitFor()
     await page.click('#lens-tab-sequence')
-    await page.waitForSelector('#lens-panel-sequence .docspp-seq svg')
+    await page.waitForSelector('#lens-panel-sequence .idocs-seq svg')
     await page.click('#lens-tab-story')
-    await page.waitForSelector('#lens-panel-story .docspp-story-grid')
-    expect(await page.locator('#lens-panel-story .docspp-lane-head').count()).toBeGreaterThan(3)
+    await page.waitForSelector('#lens-panel-story .idocs-story-grid')
+    expect(await page.locator('#lens-panel-story .idocs-lane-head').count()).toBeGreaterThan(3)
     expect(problems).toEqual([])
     await close()
   })
@@ -114,11 +114,11 @@ describe('landing page', () => {
   it('restyles the diagram from a palette picker', async () => {
     const { page, close } = await open('/')
     await reveal(page, '#style')
-    await page.locator('.lp-lab .docspp').first().waitFor()
+    await page.locator('.lp-lab .idocs').first().waitFor()
     const accent = () =>
       page.evaluate(() =>
-        getComputedStyle(document.querySelector('.lp-lab .docspp')!)
-          .getPropertyValue('--docspp-accent')
+        getComputedStyle(document.querySelector('.lp-lab .idocs')!)
+          .getPropertyValue('--idocs-accent')
           .trim(),
       )
     const before = await accent()
@@ -148,7 +148,7 @@ describe('landing page', () => {
     await page.click('.lp-hero [data-copy]')
     await page.waitForSelector('.lp-hero [data-copy][data-done="true"]')
     expect(await page.locator('.lp-hero [data-copy]').getAttribute('data-copy')).toBe(
-      'npm create docspp@latest my-docs',
+      'npm create idocs@latest my-docs',
     )
     await close()
   })

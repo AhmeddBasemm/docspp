@@ -1,4 +1,4 @@
-// The files `docspp new <name>` creates. packages/cli writes the same text; test/scaffold.test.ts
+// The files `idocs new <name>` creates. packages/cli writes the same text; test/scaffold.test.ts
 // runs the CLI and compares, so the two cannot drift apart.
 export const NAME_PATTERN = /^[a-z0-9][a-z0-9-]*$/
 

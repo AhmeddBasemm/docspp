@@ -7,14 +7,14 @@ tableOfContents:
   maxHeadingLevel: 2
 ---
 
-import Diagram from '@packagelab/docspp-astro/Diagram.astro'
+import Diagram from '@packagelab/idocs-astro/Diagram.astro'
 import { CardGrid, LinkCard, Aside } from '@astrojs/starlight/components'
 
 A diagram is one folder under `diagrams/`. The folder name is what you pass to `<Diagram name="...">`.
 
 ```text
 diagrams/
-  diagram.schema.json          editor autocomplete (pnpm docspp schema)
+  diagram.schema.json          editor autocomplete (pnpm idocs schema)
   checkout/
     diagram.yaml               the model, views and scenarios
     nodes/<node-id>.md         shown when a reader clicks that node
@@ -100,7 +100,7 @@ You can write the same thing in a short or a long form. Use whichever reads bett
 
 ## Editor support
 
-Run `pnpm docspp schema` once, then put this on the first line of each diagram:
+Run `pnpm idocs schema` once, then put this on the first line of each diagram:
 
 ```yaml
 # yaml-language-server: $schema=../diagram.schema.json

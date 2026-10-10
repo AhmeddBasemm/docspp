@@ -4,7 +4,7 @@ One file per diagram: `diagrams/<name>/diagram.yaml`. The folder name is what `<
 
 ```
 diagrams/
-  diagram.schema.json          editor autocomplete (docspp schema)
+  diagram.schema.json          editor autocomplete (idocs schema)
   <name>/
     diagram.yaml               the model, views and scenarios
     nodes/<node-id>.md         shown when a reader clicks that node (markdown)
@@ -34,7 +34,7 @@ Top-level keys: `title` (required), `description`, `nodes` (required), `groups`,
 | `description` | Markdown for the detail drawer, inline. |
 | `doc` | Path to a markdown file for the drawer. Defaults to `nodes/<id>.md` when that file exists. |
 | `links` | `- { label: Runbook, url: https://... }` |
-| `refs` | Source files or URLs the node is based on. `docspp check` warns when a path no longer exists. `src/api.ts`, `src/api.ts:40` and `src/api.ts#L40` all work. |
+| `refs` | Source files or URLs the node is based on. `idocs check` warns when a path no longer exists. `src/api.ts`, `src/api.ts:40` and `src/api.ts#L40` all work. |
 | `tags` | Free-form tags. |
 
 Node kinds: `client user ui external service gateway worker container function database cache storage queue agent network vm auth monitor`. Add or override your own with a top-level `kinds:` map: `ledger: { icon: lucide:book-open, family: amber }`.
@@ -108,7 +108,7 @@ Edges whose two ends are both in the view are included. A scenario plays on the 
 ## Pages
 
 ```mdx
-import Diagram from '@packagelab/docspp-astro/Diagram.astro'
+import Diagram from '@packagelab/idocs-astro/Diagram.astro'
 
 <Diagram name="shop" />                                  # first view, overview
 <Diagram name="shop" view="backend" />
@@ -120,4 +120,4 @@ Other props: `maxHeight` (px, default 780), `showTitle`. Readers can link to a m
 
 ## Theming
 
-Every colour and font is a CSS variable starting `--docspp-` (for example `--docspp-accent`, `--docspp-zone`, `--docspp-sans`, `--docspp-dim` for how faded unrelated items get). Override them under `.docspp` in the site's CSS, and under `:root[data-theme='dark'] .docspp` for dark mode.
+Every colour and font is a CSS variable starting `--idocs-` (for example `--idocs-accent`, `--idocs-zone`, `--idocs-sans`, `--idocs-dim` for how faded unrelated items get). Override them under `.idocs` in the site's CSS, and under `:root[data-theme='dark'] .idocs` for dark mode.

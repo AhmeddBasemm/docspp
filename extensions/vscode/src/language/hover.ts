@@ -5,7 +5,7 @@ import {
   BUILTIN_KINDS,
   type CompiledDiagram,
   type IconData,
-} from '@packagelab/docspp-core'
+} from '@packagelab/idocs-core'
 import type { Declaration } from '../model/declarations'
 import { declarationOf, type Reference, type SymbolRef, symbolAt } from '../model/references'
 import { type Parsed, type Pos, type Span, whereIs } from '../model/yaml'
@@ -114,7 +114,7 @@ function valueHover(req: HoverRequest): HoverResult | undefined {
 
   if (key === 'icon') {
     const icon = req.resolveIcon(value)
-    if (!icon) return { markdown: `No icon named \`${value}\`. Try \`docspp icons search\`.`, span }
+    if (!icon) return { markdown: `No icon named \`${value}\`. Try \`idocs icons search\`.`, span }
     return { markdown: `${iconImage(icon)}\n\n\`${icon.set}:${icon.name}\``, span }
   }
   if (key === 'status' && STATUS_TEXT[value]) {

@@ -7,7 +7,7 @@ tableOfContents:
 
 ## Why YAML, and not Mermaid or a drawing tool?
 
-A drawing tool gives you pixels you cannot review or diff. Mermaid gives you text, but a diagram that lays itself out in a fixed way, with no model behind it. docspp keeps a **model** (nodes, groups, edges) separate from **views** and **scenarios**, so you write a thing once and show it several ways. YAML with a JSON Schema also gets editor autocomplete for free and is easy for an agent to write.
+A drawing tool gives you pixels you cannot review or diff. Mermaid gives you text, but a diagram that lays itself out in a fixed way, with no model behind it. idocs keeps a **model** (nodes, groups, edges) separate from **views** and **scenarios**, so you write a thing once and show it several ways. YAML with a JSON Schema also gets editor autocomplete for free and is easy for an agent to write.
 
 ## Can readers or I drag boxes to a position?
 
@@ -15,7 +15,7 @@ No. Layout is automatic and you steer it with hints such as `rows`, `layout: gri
 
 ## Do I need Astro or Starlight?
 
-The easiest path is Astro with Starlight, which the starter gives you. `<Diagram>` is an ordinary Astro component, so it works without Starlight. Without Astro at all, you can compile diagrams with `@packagelab/docspp-core/node` and render them with the React component. See [using the React component](../../embed/react/).
+The easiest path is Astro with Starlight, which the starter gives you. `<Diagram>` is an ordinary Astro component, so it works without Starlight. Without Astro at all, you can compile diagrams with `@packagelab/idocs-core/node` and render them with the React component. See [using the React component](../../embed/react/).
 
 ## How big can a diagram be?
 
@@ -31,7 +31,7 @@ Not yet. Export to SVG, PNG and GIF is on the [roadmap](../roadmap/).
 
 ## How do I keep diagrams from going stale?
 
-List the files each node is based on with `refs:`. `docspp check` warns when one of them moves. Run `pnpm check --strict` in CI, and review diagram changes in the same pull request as the code. [Working with an agent](../../ai/workflow/) describes the loop.
+List the files each node is based on with `refs:`. `idocs check` warns when one of them moves. Run `pnpm check --strict` in CI, and review diagram changes in the same pull request as the code. [Working with an agent](../../ai/workflow/) describes the loop.
 
 ## Can the same node appear in two diagrams?
 
@@ -43,7 +43,7 @@ Yes. See [icons](../../customize/icons/) for your own SVG files, and [theming](.
 
 ## Where is my data?
 
-Nowhere but your repository. docspp is a build step and a static site. There is no service to sign up for, and nothing is sent anywhere when a reader opens a diagram.
+Nowhere but your repository. idocs is a build step and a static site. There is no service to sign up for, and nothing is sent anywhere when a reader opens a diagram.
 
 ## Which versions does it need?
 
@@ -60,11 +60,11 @@ It has too much in it, or one zone is much wider than the others. [Fixing a crow
 ## How do I upgrade?
 
 ```sh
-pnpm up "@packagelab/docspp-*" docspp --latest
+pnpm up "@packagelab/idocs-*" idocs --latest
 ```
 
-The packages are versioned together. Run `pnpm docspp schema` afterwards so editor autocomplete matches, and restart the dev server.
+The packages are versioned together. Run `pnpm idocs schema` afterwards so editor autocomplete matches, and restart the dev server.
 
 ## Is it free?
 
-Yes. docspp is open source under the MIT license.
+Yes. idocs is open source under the MIT license.

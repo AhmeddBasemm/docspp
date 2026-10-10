@@ -38,14 +38,14 @@ nodes:
   cli:
     kind: monitor
     icon: lucide:terminal
-    title: docspp check
+    title: idocs check
     sub: errors with file:line:col
     in: build
   plugin:
     kind: gateway
     icon: astro
     title: Astro integration
-    sub: virtual:docspp/diagrams
+    sub: virtual:idocs/diagrams
     lines: [fails the build on errors]
     in: build
   json:

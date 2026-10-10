@@ -10,7 +10,7 @@ import { DiagramService } from './vscode/service'
 import { StatusBar, type StatusSnapshot } from './vscode/status'
 import { registerSymbols } from './vscode/symbols'
 
-export interface DocsppApi {
+export interface IdocsApi {
   /** Resolves when every diagram in the workspace has been compiled once. */
   ready: Promise<void>
   /** Absolute paths of the diagrams found so far. */
@@ -21,8 +21,8 @@ export interface DocsppApi {
   status(): StatusSnapshot
 }
 
-export function activate(context: vscode.ExtensionContext): DocsppApi {
-  const output = vscode.window.createOutputChannel('docspp', { log: true })
+export function activate(context: vscode.ExtensionContext): IdocsApi {
+  const output = vscode.window.createOutputChannel('idocs', { log: true })
   // The icon sets are 12 MB of JSON: they are read when the first icon is looked up, not now.
   const icons = lazyIconResolver(() =>
     iconSetsFromDir(join(context.extensionPath, 'dist', 'icons')),

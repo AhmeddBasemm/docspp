@@ -1,9 +1,9 @@
 {
-  "name": "docspp",
+  "name": "idocs",
   "version": "0.2.0",
   "type": "module",
   "bin": {
-    "docspp": "./src/bin.ts"
+    "idocs": "./src/bin.ts"
   },
   "exports": {
     ".": "./src/index.ts"
@@ -13,21 +13,21 @@
     "build": "node ../../scripts/build.mjs"
   },
   "dependencies": {
-    "@packagelab/docspp-core": "workspace:^"
+    "@packagelab/idocs-core": "workspace:^"
   },
-  "description": "The docspp command line: check, list, schema, icons search, new.",
+  "description": "The idocs command line: check, list, schema, icons search, new.",
   "files": [
     "dist"
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/AhmeddBasemm/docspp.git"
+    "url": "git+https://github.com/The-Package-Labs/idocs.git"
   },
-  "homepage": "https://github.com/AhmeddBasemm/docspp#readme",
+  "homepage": "https://github.com/The-Package-Labs/idocs#readme",
   "publishConfig": {
     "access": "public",
     "bin": {
-      "docspp": "./dist/bin.js"
+      "idocs": "./dist/bin.js"
     },
     "exports": {
       ".": {

@@ -1,38 +1,38 @@
 /* The preview lives inside the editor, so it takes the editor's colours and fonts. The family
-   colours (blue, amber, ...) keep docspp's light and dark palettes, which main.tsx selects from
-   the theme kind VS Code reports. The doubled class beats docspp's theme selectors. */
+   colours (blue, amber, ...) keep idocs's light and dark palettes, which main.tsx selects from
+   the theme kind VS Code reports. The doubled class beats idocs's theme selectors. */
 
-:root[data-theme] .docspp.docspp {
-  --docspp-sans: var(--vscode-font-family, system-ui, sans-serif);
-  --docspp-mono: var(--vscode-editor-font-family, ui-monospace, Menlo, Consolas, monospace);
-  --docspp-bg: var(--vscode-editor-background);
-  --docspp-surface: color-mix(
+:root[data-theme] .idocs.idocs {
+  --idocs-sans: var(--vscode-font-family, system-ui, sans-serif);
+  --idocs-mono: var(--vscode-editor-font-family, ui-monospace, Menlo, Consolas, monospace);
+  --idocs-bg: var(--vscode-editor-background);
+  --idocs-surface: color-mix(
     in srgb,
     var(--vscode-editor-background) 88%,
     var(--vscode-editor-foreground)
   );
-  --docspp-surface-2: color-mix(
+  --idocs-surface-2: color-mix(
     in srgb,
     var(--vscode-editor-background) 80%,
     var(--vscode-editor-foreground)
   );
-  --docspp-zone: color-mix(
+  --idocs-zone: color-mix(
     in srgb,
     var(--vscode-editor-background) 94%,
     var(--vscode-editor-foreground)
   );
-  --docspp-ink: var(--vscode-editor-foreground);
-  --docspp-muted: var(
+  --idocs-ink: var(--vscode-editor-foreground);
+  --idocs-muted: var(
     --vscode-descriptionForeground,
     color-mix(in srgb, var(--vscode-editor-foreground) 65%, var(--vscode-editor-background))
   );
-  --docspp-line: color-mix(
+  --idocs-line: color-mix(
     in srgb,
     var(--vscode-editor-background) 62%,
     var(--vscode-editor-foreground)
   );
-  --docspp-accent: var(--vscode-textLink-foreground);
-  --docspp-accent-soft: color-mix(
+  --idocs-accent: var(--vscode-textLink-foreground);
+  --idocs-accent-soft: color-mix(
     in srgb,
     var(--vscode-editor-background) 82%,
     var(--vscode-textLink-foreground)
@@ -40,26 +40,26 @@
   font-size: var(--vscode-font-size, 13px);
 }
 
-/* On a light editor the cards are the editor colour and the canvas is tinted, as in docspp's own
+/* On a light editor the cards are the editor colour and the canvas is tinted, as in idocs's own
    light palette; on a dark one the cards are lifted from the canvas. */
-:root[data-theme="light"] .docspp.docspp {
-  --docspp-bg: color-mix(
+:root[data-theme="light"] .idocs.idocs {
+  --idocs-bg: color-mix(
     in srgb,
     var(--vscode-editor-background) 95%,
     var(--vscode-editor-foreground)
   );
-  --docspp-surface: var(--vscode-editor-background);
-  --docspp-surface-2: color-mix(
+  --idocs-surface: var(--vscode-editor-background);
+  --idocs-surface-2: color-mix(
     in srgb,
     var(--vscode-editor-background) 93%,
     var(--vscode-editor-foreground)
   );
-  --docspp-zone: color-mix(
+  --idocs-zone: color-mix(
     in srgb,
     var(--vscode-editor-background) 90%,
     var(--vscode-editor-foreground)
   );
-  --docspp-line: color-mix(
+  --idocs-line: color-mix(
     in srgb,
     var(--vscode-editor-background) 70%,
     var(--vscode-editor-foreground)

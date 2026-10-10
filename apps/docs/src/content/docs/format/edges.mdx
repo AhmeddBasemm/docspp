@@ -5,7 +5,7 @@ tableOfContents:
   maxHeadingLevel: 3
 ---
 
-import Diagram from '@packagelab/docspp-astro/Diagram.astro'
+import Diagram from '@packagelab/idocs-astro/Diagram.astro'
 import { Aside } from '@astrojs/starlight/components'
 
 An edge is a relationship between two nodes: a request, a subscription, a tunnel. Edges are a list under `edges:`. A scenario flies its packets along them.
@@ -39,7 +39,7 @@ The first form is the short one. Add options by turning the label into a map: `-
 | `transport`, `note` | Free text and Markdown kept with the edge in the compiled data. The built-in renderer does not show them yet. |
 | `id` | Optional. Defaults to the edge's position. Ids must be unique. |
 
-An edge from a node to itself is not drawn, and docspp warns about it.
+An edge from a node to itself is not drawn, and idocs warns about it.
 
 ## Kinds
 

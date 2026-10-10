@@ -2,7 +2,7 @@
 // diagram folder from the editor's buffers (so unsaved edits count), remembers the last version
 // that compiled, publishes diagnostics, and tells the preview when something changed.
 import { basename, join } from 'node:path'
-import type { CompiledDiagram } from '@packagelab/docspp-core'
+import type { CompiledDiagram } from '@packagelab/idocs-core'
 import * as vscode from 'vscode'
 import type { Entity, ProjectIds } from '../language/completion'
 import { diagnosticSpan } from '../language/diagnostics'
@@ -43,7 +43,7 @@ export class DiagramService implements vscode.Disposable {
   private readonly disposables: vscode.Disposable[] = []
   private readonly emitter = new vscode.EventEmitter<FolderState>()
   private readonly removed = new vscode.EventEmitter<string>()
-  readonly diagnostics = vscode.languages.createDiagnosticCollection('docspp')
+  readonly diagnostics = vscode.languages.createDiagnosticCollection('idocs')
 
   readonly onDidCompile = this.emitter.event
   readonly onDidRemove = this.removed.event
@@ -61,7 +61,7 @@ export class DiagramService implements vscode.Disposable {
       vscode.workspace.onDidCloseTextDocument((d) => this.touched(d.uri, true)),
       vscode.workspace.onDidSaveTextDocument((d) => this.touched(d.uri, true)),
       vscode.workspace.onDidChangeConfiguration((e) => {
-        if (e.affectsConfiguration('docspp.diagnostics')) this.refreshAll()
+        if (e.affectsConfiguration('idocs.diagnostics')) this.refreshAll()
       }),
       vscode.workspace.onDidChangeWorkspaceFolders(() => void this.discover()),
     )
@@ -203,7 +203,7 @@ export class DiagramService implements vscode.Disposable {
         name: previous?.name ?? basename(folder),
         file,
         diagnostics: [
-          { severity: 'error', message: `docspp could not check this diagram: ${message}`, file },
+          { severity: 'error', message: `idocs could not check this diagram: ${message}`, file },
         ],
       },
       lastGood: previous?.lastGood,
@@ -255,7 +255,7 @@ export class DiagramService implements vscode.Disposable {
           ? vscode.DiagnosticSeverity.Error
           : vscode.DiagnosticSeverity.Warning,
       )
-      diagnostic.source = 'docspp'
+      diagnostic.source = 'idocs'
       const list = byFile.get(d.file) ?? []
       list.push(diagnostic)
       byFile.set(d.file, list)

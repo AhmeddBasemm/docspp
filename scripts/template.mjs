@@ -1,5 +1,5 @@
 // Turns templates/starter into a standalone project: no workspace: versions, the shared
-// docspp skill included, placeholders filled in. Used by create-docspp (at build time)
+// idocs skill included, placeholders filled in. Used by create-idocs (at build time)
 // and by the template-repo sync workflow.
 //
 //   node scripts/template.mjs --out ../my-template-repo
@@ -42,14 +42,14 @@ export function buildTemplate(outDir, options = {}) {
     filter: (src) => !SKIP.has(src.split('/').pop() ?? ''),
   })
 
-  // One skill, maintained once in skills/docspp, shipped with every new project (and installable
-  // anywhere with `npx skills add`). dereference: .claude/skills/docspp in this repo is a symlink.
-  cpSync(join(root, 'skills/docspp'), join(outDir, '.claude/skills/docspp'), {
+  // One skill, maintained once in skills/idocs, shipped with every new project (and installable
+  // anywhere with `npx skills add`). dereference: .claude/skills/idocs in this repo is a symlink.
+  cpSync(join(root, 'skills/idocs'), join(outDir, '.claude/skills/idocs'), {
     recursive: true,
     dereference: true,
   })
 
-  // A package keeps the underscore names (create-docspp renames them); a repository gets the real ones.
+  // A package keeps the underscore names (create-idocs renames them); a repository gets the real ones.
   if (!options.keepAliases) {
     for (const [from, to] of Object.entries(RENAMES)) {
       if (existsSync(join(outDir, from))) renameSync(join(outDir, from), join(outDir, to))

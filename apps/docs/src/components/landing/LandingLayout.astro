@@ -20,7 +20,7 @@ const { title, description } = Astro.props
 // Social cards need an absolute address, so the image is only linked when `site` is configured.
 const image = Astro.site ? new URL(withBase('og.png'), Astro.site).href : undefined
 
-const github = 'https://github.com/AhmeddBasemm/docspp'
+const github = 'https://github.com/The-Package-Labs/idocs'
 const nav = [
   { label: 'Playground', href: withBase('playground/') },
   { label: 'Docs', href: withBase('guides/introduction/') },
@@ -53,7 +53,7 @@ const footer = [
     title: 'Project',
     links: [
       { label: 'GitHub', href: github },
-      { label: 'npm: create-docspp', href: 'https://www.npmjs.com/package/create-docspp' },
+      { label: 'npm: create-idocs', href: 'https://www.npmjs.com/package/create-idocs' },
       { label: 'Roadmap', href: withBase('project/roadmap/') },
       { label: 'Contributing', href: withBase('project/contributing/') },
     ],
@@ -89,15 +89,15 @@ const footer = [
     <a class="lp-skip" href="#main">Skip to content</a>
     <header class="lp-header">
       <div class="lp-wrap lp-header-row">
-        <a class="lp-brand" href={withBase()} aria-label="docspp home">
+        <a class="lp-brand" href={withBase()} aria-label="idocs home">
           <Logo />
-          <span>docspp</span>
+          <span>idocs</span>
         </a>
         <nav class="lp-nav" aria-label="Main">
           {nav.map((item) => <a href={item.href}>{item.label}</a>)}
         </nav>
         <div class="lp-header-actions">
-          <a class="lp-icon-btn" href={github} aria-label="docspp on GitHub">
+          <a class="lp-icon-btn" href={github} aria-label="idocs on GitHub">
             <Icon name="simple-icons:github" />
           </a>
           <button class="lp-icon-btn" type="button" data-theme-toggle aria-label="Switch between light and dark">
@@ -117,7 +117,7 @@ const footer = [
           <div>
             <a class="lp-brand" href={withBase()}>
               <Logo />
-              <span>docspp</span>
+              <span>idocs</span>
             </a>
             <p>Architecture diagrams that readers can click, filter and play. Open source under the MIT license.</p>
           </div>
@@ -137,7 +137,7 @@ const footer = [
           }
         </div>
         <div class="lp-fineprint">
-          <span>Every diagram on this site is a YAML file, drawn by docspp.</span>
+          <span>Every diagram on this site is a YAML file, drawn by idocs.</span>
           <span>MIT license</span>
         </div>
       </div>

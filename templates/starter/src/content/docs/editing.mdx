@@ -3,19 +3,19 @@ title: Editing diagrams
 description: The ten-minute tour of diagram.yaml.
 ---
 
-import Diagram from '@packagelab/docspp-astro/Diagram.astro'
+import Diagram from '@packagelab/idocs-astro/Diagram.astro'
 
 Every diagram is a folder under `diagrams/`. Save a file and the page reloads.
 
 ```sh
-pnpm docspp new payments      # creates diagrams/payments/diagram.yaml
+pnpm idocs new payments      # creates diagrams/payments/diagram.yaml
 pnpm check                   # validates every diagram; errors point at file:line:column
 ```
 
 Show it on any page:
 
 ```mdx
-import Diagram from '@packagelab/docspp-astro/Diagram.astro'
+import Diagram from '@packagelab/idocs-astro/Diagram.astro'
 
 <Diagram name="payments" />
 ```
@@ -31,7 +31,7 @@ edges:
   - api -> db: { kind: data, label: SQL }
 ```
 
-`kind` picks a default icon and colour. `icon` takes a name like `postgresql`; find one with `pnpm docspp icons search redis`. Put what a reader should see when they click a box in `diagrams/<name>/nodes/<id>.md`.
+`kind` picks a default icon and colour. `icon` takes a name like `postgresql`; find one with `pnpm idocs icons search redis`. Put what a reader should see when they click a box in `diagrams/<name>/nodes/<id>.md`.
 
 ## Stories
 
@@ -59,4 +59,4 @@ Here is the shop diagram again. Press play on **Card declined**.
 
 ## Learn the rest
 
-The full format, layout hints, icons and theming are documented at __DOCS_URL__. If you use Claude Code, the `docspp` skill in `.claude/skills/` knows the format: ask it to draw a flow from your code, and it will run `pnpm check` and fix what it reports.
+The full format, layout hints, icons and theming are documented at __DOCS_URL__. If you use Claude Code, the `idocs` skill in `.claude/skills/` knows the format: ask it to draw a flow from your code, and it will run `pnpm check` and fix what it reports.

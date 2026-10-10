@@ -5,7 +5,7 @@ tableOfContents:
   maxHeadingLevel: 3
 ---
 
-import Diagram from '@packagelab/docspp-astro/Diagram.astro'
+import Diagram from '@packagelab/idocs-astro/Diagram.astro'
 
 A view shows part of the model. You write each node once, and views choose which ones appear. This is what keeps a large system maintainable: a picture for newcomers, a picture for the platform team, a picture for one flow, all from the same file.
 
@@ -53,7 +53,7 @@ views:
     exclude: [metrics]                  # leave one out
 ```
 
-Use groups to keep the list short. If you rename a node or a group, `docspp check` points at every `include` or `exclude` that no longer matches: `"x" is not a node or group`.
+Use groups to keep the list short. If you rename a node or a group, `idocs check` points at every `include` or `exclude` that no longer matches: `"x" is not a node or group`.
 
 ## Direction
 
@@ -61,7 +61,7 @@ Use groups to keep the list short. If you rename a node or a group, `docspp chec
 
 ## Views and scenarios
 
-A scenario plays on **one** view. By default that is the first view; set `view:` on the scenario to pick another. Every node a scenario uses must be in its view, or `docspp check` reports `Node "x" is not in view "v"`.
+A scenario plays on **one** view. By default that is the first view; set `view:` on the scenario to pick another. Every node a scenario uses must be in its view, or `idocs check` reports `Node "x" is not in view "v"`.
 
 ```yaml
 scenarios:

@@ -1,9 +1,9 @@
 import react from '@astrojs/react'
 import starlight from '@astrojs/starlight'
-import docspp from '@packagelab/docspp-astro'
+import idocs from '@packagelab/idocs-astro'
 import { defineConfig } from 'astro/config'
 
-const repo = 'https://github.com/AhmeddBasemm/docspp'
+const repo = 'https://github.com/The-Package-Labs/idocs'
 // Redirect targets are not prefixed with `base` by Astro, so a project site would redirect to the wrong root.
 const base = (process.env.BASE_PATH ?? '').replace(/\/$/, '')
 // Social cards need an absolute address, so the preview image is only linked when SITE_URL is set.
@@ -27,10 +27,10 @@ export default defineConfig({
     '/guides/ai-authoring': `${base}/ai/skill/`,
   },
   integrations: [
-    docspp(),
+    idocs(),
     react(),
     starlight({
-      title: 'docspp',
+      title: 'idocs',
       description: 'Architecture diagrams you can click, filter and play.',
       logo: {
         light: './src/assets/logo-light.svg',
@@ -73,7 +73,7 @@ export default defineConfig({
         '@fontsource/ibm-plex-sans-condensed/600.css',
         '@fontsource/ibm-plex-mono/400.css',
         '@fontsource/ibm-plex-mono/500.css',
-        '@packagelab/docspp-astro/starlight.css',
+        '@packagelab/idocs-astro/starlight.css',
         './src/styles/palettes.css',
         './src/styles/custom.css',
       ],

@@ -12,7 +12,7 @@ export function registerCommands(
   output: vscode.OutputChannel,
 ): vscode.Disposable[] {
   const register = (id: string, run: (...args: never[]) => unknown) =>
-    vscode.commands.registerCommand(`docspp.${id}`, run as (...args: unknown[]) => unknown)
+    vscode.commands.registerCommand(`idocs.${id}`, run as (...args: unknown[]) => unknown)
 
   return [
     register('openPreview', async (uri?: vscode.Uri) => {
@@ -45,10 +45,10 @@ async function pickFolder(service: DiagramService, uri?: vscode.Uri): Promise<st
   if (folders.length === 1) return folders[0]
   if (folders.length === 0) {
     const choice = await vscode.window.showInformationMessage(
-      'No docspp diagram was found in this workspace.',
+      'No idocs diagram was found in this workspace.',
       'New Diagram',
     )
-    if (choice) void vscode.commands.executeCommand('docspp.newDiagram')
+    if (choice) void vscode.commands.executeCommand('idocs.newDiagram')
     return undefined
   }
   const picked = await vscode.window.showQuickPick(
@@ -71,7 +71,7 @@ async function newDiagram(service: DiagramService, preview: PreviewManager): Pro
     return
   }
   const name = await vscode.window.showInputBox({
-    title: 'New docspp diagram',
+    title: 'New idocs diagram',
     prompt: 'Name of the diagram: lowercase letters, digits and dashes',
     placeHolder: 'checkout-flow',
     validateInput: (value) =>
@@ -179,13 +179,13 @@ async function checkAll(service: DiagramService): Promise<void> {
   }
   const count = `${folders.length} diagram${folders.length === 1 ? '' : 's'}`
   if (!folders.length) {
-    void vscode.window.showInformationMessage('No docspp diagrams found in this workspace.')
+    void vscode.window.showInformationMessage('No idocs diagrams found in this workspace.')
   } else if (errors + warnings === 0) {
-    void vscode.window.showInformationMessage(`docspp: ${count} checked, no problems.`)
+    void vscode.window.showInformationMessage(`idocs: ${count} checked, no problems.`)
   } else {
     void vscode.window
       .showWarningMessage(
-        `docspp: ${count} checked, ${errors} error${errors === 1 ? '' : 's'}, ${warnings} warning${warnings === 1 ? '' : 's'}.`,
+        `idocs: ${count} checked, ${errors} error${errors === 1 ? '' : 's'}, ${warnings} warning${warnings === 1 ? '' : 's'}.`,
         'Show Problems',
       )
       .then((choice) => {

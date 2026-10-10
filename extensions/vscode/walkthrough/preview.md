@@ -1,6 +1,6 @@
 ## See it as you type
 
-Open a `diagram.yaml` and run **docspp: Open Preview to the Side**. The shortcut is `Ctrl+K V` (`⌘K V` on a Mac).
+Open a `diagram.yaml` and run **idocs: Open Preview to the Side**. The shortcut is `Ctrl+K V` (`⌘K V` on a Mac).
 
 - The preview updates from the text in the editor, saved or not.
 - The node your cursor is in is outlined. Click a node to jump to where it is written.

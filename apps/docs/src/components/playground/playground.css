@@ -191,10 +191,10 @@
   background-image: radial-gradient(var(--lp-dot) 1px, transparent 1px);
   background-size: 18px 18px;
 }
-.pg-preview-body .docspp {
+.pg-preview-body .idocs {
   background: transparent;
 }
-.pg-preview-body .docspp-title {
+.pg-preview-body .idocs-title {
   font: 600 22px var(--lp-display);
   margin: 0 0 14px;
 }

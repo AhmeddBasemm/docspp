@@ -12,14 +12,14 @@ import { Aside } from '@astrojs/starlight/components'
 The Astro integration is a thin layer. The diagram itself is a React component, `DiagramView`, that takes **compiled JSON** and nothing else. If you do not use Astro, you can compile your diagrams yourself and render them in any React app.
 
 <Aside type="note" title="Browser-safe by design">
-  `@packagelab/docspp-core` has two entry points. The main one is browser-safe (types, layout, route and timeline) and is what the component imports. `@packagelab/docspp-core/node` holds YAML parsing, validation and icons, and must stay on the server or in a build script.
+  `@packagelab/idocs-core` has two entry points. The main one is browser-safe (types, layout, route and timeline) and is what the component imports. `@packagelab/idocs-core/node` holds YAML parsing, validation and icons, and must stay on the server or in a build script.
 </Aside>
 
 ## 1. Compile at build time
 
 ```js title="scripts/diagrams.mjs"
 import { writeFileSync } from 'node:fs'
-import { formatDiagnostic, loadProject } from '@packagelab/docspp-core/node'
+import { formatDiagnostic, loadProject } from '@packagelab/idocs-core/node'
 
 const { diagrams, diagnostics } = loadProject(process.cwd()) // reads ./diagrams/*/diagram.yaml
 
@@ -34,8 +34,8 @@ writeFileSync('src/diagrams.json', JSON.stringify(diagrams))
 ## 2. Render it
 
 ```tsx title="src/Architecture.tsx"
-import { DiagramView } from '@packagelab/docspp-react'
-import '@packagelab/docspp-react/styles.css'
+import { DiagramView } from '@packagelab/idocs-react'
+import '@packagelab/idocs-react/styles.css'
 import diagrams from './diagrams.json'
 
 export function Architecture() {
@@ -43,7 +43,7 @@ export function Architecture() {
 }
 ```
 
-Import the stylesheet once. Install `@packagelab/docspp-react` with `react` and `react-dom` 19 or later.
+Import the stylesheet once. Install `@packagelab/idocs-react` with `react` and `react-dom` 19 or later.
 
 ## Props
 
@@ -64,9 +64,9 @@ Import the stylesheet once. Install `@packagelab/docspp-react` with `react` and 
 
 - **Heights are measured in the browser.** The component renders each card offscreen at its fixed width, measures it, and lays the diagram out. Until then it shows a placeholder. In server rendering you get the placeholder, and the diagram appears after hydration.
 - **Load it lazily.** The layout engine is large. Render the component in a lazily loaded chunk, or only when it scrolls into view, as the Astro integration does with `client:visible`.
-- **Fonts.** Diagrams use `--docspp-sans` and `--docspp-mono`. Load IBM Plex or set those tokens. When web fonts finish loading, the component measures again.
+- **Fonts.** Diagrams use `--idocs-sans` and `--idocs-mono`. Load IBM Plex or set those tokens. When web fonts finish loading, the component measures again.
 - **Theme.** The component follows `data-theme="dark"` on the page's root element (`<html data-theme="dark">`), or the system preference when the attribute is absent. See [theming](../../customize/theming/).
 
 ## Other exports
 
-`@packagelab/docspp-react` also exports the building blocks, if you want to compose your own view: `NodeCard`, `Icon`, `IconTile` and `SequenceView`. See [packages](../../reference/packages/).
+`@packagelab/idocs-react` also exports the building blocks, if you want to compose your own view: `NodeCard`, `Icon`, `IconTile` and `SequenceView`. See [packages](../../reference/packages/).

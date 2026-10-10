@@ -2,10 +2,10 @@ import { existsSync, realpathSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import { describe, expect, it } from 'vitest'
-import docspp from '../src'
+import idocs from '../src'
 
 // The starter is the strictest consumer: pnpm links only what its package.json lists, which does
-// not include `@packagelab/docspp-core`.
+// not include `@packagelab/idocs-core`.
 const starter = fileURLToPath(new URL('../../../templates/starter/', import.meta.url))
 
 /** Finds `name` the way Node does: in the closest `node_modules` going up from `from`. */
@@ -35,7 +35,7 @@ function resolveEntry(entry: string, root: string): string | undefined {
 
 function includes(root: string): string[] {
   let include: string[] = []
-  const hook = docspp().hooks['astro:config:setup'] as (options: unknown) => void
+  const hook = idocs().hooks['astro:config:setup'] as (options: unknown) => void
   hook({
     config: { root: pathToFileURL(root) },
     updateConfig: (config: { vite: { optimizeDeps: { include: string[] } } }) => {

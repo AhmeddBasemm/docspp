@@ -12,7 +12,7 @@ export interface StatusSnapshot {
 /** A status bar entry for the diagram being edited: problems at a glance, a click to act on them. */
 export class StatusBar implements vscode.Disposable {
   private readonly item = vscode.window.createStatusBarItem(
-    'docspp.status',
+    'idocs.status',
     vscode.StatusBarAlignment.Right,
     90,
   )
@@ -20,7 +20,7 @@ export class StatusBar implements vscode.Disposable {
   private snapshot: StatusSnapshot = { visible: false }
 
   constructor(private readonly service: DiagramService) {
-    this.item.name = 'docspp'
+    this.item.name = 'idocs'
     this.disposables.push(
       this.item,
       service.onDidCompile(() => this.update()),

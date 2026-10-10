@@ -41,10 +41,10 @@ jobs:
         run: test "${GITHUB_REF_NAME}" = "vscode-v${{ steps.version.outputs.version }}"
       # Installs the packed .vsix into a clean profile and tests that, not the source folder.
       - name: Integration tests against the packed extension
-        run: xvfb-run -a pnpm --filter docspp-vscode test:integration --vsix
+        run: xvfb-run -a pnpm --filter idocs-vscode test:integration --vsix
       - uses: actions/upload-artifact@v4
         with:
-          name: docspp-vscode-${{ steps.version.outputs.version }}
+          name: idocs-vscode-${{ steps.version.outputs.version }}
           path: extensions/vscode/*.vsix
           if-no-files-found: error
 
@@ -64,7 +64,7 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - uses: actions/download-artifact@v4
         with:
-          name: docspp-vscode-${{ needs.package.outputs.version }}
+          name: idocs-vscode-${{ needs.package.outputs.version }}
           path: dist-vsix
       - name: GitHub release
         env:
@@ -77,7 +77,7 @@ jobs:
         if: vars.VSCODE_PUBLISH == 'true'
         env:
           VSCE_PAT: ${{ secrets.VSCE_PAT }}
-        run: pnpm --filter docspp-vscode exec vsce publish --no-dependencies --packagePath "$(ls $GITHUB_WORKSPACE/dist-vsix/*.vsix)"
+        run: pnpm --filter idocs-vscode exec vsce publish --no-dependencies --packagePath "$(ls $GITHUB_WORKSPACE/dist-vsix/*.vsix)"
       - name: Open VSX
         if: vars.VSCODE_PUBLISH == 'true'
         env:

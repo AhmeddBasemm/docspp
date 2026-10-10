@@ -3,7 +3,7 @@ import {
   type CompiledScenario,
   type CompiledStep,
   scopeSvgIds,
-} from '@packagelab/docspp-core'
+} from '@packagelab/idocs-core'
 import { useId } from 'react'
 import { cx, roman } from './util'
 
@@ -22,11 +22,11 @@ const ROW_SELF = 44
 const ROW_PHASE = 30
 
 const STROKE: Record<string, { color: string; dash?: string; width: number }> = {
-  request: { color: 'var(--docspp-ink)', width: 1.6 },
-  response: { color: 'var(--docspp-ok)', dash: '6 4', width: 1.5 },
-  error: { color: 'var(--docspp-bad)', width: 1.7 },
-  lookup: { color: 'var(--docspp-muted)', dash: '2 3', width: 1.6 },
-  event: { color: 'var(--docspp-warn)', width: 1.6 },
+  request: { color: 'var(--idocs-ink)', width: 1.6 },
+  response: { color: 'var(--idocs-ok)', dash: '6 4', width: 1.5 },
+  error: { color: 'var(--idocs-bad)', width: 1.7 },
+  lookup: { color: 'var(--idocs-muted)', dash: '2 3', width: 1.6 },
+  event: { color: 'var(--idocs-warn)', width: 1.6 },
 }
 
 function clip(text: string, max: number): string {
@@ -74,7 +74,7 @@ export function SequenceView({ diagram, scenario, current, onSeek }: Props) {
   const height = y + 14
 
   return (
-    <div className="docspp-seq">
+    <div className="idocs-seq">
       <svg
         width={width}
         height={height}
@@ -89,7 +89,7 @@ export function SequenceView({ diagram, scenario, current, onSeek }: Props) {
             x2={x(id)}
             y1={64}
             y2={height - 6}
-            stroke="var(--docspp-line)"
+            stroke="var(--idocs-line)"
             strokeWidth="1.3"
             strokeDasharray="3 5"
           />
@@ -105,7 +105,7 @@ export function SequenceView({ diagram, scenario, current, onSeek }: Props) {
                   width={width - 12}
                   height={ROW_PHASE - 6}
                   rx={6}
-                  fill="var(--docspp-surface-2)"
+                  fill="var(--idocs-surface-2)"
                 />
                 <text className="seq-phase" x={18} y={r.y + 19}>
                   {roman(r.index)} · {r.title}
@@ -135,7 +135,7 @@ export function SequenceView({ diagram, scenario, current, onSeek }: Props) {
                     width={192}
                     height={28}
                     rx={6}
-                    fill="var(--docspp-accent-soft)"
+                    fill="var(--idocs-accent-soft)"
                     stroke={stroke.color}
                     strokeWidth="1.2"
                     strokeDasharray={planned ? '5 4' : undefined}
@@ -179,8 +179,8 @@ export function SequenceView({ diagram, scenario, current, onSeek }: Props) {
                 width={COL - 24}
                 height={50}
                 rx={8}
-                fill="var(--docspp-surface)"
-                stroke="var(--docspp-line)"
+                fill="var(--idocs-surface)"
+                stroke="var(--idocs-line)"
                 strokeWidth="1.3"
               />
               {n.icon && (
@@ -190,7 +190,7 @@ export function SequenceView({ diagram, scenario, current, onSeek }: Props) {
                   width={20}
                   height={20}
                   viewBox={n.icon.viewBox}
-                  style={n.icon.mono ? { color: 'var(--docspp-muted)' } : undefined}
+                  style={n.icon.mono ? { color: 'var(--idocs-muted)' } : undefined}
                   dangerouslySetInnerHTML={{ __html: scopeSvgIds(n.icon.body, `s${uid}-${id}`) }}
                 />
               )}

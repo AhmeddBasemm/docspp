@@ -5,13 +5,13 @@ tableOfContents:
   maxHeadingLevel: 3
 ---
 
-import Diagram from '@packagelab/docspp-astro/Diagram.astro'
+import Diagram from '@packagelab/idocs-astro/Diagram.astro'
 import { Aside } from '@astrojs/starlight/components'
 
 `<Diagram>` puts a diagram on any `.mdx` page or `.astro` file. The diagram loads when it scrolls into view, so a page with several diagrams stays fast. Until then the page holds a placeholder, because card heights are measured in the browser.
 
 ```mdx
-import Diagram from '@packagelab/docspp-astro/Diagram.astro'
+import Diagram from '@packagelab/idocs-astro/Diagram.astro'
 
 <Diagram name="checkout" />
 ```
@@ -70,11 +70,11 @@ Without `mode`, a scenario opens the way its own `mode:` says. With `mode`, the 
 
 ## The page around it
 
-A diagram wants room. `@packagelab/docspp-astro/starlight.css` widens Starlight's content column and holds ordinary text to a readable width, while diagrams use the full width. Add it to Starlight's `customCss`:
+A diagram wants room. `@packagelab/idocs-astro/starlight.css` widens Starlight's content column and holds ordinary text to a readable width, while diagrams use the full width. Add it to Starlight's `customCss`:
 
 ```js
 starlight({
-  customCss: ['@packagelab/docspp-astro/starlight.css'],
+  customCss: ['@packagelab/idocs-astro/starlight.css'],
 })
 ```
 
@@ -107,7 +107,7 @@ You can write these links yourself in your prose:
 
 ```astro
 ---
-import Diagram from '@packagelab/docspp-astro/Diagram.astro'
+import Diagram from '@packagelab/idocs-astro/Diagram.astro'
 ---
 
 <Diagram name="shop" scenario="checkout" />

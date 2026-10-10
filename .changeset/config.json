@@ -2,10 +2,10 @@
   "$schema": "https://unpkg.com/@changesets/config@3.1.1/schema.json",
   "changelog": "@changesets/cli/changelog",
   "commit": false,
-  "fixed": [["@packagelab/docspp-core", "@packagelab/docspp-react", "@packagelab/docspp-astro", "docspp", "create-docspp"]],
+  "fixed": [["@packagelab/idocs-core", "@packagelab/idocs-react", "@packagelab/idocs-astro", "idocs", "create-idocs"]],
   "linked": [],
   "access": "public",
   "baseBranch": "main",
   "updateInternalDependencies": "patch",
-  "ignore": ["docspp-docs", "my-docs", "docspp-vscode"]
+  "ignore": ["idocs-docs", "my-docs", "idocs-vscode"]
 }

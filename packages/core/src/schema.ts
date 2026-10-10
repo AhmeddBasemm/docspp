@@ -296,7 +296,7 @@ export function authoringJsonSchema(): Json {
   }
   return {
     $schema: 'http://json-schema.org/draft-07/schema#',
-    title: 'docspp diagram',
+    title: 'idocs diagram',
     ...schema,
   }
 }

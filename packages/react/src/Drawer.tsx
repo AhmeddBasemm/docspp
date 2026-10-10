@@ -1,4 +1,4 @@
-import type { CompiledDiagram, CompiledView } from '@packagelab/docspp-core'
+import type { CompiledDiagram, CompiledView } from '@packagelab/idocs-core'
 import { useEffect, useRef } from 'react'
 import { IconTile } from './Icon'
 import { cx } from './util'
@@ -47,29 +47,29 @@ export function Drawer({ diagram, view, nodeId, onClose, onSelect }: Props) {
     ))
 
   return (
-    <aside className="docspp-drawer" aria-label={`${node.title} details`}>
-      <div className="docspp-drawer-head">
+    <aside className="idocs-drawer" aria-label={`${node.title} details`}>
+      <div className="idocs-drawer-head">
         {node.icon && <IconTile icon={node.icon} />}
-        <div className="docspp-node-titles">
-          <div className="docspp-node-title">{node.title}</div>
-          {node.sub && <div className="docspp-node-sub">{node.sub}</div>}
+        <div className="idocs-node-titles">
+          <div className="idocs-node-title">{node.title}</div>
+          {node.sub && <div className="idocs-node-sub">{node.sub}</div>}
         </div>
         {node.status !== 'built' && (
-          <span className={cx('docspp-pill', `st-${node.status}`)}>{node.status}</span>
+          <span className={cx('idocs-pill', `st-${node.status}`)}>{node.status}</span>
         )}
         <button
           ref={closeRef}
           type="button"
-          className="docspp-drawer-close"
+          className="idocs-drawer-close"
           onClick={onClose}
           aria-label="Close details"
         >
           ×
         </button>
       </div>
-      <div className="docspp-drawer-body">
+      <div className="idocs-drawer-body">
         {node.docHtml ? (
-          <div className="docspp-md" dangerouslySetInnerHTML={{ __html: node.docHtml }} />
+          <div className="idocs-md" dangerouslySetInnerHTML={{ __html: node.docHtml }} />
         ) : node.lines.length ? (
           <ul>
             {node.lines.map((l) => (
@@ -77,14 +77,14 @@ export function Drawer({ diagram, view, nodeId, onClose, onSelect }: Props) {
             ))}
           </ul>
         ) : (
-          <p className="docspp-summary">
+          <p className="idocs-summary">
             No description yet. Add <code>nodes/{node.id}.md</code> next to the diagram file.
           </p>
         )}
         {(outgoing.length > 0 || incoming.length > 0) && (
           <>
             <h4>Connections</h4>
-            <ul className="docspp-drawer-links">
+            <ul className="idocs-drawer-links">
               {rows(outgoing, '→')}
               {rows(incoming, '←')}
             </ul>
@@ -93,7 +93,7 @@ export function Drawer({ diagram, view, nodeId, onClose, onSelect }: Props) {
         {usesLinks.length > 0 && (
           <>
             <h4>Uses</h4>
-            <ul className="docspp-drawer-links">
+            <ul className="idocs-drawer-links">
               {usesLinks.map((u) => (
                 <li key={u.text}>
                   {u.id ? (
@@ -111,14 +111,14 @@ export function Drawer({ diagram, view, nodeId, onClose, onSelect }: Props) {
         {node.links.length > 0 && (
           <>
             <h4>Links</h4>
-            <ul className="docspp-drawer-links">
+            <ul className="idocs-drawer-links">
               {node.links.map((l) => (
                 <li key={l.url}>
                   <a
                     href={l.url}
                     target="_blank"
                     rel="noreferrer"
-                    style={{ color: 'var(--docspp-accent)' }}
+                    style={{ color: 'var(--idocs-accent)' }}
                   >
                     {l.label}
                   </a>

@@ -1,5 +1,5 @@
 /*
- * docspp landing page.
+ * idocs landing page.
  * A drafting-table look: cool paper, ink, one teal accent and one amber "packet" spark, the same
  * pair the diagrams use. Code and terminals stay dark in both themes, like instruments on a bench.
  * Everything is scoped to .lp so none of it reaches the docs.
@@ -569,13 +569,13 @@ body.lp {
   padding: 14px;
   min-height: 420px;
 }
-.lp-stage-body .docspp-bleed {
+.lp-stage-body .idocs-bleed {
   margin: 0;
 }
 
 /* Secondary demos drop the legend and the summary paragraphs so the picture and the player fit. */
-.lp-compact .docspp-legend,
-.lp-compact .docspp > .docspp-summary:not(.is-card) {
+.lp-compact .idocs-legend,
+.lp-compact .idocs > .idocs-summary:not(.is-card) {
   display: none;
 }
 
@@ -1250,6 +1250,6 @@ body.lp {
 
 /* ---------- the diagram inside the landing page ---------- */
 
-.lp .docspp-bleed {
+.lp .idocs-bleed {
   margin: 0;
 }

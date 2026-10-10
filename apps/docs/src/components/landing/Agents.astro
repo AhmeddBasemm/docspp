@@ -2,12 +2,12 @@
 import { withBase } from '../../lib/base'
 import Icon from './Icon.astro'
 
-const install = 'npx skills add AhmeddBasemm/docspp --skill docspp'
+const install = 'npx skills add The-Package-Labs/idocs --skill idocs'
 const points = [
   {
     icon: 'lucide:braces',
     title: 'A published JSON Schema',
-    text: 'docspp schema writes it next to your diagrams. Editors autocomplete every key, and agents stop guessing them.',
+    text: 'idocs schema writes it next to your diagrams. Editors autocomplete every key, and agents stop guessing them.',
   },
   {
     icon: 'lucide:map-pin',
@@ -22,7 +22,7 @@ const points = [
   {
     icon: 'lucide:link',
     title: 'References that notice drift',
-    text: 'List the source files a box is based on. docspp check warns when one of them moves.',
+    text: 'List the source files a box is based on. idocs check warns when one of them moves.',
   },
 ]
 ---
@@ -39,7 +39,7 @@ const points = [
     </div>
 
     <div class="lp-agents-grid">
-      <div class="lp-term" role="img" aria-label="A terminal session: an agent writes a diagram, docspp check reports two problems, the agent fixes them and the check passes.">
+      <div class="lp-term" role="img" aria-label="A terminal session: an agent writes a diagram, idocs check reports two problems, the agent fixes them and the check passes.">
         <div class="lp-term-bar">claude code <span>diagrams/checkout</span></div>
 <pre aria-hidden="true"><span class="you">you</span>    Add a diagram of how checkout works. The code is in services/.
        Include a scenario for a declined card.
@@ -47,15 +47,15 @@ const points = [
 <span class="ai">claude</span> Reading services/orders, services/catalog and the gateway config.
        Wrote diagrams/checkout/diagram.yaml  <span class="dim">(12 nodes, 4 scenarios)</span>
 
-<span class="dim">$</span> <span class="cmd">pnpm docspp check</span>
+<span class="dim">$</span> <span class="cmd">pnpm idocs check</span>
 diagrams/checkout/diagram.yaml:8:29  <span class="warn">warning</span>  Unknown icon "strpe"
-    <span class="dim">Run `docspp icons search &lt;name&gt;` to find one.</span>
+    <span class="dim">Run `idocs icons search &lt;name&gt;` to find one.</span>
 diagrams/checkout/diagram.yaml:13:5  <span class="err">error</span>  Edge to "paymnts" is not a node
 1 diagram compiled in .: <span class="err">1 error</span>, <span class="warn">1 warning</span>
 
 <span class="ai">claude</span> Two typos. Fixing both and checking again.
 
-<span class="dim">$</span> <span class="cmd">pnpm docspp check</span>
+<span class="dim">$</span> <span class="cmd">pnpm idocs check</span>
 1 diagram compiled in .: <span class="ok">0 errors, 0 warnings</span></pre>
       </div>
 

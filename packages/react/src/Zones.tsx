@@ -1,4 +1,4 @@
-import type { CompiledDiagram, Layout } from '@packagelab/docspp-core'
+import type { CompiledDiagram, Layout } from '@packagelab/idocs-core'
 import { Icon } from './Icon'
 import { cx } from './util'
 
@@ -20,17 +20,17 @@ export function Zones({ diagram, groupIds, layout, dim }: Props) {
           <div
             key={id}
             className={cx(
-              'docspp-zone',
+              'idocs-zone',
               g.style === 'zone' ? 'is-zone' : 'is-frame',
               `st-${g.status}`,
               dim(id) && 'is-dim',
             )}
             style={{ left: r.x, top: r.y, width: r.w, height: r.h }}
           >
-            <div className="docspp-zone-head">
+            <div className="idocs-zone-head">
               {g.icon && <Icon icon={g.icon} />}
               <span>{g.label}</span>
-              {g.caption && <span className="docspp-zone-caption">{g.caption}</span>}
+              {g.caption && <span className="idocs-zone-caption">{g.caption}</span>}
             </div>
           </div>
         )

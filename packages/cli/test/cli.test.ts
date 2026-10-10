@@ -1,12 +1,12 @@
 import { mkdirSync, mkdtempSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import { loadProject } from '@packagelab/docspp-core/node'
+import { loadProject } from '@packagelab/idocs-core/node'
 import { describe, expect, it } from 'vitest'
 import { run, staleRefs } from '../src'
 
 function project(yaml: string) {
-  const root = mkdtempSync(join(tmpdir(), 'docspp-'))
+  const root = mkdtempSync(join(tmpdir(), 'idocs-'))
   mkdirSync(join(root, 'diagrams', 'd'), { recursive: true })
   mkdirSync(join(root, 'src'), { recursive: true })
   writeFileSync(join(root, 'src', 'real.ts'), '')

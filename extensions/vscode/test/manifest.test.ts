@@ -12,10 +12,10 @@ const contributes = manifest.contributes
 const declared: string[] = contributes.commands.map((c: { command: string }) => c.command)
 const registered = [
   ...readFileSync(join(root, 'src/vscode/commands.ts'), 'utf8').matchAll(/register\(\s*'(\w+)'/g),
-].map((m) => `docspp.${m[1]}`)
+].map((m) => `idocs.${m[1]}`)
 
 /** Commands that VS Code itself provides, which menus and links may use. */
-const builtin = (id: string) => !id.startsWith('docspp.')
+const builtin = (id: string) => !id.startsWith('idocs.')
 
 describe('commands', () => {
   it('registers every command it declares, and declares every command it registers', () => {
@@ -40,10 +40,10 @@ describe('commands', () => {
     }
   })
 
-  it('gives every command a title and the docspp category', () => {
+  it('gives every command a title and the idocs category', () => {
     for (const c of contributes.commands) {
       expect(c.title, c.command).toBeTruthy()
-      expect(c.category, c.command).toBe('docspp')
+      expect(c.category, c.command).toBe('idocs')
     }
   })
 })
@@ -114,6 +114,6 @@ describe('the package', () => {
     expect(manifest.publisher).toBeTruthy()
     expect(manifest.engines.vscode).toMatch(/^\^1\.\d+\.0$/)
     expect(manifest.repository.directory).toBe('extensions/vscode')
-    expect(contributes.configuration.properties['docspp.updateDelay'].default).toBe(250)
+    expect(contributes.configuration.properties['idocs.updateDelay'].default).toBe(250)
   })
 })

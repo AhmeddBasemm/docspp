@@ -1,4 +1,4 @@
-// Renders apps/docs/public/og.png, the image shown when a docspp link is shared.
+// Renders apps/docs/public/og.png, the image shown when an idocs link is shared.
 // Run `node scripts/og.mjs` after changing the landing page's look. Needs Google Chrome.
 import { readFileSync, writeFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
@@ -40,10 +40,10 @@ svg.wires{position:absolute;right:0;top:0;width:520px;height:630px}
 </svg>
 <div class="brand">
   <svg width="46" height="46" viewBox="0 0 32 32"><path d="M13 8.5h9.5V19" fill="none" stroke="#55bcdb" stroke-width="2.2" stroke-linejoin="round"/><rect x="2" y="3.5" width="11" height="10" rx="2.4" fill="#55bcdb"/><rect x="17" y="18.5" width="13" height="10" rx="2.4" fill="#55bcdb"/><circle cx="22.5" cy="8.5" r="3.4" fill="#f2a759"/></svg>
-  docspp
+  idocs
 </div>
 <h1>Architecture diagrams you can <span class="play"><svg viewBox="0 0 16 16"><path d="M3.5 1.8v12.4L14 8z" fill="currentColor"/></svg>press play</span> on.</h1>
-<div class="cmd"><b>$</b>npm create docspp@latest my-docs</div>`
+<div class="cmd"><b>$</b>npm create idocs@latest my-docs</div>`
 
 const browser = await chromium.launch({ channel: process.env.PW_CHANNEL ?? 'chrome' })
 const page = await browser.newPage({ viewport: { width: 1200, height: 630 } })

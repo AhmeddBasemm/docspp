@@ -1,11 +1,11 @@
 ---
 title: How layout works
-description: How docspp places boxes and routes arrows without coordinates, and what that means for how you write a diagram.
+description: How idocs places boxes and routes arrows without coordinates, and what that means for how you write a diagram.
 tableOfContents:
   maxHeadingLevel: 3
 ---
 
-import Diagram from '@packagelab/docspp-astro/Diagram.astro'
+import Diagram from '@packagelab/idocs-astro/Diagram.astro'
 import { Aside } from '@astrojs/starlight/components'
 
 Layout is automatic. You never write a coordinate, and when a diagram looks wrong you change the **model** or add a **hint**, not a position. Knowing how the layout works tells you which change will help.
@@ -14,7 +14,7 @@ Layout is automatic. You never write a coordinate, and when a diagram looks wron
 
 ## The approach
 
-docspp lays a diagram out **group by group, bottom up**.
+idocs lays a diagram out **group by group, bottom up**.
 
 1. **Each group lays out its own members** and reports a size. Its parent then treats it as one block. How the members are placed depends on the group's `layout`:
    - `flow` (the default): the members are arranged by [ELK](https://eclipse.dev/elk/), a layered graph layout engine, left to right or top to bottom, whichever comes out squarer.
@@ -29,7 +29,7 @@ Laying out a whole hierarchy in a single ELK run forces one direction on every z
 
 - **Declaration order matters.** It decides the order of cards within a layer and which edges count as "backwards". Declare nodes in reading order: entry points first, stores last.
 - **Zones are the unit of layout.** Put related nodes in a group so they travel together.
-- **Heights come from the browser.** A card's height depends on its text, so docspp renders each card offscreen at its fixed width, measures it, and then lays the diagram out. A new line in a card or a longer title changes the picture without any other work. When web fonts finish loading, it measures again.
+- **Heights come from the browser.** A card's height depends on its text, so idocs renders each card offscreen at its fixed width, measures it, and then lays the diagram out. A new line in a card or a longer title changes the picture without any other work. When web fonts finish loading, it measures again.
 - **A view is laid out on its own.** Hiding nodes with `include` or `exclude` gives a fresh layout of what is left, not a cropped copy of the big one.
 
 ## Direction

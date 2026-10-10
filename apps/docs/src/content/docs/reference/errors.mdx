@@ -1,6 +1,6 @@
 ---
 title: Errors and warnings
-description: What every message from docspp check means, and the quickest way to fix it.
+description: What every message from idocs check means, and the quickest way to fix it.
 sidebar:
   label: Errors and warnings
 tableOfContents:
@@ -9,7 +9,7 @@ tableOfContents:
 
 import { Aside } from '@astrojs/starlight/components'
 
-`docspp check` and `astro build` report two kinds of message. An **error** stops the build. A **warning** is printed and the build carries on, unless you run `docspp check --strict`.
+`idocs check` and `astro build` report two kinds of message. An **error** stops the build. A **warning** is printed and the build carries on, unless you run `idocs check --strict`.
 
 Every message starts with `file:line:column`. Open that spot first.
 
@@ -61,13 +61,13 @@ diagrams/checkout/diagram.yaml:5:3  error  Unknown key "titel"
 
 | Message | Cause and fix |
 |---|---|
-| `Unknown icon "x"` | Run `docspp icons search x`, then use a suggested name. |
+| `Unknown icon "x"` | Run `idocs icons search x`, then use a suggested name. |
 | `Icon file "x" was not found or is not an SVG` | A `./path.svg` icon that does not exist. Paths are relative to the diagram folder. |
 | `Unknown node kind "x"` | Use a built-in kind or add it under `kinds:`. The hint suggests the nearest. |
 | `Doc file "x" was not found` | A `doc:` path that does not exist. Paths are relative to the diagram folder. |
 | `Edge connects a node to itself and is not drawn` | A self-edge. Use a self step in a scenario to show a node acting on itself. |
 | `"x" appears in the story but is in no lane; it gets its own lane at the end` | A `lanes:` list that leaves out a node the scenario uses. Add it to a lane, or ignore the warning. |
-| `Node "x" cites "path", which does not exist` | A `refs:` path that moved. Update the diagram or the reference. Only `docspp check` reports this. |
+| `Node "x" cites "path", which does not exist` | A `refs:` path that moved. Update the diagram or the reference. Only `idocs check` reports this. |
 
 <Aside type="tip" title="Fix the first error first">
   One mistake often causes several messages. A typo in a node id produces an error at every edge and step that uses it. Fix the first, run the check again, and the rest usually disappear.
@@ -77,9 +77,9 @@ diagrams/checkout/diagram.yaml:5:3  error  Unknown key "titel"
 
 | Symptom | Check |
 |---|---|
-| `Diagram errors:` and a failed build | Run `docspp check`. The build fails on any diagram error, by design. |
+| `Diagram errors:` and a failed build | Run `idocs check`. The build fails on any diagram error, by design. |
 | `<Diagram name="x"> does not match a diagram` | The folder name is different. The error lists the names that exist. |
 | The diagram shows "Loading diagram…" and never appears | A browser console error. Is `react()` from `@astrojs/react` in `astro.config.mjs`? |
-| The page is narrow and the diagram tiny | Add `@packagelab/docspp-astro/starlight.css` to Starlight's `customCss`. |
-| Fonts differ from the screenshots | The starter uses IBM Plex through Fontsource. Add it, or set `--docspp-sans` and `--docspp-mono`. |
+| The page is narrow and the diagram tiny | Add `@packagelab/idocs-astro/starlight.css` to Starlight's `customCss`. |
+| Fonts differ from the screenshots | The starter uses IBM Plex through Fontsource. Add it, or set `--idocs-sans` and `--idocs-mono`. |
 | Edits to a diagram do not show in `pnpm dev` | Save the file again. If the compiler itself changed after an upgrade, restart the dev server. |

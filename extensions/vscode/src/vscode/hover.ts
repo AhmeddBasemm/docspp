@@ -4,7 +4,7 @@ import type { DiagramService } from './service'
 
 export function registerHover(service: DiagramService): vscode.Disposable {
   return vscode.languages.registerHoverProvider(
-    { language: 'docspp', scheme: 'file' },
+    { language: 'idocs', scheme: 'file' },
     {
       provideHover(document, position) {
         const where = service.locate(document.uri)

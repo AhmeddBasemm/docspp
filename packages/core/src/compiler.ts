@@ -162,7 +162,7 @@ function build(
           path,
           res.suggestions.length
             ? `Did you mean ${res.suggestions.map((s) => `"${s}"`).join(', ')}?`
-            : 'Run `docspp icons search <name>` to find one.',
+            : 'Run `idocs icons search <name>` to find one.',
         )
       }
     }

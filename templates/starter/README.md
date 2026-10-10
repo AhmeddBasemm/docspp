@@ -1,6 +1,6 @@
 # My docs
 
-Interactive architecture docs, built with [docspp](__DOCS_URL__).
+Interactive architecture docs, built with [idocs](__DOCS_URL__).
 
 ```sh
 pnpm install
@@ -12,7 +12,7 @@ Diagrams live in `diagrams/`, pages in `src/content/docs/`. Start with `diagrams
 | | |
 |---|---|
 | `pnpm check` | validate diagrams |
-| `pnpm docspp new <name>` | add a diagram |
+| `pnpm idocs new <name>` | add a diagram |
 | `pnpm build` | build the static site into `dist/` |
 
 ## Publish
@@ -21,10 +21,10 @@ Push to GitHub, open **Settings → Pages**, and choose **GitHub Actions** as th
 
 ## Draw with an AI agent
 
-The `docspp` skill in `.claude/skills/` teaches Claude Code the diagram format. For other agents or other projects: `npx skills add AhmeddBasemm/docspp --skill docspp`.
+The `idocs` skill in `.claude/skills/` teaches Claude Code the diagram format. For other agents or other projects: `npx skills add The-Package-Labs/idocs --skill idocs`.
 
-## Update docspp
+## Update idocs
 
 ```sh
-pnpm up "@packagelab/docspp-*" --latest
+pnpm up "@packagelab/idocs-*" --latest
 ```

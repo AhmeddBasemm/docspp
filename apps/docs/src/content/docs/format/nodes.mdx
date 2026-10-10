@@ -5,7 +5,7 @@ tableOfContents:
   maxHeadingLevel: 3
 ---
 
-import Diagram from '@packagelab/docspp-astro/Diagram.astro'
+import Diagram from '@packagelab/idocs-astro/Diagram.astro'
 import { Aside } from '@astrojs/starlight/components'
 
 A node is one part of your system: a service, a database, a person, an external provider. Nodes are the entries of the top-level `nodes:` map. The key is the node's **id**, which edges, groups and scenarios refer to.
@@ -94,5 +94,5 @@ postgres: { kind: database, title: PostgreSQL, in: stores, w: 140 }
 ```
 
 <Aside type="note">
-  A card's height comes from its content. docspp renders each card offscreen at its fixed width, measures it, and then lays the diagram out, so a longer title or more lines makes a taller card without any other change.
+  A card's height comes from its content. idocs renders each card offscreen at its fixed width, measures it, and then lays the diagram out, so a longer title or more lines makes a taller card without any other change.
 </Aside>

@@ -1,12 +1,12 @@
 ---
-name: docspp
+name: idocs
 license: MIT
-description: Draw, document and explain systems as interactive architecture diagrams with docspp. Diagrams are YAML files (diagrams/<name>/diagram.yaml) laid out automatically and rendered in an Astro + Starlight docs site, with playable scenarios that show a request travelling through the system. Use when asked to diagram, document or explain a system, service, request path or data flow; to add, change or fix a docspp diagram, scenario or story; when `docspp check` or `pnpm check` reports diagram errors; or to set up a docspp docs site.
+description: Draw, document and explain systems as interactive architecture diagrams with idocs. Diagrams are YAML files (diagrams/<name>/diagram.yaml) laid out automatically and rendered in an Astro + Starlight docs site, with playable scenarios that show a request travelling through the system. Use when asked to diagram, document or explain a system, service, request path or data flow; to add, change or fix an idocs diagram, scenario or story; when `idocs check` or `pnpm check` reports diagram errors; or to set up an idocs docs site.
 ---
 
-# docspp
+# idocs
 
-docspp turns a YAML description of a system into an interactive diagram: readers click a box for its docs, hover to follow connections, and press play on a **scenario** to watch a request travel through the system, as packets over the architecture, as a sequence diagram, or as a swimlane story. You write the model. You never write coordinates; layout is automatic.
+idocs turns a YAML description of a system into an interactive diagram: readers click a box for its docs, hover to follow connections, and press play on a **scenario** to watch a request travel through the system, as packets over the architecture, as a sequence diagram, or as a swimlane story. You write the model. You never write coordinates; layout is automatic.
 
 ## 1. Find out where you are
 
@@ -14,21 +14,21 @@ Look at the project before writing anything.
 
 | You see | Do |
 |---|---|
-| `@packagelab/docspp-astro` in `package.json` and a `diagrams/` folder | Authoring. Go to step 2. |
-| An Astro or Starlight site without docspp | Add it: [references/setup.md](references/setup.md), "Add docspp to an existing site". |
+| `@packagelab/idocs-astro` in `package.json` and a `diagrams/` folder | Authoring. Go to step 2. |
+| An Astro or Starlight site without idocs | Add it: [references/setup.md](references/setup.md), "Add idocs to an existing site". |
 | No docs site at all | Create one: [references/setup.md](references/setup.md), "Start a new site". |
-| The user only wants a picture, with no site | Say that docspp needs a small site to render in, offer to scaffold one, and carry on if they agree. |
+| The user only wants a picture, with no site | Say that idocs needs a small site to render in, offer to scaffold one, and carry on if they agree. |
 
-Use the project's package manager for every command below (`pnpm docspp ...`, `npx docspp ...`, `yarn docspp ...`). In a project made from the docspp template, `pnpm check` is a shortcut for `docspp check`.
+Use the project's package manager for every command below (`pnpm idocs ...`, `npx idocs ...`, `yarn idocs ...`). In a project made from the idocs template, `pnpm check` is a shortcut for `idocs check`.
 
 ## 2. Authoring workflow
 
-1. **Look at what exists.** `docspp list --json` shows the diagrams, views and scenarios. Extend a diagram rather than starting a second one for the same system.
-2. **Read the code you are documenting.** Never invent components, ports, routes or flows. Put the source files a node is based on in its `refs:` so readers can find them and `docspp check` warns when they move.
+1. **Look at what exists.** `idocs list --json` shows the diagrams, views and scenarios. Extend a diagram rather than starting a second one for the same system.
+2. **Read the code you are documenting.** Never invent components, ports, routes or flows. Put the source files a node is based on in its `refs:` so readers can find them and `idocs check` warns when they move.
 3. **Pick a scope.** One diagram answers one question ("how does checkout work?"). Aim for 8 to 25 nodes. If it needs more, make a second **view** of the same model, not a second diagram.
 4. **Write the model**: nodes, then groups, then edges. Declare nodes in reading order: order decides layout. Format: [references/format.md](references/format.md).
 5. **Add scenarios** for the flows a reader will ask about: the happy path first, then the failures that teach something. Format and writing advice: [references/scenarios.md](references/scenarios.md).
-6. **Check.** `docspp check --json`. Fix every error and every warning; messages carry `file:line:column` and a suggestion. Common ones: [references/troubleshooting.md](references/troubleshooting.md).
+6. **Check.** `idocs check --json`. Fix every error and every warning; messages carry `file:line:column` and a suggestion. Common ones: [references/troubleshooting.md](references/troubleshooting.md).
 7. **Put it on a page and look at it.** Add `<Diagram name="<name>" />` to an `.mdx` page (see below), run the dev server, and view the page with a browser tool if you have one. A diagram that validates can still look wrong; fix layout with hints: [references/layout.md](references/layout.md).
 
 If you are not sure what a finished diagram looks like, read [assets/examples/shop.diagram.yaml](assets/examples/shop.diagram.yaml). It is complete and is checked by tests.
@@ -74,7 +74,7 @@ Click-through documentation for a box goes in `diagrams/<name>/nodes/<id>.md` (m
 On a page (`src/content/docs/*.mdx`):
 
 ```mdx
-import Diagram from '@packagelab/docspp-astro/Diagram.astro'
+import Diagram from '@packagelab/idocs-astro/Diagram.astro'
 
 <Diagram name="shop" />
 <Diagram name="shop" scenario="browse" mode="story" />
@@ -93,15 +93,15 @@ import Diagram from '@packagelab/docspp-astro/Diagram.astro'
 
 | Command | What it does |
 |---|---|
-| `docspp check [root...] [--json] [--strict]` | Validate every diagram. `--strict` also fails on warnings. |
-| `docspp list [--json]` | Diagrams, views, scenarios. |
-| `docspp icons search <query>` | Find an icon name (`postgresql`, `logos:redis`, `lucide:server`). |
-| `docspp new <name>` | Scaffold `diagrams/<name>/`. |
-| `docspp schema` | Write `diagrams/diagram.schema.json` so editors autocomplete and validate the YAML. |
+| `idocs check [root...] [--json] [--strict]` | Validate every diagram. `--strict` also fails on warnings. |
+| `idocs list [--json]` | Diagrams, views, scenarios. |
+| `idocs icons search <query>` | Find an icon name (`postgresql`, `logos:redis`, `lucide:server`). |
+| `idocs new <name>` | Scaffold `diagrams/<name>/`. |
+| `idocs schema` | Write `diagrams/diagram.schema.json` so editors autocomplete and validate the YAML. |
 
 ## Before you say you are done
 
-- [ ] `docspp check --strict` passes with no errors or warnings.
+- [ ] `idocs check --strict` passes with no errors or warnings.
 - [ ] Every node and flow comes from the code or from the user, not from a guess.
 - [ ] The page renders and the diagram is readable at its default zoom. If it is tiny, it has too much in it.
 - [ ] Planned work is marked `status: planned`.

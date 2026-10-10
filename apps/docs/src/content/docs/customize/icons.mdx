@@ -5,7 +5,7 @@ tableOfContents:
   maxHeadingLevel: 3
 ---
 
-import Diagram from '@packagelab/docspp-astro/Diagram.astro'
+import Diagram from '@packagelab/idocs-astro/Diagram.astro'
 import { Aside } from '@astrojs/starlight/components'
 
 A node's `icon` puts a logo or symbol on its card. Icons are bundled into the page at build time, so nothing is fetched in the browser and nothing breaks offline.
@@ -32,12 +32,12 @@ icon: ./assets/billing.svg    # your own SVG, relative to the diagram folder
 
 Common shorthands work: `postgres`, `pg`, `k8s`, `mongo`, `node`, `es`, `rabbit`, `.net`, `ts`, `js`.
 
-Where a logo comes in two forms, docspp prefers the compact **mark** (`redis-icon`) over the full wordmark, because a card has room for a symbol, not a logotype.
+Where a logo comes in two forms, idocs prefers the compact **mark** (`redis-icon`) over the full wordmark, because a card has room for a symbol, not a logotype.
 
 ## Finding a name
 
 ```sh
-pnpm docspp icons search redis
+pnpm idocs icons search redis
 ```
 
 ```text
@@ -52,7 +52,7 @@ Add `--json` for a machine-readable answer. An unknown icon is a **warning** wit
 
 ```text
 diagrams/checkout/diagram.yaml:8:29  warning  Unknown icon "strpe"
-    Run `docspp icons search <name>` to find one.
+    Run `idocs icons search <name>` to find one.
 ```
 
 ## Your own SVG
@@ -70,7 +70,7 @@ nodes:
   ledger: { kind: service, icon: ./assets/ledger.svg, title: Ledger }
 ```
 
-If the SVG uses `currentColor`, docspp treats it as monochrome and tints it with the node's family colour, so one file works on light and dark. An SVG with its own colours is shown as it is. Keep the `viewBox` set: without one, docspp falls back to the `width` and `height` attributes, and then to a 24 by 24 box.
+If the SVG uses `currentColor`, idocs treats it as monochrome and tints it with the node's family colour, so one file works on light and dark. An SVG with its own colours is shown as it is. Keep the `viewBox` set: without one, idocs falls back to the `width` and `height` attributes, and then to a 24 by 24 box.
 
 <Aside type="caution">
   A local SVG is inlined into the page, so use files you trust. It is the same trust you give any file in your repository.
@@ -91,4 +91,4 @@ Groups accept `icon` as well. Use it sparingly: a zone label is already a label.
 
 ## The tile behind an icon
 
-Brand logos keep their own colours and sit on a tile (`--docspp-tile`), white in light mode and pale grey in dark mode, so a dark logo stays readable on a dark page. Monochrome icons sit on a tile tinted with the node's family colour instead. See [theming](../theming/).
+Brand logos keep their own colours and sit on a tile (`--idocs-tile`), white in light mode and pale grey in dark mode, so a dark logo stays readable on a dark page. Monochrome icons sit on a tile tinted with the node's family colour instead. See [theming](../theming/).

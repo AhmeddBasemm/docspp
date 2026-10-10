@@ -1,13 +1,13 @@
 ---
-import Diagram from '@packagelab/docspp-astro/Diagram.astro'
-import { diagrams } from 'virtual:docspp/diagrams'
+import Diagram from '@packagelab/idocs-astro/Diagram.astro'
+import { diagrams } from 'virtual:idocs/diagrams'
 import { withBase } from '../../lib/base'
 import Icon from './Icon.astro'
 
 const demo = diagrams.checkout!
 const nodes = Object.keys(demo.nodes).length
 const scenarios = demo.scenarios.length
-const install = 'npm create docspp@latest my-docs'
+const install = 'npm create idocs@latest my-docs'
 ---
 
 <section class="lp-hero">
@@ -34,7 +34,7 @@ const install = 'npm create docspp@latest my-docs'
       on.
     </h1>
     <p class="lp-lede">
-      Describe your system in YAML. docspp lays it out, documents every box, and replays a request
+      Describe your system in YAML. idocs lays it out, documents every box, and replays a request
       travelling through it, one step at a time. Readers see how it works instead of guessing.
     </p>
     <div class="lp-cta">

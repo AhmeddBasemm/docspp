@@ -10,7 +10,7 @@ export interface Settings {
 }
 
 export function settings(): Settings {
-  const c = vscode.workspace.getConfiguration('docspp')
+  const c = vscode.workspace.getConfiguration('idocs')
   return {
     diagnostics: c.get('diagnostics.enable', true),
     updateDelay: Math.max(0, c.get('updateDelay', 250)),

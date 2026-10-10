@@ -1,5 +1,5 @@
 {
-  "name": "docspp",
+  "name": "idocs",
   "private": true,
   "type": "module",
   "packageManager": "pnpm@12.9.1",
@@ -7,20 +7,20 @@
     "node": ">=22"
   },
   "scripts": {
-    "build": "pnpm --filter docspp-docs build",
-    "build:all": "pnpm build:packages && pnpm --filter docspp-docs build && pnpm --filter my-docs build",
+    "build": "pnpm --filter idocs-docs build",
+    "build:all": "pnpm build:packages && pnpm --filter idocs-docs build && pnpm --filter my-docs build",
     "build:packages": "pnpm -r --filter \"./packages/*\" build",
     "changeset": "changeset",
     "check": "tsx packages/cli/src/bin.ts check apps/docs templates/starter",
-    "vscode:build": "pnpm --filter docspp-vscode build",
-    "vscode:package": "pnpm --filter docspp-vscode package",
-    "vscode:test": "pnpm --filter docspp-vscode test:integration",
-    "dev": "pnpm --filter docspp-docs dev",
+    "vscode:build": "pnpm --filter idocs-vscode build",
+    "vscode:package": "pnpm --filter idocs-vscode package",
+    "vscode:test": "pnpm --filter idocs-vscode test:integration",
+    "dev": "pnpm --filter idocs-docs dev",
     "dev:template": "pnpm --filter my-docs dev",
     "format": "biome check --write .",
-    "docspp": "tsx packages/cli/src/bin.ts",
+    "idocs": "tsx packages/cli/src/bin.ts",
     "lint": "biome check .",
-    "preview": "pnpm --filter docspp-docs preview",
+    "preview": "pnpm --filter idocs-docs preview",
     "release": "pnpm build:packages && changeset publish",
     "template": "node scripts/template.mjs",
     "test": "vitest run",
@@ -39,10 +39,10 @@
     "typescript": "^7.0.2",
     "vitest": "^5.0.3"
   },
-  "homepage": "https://github.com/AhmeddBasemm/docspp",
+  "homepage": "https://github.com/The-Package-Labs/idocs",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/AhmeddBasemm/docspp.git"
+    "url": "git+https://github.com/The-Package-Labs/idocs.git"
   },
   "license": "MIT"
 }

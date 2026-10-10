@@ -1,8 +1,8 @@
 // What can be written where in a diagram file: the keys of each kind of mapping, and the values
-// some keys take. Everything but steps is read from the same JSON Schema `docspp schema` writes,
+// some keys take. Everything but steps is read from the same JSON Schema `idocs schema` writes,
 // so a new key in the format shows up in completion without touching this file.
-import { BUILTIN_EDGE_KINDS, BUILTIN_KINDS } from '@packagelab/docspp-core'
-import { authoringJsonSchema } from '@packagelab/docspp-core/browser'
+import { BUILTIN_EDGE_KINDS, BUILTIN_KINDS } from '@packagelab/idocs-core'
+import { authoringJsonSchema } from '@packagelab/idocs-core/browser'
 
 export type Context =
   | 'root'

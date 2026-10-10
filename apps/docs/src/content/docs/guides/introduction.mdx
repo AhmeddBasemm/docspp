@@ -1,5 +1,5 @@
 ---
-title: What is docspp
+title: What is idocs
 description: Architecture diagrams described in YAML, laid out automatically and playable. What it is, what you write and what readers get.
 sidebar:
   label: Introduction
@@ -7,10 +7,10 @@ tableOfContents:
   maxHeadingLevel: 2
 ---
 
-import Diagram from '@packagelab/docspp-astro/Diagram.astro'
+import Diagram from '@packagelab/idocs-astro/Diagram.astro'
 import { CardGrid, LinkCard } from '@astrojs/starlight/components'
 
-docspp is a tool for documentation sites. You describe a system in a YAML file. docspp lays the diagram out, draws it, documents every box, and can replay a request travelling through it, step by step.
+idocs is a tool for documentation sites. You describe a system in a YAML file. idocs lays the diagram out, draws it, documents every box, and can replay a request travelling through it, step by step.
 
 The diagrams are not images. They are part of the page, so readers can click, filter and play them.
 
@@ -68,9 +68,9 @@ The compiler runs once, on the server, when you build the site. It validates the
 
 ## When to use it
 
-docspp suits diagrams that explain how a system **behaves**: which service calls which, what travels over each line, and what happens when something fails. It works well for platform and architecture documentation, onboarding guides, runbooks and design reviews.
+idocs suits diagrams that explain how a system **behaves**: which service calls which, what travels over each line, and what happens when something fails. It works well for platform and architecture documentation, onboarding guides, runbooks and design reviews.
 
-It is not a drawing tool. You cannot drag boxes to a position, and very large diagrams (more than about 30 nodes) render small until the reader zooms. If you need a free-form whiteboard or pixel-exact artwork, use a drawing tool. If you want diagrams that stay in git, review like code and cannot drift from the text around them, use docspp.
+It is not a drawing tool. You cannot drag boxes to a position, and very large diagrams (more than about 30 nodes) render small until the reader zooms. If you need a free-form whiteboard or pixel-exact artwork, use a drawing tool. If you want diagrams that stay in git, review like code and cannot drift from the text around them, use idocs.
 
 ## Where to go next
 

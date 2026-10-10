@@ -5,7 +5,7 @@ tableOfContents:
   maxHeadingLevel: 2
 ---
 
-import Diagram from '@packagelab/docspp-astro/Diagram.astro'
+import Diagram from '@packagelab/idocs-astro/Diagram.astro'
 import { Code, Aside } from '@astrojs/starlight/components'
 import { addedLines } from '../../../lib/diff'
 import step1 from '../../../../diagrams/tour-1/diagram.yaml?raw'
@@ -24,7 +24,7 @@ We will draw how a photo is uploaded: a browser, an API, object storage, a queue
 Create the diagram first:
 
 ```sh
-pnpm docspp new photos
+pnpm idocs new photos
 ```
 
 Then replace the contents of `diagrams/photos/diagram.yaml` as you follow along.
@@ -67,7 +67,7 @@ A **scenario** is a list of steps. Each step flies a packet along your edges.
 
 A few things to notice while it plays:
 
-- `browser -> api` follows the edge you declared. `api -> browser` flies **against** the edge, so docspp draws it as a response without being told.
+- `browser -> api` follows the edge you declared. `api -> browser` flies **against** the edge, so idocs draws it as a response without being told.
 - `kind: lookup` marks a quick read of a store. `kind: event` marks something published for others to react to.
 - Click any line in the step list to jump to it. The address bar follows the step, so you can link a colleague to it.
 
@@ -108,7 +108,7 @@ pnpm check
 Then add it to a page in `src/content/docs/`:
 
 ```mdx
-import Diagram from '@packagelab/docspp-astro/Diagram.astro'
+import Diagram from '@packagelab/idocs-astro/Diagram.astro'
 
 <Diagram name="photos" scenario="upload" />
 ```

@@ -1,5 +1,5 @@
 {
-  "name": "@packagelab/docspp-react",
+  "name": "@packagelab/idocs-react",
   "version": "0.2.0",
   "type": "module",
   "exports": {
@@ -11,7 +11,7 @@
     "build": "node ../../scripts/build.mjs"
   },
   "dependencies": {
-    "@packagelab/docspp-core": "workspace:^",
+    "@packagelab/idocs-core": "workspace:^",
     "d3-selection": "^3.0.0",
     "d3-transition": "^3.0.1",
     "d3-zoom": "^3.0.0"
@@ -29,7 +29,7 @@
     "react": "^19.3.0",
     "react-dom": "^19.3.0"
   },
-  "description": "The interactive diagram component for docspp: pan and zoom, drawer, scenario player, sequence view.",
+  "description": "The interactive diagram component for idocs: pan and zoom, drawer, scenario player, sequence view.",
   "files": [
     "dist"
   ],
@@ -38,9 +38,9 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/AhmeddBasemm/docspp.git"
+    "url": "git+https://github.com/The-Package-Labs/idocs.git"
   },
-  "homepage": "https://github.com/AhmeddBasemm/docspp#readme",
+  "homepage": "https://github.com/The-Package-Labs/idocs#readme",
   "publishConfig": {
     "access": "public",
     "exports": {

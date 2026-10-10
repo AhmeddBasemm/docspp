@@ -44,7 +44,7 @@ await build({
   logLevel: 'warning',
 })
 
-const scratch = mkdtempSync(join(tmpdir(), 'docspp-integration-'))
+const scratch = mkdtempSync(join(tmpdir(), 'idocs-integration-'))
 const workspace = join(scratch, 'workspace')
 cpSync(join(root, 'integration/fixture'), workspace, { recursive: true })
 
@@ -92,9 +92,9 @@ if (packed) {
   writeFileSync(
     join(extensionDevelopmentPath, 'package.json'),
     JSON.stringify({
-      name: 'docspp-test-host',
+      name: 'idocs-test-host',
       version: '0.0.0',
-      publisher: 'docspp-test',
+      publisher: 'idocs-test',
       engines: { vscode: '^1.90.0' },
     }),
   )

@@ -15,7 +15,7 @@ const KINDS: Record<SuggestionKind, vscode.CompletionItemKind> = {
 
 export function registerCompletion(service: DiagramService): vscode.Disposable {
   return vscode.languages.registerCompletionItemProvider(
-    { language: 'docspp', scheme: 'file' },
+    { language: 'idocs', scheme: 'file' },
     {
       provideCompletionItems(document, position) {
         const where = service.locate(document.uri)

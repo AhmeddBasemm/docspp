@@ -1,112 +1,112 @@
 /*
  * Example palettes for the theming guide and the landing page. A wrapper element with
  * data-palette="blueprint" (or terminal, ink) restyles every diagram inside it. They are written the
- * way a reader would write them in their own CSS: only --docspp-* tokens.
+ * way a reader would write them in their own CSS: only --idocs-* tokens.
  * The dark palettes also spell out the colour families, because they must look the same on a light site.
  * The selectors are deliberately a little heavier than the renderer's dark-mode rule, so a palette wins.
  */
-html [data-palette="blueprint"] .docspp.docspp,
-html [data-palette="terminal"] .docspp.docspp {
-  --docspp-surface-2: #0f1722;
-  --docspp-ok: #62c48f;
-  --docspp-ok-soft: #14301f;
-  --docspp-warn: #e9a94f;
-  --docspp-warn-soft: #382a10;
-  --docspp-bad: #e8837a;
-  --docspp-bad-soft: #3c1b18;
-  --docspp-tile: #eef2f5;
-  --docspp-shadow: 0 1px 2px rgb(0 0 0 / 35%), 0 4px 14px rgb(0 0 0 / 30%);
-  --docspp-blue: #7ba6ff;
-  --docspp-blue-bg: #18264a;
-  --docspp-amber: #f2a759;
-  --docspp-amber-bg: #35260f;
-  --docspp-violet: #b9a0f5;
-  --docspp-violet-bg: #28204a;
-  --docspp-green: #74d39b;
-  --docspp-green-bg: #12301f;
-  --docspp-teal: #55bcdb;
-  --docspp-teal-bg: #12333e;
-  --docspp-red: #e8837a;
-  --docspp-red-bg: #3c1b18;
-  --docspp-slate: #9aa5b5;
-  --docspp-slate-bg: #1f2733;
+html [data-palette="blueprint"] .idocs.idocs,
+html [data-palette="terminal"] .idocs.idocs {
+  --idocs-surface-2: #0f1722;
+  --idocs-ok: #62c48f;
+  --idocs-ok-soft: #14301f;
+  --idocs-warn: #e9a94f;
+  --idocs-warn-soft: #382a10;
+  --idocs-bad: #e8837a;
+  --idocs-bad-soft: #3c1b18;
+  --idocs-tile: #eef2f5;
+  --idocs-shadow: 0 1px 2px rgb(0 0 0 / 35%), 0 4px 14px rgb(0 0 0 / 30%);
+  --idocs-blue: #7ba6ff;
+  --idocs-blue-bg: #18264a;
+  --idocs-amber: #f2a759;
+  --idocs-amber-bg: #35260f;
+  --idocs-violet: #b9a0f5;
+  --idocs-violet-bg: #28204a;
+  --idocs-green: #74d39b;
+  --idocs-green-bg: #12301f;
+  --idocs-teal: #55bcdb;
+  --idocs-teal-bg: #12333e;
+  --idocs-red: #e8837a;
+  --idocs-red-bg: #3c1b18;
+  --idocs-slate: #9aa5b5;
+  --idocs-slate-bg: #1f2733;
 }
-html [data-palette="blueprint"] .docspp.docspp {
-  --docspp-bg: #0a2540;
-  --docspp-surface: #0f3256;
-  --docspp-zone: #0c2c4c;
-  --docspp-ink: #e6f2ff;
-  --docspp-muted: #9bbfe0;
-  --docspp-line: #35689b;
-  --docspp-accent: #7fd3ff;
-  --docspp-accent-soft: #12456f;
-  --docspp-tunnel: #c3a6ff;
+html [data-palette="blueprint"] .idocs.idocs {
+  --idocs-bg: #0a2540;
+  --idocs-surface: #0f3256;
+  --idocs-zone: #0c2c4c;
+  --idocs-ink: #e6f2ff;
+  --idocs-muted: #9bbfe0;
+  --idocs-line: #35689b;
+  --idocs-accent: #7fd3ff;
+  --idocs-accent-soft: #12456f;
+  --idocs-tunnel: #c3a6ff;
 }
-html [data-palette="terminal"] .docspp.docspp {
-  --docspp-bg: #050806;
-  --docspp-surface: #0b110c;
-  --docspp-zone: #08100a;
-  --docspp-ink: #c9f7d3;
-  --docspp-muted: #6fae80;
-  --docspp-line: #1f4a2b;
-  --docspp-accent: #4ade80;
-  --docspp-accent-soft: #0f2e1a;
-  --docspp-tunnel: #a3e635;
-  --docspp-sans: var(--docspp-mono);
+html [data-palette="terminal"] .idocs.idocs {
+  --idocs-bg: #050806;
+  --idocs-surface: #0b110c;
+  --idocs-zone: #08100a;
+  --idocs-ink: #c9f7d3;
+  --idocs-muted: #6fae80;
+  --idocs-line: #1f4a2b;
+  --idocs-accent: #4ade80;
+  --idocs-accent-soft: #0f2e1a;
+  --idocs-tunnel: #a3e635;
+  --idocs-sans: var(--idocs-mono);
 }
-html [data-palette="ink"] .docspp.docspp {
-  --docspp-bg: #fbfaf8;
-  --docspp-surface: #ffffff;
-  --docspp-surface-2: #f1f0ed;
-  --docspp-zone: #f1f0ed;
-  --docspp-ink: #121212;
-  --docspp-muted: #5b5b5b;
-  --docspp-line: #1f1f1f;
-  --docspp-accent: #d4281c;
-  --docspp-accent-soft: #fbdcd9;
-  --docspp-tunnel: #5b2bd1;
-  --docspp-shadow: 3px 3px 0 #1f1f1f;
-  --docspp-ok: #1a7a3c;
-  --docspp-ok-soft: #d8f0df;
-  --docspp-warn: #8a5300;
-  --docspp-warn-soft: #f6e5c3;
-  --docspp-bad: #b3261e;
-  --docspp-bad-soft: #f8d9d6;
-  --docspp-tile: #ffffff;
-  --docspp-blue: #1c4fc3;
-  --docspp-blue-bg: #e1e9fb;
-  --docspp-amber: #9a5200;
-  --docspp-amber-bg: #fbe9d0;
-  --docspp-violet: #5b2bd1;
-  --docspp-violet-bg: #e9e1fa;
-  --docspp-green: #1a7a3c;
-  --docspp-green-bg: #d8f0df;
-  --docspp-teal: #0a6f8f;
-  --docspp-teal-bg: #d9edf3;
-  --docspp-red: #b3261e;
-  --docspp-red-bg: #f8d9d6;
-  --docspp-slate: #4d5560;
-  --docspp-slate-bg: #e8e9ec;
+html [data-palette="ink"] .idocs.idocs {
+  --idocs-bg: #fbfaf8;
+  --idocs-surface: #ffffff;
+  --idocs-surface-2: #f1f0ed;
+  --idocs-zone: #f1f0ed;
+  --idocs-ink: #121212;
+  --idocs-muted: #5b5b5b;
+  --idocs-line: #1f1f1f;
+  --idocs-accent: #d4281c;
+  --idocs-accent-soft: #fbdcd9;
+  --idocs-tunnel: #5b2bd1;
+  --idocs-shadow: 3px 3px 0 #1f1f1f;
+  --idocs-ok: #1a7a3c;
+  --idocs-ok-soft: #d8f0df;
+  --idocs-warn: #8a5300;
+  --idocs-warn-soft: #f6e5c3;
+  --idocs-bad: #b3261e;
+  --idocs-bad-soft: #f8d9d6;
+  --idocs-tile: #ffffff;
+  --idocs-blue: #1c4fc3;
+  --idocs-blue-bg: #e1e9fb;
+  --idocs-amber: #9a5200;
+  --idocs-amber-bg: #fbe9d0;
+  --idocs-violet: #5b2bd1;
+  --idocs-violet-bg: #e9e1fa;
+  --idocs-green: #1a7a3c;
+  --idocs-green-bg: #d8f0df;
+  --idocs-teal: #0a6f8f;
+  --idocs-teal-bg: #d9edf3;
+  --idocs-red: #b3261e;
+  --idocs-red-bg: #f8d9d6;
+  --idocs-slate: #4d5560;
+  --idocs-slate-bg: #e8e9ec;
 }
 
 /*
  * A full palette also paints the ground under the whole component, not just the canvas, so the
  * controls and text around the canvas stay readable when the site's own theme is the other way round.
  */
-html [data-palette="blueprint"] .docspp.docspp,
-html [data-palette="terminal"] .docspp.docspp,
-html [data-palette="ink"] .docspp.docspp {
-  background: var(--docspp-bg);
+html [data-palette="blueprint"] .idocs.idocs,
+html [data-palette="terminal"] .idocs.idocs,
+html [data-palette="ink"] .idocs.idocs {
+  background: var(--idocs-bg);
   padding: 14px;
   border-radius: 12px;
 }
 
 /* One colour family swapped for a brand colour: every blue service becomes orange. */
-html [data-palette="brand"] .docspp.docspp {
-  --docspp-blue: #c2410c;
-  --docspp-blue-bg: #ffedd5;
+html [data-palette="brand"] .idocs.idocs {
+  --idocs-blue: #c2410c;
+  --idocs-blue-bg: #ffedd5;
 }
-html[data-theme="dark"] [data-palette="brand"] .docspp.docspp {
-  --docspp-blue: #fb923c;
-  --docspp-blue-bg: #3b1d0a;
+html[data-theme="dark"] [data-palette="brand"] .idocs.idocs {
+  --idocs-blue: #fb923c;
+  --idocs-blue-bg: #3b1d0a;
 }

@@ -1,6 +1,6 @@
 // What the status bar says about a diagram. Pure, so the wording is tested.
-import type { CompiledDiagram } from '@packagelab/docspp-core'
-import type { Diagnostic } from '@packagelab/docspp-core/browser'
+import type { CompiledDiagram } from '@packagelab/idocs-core'
+import type { Diagnostic } from '@packagelab/idocs-core/browser'
 
 export interface Summary {
   name: string
@@ -32,7 +32,7 @@ const plural = (n: number, word: string) => `${n} ${word}${n === 1 ? '' : 's'}`
 export function statusText(s: Summary): string {
   if (s.errors) return `$(error) ${s.errors}${s.warnings ? ` $(warning) ${s.warnings}` : ''}`
   if (s.warnings) return `$(warning) ${s.warnings}`
-  return '$(check) docspp'
+  return '$(check) idocs'
 }
 
 export function statusTooltip(s: Summary): string {
@@ -49,5 +49,5 @@ export function statusTooltip(s: Summary): string {
 
 /** What a click does: show the problems when there are any, otherwise open the preview. */
 export function statusCommand(s: Summary): string {
-  return s.errors || s.warnings ? 'workbench.actions.view.problems' : 'docspp.openPreviewToSide'
+  return s.errors || s.warnings ? 'workbench.actions.view.problems' : 'idocs.openPreviewToSide'
 }

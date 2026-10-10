@@ -3,12 +3,12 @@ dist
 .astro
 .DS_Store
 *.log
-.docspp-cache
+.idocs-cache
 apps/docs/.astro
 apps/docs/dist
 templates/*/.astro
 templates/*/dist
-packages/create-docspp/template
+packages/create-idocs/template
 packages/*/LICENSE
 extensions/*/LICENSE
 *.vsix

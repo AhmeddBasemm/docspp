@@ -1,21 +1,21 @@
 ---
 title: Contributing
-description: Set up the repository, run the tests, and the rules to follow when you change docspp.
+description: Set up the repository, run the tests, and the rules to follow when you change idocs.
 tableOfContents:
   maxHeadingLevel: 2
 ---
 
 import { Aside } from '@astrojs/starlight/components'
 
-docspp lives in one repository, [AhmeddBasemm/docspp](https://github.com/AhmeddBasemm/docspp): the packages, this documentation site, the starter template and the agent skill. A change to the format and the page that documents it go in one pull request.
+idocs lives in one repository, [The-Package-Labs/idocs](https://github.com/The-Package-Labs/idocs): the packages, this documentation site, the starter template and the agent skill. A change to the format and the page that documents it go in one pull request.
 
-This page is the short version. The full guide, with the pull request process, commit style and the code of conduct, is [CONTRIBUTING.md](https://github.com/AhmeddBasemm/docspp/blob/main/CONTRIBUTING.md) in the repository. For security problems, follow [SECURITY.md](https://github.com/AhmeddBasemm/docspp/blob/main/SECURITY.md) instead of opening an issue.
+This page is the short version. The full guide, with the pull request process, commit style and the code of conduct, is [CONTRIBUTING.md](https://github.com/The-Package-Labs/idocs/blob/main/CONTRIBUTING.md) in the repository. For security problems, follow [SECURITY.md](https://github.com/The-Package-Labs/idocs/blob/main/SECURITY.md) instead of opening an issue.
 
 ## Set up
 
 ```sh
-git clone https://github.com/AhmeddBasemm/docspp
-cd docspp
+git clone https://github.com/The-Package-Labs/idocs
+cd idocs
 pnpm install
 pnpm dev              # this site, at http://localhost:4321
 pnpm dev:template     # the starter project
@@ -47,11 +47,11 @@ CI runs lint, typecheck, unit tests, `pnpm check --strict`, `build:all`, the end
 | `packages/core` | Schema, compiler, layout, router and timeline. No UI. |
 | `packages/react` | `<DiagramView>` and its parts, plus the styles. |
 | `packages/astro` | The Astro integration and `<Diagram>`. |
-| `packages/cli` | The `docspp` command. |
-| `packages/create-docspp` | `npm create docspp`. |
+| `packages/cli` | The `idocs` command. |
+| `packages/create-idocs` | `npm create idocs`. |
 | `apps/docs` | This site: the landing page, the guides and the live examples. |
 | `templates/starter` | The project new users start from. The source of truth for the template. |
-| `skills/docspp` | The agent skill. |
+| `skills/idocs` | The agent skill. |
 
 ## Rules
 
@@ -59,7 +59,7 @@ CI runs lint, typecheck, unit tests, `pnpm check --strict`, `build:all`, the end
 - **Keep the story model and the timeline pure.** Add behaviour to the model, with a test, not to the component.
 - **Compiled output is JSON.** No functions, classes, Maps or Dates.
 - **Validate in the compiler, not the renderer.** A diagram that compiles must render.
-- **Changing the schema?** Run `pnpm docspp schema apps/docs && pnpm docspp schema templates/starter`. A test fails when the committed `diagram.schema.json` files are stale.
+- **Changing the schema?** Run `pnpm idocs schema apps/docs && pnpm idocs schema templates/starter`. A test fails when the committed `diagram.schema.json` files are stale.
 - **Edit the starter, not a template repository.** The template is generated, and must stay minimal and free of tool documentation.
 - **Keep the skill and the docs in step with the code.** A test checks the skill against the code. Update this site in the same pull request.
 - **Add a changeset** for any user-visible change. The five packages are versioned together.
@@ -82,5 +82,5 @@ Unit tests cover geometry: nothing overlaps, edges end on borders, nothing cross
 Releases use [changesets](https://github.com/changesets/changesets). A change users should hear about gets a changeset (`pnpm changeset`). On `main`, the release workflow turns pending changesets into a "Version packages" pull request, and merging it publishes every package to npm and tags the release.
 
 <Aside type="tip">
-  The repository's [`docs/REPOSITORIES.md`](https://github.com/AhmeddBasemm/docspp/blob/main/docs/REPOSITORIES.md) explains the repository layout, the template repository and releasing in more detail.
+  The repository's [`docs/REPOSITORIES.md`](https://github.com/The-Package-Labs/idocs/blob/main/docs/REPOSITORIES.md) explains the repository layout, the template repository and releasing in more detail.
 </Aside>

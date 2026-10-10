@@ -6,7 +6,7 @@ import {
   STEP_KIND_COLORS,
   type StepKind,
   type StoryBox,
-} from '@packagelab/docspp-core'
+} from '@packagelab/idocs-core'
 import { useCallback, useId, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { Icon } from './Icon'
 import { colorVar, cx, roman } from './util'
@@ -200,8 +200,8 @@ export function StoryView({ diagram, scenario, current, ended, onSeek }: Props) 
   const isDone = (box: StoryBox) => ended || box.steps.every((s) => s < current)
 
   return (
-    <div className="docspp-story">
-      <div className="docspp-legend" role="group" aria-label="Legend">
+    <div className="idocs-story">
+      <div className="idocs-legend" role="group" aria-label="Legend">
         {['request', 'response', 'error', 'event']
           .filter((k) => kinds.includes(k as StepKind))
           .map((k) => (
@@ -228,7 +228,7 @@ export function StoryView({ diagram, scenario, current, ended, onSeek }: Props) 
                 y1="6"
                 x2="42"
                 y2="6"
-                stroke="var(--docspp-ink)"
+                stroke="var(--idocs-ink)"
                 strokeWidth="1.6"
                 strokeDasharray="2 3"
               />
@@ -238,10 +238,10 @@ export function StoryView({ diagram, scenario, current, ended, onSeek }: Props) 
         )}
       </div>
 
-      <div className="docspp-story-scroll">
+      <div className="idocs-story-scroll">
         <div
           ref={gridRef}
-          className="docspp-story-grid"
+          className="idocs-story-grid"
           style={
             {
               '--lanes': story.lanes.length,
@@ -252,16 +252,16 @@ export function StoryView({ diagram, scenario, current, ended, onSeek }: Props) 
           {layout.bands.map((band) => (
             <div key={`band-${band.index}`} style={{ display: 'contents' }}>
               <div
-                className={cx('docspp-phase-band', band.index % 2 === 0 ? 'is-odd' : 'is-even')}
+                className={cx('idocs-phase-band', band.index % 2 === 0 ? 'is-odd' : 'is-even')}
                 style={{ gridColumn: '1 / -1', gridRow: `${band.from} / ${band.to + 1}` }}
               />
               <div
-                className="docspp-phase-label"
+                className="idocs-phase-label"
                 style={{ gridColumn: 1, gridRow: `${band.from + 1} / ${band.to}` }}
               >
-                <span className="docspp-phase-roman">{roman(band.index)}</span>
-                <span className="docspp-phase-name">{band.title}</span>
-                {band.caption && <span className="docspp-phase-cap">{band.caption}</span>}
+                <span className="idocs-phase-roman">{roman(band.index)}</span>
+                <span className="idocs-phase-name">{band.title}</span>
+                {band.caption && <span className="idocs-phase-cap">{band.caption}</span>}
               </div>
             </div>
           ))}
@@ -272,31 +272,31 @@ export function StoryView({ diagram, scenario, current, ended, onSeek }: Props) 
               ref={(el) => {
                 headEls.current[lane.index] = el
               }}
-              className="docspp-lane-head"
+              className="idocs-lane-head"
               style={{ gridColumn: lane.index + 2, gridRow: 1 }}
             >
               {lane.icons.length > 0 && (
-                <span className="docspp-lane-icons">
+                <span className="idocs-lane-icons">
                   {lane.icons.map((icon, i) => (
                     <span
                       // biome-ignore lint/suspicious/noArrayIndexKey: two nodes in a lane can share an icon
                       key={`${i}-${icon.set}-${icon.name}`}
-                      className={cx('docspp-lane-icon', icon.mono ? 'is-mono' : 'is-brand')}
+                      className={cx('idocs-lane-icon', icon.mono ? 'is-mono' : 'is-brand')}
                     >
                       <Icon icon={icon} />
                     </span>
                   ))}
                 </span>
               )}
-              <span className="docspp-lane-title">{lane.title}</span>
-              {lane.sub && <span className="docspp-lane-sub">{lane.sub}</span>}
+              <span className="idocs-lane-title">{lane.title}</span>
+              {lane.sub && <span className="idocs-lane-sub">{lane.sub}</span>}
             </div>
           ))}
 
           {cells.map((cell) => (
             <div
               key={cell.key}
-              className="docspp-story-cell"
+              className="idocs-story-cell"
               style={{ gridColumn: cell.lane + 2, gridRow: layout.rowOf.get(cell.row) }}
             >
               {cell.boxes.map((box) => (
@@ -307,7 +307,7 @@ export function StoryView({ diagram, scenario, current, ended, onSeek }: Props) 
                     else boxEls.delete(box.id)
                   }}
                   className={cx(
-                    'docspp-sbox',
+                    'idocs-sbox',
                     `role-${box.role}`,
                     `kind-${box.kind}`,
                     `st-${box.status}`,
@@ -324,20 +324,20 @@ export function StoryView({ diagram, scenario, current, ended, onSeek }: Props) 
                     }
                   }}
                 >
-                  <div className="docspp-sbox-title">
-                    {box.icon && <Icon icon={box.icon} className="docspp-sbox-icon" />}
-                    {box.n !== undefined && <span className="docspp-sbox-n">{box.n} ·</span>}
+                  <div className="idocs-sbox-title">
+                    {box.icon && <Icon icon={box.icon} className="idocs-sbox-icon" />}
+                    {box.n !== undefined && <span className="idocs-sbox-n">{box.n} ·</span>}
                     <span>{breakable(box.title)}</span>
                   </div>
                   {box.detail && (
-                    <div className="docspp-sbox-detail">
+                    <div className="idocs-sbox-detail">
                       {box.detail.split('\n').map((line) => (
                         <div key={line}>{breakable(line)}</div>
                       ))}
                     </div>
                   )}
                   {box.status !== 'built' && (
-                    <span className={cx('docspp-pill', `st-${box.status}`)}>{box.status}</span>
+                    <span className={cx('idocs-pill', `st-${box.status}`)}>{box.status}</span>
                   )}
                 </div>
               ))}
@@ -345,7 +345,7 @@ export function StoryView({ diagram, scenario, current, ended, onSeek }: Props) 
           ))}
 
           {geo && (
-            <svg className="docspp-story-links" width={geo.w} height={geo.h} aria-hidden="true">
+            <svg className="idocs-story-links" width={geo.w} height={geo.h} aria-hidden="true">
               <defs>
                 {kinds.map((k) => (
                   <marker
@@ -367,7 +367,7 @@ export function StoryView({ diagram, scenario, current, ended, onSeek }: Props) 
                 ))}
               </defs>
               {geo.lifelines.map((l) => (
-                <line key={l.x} className="docspp-lifeline" x1={l.x} x2={l.x} y1={l.y1} y2={l.y2} />
+                <line key={l.x} className="idocs-lifeline" x1={l.x} x2={l.x} y1={l.y1} y2={l.y2} />
               ))}
               {geo.links.map((l) => {
                 const color = colorVar(
@@ -378,7 +378,7 @@ export function StoryView({ diagram, scenario, current, ended, onSeek }: Props) 
                   <path
                     key={l.key}
                     className={cx(
-                      'docspp-slink',
+                      'idocs-slink',
                       l.style === 'lookup' && 'is-lookup',
                       !lit && 'is-future',
                     )}

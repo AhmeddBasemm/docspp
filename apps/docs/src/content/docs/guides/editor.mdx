@@ -8,7 +8,7 @@ tableOfContents:
 import { Aside, Tabs, TabItem } from '@astrojs/starlight/components'
 import preview from '../../../assets/vscode-preview.png?url'
 
-The docspp extension for VS Code makes a diagram as quick to write as it is to read. It highlights the YAML, checks it as you type, completes node ids and icon names, and shows the diagram next to the file, updating on every keystroke.
+The idocs extension for VS Code makes a diagram as quick to write as it is to read. It highlights the YAML, checks it as you type, completes node ids and icon names, and shows the diagram next to the file, updating on every keystroke.
 
 <img
   src={preview}
@@ -22,17 +22,17 @@ The docspp extension for VS Code makes a diagram as quick to write as it is to r
 
 <Tabs>
   <TabItem label="Marketplace">
-    Open the Extensions view, search for **docspp** (publisher `packagelab`) and install it. Or from a terminal:
+    Open the Extensions view, search for **idocs** (publisher `packagelab`) and install it. Or from a terminal:
 
     ```sh
-    code --install-extension packagelab.docspp-vscode
+    code --install-extension packagelab.idocs-vscode
     ```
   </TabItem>
   <TabItem label="From a .vsix">
-    Every release attaches the extension as a `.vsix` file on [GitHub](https://github.com/AhmeddBasemm/docspp/releases). Download it and run:
+    Every release attaches the extension as a `.vsix` file on [GitHub](https://github.com/The-Package-Labs/idocs/releases). Download it and run:
 
     ```sh
-    code --install-extension docspp-vscode-0.1.0.vsix
+    code --install-extension idocs-vscode-0.1.0.vsix
     ```
   </TabItem>
 </Tabs>
@@ -51,7 +51,7 @@ Open a diagram and press <kbd>Ctrl</kbd>+<kbd>K</kbd> <kbd>V</kbd> (<kbd>⌘</kb
 
 ## Writing
 
-**Problems** are the checks `docspp check` runs, shown in the Problems panel as you type: unknown keys with a suggestion, edges to nodes that do not exist, steps with no route, icons that do not resolve, and `refs:` that point at files that have since moved.
+**Problems** are the checks `idocs check` runs, shown in the Problems panel as you type: unknown keys with a suggestion, edges to nodes that do not exist, steps with no route, icons that do not resolve, and `refs:` that point at files that have since moved.
 
 **Completion** knows where you are. In a node it offers the node's keys with their documentation; after `kind:` it offers the kinds; at the start of an edge or a step it offers your node ids, and after `->` the other end.
 
@@ -65,26 +65,26 @@ nodes:
 
 **Navigation** works on ids. Go to the definition of a node from an edge or a scenario, find every use of it, or rename it: every edge, step, lane and view in `diagram.yaml` and in the scenario files changes together, and so does the node's `nodes/<id>.md`.
 
-Hover a node for its connections, an icon to see it, a key for what it means. The outline lists nodes, edges, views and the steps of each scenario. The status bar shows the state of the diagram you are editing; click it to see the problems. **Help → Welcome → Get started with docspp** walks through all of this.
+Hover a node for its connections, an icon to see it, a key for what it means. The outline lists nodes, edges, views and the steps of each scenario. The status bar shows the state of the diagram you are editing; click it to see the problems. **Help → Welcome → Get started with idocs** walks through all of this.
 
 | Command | |
 |---|---|
-| **docspp: Open Preview to the Side** | Preview the diagram you are editing |
-| **docspp: New Diagram** | Create `diagrams/<name>/` with a working diagram, the same files as `docspp new` |
-| **docspp: Insert Icon** | Search the icon catalog and insert a name |
-| **docspp: Check All Diagrams** | Compile every diagram in the workspace |
+| **idocs: Open Preview to the Side** | Preview the diagram you are editing |
+| **idocs: New Diagram** | Create `diagrams/<name>/` with a working diagram, the same files as `idocs new` |
+| **idocs: Insert Icon** | Search the icon catalog and insert a name |
+| **idocs: Check All Diagrams** | Compile every diagram in the workspace |
 
 ## Settings
 
 | Setting | Default | |
 |---|---|---|
-| `docspp.diagnostics.enable` | `true` | Show errors and warnings in the Problems panel |
-| `docspp.updateDelay` | `250` | Milliseconds to wait after typing before checking and updating the preview |
-| `docspp.preview.refreshOn` | `type` | `type` updates from unsaved text, `save` waits for a save |
-| `docspp.preview.followCursor` | `true` | Outline the node under the cursor in the preview |
+| `idocs.diagnostics.enable` | `true` | Show errors and warnings in the Problems panel |
+| `idocs.updateDelay` | `250` | Milliseconds to wait after typing before checking and updating the preview |
+| `idocs.preview.refreshOn` | `type` | `type` updates from unsaved text, `save` waits for a save |
+| `idocs.preview.followCursor` | `true` | Outline the node under the cursor in the preview |
 
 <Aside type="note">
-  The extension carries the compiler of its own release. If your project uses a newer docspp than the extension, a key that was added since may be reported as unknown until the extension is updated. `docspp check` always uses the version installed in your project.
+  The extension carries the compiler of its own release. If your project uses a newer idocs than the extension, a key that was added since may be reported as unknown until the extension is updated. `idocs check` always uses the version installed in your project.
 </Aside>
 
 Diagram files are recognised by their place: `diagrams/<name>/diagram.yaml` and `diagrams/<name>/scenarios/*.yaml`. For a diagram kept somewhere else, point the language at it with VS Code's `files.associations` setting. The folder still needs a `diagram.yaml`.

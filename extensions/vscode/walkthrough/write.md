@@ -6,7 +6,7 @@ edges:
 nodes:
   api:
     kind: service          # kinds, statuses and icons are completed
-    icon: postgre          # run "docspp: Insert Icon" to search
+    icon: postgre          # run "idocs: Insert Icon" to search
 ```
 
 - **Completion** knows where you are: keys, node ids, kinds, statuses and icons.

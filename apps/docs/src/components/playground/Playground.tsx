@@ -1,15 +1,15 @@
-import type { CompiledDiagram } from '@packagelab/docspp-core'
-import type { CompileResult, RootInput } from '@packagelab/docspp-core/browser'
-import { DiagramView } from '@packagelab/docspp-react'
+import type { CompiledDiagram } from '@packagelab/idocs-core'
+import type { CompileResult, RootInput } from '@packagelab/idocs-core/browser'
+import { DiagramView } from '@packagelab/idocs-react'
 import { type KeyboardEvent, useEffect, useMemo, useRef, useState } from 'react'
 import type { Document } from 'yaml'
 import { Builder } from './Builder'
 import { examples } from './examples'
 import { editSource, readModel, type Selection } from './model'
 import './playground.css'
-import '@packagelab/docspp-react/styles.css'
+import '@packagelab/idocs-react/styles.css'
 
-const STORAGE_KEY = 'docspp-playground-v1'
+const STORAGE_KEY = 'idocs-playground-v1'
 interface History {
   past: string[]
   present: string

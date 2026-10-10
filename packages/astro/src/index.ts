@@ -1,20 +1,20 @@
 import { fileURLToPath } from 'node:url'
-import { formatDiagnostic, type LoadedProject, loadProject } from '@packagelab/docspp-core/node'
+import { formatDiagnostic, type LoadedProject, loadProject } from '@packagelab/idocs-core/node'
 import type { AstroIntegration } from 'astro'
 import type { Plugin } from 'vite'
 
-const VIRTUAL_ID = 'virtual:docspp/diagrams'
+const VIRTUAL_ID = 'virtual:idocs/diagrams'
 const RESOLVED_ID = `\0${VIRTUAL_ID}`
 
-export interface DocsppOptions {
+export interface IdocsOptions {
   /** Folder with one sub-folder per diagram. Relative to the project root. Default `diagrams`. */
   dir?: string
 }
 
-/** Compiles `diagrams/*` into the `virtual:docspp/diagrams` module and fails the build on errors. */
-export default function docspp(options: DocsppOptions = {}): AstroIntegration {
+/** Compiles `diagrams/*` into the `virtual:idocs/diagrams` module and fails the build on errors. */
+export default function idocs(options: IdocsOptions = {}): AstroIntegration {
   return {
-    name: '@packagelab/docspp-astro',
+    name: '@packagelab/idocs-astro',
     hooks: {
       'astro:config:setup': ({ config, updateConfig }) => {
         updateConfig({
@@ -23,9 +23,9 @@ export default function docspp(options: DocsppOptions = {}): AstroIntegration {
             // Render these through Vite in dev as well; they ship TypeScript sources.
             ssr: {
               noExternal: [
-                '@packagelab/docspp-react',
-                '@packagelab/docspp-core',
-                '@packagelab/docspp-astro',
+                '@packagelab/idocs-react',
+                '@packagelab/idocs-core',
+                '@packagelab/idocs-astro',
               ],
             },
             // Vite resolves `a > b` by finding `a` from the project root, and a strict layout (pnpm)
@@ -33,10 +33,10 @@ export default function docspp(options: DocsppOptions = {}): AstroIntegration {
             // the one thing the project is sure to depend on, and walks down to the library.
             optimizeDeps: {
               include: [
-                '@packagelab/docspp-astro > @packagelab/docspp-react > d3-selection',
-                '@packagelab/docspp-astro > @packagelab/docspp-react > d3-transition',
-                '@packagelab/docspp-astro > @packagelab/docspp-react > d3-zoom',
-                '@packagelab/docspp-astro > @packagelab/docspp-core > elkjs/lib/elk.bundled.js',
+                '@packagelab/idocs-astro > @packagelab/idocs-react > d3-selection',
+                '@packagelab/idocs-astro > @packagelab/idocs-react > d3-transition',
+                '@packagelab/idocs-astro > @packagelab/idocs-react > d3-zoom',
+                '@packagelab/idocs-astro > @packagelab/idocs-core > elkjs/lib/elk.bundled.js',
               ],
             },
           },
@@ -56,7 +56,7 @@ function plugin(root: string, dir: string): Plugin {
   }
 
   return {
-    name: 'docspp:diagrams',
+    name: 'idocs:diagrams',
     configResolved(config) {
       building = config.command === 'build'
     },
@@ -71,7 +71,7 @@ function plugin(root: string, dir: string): Plugin {
       if (errors.length && building) {
         this.error(`Diagram errors:\n${report}`)
       }
-      if (p.diagnostics.length) this.warn(`docspp\n${report}`)
+      if (p.diagnostics.length) this.warn(`idocs\n${report}`)
       for (const f of p.watch) this.addWatchFile(f)
       return `export const diagrams = ${JSON.stringify(p.diagrams)}\nexport const diagnostics = ${JSON.stringify(p.diagnostics)}\nexport default diagrams\n`
     },

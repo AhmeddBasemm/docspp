@@ -12,7 +12,7 @@ import {
   start,
 } from './helpers'
 
-const SHOTS = process.env.DOCSPP_SCREENSHOTS
+const SHOTS = process.env.IDOCS_SCREENSHOTS
 let server: Server
 
 beforeAll(async () => {
@@ -62,7 +62,7 @@ describe('preview webview', () => {
     await h.post(message(compileExample('hello')))
     await h.page.waitForSelector('[data-node="api"]')
     expect(await h.page.locator('[data-node]').count()).toBe(3)
-    expect(await h.page.locator('[data-node] .docspp-icon svg').count()).toBe(3)
+    expect(await h.page.locator('[data-node] .idocs-icon svg').count()).toBe(3)
     expect(await h.page.getByText('Up to date').count()).toBe(1)
     expect(h.problems).toEqual([])
     await shot(h, 'hello-dark')
@@ -100,7 +100,7 @@ describe('preview webview', () => {
     await h.page.waitForSelector('[data-node="api"]')
     await h.post({ type: 'select', node: 'api' })
     await h.page.waitForSelector('[data-node="api"].is-selected')
-    expect(await h.page.locator('.docspp-drawer').count()).toBe(0)
+    expect(await h.page.locator('.idocs-drawer').count()).toBe(0)
     await shot(h, 'cursor-in-api')
     await h.post({ type: 'select', node: null })
     await h.page.waitForFunction(() => !document.querySelector('[data-node].is-selected'))
@@ -138,7 +138,7 @@ describe('preview webview', () => {
     const edited = structuredClone(compileExample('hello'))
     edited.nodes.db!.title = 'Renamed'
     await h.post(message(edited))
-    await h.page.locator('[data-node="db"] .docspp-node-title', { hasText: 'Renamed' }).waitFor()
+    await h.page.locator('[data-node="db"] .idocs-node-title', { hasText: 'Renamed' }).waitFor()
     expect(await h.page.locator('[data-node="api"].is-selected').count()).toBe(1)
     await h.close()
   })
@@ -164,7 +164,7 @@ describe('preview webview', () => {
     await h.post(message(compileExample('hello')))
     await h.page.waitForSelector('[data-node="db"]')
     await h.page.locator('[data-node="db"]').click()
-    await h.page.waitForSelector('.docspp-drawer')
+    await h.page.waitForSelector('.idocs-drawer')
     expect(await h.sent()).toContainEqual({ type: 'reveal-node', id: 'db' })
     await h.close()
   })
@@ -211,12 +211,12 @@ describe('preview webview', () => {
     await h.post(message(diagram))
     await h.page.waitForSelector('[data-node="api"]')
     await h.page.getByRole('button', { name: diagram.scenarios[0]!.title }).click()
-    await h.page.waitForSelector('.docspp-player, [aria-label="Playback"]')
+    await h.page.waitForSelector('.idocs-player, [aria-label="Playback"]')
     const edited = structuredClone(diagram)
     edited.nodes.api!.title = 'Renamed API'
     await h.post(message(edited))
     await h.page
-      .locator('[data-node="api"] .docspp-node-title', { hasText: 'Renamed API' })
+      .locator('[data-node="api"] .idocs-node-title', { hasText: 'Renamed API' })
       .waitFor()
     expect(
       await h.page

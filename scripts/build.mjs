@@ -14,13 +14,13 @@ const dir = process.cwd()
 const pkg = JSON.parse(readFileSync(join(dir, 'package.json'), 'utf8'))
 
 /** Prefix of the scoped library packages; the part after it is the folder under packages/. */
-const SCOPE = '@packagelab/docspp-'
+const SCOPE = '@packagelab/idocs-'
 
 /** What each package ships besides the compiled entries. */
 const CONFIG = {
-  '@packagelab/docspp-core': { entries: ['src/index.ts', 'src/node.ts', 'src/browser.ts'] },
-  '@packagelab/docspp-react': { entries: ['src/index.ts'], copy: [['src/styles.css', 'dist/styles.css']] },
-  '@packagelab/docspp-astro': {
+  '@packagelab/idocs-core': { entries: ['src/index.ts', 'src/node.ts', 'src/browser.ts'] },
+  '@packagelab/idocs-react': { entries: ['src/index.ts'], copy: [['src/styles.css', 'dist/styles.css']] },
+  '@packagelab/idocs-astro': {
     entries: ['src/index.ts'],
     copy: [
       ['src/Diagram.astro', 'dist/Diagram.astro'],
@@ -28,8 +28,8 @@ const CONFIG = {
       ['src/virtual.d.ts', 'dist/virtual.d.ts'],
     ],
   },
-  'docspp': { entries: ['src/index.ts', 'src/bin.ts'], bins: ['dist/bin.js'] },
-  'create-docspp': { entries: ['src/index.ts', 'src/scaffold.ts'], bins: ['dist/index.js'], template: true },
+  'idocs': { entries: ['src/index.ts', 'src/bin.ts'], bins: ['dist/bin.js'] },
+  'create-idocs': { entries: ['src/index.ts', 'src/scaffold.ts'], bins: ['dist/index.js'], template: true },
 }
 
 const config = CONFIG[pkg.name]

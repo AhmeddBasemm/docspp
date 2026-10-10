@@ -1,155 +1,155 @@
-/* docspp renderer. Everything is scoped under .docspp; override the --docspp-* tokens to theme. */
+/* idocs renderer. Everything is scoped under .idocs; override the --idocs-* tokens to theme. */
 
-.docspp {
-  --docspp-bg: #f2f4f6;
-  --docspp-surface: #ffffff;
-  --docspp-surface-2: #eef1f4;
-  --docspp-zone: #e9eef2;
-  --docspp-ink: #14202b;
-  --docspp-muted: #54646f;
-  --docspp-line: #b5c2cc;
-  --docspp-accent: #0a6f8f;
-  --docspp-accent-soft: #d9edf3;
-  --docspp-tunnel: #7a4ec4;
-  --docspp-ok: #2b7a4b;
-  --docspp-ok-soft: #d9efe1;
-  --docspp-warn: #9a5b00;
-  --docspp-warn-soft: #f8e7c8;
-  --docspp-bad: #a8372d;
-  --docspp-bad-soft: #f6dad6;
-  --docspp-tile: #ffffff;
-  --docspp-shadow: 0 1px 2px rgb(20 32 43 / 8%), 0 4px 14px rgb(20 32 43 / 6%);
+.idocs {
+  --idocs-bg: #f2f4f6;
+  --idocs-surface: #ffffff;
+  --idocs-surface-2: #eef1f4;
+  --idocs-zone: #e9eef2;
+  --idocs-ink: #14202b;
+  --idocs-muted: #54646f;
+  --idocs-line: #b5c2cc;
+  --idocs-accent: #0a6f8f;
+  --idocs-accent-soft: #d9edf3;
+  --idocs-tunnel: #7a4ec4;
+  --idocs-ok: #2b7a4b;
+  --idocs-ok-soft: #d9efe1;
+  --idocs-warn: #9a5b00;
+  --idocs-warn-soft: #f8e7c8;
+  --idocs-bad: #a8372d;
+  --idocs-bad-soft: #f6dad6;
+  --idocs-tile: #ffffff;
+  --idocs-shadow: 0 1px 2px rgb(20 32 43 / 8%), 0 4px 14px rgb(20 32 43 / 6%);
   /* Opacity of items that are not part of the current focus or scenario path. 1 turns dimming off. */
-  --docspp-dim: 0.5;
+  --idocs-dim: 0.5;
 
-  --docspp-blue: #2358c4;
-  --docspp-blue-bg: #e3ebfb;
-  --docspp-amber: #a85a06;
-  --docspp-amber-bg: #fbebd5;
-  --docspp-violet: #6a43bd;
-  --docspp-violet-bg: #ece5f8;
-  --docspp-green: #23744a;
-  --docspp-green-bg: #ddf0e5;
-  --docspp-teal: #0a6f8f;
-  --docspp-teal-bg: #d9edf3;
-  --docspp-red: #a8372d;
-  --docspp-red-bg: #f6dad6;
-  --docspp-slate: #566275;
-  --docspp-slate-bg: #e7ebf1;
+  --idocs-blue: #2358c4;
+  --idocs-blue-bg: #e3ebfb;
+  --idocs-amber: #a85a06;
+  --idocs-amber-bg: #fbebd5;
+  --idocs-violet: #6a43bd;
+  --idocs-violet-bg: #ece5f8;
+  --idocs-green: #23744a;
+  --idocs-green-bg: #ddf0e5;
+  --idocs-teal: #0a6f8f;
+  --idocs-teal-bg: #d9edf3;
+  --idocs-red: #a8372d;
+  --idocs-red-bg: #f6dad6;
+  --idocs-slate: #566275;
+  --idocs-slate-bg: #e7ebf1;
 
-  --docspp-sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --docspp-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --idocs-sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --idocs-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
 }
 
-:root[data-theme="dark"] .docspp,
-.docspp[data-theme="dark"] {
-  --docspp-bg: #0d141a;
-  --docspp-surface: #17222c;
-  --docspp-surface-2: #1d2a36;
-  --docspp-zone: #101a22;
-  --docspp-ink: #e5ecf1;
-  --docspp-muted: #95a5b2;
-  --docspp-line: #36495a;
-  --docspp-accent: #55bcdb;
-  --docspp-accent-soft: #12333e;
-  --docspp-tunnel: #b79bf0;
-  --docspp-ok: #62c48f;
-  --docspp-ok-soft: #14301f;
-  --docspp-warn: #e9a94f;
-  --docspp-warn-soft: #382a10;
-  --docspp-bad: #e8837a;
-  --docspp-bad-soft: #3c1b18;
-  --docspp-tile: #eef2f5;
-  --docspp-shadow: 0 1px 2px rgb(0 0 0 / 30%), 0 4px 14px rgb(0 0 0 / 25%);
-  --docspp-blue: #7ba6ff;
-  --docspp-blue-bg: #18264a;
-  --docspp-amber: #f2a759;
-  --docspp-amber-bg: #35260f;
-  --docspp-violet: #b9a0f5;
-  --docspp-violet-bg: #28204a;
-  --docspp-green: #74d39b;
-  --docspp-green-bg: #12301f;
-  --docspp-teal: #55bcdb;
-  --docspp-teal-bg: #12333e;
-  --docspp-red: #e8837a;
-  --docspp-red-bg: #3c1b18;
-  --docspp-slate: #9aa5b5;
-  --docspp-slate-bg: #1f2733;
+:root[data-theme="dark"] .idocs,
+.idocs[data-theme="dark"] {
+  --idocs-bg: #0d141a;
+  --idocs-surface: #17222c;
+  --idocs-surface-2: #1d2a36;
+  --idocs-zone: #101a22;
+  --idocs-ink: #e5ecf1;
+  --idocs-muted: #95a5b2;
+  --idocs-line: #36495a;
+  --idocs-accent: #55bcdb;
+  --idocs-accent-soft: #12333e;
+  --idocs-tunnel: #b79bf0;
+  --idocs-ok: #62c48f;
+  --idocs-ok-soft: #14301f;
+  --idocs-warn: #e9a94f;
+  --idocs-warn-soft: #382a10;
+  --idocs-bad: #e8837a;
+  --idocs-bad-soft: #3c1b18;
+  --idocs-tile: #eef2f5;
+  --idocs-shadow: 0 1px 2px rgb(0 0 0 / 30%), 0 4px 14px rgb(0 0 0 / 25%);
+  --idocs-blue: #7ba6ff;
+  --idocs-blue-bg: #18264a;
+  --idocs-amber: #f2a759;
+  --idocs-amber-bg: #35260f;
+  --idocs-violet: #b9a0f5;
+  --idocs-violet-bg: #28204a;
+  --idocs-green: #74d39b;
+  --idocs-green-bg: #12301f;
+  --idocs-teal: #55bcdb;
+  --idocs-teal-bg: #12333e;
+  --idocs-red: #e8837a;
+  --idocs-red-bg: #3c1b18;
+  --idocs-slate: #9aa5b5;
+  --idocs-slate-bg: #1f2733;
 }
 
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]):not([data-theme="dark"]) .docspp {
-    --docspp-bg: #0d141a;
-    --docspp-surface: #17222c;
-    --docspp-surface-2: #1d2a36;
-    --docspp-zone: #101a22;
-    --docspp-ink: #e5ecf1;
-    --docspp-muted: #95a5b2;
-    --docspp-line: #36495a;
-    --docspp-accent: #55bcdb;
-    --docspp-accent-soft: #12333e;
-    --docspp-tunnel: #b79bf0;
-    --docspp-ok: #62c48f;
-    --docspp-ok-soft: #14301f;
-    --docspp-warn: #e9a94f;
-    --docspp-warn-soft: #382a10;
-    --docspp-bad: #e8837a;
-    --docspp-bad-soft: #3c1b18;
-    --docspp-tile: #eef2f5;
-    --docspp-blue: #7ba6ff;
-    --docspp-blue-bg: #18264a;
-    --docspp-amber: #f2a759;
-    --docspp-amber-bg: #35260f;
-    --docspp-violet: #b9a0f5;
-    --docspp-violet-bg: #28204a;
-    --docspp-green: #74d39b;
-    --docspp-green-bg: #12301f;
-    --docspp-teal: #55bcdb;
-    --docspp-teal-bg: #12333e;
-    --docspp-red: #e8837a;
-    --docspp-red-bg: #3c1b18;
-    --docspp-slate: #9aa5b5;
-    --docspp-slate-bg: #1f2733;
+  :root:not([data-theme="light"]):not([data-theme="dark"]) .idocs {
+    --idocs-bg: #0d141a;
+    --idocs-surface: #17222c;
+    --idocs-surface-2: #1d2a36;
+    --idocs-zone: #101a22;
+    --idocs-ink: #e5ecf1;
+    --idocs-muted: #95a5b2;
+    --idocs-line: #36495a;
+    --idocs-accent: #55bcdb;
+    --idocs-accent-soft: #12333e;
+    --idocs-tunnel: #b79bf0;
+    --idocs-ok: #62c48f;
+    --idocs-ok-soft: #14301f;
+    --idocs-warn: #e9a94f;
+    --idocs-warn-soft: #382a10;
+    --idocs-bad: #e8837a;
+    --idocs-bad-soft: #3c1b18;
+    --idocs-tile: #eef2f5;
+    --idocs-blue: #7ba6ff;
+    --idocs-blue-bg: #18264a;
+    --idocs-amber: #f2a759;
+    --idocs-amber-bg: #35260f;
+    --idocs-violet: #b9a0f5;
+    --idocs-violet-bg: #28204a;
+    --idocs-green: #74d39b;
+    --idocs-green-bg: #12301f;
+    --idocs-teal: #55bcdb;
+    --idocs-teal-bg: #12333e;
+    --idocs-red: #e8837a;
+    --idocs-red-bg: #3c1b18;
+    --idocs-slate: #9aa5b5;
+    --idocs-slate-bg: #1f2733;
   }
 }
 
-.docspp,
-.docspp * {
+.idocs,
+.idocs * {
   box-sizing: border-box;
 }
 
-.docspp {
-  font-family: var(--docspp-sans);
+.idocs {
+  font-family: var(--idocs-sans);
   font-size: 14px;
   line-height: 1.5;
-  color: var(--docspp-ink);
+  color: var(--idocs-ink);
   display: flex;
   flex-direction: column;
   gap: 14px;
   min-width: 0;
 }
 
-.docspp button {
+.idocs button {
   font: inherit;
   color: inherit;
 }
 
 /* The speed picker is a <select>; without this it keeps the browser's text colour, which is
    unreadable on a palette that is dark while the site is light. */
-.docspp select {
+.idocs select {
   color: inherit;
 }
 
 /* ---------- header controls ---------- */
 
-.docspp-tabs {
+.idocs-tabs {
   display: flex;
   gap: 4px;
-  border-bottom: 1px solid var(--docspp-line);
+  border-bottom: 1px solid var(--idocs-line);
   overflow-x: auto;
   scrollbar-width: none;
 }
-.docspp-tab {
+.idocs-tab {
   appearance: none;
   background: none;
   border: 0;
@@ -157,35 +157,35 @@
   margin-bottom: -1px;
   padding: 9px 14px;
   font-weight: 500;
-  color: var(--docspp-muted);
+  color: var(--idocs-muted);
   cursor: pointer;
   white-space: nowrap;
 }
-.docspp-tab:hover {
-  color: var(--docspp-ink);
+.idocs-tab:hover {
+  color: var(--idocs-ink);
 }
-.docspp-tab[aria-selected="true"] {
-  color: var(--docspp-ink);
-  border-bottom-color: var(--docspp-accent);
+.idocs-tab[aria-selected="true"] {
+  color: var(--idocs-ink);
+  border-bottom-color: var(--idocs-accent);
 }
 
-.docspp-scenarios {
+.idocs-scenarios {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
   align-items: center;
 }
-.docspp-scenarios-label {
-  font: 600 11px var(--docspp-sans);
+.idocs-scenarios-label {
+  font: 600 11px var(--idocs-sans);
   letter-spacing: 0.09em;
   text-transform: uppercase;
-  color: var(--docspp-muted);
+  color: var(--idocs-muted);
   margin-right: 4px;
 }
-.docspp-chip-btn {
+.idocs-chip-btn {
   appearance: none;
-  border: 1px solid var(--docspp-line);
-  background: var(--docspp-surface);
+  border: 1px solid var(--idocs-line);
+  background: var(--idocs-surface);
   border-radius: 999px;
   padding: 5px 13px;
   font-size: 13px;
@@ -195,41 +195,41 @@
   align-items: center;
   gap: 7px;
 }
-.docspp-chip-btn:hover {
-  border-color: var(--docspp-accent);
+.idocs-chip-btn:hover {
+  border-color: var(--idocs-accent);
 }
-.docspp-chip-btn[aria-pressed="true"] {
-  background: var(--docspp-ink);
-  color: var(--docspp-bg);
-  border-color: var(--docspp-ink);
+.idocs-chip-btn[aria-pressed="true"] {
+  background: var(--idocs-ink);
+  color: var(--idocs-bg);
+  border-color: var(--idocs-ink);
 }
-.docspp-summary {
+.idocs-summary {
   max-width: 78ch;
-  color: var(--docspp-muted);
+  color: var(--idocs-muted);
   font-size: 14px;
 }
-.docspp-summary p {
+.idocs-summary p {
   margin: 0 0 8px;
 }
-.docspp-summary p:last-child {
+.idocs-summary p:last-child {
   margin-bottom: 0;
 }
 
 /* ---------- legend ---------- */
 
-.docspp-legend {
+.idocs-legend {
   display: flex;
   flex-wrap: wrap;
   gap: 8px 22px;
   font-size: 13px;
-  color: var(--docspp-muted);
+  color: var(--idocs-muted);
 }
-.docspp-legend span {
+.idocs-legend span {
   display: inline-flex;
   align-items: center;
   gap: 8px;
 }
-.docspp-legend svg {
+.idocs-legend svg {
   width: 44px;
   height: 12px;
   flex: none;
@@ -238,52 +238,52 @@
 
 /* ---------- frame and viewport ---------- */
 
-.docspp-frame {
+.idocs-frame {
   position: relative;
   overflow: hidden;
-  background: var(--docspp-bg);
-  border: 1px solid var(--docspp-line);
+  background: var(--idocs-bg);
+  border: 1px solid var(--idocs-line);
   border-radius: 10px;
   touch-action: pan-y;
   cursor: grab;
   user-select: none;
 }
-.docspp-frame:active {
+.idocs-frame:active {
   cursor: grabbing;
 }
 /* Fullscreen is taken on the whole component so the player and step list stay usable. */
-.docspp:fullscreen {
-  background: var(--docspp-bg);
+.idocs:fullscreen {
+  background: var(--idocs-bg);
   padding: 16px;
   overflow: auto;
 }
-.docspp:fullscreen .docspp-frame {
+.idocs:fullscreen .idocs-frame {
   height: auto !important;
   flex: 1 1 0;
   min-height: 55vh;
 }
-.docspp-skeleton {
+.idocs-skeleton {
   display: grid;
   place-items: center;
-  color: var(--docspp-muted);
+  color: var(--idocs-muted);
   font-size: 13px;
   min-height: 280px;
 }
-.docspp-error {
+.idocs-error {
   padding: 16px;
-  color: var(--docspp-bad);
-  font-family: var(--docspp-mono);
+  color: var(--idocs-bad);
+  font-family: var(--idocs-mono);
   font-size: 12px;
   white-space: pre-wrap;
 }
 
-.docspp-world {
+.idocs-world {
   position: absolute;
   left: 0;
   top: 0;
   transform-origin: 0 0;
 }
-.docspp-svg {
+.idocs-svg {
   position: absolute;
   left: 0;
   top: 0;
@@ -294,26 +294,26 @@
 
 /* ---------- zones ---------- */
 
-.docspp-zone {
+.idocs-zone {
   position: absolute;
   z-index: 0;
   border-radius: 10px;
   transition: opacity 0.2s;
 }
-.docspp-zone.is-zone {
-  background: var(--docspp-zone);
-  border: 1.4px solid var(--docspp-line);
+.idocs-zone.is-zone {
+  background: var(--idocs-zone);
+  border: 1.4px solid var(--idocs-line);
 }
-.docspp-zone.is-frame {
-  border: 1.2px dashed var(--docspp-line);
+.idocs-zone.is-frame {
+  border: 1.2px dashed var(--idocs-line);
   border-radius: 8px;
-  background: color-mix(in srgb, var(--docspp-surface) 28%, transparent);
+  background: color-mix(in srgb, var(--idocs-surface) 28%, transparent);
 }
-.docspp-zone.st-planned {
-  border-color: var(--docspp-accent);
+.idocs-zone.st-planned {
+  border-color: var(--idocs-accent);
   border-style: dashed;
 }
-.docspp-zone-head {
+.idocs-zone-head {
   position: absolute;
   left: 14px;
   top: 12px;
@@ -321,23 +321,23 @@
   display: flex;
   align-items: center;
   gap: 7px;
-  font: 600 11px / 1 var(--docspp-sans);
+  font: 600 11px / 1 var(--idocs-sans);
   letter-spacing: 0.09em;
   text-transform: uppercase;
-  color: var(--docspp-muted);
+  color: var(--idocs-muted);
   white-space: nowrap;
   overflow: hidden;
 }
-.docspp-zone.is-frame .docspp-zone-head {
+.idocs-zone.is-frame .idocs-zone-head {
   top: 10px;
   left: 12px;
 }
-.docspp-zone-head svg {
+.idocs-zone-head svg {
   width: 14px;
   height: 14px;
   flex: none;
 }
-.docspp-zone-caption {
+.idocs-zone-caption {
   font-weight: 400;
   letter-spacing: 0.02em;
   text-transform: none;
@@ -345,26 +345,26 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.docspp-zone-caption::before {
+.idocs-zone-caption::before {
   content: "·";
   margin-right: 7px;
 }
 
 /* ---------- nodes ---------- */
 
-.docspp-node {
-  --fam: var(--docspp-line);
-  --fam-bg: var(--docspp-surface-2);
+.idocs-node {
+  --fam: var(--idocs-line);
+  --fam-bg: var(--idocs-surface-2);
   position: absolute;
   z-index: 2;
   display: flex;
   flex-direction: column;
   gap: 5px;
   padding: 8px 10px 9px;
-  background: var(--docspp-surface);
-  border: 1.3px solid var(--docspp-line);
+  background: var(--idocs-surface);
+  border: 1.3px solid var(--idocs-line);
   border-radius: 8px;
-  box-shadow: var(--docspp-shadow);
+  box-shadow: var(--idocs-shadow);
   font-size: 12px;
   line-height: 1.35;
   cursor: pointer;
@@ -374,87 +374,87 @@
     box-shadow 0.15s,
     border-color 0.15s;
 }
-.docspp-node.fam-blue {
-  --fam: var(--docspp-blue);
-  --fam-bg: var(--docspp-blue-bg);
+.idocs-node.fam-blue {
+  --fam: var(--idocs-blue);
+  --fam-bg: var(--idocs-blue-bg);
 }
-.docspp-node.fam-amber {
-  --fam: var(--docspp-amber);
-  --fam-bg: var(--docspp-amber-bg);
+.idocs-node.fam-amber {
+  --fam: var(--idocs-amber);
+  --fam-bg: var(--idocs-amber-bg);
 }
-.docspp-node.fam-violet {
-  --fam: var(--docspp-violet);
-  --fam-bg: var(--docspp-violet-bg);
+.idocs-node.fam-violet {
+  --fam: var(--idocs-violet);
+  --fam-bg: var(--idocs-violet-bg);
 }
-.docspp-node.fam-green {
-  --fam: var(--docspp-green);
-  --fam-bg: var(--docspp-green-bg);
+.idocs-node.fam-green {
+  --fam: var(--idocs-green);
+  --fam-bg: var(--idocs-green-bg);
 }
-.docspp-node.fam-teal {
-  --fam: var(--docspp-teal);
-  --fam-bg: var(--docspp-teal-bg);
+.idocs-node.fam-teal {
+  --fam: var(--idocs-teal);
+  --fam-bg: var(--idocs-teal-bg);
 }
-.docspp-node.fam-red {
-  --fam: var(--docspp-red);
-  --fam-bg: var(--docspp-red-bg);
+.idocs-node.fam-red {
+  --fam: var(--idocs-red);
+  --fam-bg: var(--idocs-red-bg);
 }
-.docspp-node.fam-slate {
-  --fam: var(--docspp-slate);
-  --fam-bg: var(--docspp-slate-bg);
+.idocs-node.fam-slate {
+  --fam: var(--idocs-slate);
+  --fam-bg: var(--idocs-slate-bg);
 }
-.docspp-node[class*="fam-"] {
+.idocs-node[class*="fam-"] {
   box-shadow:
     inset 0 3px 0 var(--fam),
-    var(--docspp-shadow);
+    var(--idocs-shadow);
 }
-.docspp-node:hover,
-.docspp-node:focus-visible {
-  border-color: var(--docspp-accent);
+.idocs-node:hover,
+.idocs-node:focus-visible {
+  border-color: var(--idocs-accent);
 }
-.docspp-node:focus-visible {
-  outline: 2px solid var(--docspp-accent);
+.idocs-node:focus-visible {
+  outline: 2px solid var(--idocs-accent);
   outline-offset: 2px;
 }
-.docspp-node.is-hl {
-  border-color: var(--docspp-accent);
+.idocs-node.is-hl {
+  border-color: var(--idocs-accent);
 }
-.docspp-node.is-selected {
-  border-color: var(--docspp-accent);
+.idocs-node.is-selected {
+  border-color: var(--idocs-accent);
   box-shadow:
-    0 0 0 2.5px var(--docspp-accent),
-    var(--docspp-shadow);
+    0 0 0 2.5px var(--idocs-accent),
+    var(--idocs-shadow);
 }
-.docspp-node.is-visited {
-  border-color: var(--docspp-accent);
+.idocs-node.is-visited {
+  border-color: var(--idocs-accent);
 }
-.docspp-node.is-dim,
-.docspp-zone.is-dim {
-  opacity: var(--docspp-dim);
+.idocs-node.is-dim,
+.idocs-zone.is-dim {
+  opacity: var(--idocs-dim);
 }
-.docspp-node.is-hidden {
+.idocs-node.is-hidden {
   opacity: 0.08;
   pointer-events: none;
 }
-.docspp-node.st-planned {
+.idocs-node.st-planned {
   border-style: dashed;
-  border-color: var(--docspp-accent);
+  border-color: var(--idocs-accent);
 }
-.docspp-node.st-legacy,
-.docspp-node.st-optional {
+.idocs-node.st-legacy,
+.idocs-node.st-optional {
   border-style: dashed;
-  background: color-mix(in srgb, var(--docspp-surface) 60%, var(--docspp-zone));
+  background: color-mix(in srgb, var(--idocs-surface) 60%, var(--idocs-zone));
 }
-.docspp-node.st-legacy {
+.idocs-node.st-legacy {
   opacity: 0.88;
 }
 
-.docspp-node-head {
+.idocs-node-head {
   display: flex;
   align-items: center;
   gap: 9px;
   min-width: 0;
 }
-.docspp-icon {
+.idocs-icon {
   flex: none;
   width: 26px;
   height: 26px;
@@ -462,88 +462,88 @@
   display: grid;
   place-items: center;
 }
-.docspp-icon svg {
+.idocs-icon svg {
   width: 16px;
   height: 16px;
   display: block;
 }
-.docspp-icon.is-mono {
+.idocs-icon.is-mono {
   background: var(--fam-bg);
-  color: var(--fam, var(--docspp-muted));
+  color: var(--fam, var(--idocs-muted));
 }
-.docspp-icon.is-brand {
-  background: var(--docspp-tile);
-  border: 1px solid color-mix(in srgb, var(--docspp-line) 70%, transparent);
+.idocs-icon.is-brand {
+  background: var(--idocs-tile);
+  border: 1px solid color-mix(in srgb, var(--idocs-line) 70%, transparent);
 }
-.docspp-node-titles {
+.idocs-node-titles {
   min-width: 0;
   flex: 1;
 }
-.docspp-node-title {
+.idocs-node-title {
   font-size: 12.5px;
   font-weight: 600;
   line-height: 1.25;
   overflow-wrap: break-word;
 }
-.docspp-node-sub {
-  font: 10.5px / 1.3 var(--docspp-mono);
-  color: var(--docspp-muted);
+.idocs-node-sub {
+  font: 10.5px / 1.3 var(--idocs-mono);
+  color: var(--idocs-muted);
   overflow-wrap: anywhere;
 }
-.docspp-node-lines {
-  color: var(--docspp-muted);
+.idocs-node-lines {
+  color: var(--idocs-muted);
   font-size: 11px;
 }
-.docspp-node-uses {
+.idocs-node-uses {
   margin-top: auto;
   font-size: 11px;
   font-style: italic;
-  color: var(--docspp-muted);
+  color: var(--idocs-muted);
 }
-.docspp-chips {
+.idocs-chips {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
 }
-.docspp-chip {
+.idocs-chip {
   flex: 1 1 0;
   min-width: 100px;
   padding: 5px 8px;
   border-radius: 5px;
-  border: 1px solid var(--fam, var(--docspp-accent));
-  background: var(--fam-bg, var(--docspp-accent-soft));
+  border: 1px solid var(--fam, var(--idocs-accent));
+  background: var(--fam-bg, var(--idocs-accent-soft));
   font-size: 11.5px;
   line-height: 1.3;
   text-align: center;
 }
-.docspp-chip b {
+.idocs-chip b {
   display: block;
   font-weight: 600;
 }
-.docspp-chip span {
+.idocs-chip span {
   display: block;
-  color: var(--docspp-muted);
+  color: var(--idocs-muted);
   font-size: 11px;
 }
-.docspp-pill {
+.idocs-pill {
   flex: none;
-  font: 600 9.5px / 1 var(--docspp-mono);
+  font: 600 9.5px / 1 var(--idocs-mono);
   letter-spacing: 0.05em;
   text-transform: uppercase;
   padding: 3px 6px;
   border-radius: 999px;
   border: 1px solid currentColor;
-  color: var(--docspp-muted);
+  color: var(--idocs-muted);
 }
-.docspp-pill.st-planned {
-  color: var(--docspp-accent);
+.idocs-pill.st-planned {
+  color: var(--idocs-accent);
   border-style: dashed;
 }
-.docspp-pill.st-built {
-  color: var(--docspp-ok);
-  background: var(--docspp-ok-soft);
+.idocs-pill.st-built {
+  color: var(--idocs-ok);
+  background: var(--idocs-ok-soft);
 }
-.docspp-badge {
+.idocs-badge {
   position: absolute;
   left: -9px;
   top: -9px;
@@ -551,14 +551,14 @@
   height: 22px;
   padding: 0 6px;
   border-radius: 999px;
-  background: var(--docspp-accent);
-  color: var(--docspp-surface);
-  font: 700 12px / 22px var(--docspp-sans);
+  background: var(--idocs-accent);
+  color: var(--idocs-surface);
+  font: 700 12px / 22px var(--idocs-sans);
   text-align: center;
-  box-shadow: 0 0 0 2px var(--docspp-surface);
+  box-shadow: 0 0 0 2px var(--idocs-surface);
 }
 
-.docspp-measure {
+.idocs-measure {
   position: absolute;
   left: -10000px;
   top: 0;
@@ -566,14 +566,14 @@
   pointer-events: none;
   width: 1000px;
 }
-.docspp-measure .docspp-node {
+.idocs-measure .idocs-node {
   position: relative;
   box-shadow: none;
 }
 
 /* ---------- edges ---------- */
 
-.docspp-edge {
+.idocs-edge {
   fill: none;
   stroke: var(--ec);
   stroke-width: var(--ew);
@@ -582,107 +582,107 @@
     opacity 0.2s,
     stroke 0.2s;
 }
-.docspp-edge.st-planned {
+.idocs-edge.st-planned {
   stroke-dasharray: 6 5;
   opacity: 0.85;
 }
-.docspp-edge.st-legacy,
-.docspp-edge.st-optional {
+.idocs-edge.st-legacy,
+.idocs-edge.st-optional {
   stroke-dasharray: 4 4;
   opacity: 0.55;
 }
-.docspp-edge.is-hl {
-  --ec: var(--docspp-accent);
+.idocs-edge.is-hl {
+  --ec: var(--idocs-accent);
   stroke-width: calc(var(--ew) + 1.2px);
 }
-.docspp-edge.is-trail {
-  --ec: var(--docspp-accent);
+.idocs-edge.is-trail {
+  --ec: var(--idocs-accent);
   opacity: 0.9;
 }
-.docspp-edge.is-lit {
-  --ec: var(--docspp-accent);
+.idocs-edge.is-lit {
+  --ec: var(--idocs-accent);
   stroke-width: calc(var(--ew) + 1.8px);
 }
-.docspp-edge.is-dim {
-  opacity: calc(var(--docspp-dim) * 0.6);
+.idocs-edge.is-dim {
+  opacity: calc(var(--idocs-dim) * 0.6);
 }
-.docspp-edge.is-hidden {
+.idocs-edge.is-hidden {
   opacity: 0.05;
 }
-.docspp-edge.is-ghost {
+.idocs-edge.is-ghost {
   opacity: 0;
   stroke-dasharray: 3 5;
 }
-.docspp-edge.is-ghost.is-lit,
-.docspp-edge.is-ghost.is-trail {
+.idocs-edge.is-ghost.is-lit,
+.idocs-edge.is-ghost.is-trail {
   opacity: 0.8;
 }
-.docspp-edge-hit {
+.idocs-edge-hit {
   fill: none;
   stroke: transparent;
   stroke-width: 14px;
   pointer-events: stroke;
   cursor: pointer;
 }
-.docspp-elabel {
+.idocs-elabel {
   transition: opacity 0.2s;
   pointer-events: all;
   cursor: default;
 }
-.docspp-elabel.is-dim {
-  opacity: calc(var(--docspp-dim) * 0.6);
+.idocs-elabel.is-dim {
+  opacity: calc(var(--idocs-dim) * 0.6);
 }
-.docspp-elabel text {
-  font: 500 11.5px var(--docspp-sans);
-  fill: var(--docspp-ink);
+.idocs-elabel text {
+  font: 500 11.5px var(--idocs-sans);
+  fill: var(--idocs-ink);
   paint-order: stroke;
-  stroke: var(--docspp-bg);
+  stroke: var(--idocs-bg);
   stroke-width: 5px;
   stroke-linejoin: round;
 }
-.docspp-elabel .docspp-key {
-  fill: var(--docspp-ink);
+.idocs-elabel .idocs-key {
+  fill: var(--idocs-ink);
 }
-.docspp-elabel .docspp-key-text {
-  fill: var(--docspp-bg);
+.idocs-elabel .idocs-key-text {
+  fill: var(--idocs-bg);
   stroke: none;
-  font: 600 11px var(--docspp-mono);
+  font: 600 11px var(--idocs-mono);
 }
-.docspp-elabel.is-hl .docspp-key {
-  fill: var(--docspp-accent);
+.idocs-elabel.is-hl .idocs-key {
+  fill: var(--idocs-accent);
 }
-.docspp-elabel.is-hl text:not(.docspp-key-text) {
-  fill: var(--docspp-accent);
+.idocs-elabel.is-hl text:not(.idocs-key-text) {
+  fill: var(--idocs-accent);
 }
 
 /* ---------- packets ---------- */
 
-.docspp-overlay {
+.idocs-overlay {
   position: absolute;
   left: 0;
   top: 0;
   z-index: 6;
   pointer-events: none;
 }
-.docspp-packet {
-  --pc: var(--docspp-accent);
+.idocs-packet {
+  --pc: var(--idocs-accent);
   position: absolute;
   left: 0;
   top: 0;
 }
-.docspp-packet.kind-response {
-  --pc: var(--docspp-ok);
+.idocs-packet.kind-response {
+  --pc: var(--idocs-ok);
 }
-.docspp-packet.kind-error {
-  --pc: var(--docspp-bad);
+.idocs-packet.kind-error {
+  --pc: var(--idocs-bad);
 }
-.docspp-packet.kind-lookup {
-  --pc: var(--docspp-muted);
+.idocs-packet.kind-lookup {
+  --pc: var(--idocs-muted);
 }
-.docspp-packet.kind-event {
-  --pc: var(--docspp-warn);
+.idocs-packet.kind-event {
+  --pc: var(--idocs-warn);
 }
-.docspp-packet-dot {
+.idocs-packet-dot {
   position: absolute;
   width: 14px;
   height: 14px;
@@ -693,7 +693,7 @@
     0 0 0 4px color-mix(in srgb, var(--pc) 30%, transparent),
     0 0 0 8px color-mix(in srgb, var(--pc) 14%, transparent);
 }
-.docspp-packet-label {
+.idocs-packet-label {
   position: absolute;
   left: 13px;
   top: -26px;
@@ -701,35 +701,35 @@
   padding: 2px 8px;
   border-radius: 999px;
   background: var(--pc);
-  color: var(--docspp-surface);
-  font: 600 11px / 1.5 var(--docspp-mono);
+  color: var(--idocs-surface);
+  font: 600 11px / 1.5 var(--idocs-mono);
   box-shadow: 0 1px 0 rgb(0 0 0 / 28%);
 }
-.docspp-pulse {
+.idocs-pulse {
   position: absolute;
   border-radius: 10px;
-  border: 2px solid var(--docspp-accent);
-  box-shadow: 0 0 0 4px color-mix(in srgb, var(--docspp-accent) 28%, transparent);
+  border: 2px solid var(--idocs-accent);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--idocs-accent) 28%, transparent);
 }
-.docspp-caption {
+.idocs-caption {
   position: absolute;
   transform: translate(-50%, -100%);
   white-space: nowrap;
   padding: 3px 10px;
   border-radius: 6px;
-  background: var(--docspp-ink);
-  color: var(--docspp-bg);
-  font: 600 11.5px / 1.4 var(--docspp-sans);
+  background: var(--idocs-ink);
+  color: var(--idocs-bg);
+  font: 600 11.5px / 1.4 var(--idocs-sans);
   box-shadow: 0 1px 0 rgb(0 0 0 / 30%);
 }
-.docspp-caption.kind-error {
-  background: var(--docspp-bad);
-  color: var(--docspp-surface);
+.idocs-caption.kind-error {
+  background: var(--idocs-bad);
+  color: var(--idocs-surface);
 }
 
 /* ---------- toolbar ---------- */
 
-.docspp-toolbar {
+.idocs-toolbar {
   position: absolute;
   top: 10px;
   right: 10px;
@@ -738,15 +738,15 @@
   gap: 6px;
   align-items: center;
 }
-.docspp-toolbar-group {
+.idocs-toolbar-group {
   display: flex;
-  background: var(--docspp-surface);
-  border: 1px solid var(--docspp-line);
+  background: var(--idocs-surface);
+  border: 1px solid var(--idocs-line);
   border-radius: 8px;
-  box-shadow: var(--docspp-shadow);
+  box-shadow: var(--idocs-shadow);
   overflow: hidden;
 }
-.docspp-tool {
+.idocs-tool {
   appearance: none;
   background: none;
   border: 0;
@@ -755,24 +755,24 @@
   display: grid;
   place-items: center;
   cursor: pointer;
-  color: var(--docspp-muted);
+  color: var(--idocs-muted);
 }
-.docspp-tool + .docspp-tool {
-  border-left: 1px solid var(--docspp-line);
+.idocs-tool + .idocs-tool {
+  border-left: 1px solid var(--idocs-line);
 }
-.docspp-tool:hover {
-  color: var(--docspp-ink);
-  background: var(--docspp-surface-2);
+.idocs-tool:hover {
+  color: var(--idocs-ink);
+  background: var(--idocs-surface-2);
 }
-.docspp-tool svg {
+.idocs-tool svg {
   width: 16px;
   height: 16px;
 }
-.docspp-tool[aria-pressed="true"] {
-  color: var(--docspp-accent);
-  background: var(--docspp-accent-soft);
+.idocs-tool[aria-pressed="true"] {
+  color: var(--idocs-accent);
+  background: var(--idocs-accent-soft);
 }
-.docspp-tool.is-text {
+.idocs-tool.is-text {
   width: auto;
   padding: 0 10px;
   font-size: 12px;
@@ -784,7 +784,7 @@
 
 /* ---------- drawer ---------- */
 
-.docspp-drawer {
+.idocs-drawer {
   position: absolute;
   top: 0;
   right: 0;
@@ -793,30 +793,30 @@
   width: min(380px, 92%);
   display: flex;
   flex-direction: column;
-  background: var(--docspp-surface);
-  border-left: 1px solid var(--docspp-line);
+  background: var(--idocs-surface);
+  border-left: 1px solid var(--idocs-line);
   box-shadow: -8px 0 24px rgb(20 32 43 / 12%);
   cursor: default;
   user-select: text;
-  animation: docspp-slide 0.18s ease-out;
+  animation: idocs-slide 0.18s ease-out;
 }
-@keyframes docspp-slide {
+@keyframes idocs-slide {
   from {
     transform: translateX(24px);
     opacity: 0;
   }
 }
-.docspp-drawer-head {
+.idocs-drawer-head {
   display: flex;
   align-items: flex-start;
   gap: 10px;
   padding: 14px 14px 10px;
-  border-bottom: 1px solid var(--docspp-line);
+  border-bottom: 1px solid var(--idocs-line);
 }
-.docspp-drawer-head .docspp-node-title {
+.idocs-drawer-head .idocs-node-title {
   font-size: 16px;
 }
-.docspp-drawer-close {
+.idocs-drawer-close {
   margin-left: auto;
   appearance: none;
   border: 0;
@@ -824,109 +824,109 @@
   cursor: pointer;
   font-size: 20px;
   line-height: 1;
-  color: var(--docspp-muted);
+  color: var(--idocs-muted);
   padding: 2px 6px;
   border-radius: 6px;
 }
-.docspp-drawer-close:hover {
-  background: var(--docspp-surface-2);
-  color: var(--docspp-ink);
+.idocs-drawer-close:hover {
+  background: var(--idocs-surface-2);
+  color: var(--idocs-ink);
 }
-.docspp-drawer-body {
+.idocs-drawer-body {
   padding: 12px 16px 18px;
   overflow-y: auto;
   font-size: 13.5px;
 }
-.docspp-drawer-body h4 {
+.idocs-drawer-body h4 {
   margin: 16px 0 6px;
-  font: 600 11px var(--docspp-sans);
+  font: 600 11px var(--idocs-sans);
   letter-spacing: 0.09em;
   text-transform: uppercase;
-  color: var(--docspp-muted);
+  color: var(--idocs-muted);
 }
-.docspp-drawer-body ul {
+.idocs-drawer-body ul {
   margin: 0;
   padding-left: 18px;
 }
-.docspp-drawer-links button {
+.idocs-drawer-links button {
   appearance: none;
   background: none;
   border: 0;
   padding: 0;
-  color: var(--docspp-accent);
+  color: var(--idocs-accent);
   cursor: pointer;
   text-align: left;
   text-decoration: underline;
   text-underline-offset: 2px;
 }
-.docspp-md > :first-child {
+.idocs-md > :first-child {
   margin-top: 0;
 }
-.docspp-md p {
+.idocs-md p {
   margin: 0 0 10px;
 }
-.docspp-md ul,
-.docspp-md ol {
+.idocs-md ul,
+.idocs-md ol {
   padding-left: 20px;
   margin: 0 0 10px;
 }
-.docspp-md code {
-  font: 0.9em var(--docspp-mono);
-  background: var(--docspp-surface-2);
+.idocs-md code {
+  font: 0.9em var(--idocs-mono);
+  background: var(--idocs-surface-2);
   padding: 1px 5px;
   border-radius: 4px;
 }
-.docspp-md pre {
-  background: var(--docspp-surface-2);
-  border: 1px solid var(--docspp-line);
+.idocs-md pre {
+  background: var(--idocs-surface-2);
+  border: 1px solid var(--idocs-line);
   border-radius: 8px;
   padding: 10px 12px;
   overflow-x: auto;
   font-size: 12px;
 }
-.docspp-md pre code {
+.idocs-md pre code {
   background: none;
   padding: 0;
 }
-.docspp-md table {
+.idocs-md table {
   border-collapse: collapse;
   width: 100%;
   margin: 0 0 10px;
   font-size: 12.5px;
 }
-.docspp-md th,
-.docspp-md td {
+.idocs-md th,
+.idocs-md td {
   text-align: left;
   padding: 5px 8px;
-  border-bottom: 1px solid var(--docspp-line);
+  border-bottom: 1px solid var(--idocs-line);
 }
-.docspp-md th {
+.idocs-md th {
   font-size: 11px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--docspp-muted);
+  color: var(--idocs-muted);
 }
-.docspp-md a {
-  color: var(--docspp-accent);
+.idocs-md a {
+  color: var(--idocs-accent);
 }
 
 /* ---------- player ---------- */
 
-.docspp-player {
+.idocs-player {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
   gap: 10px 14px;
   padding: 8px 12px;
-  background: var(--docspp-surface);
-  border: 1px solid var(--docspp-line);
+  background: var(--idocs-surface);
+  border: 1px solid var(--idocs-line);
   border-radius: 10px;
 }
-.docspp-player-buttons {
+.idocs-player-buttons {
   display: flex;
   gap: 6px;
 }
-.docspp-btn {
+.idocs-btn {
   appearance: none;
   display: inline-grid;
   place-items: center;
@@ -934,267 +934,267 @@
   min-width: 32px;
   padding: 0 10px;
   border-radius: 8px;
-  border: 1px solid var(--docspp-line);
-  background: var(--docspp-surface);
+  border: 1px solid var(--idocs-line);
+  background: var(--idocs-surface);
   cursor: pointer;
   font-size: 13px;
   font-weight: 500;
 }
-.docspp-btn svg {
+.idocs-btn svg {
   width: 15px;
   height: 15px;
 }
-.docspp-btn:hover:not(:disabled) {
-  border-color: var(--docspp-accent);
+.idocs-btn:hover:not(:disabled) {
+  border-color: var(--idocs-accent);
 }
-.docspp-btn:disabled {
+.idocs-btn:disabled {
   opacity: 0.4;
   cursor: default;
 }
-.docspp-btn.is-primary {
-  background: var(--docspp-accent);
-  border-color: var(--docspp-accent);
-  color: var(--docspp-surface);
+.idocs-btn.is-primary {
+  background: var(--idocs-accent);
+  border-color: var(--idocs-accent);
+  color: var(--idocs-surface);
   min-width: 78px;
   display: inline-flex;
   gap: 6px;
   align-items: center;
   justify-content: center;
 }
-.docspp-scrub {
+.idocs-scrub {
   flex: 1 1 160px;
   min-width: 120px;
-  accent-color: var(--docspp-accent);
+  accent-color: var(--idocs-accent);
 }
-.docspp-time {
-  font: 12px var(--docspp-mono);
-  color: var(--docspp-muted);
+.idocs-time {
+  font: 12px var(--idocs-mono);
+  color: var(--idocs-muted);
   min-width: 78px;
   text-align: right;
 }
-.docspp-modes {
+.idocs-modes {
   display: flex;
-  border: 1px solid var(--docspp-line);
+  border: 1px solid var(--idocs-line);
   border-radius: 8px;
   overflow: hidden;
 }
-.docspp-modes button {
+.idocs-modes button {
   appearance: none;
   border: 0;
-  background: var(--docspp-surface);
+  background: var(--idocs-surface);
   padding: 5px 12px;
   font-size: 12.5px;
   cursor: pointer;
 }
-.docspp-modes button + button {
-  border-left: 1px solid var(--docspp-line);
+.idocs-modes button + button {
+  border-left: 1px solid var(--idocs-line);
 }
-.docspp-modes button[aria-pressed="true"] {
-  background: var(--docspp-ink);
-  color: var(--docspp-bg);
+.idocs-modes button[aria-pressed="true"] {
+  background: var(--idocs-ink);
+  color: var(--idocs-bg);
 }
 
 /* ---------- steps ---------- */
 
-.docspp-steps {
-  background: var(--docspp-surface);
-  border: 1px solid var(--docspp-line);
+.idocs-steps {
+  background: var(--idocs-surface);
+  border: 1px solid var(--idocs-line);
   border-radius: 10px;
   overflow: hidden;
 }
-.docspp-phase {
+.idocs-phase {
   display: flex;
   align-items: baseline;
   gap: 12px;
   padding: 9px 14px;
-  background: var(--docspp-surface-2);
-  border-top: 1px solid var(--docspp-line);
+  background: var(--idocs-surface-2);
+  border-top: 1px solid var(--idocs-line);
 }
-.docspp-phase:first-child {
+.idocs-phase:first-child {
   border-top: 0;
 }
-.docspp-phase-num {
-  font: 700 17px var(--docspp-sans);
-  color: var(--docspp-accent);
+.idocs-phase-num {
+  font: 700 17px var(--idocs-sans);
+  color: var(--idocs-accent);
   min-width: 26px;
 }
-.docspp-phase-title {
+.idocs-phase-title {
   font-weight: 600;
 }
-.docspp-phase-caption {
-  color: var(--docspp-muted);
+.idocs-phase-caption {
+  color: var(--idocs-muted);
   font-size: 13px;
 }
-.docspp-step {
+.idocs-step {
   display: grid;
   grid-template-columns: 30px minmax(0, 1fr);
   gap: 4px 12px;
   padding: 8px 14px;
-  border-top: 1px solid color-mix(in srgb, var(--docspp-line) 60%, transparent);
+  border-top: 1px solid color-mix(in srgb, var(--idocs-line) 60%, transparent);
   cursor: pointer;
   align-items: start;
 }
-.docspp-step:hover {
-  background: color-mix(in srgb, var(--docspp-accent-soft) 55%, transparent);
+.idocs-step:hover {
+  background: color-mix(in srgb, var(--idocs-accent-soft) 55%, transparent);
 }
-.docspp-step.is-active {
-  background: var(--docspp-accent-soft);
+.idocs-step.is-active {
+  background: var(--idocs-accent-soft);
 }
-.docspp-step.is-done .docspp-step-n {
-  background: var(--docspp-accent);
-  color: var(--docspp-surface);
-  border-color: var(--docspp-accent);
+.idocs-step.is-done .idocs-step-n {
+  background: var(--idocs-accent);
+  color: var(--idocs-surface);
+  border-color: var(--idocs-accent);
 }
-.docspp-step-n {
+.idocs-step-n {
   width: 24px;
   height: 24px;
   border-radius: 50%;
-  border: 1.5px solid var(--docspp-line);
+  border: 1.5px solid var(--idocs-line);
   display: grid;
   place-items: center;
-  font: 600 11px var(--docspp-mono);
-  color: var(--docspp-muted);
+  font: 600 11px var(--idocs-mono);
+  color: var(--idocs-muted);
 }
-.docspp-step-main {
+.idocs-step-main {
   display: flex;
   flex-wrap: wrap;
   gap: 4px 10px;
   align-items: baseline;
 }
-.docspp-step-route {
+.idocs-step-route {
   font-weight: 600;
   font-size: 13px;
 }
-.docspp-step-arrow {
-  color: var(--docspp-muted);
+.idocs-step-arrow {
+  color: var(--idocs-muted);
   margin: 0 5px;
 }
-.docspp-step-label {
-  font: 12px var(--docspp-mono);
-  color: var(--docspp-muted);
+.idocs-step-label {
+  font: 12px var(--idocs-mono);
+  color: var(--idocs-muted);
 }
-.docspp-step-label.kind-error {
-  color: var(--docspp-bad);
+.idocs-step-label.kind-error {
+  color: var(--idocs-bad);
 }
-.docspp-step-label.kind-response {
-  color: var(--docspp-ok);
+.idocs-step-label.kind-response {
+  color: var(--idocs-ok);
 }
-.docspp-step-note {
+.idocs-step-note {
   grid-column: 2;
   font-size: 13px;
-  color: var(--docspp-muted);
+  color: var(--idocs-muted);
   max-width: 90ch;
 }
-.docspp-step-note p {
+.idocs-step-note p {
   margin: 0;
 }
 
 /* ---------- sequence ---------- */
 
-.docspp-seq {
-  background: var(--docspp-surface);
-  border: 1px solid var(--docspp-line);
+.idocs-seq {
+  background: var(--idocs-surface);
+  border: 1px solid var(--idocs-line);
   border-radius: 10px;
   overflow-x: auto;
 }
-.docspp-seq svg {
+.idocs-seq svg {
   display: block;
   margin: 0 auto;
 }
-.docspp-seq text {
-  fill: var(--docspp-ink);
-  font-family: var(--docspp-sans);
+.idocs-seq text {
+  fill: var(--idocs-ink);
+  font-family: var(--idocs-sans);
 }
-.docspp-seq .seq-sub {
-  font: 10.5px var(--docspp-mono);
-  fill: var(--docspp-muted);
+.idocs-seq .seq-sub {
+  font: 10.5px var(--idocs-mono);
+  fill: var(--idocs-muted);
 }
-.docspp-seq .seq-title {
+.idocs-seq .seq-title {
   font-size: 12.5px;
   font-weight: 600;
 }
-.docspp-seq .seq-label {
-  font: 500 12px var(--docspp-sans);
+.idocs-seq .seq-label {
+  font: 500 12px var(--idocs-sans);
   paint-order: stroke;
-  stroke: var(--docspp-surface);
+  stroke: var(--idocs-surface);
   stroke-width: 5px;
   stroke-linejoin: round;
 }
-.docspp-seq .seq-phase {
-  font: 600 11px var(--docspp-sans);
+.idocs-seq .seq-phase {
+  font: 600 11px var(--idocs-sans);
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  fill: var(--docspp-muted);
+  fill: var(--idocs-muted);
 }
-.docspp-seq .seq-num {
-  font: 600 10.5px var(--docspp-mono);
-  fill: var(--docspp-muted);
+.idocs-seq .seq-num {
+  font: 600 10.5px var(--idocs-mono);
+  fill: var(--idocs-muted);
 }
-.docspp-seq .seq-row {
+.idocs-seq .seq-row {
   cursor: pointer;
 }
-.docspp-seq .seq-row.is-active .seq-band {
-  fill: var(--docspp-accent-soft);
+.idocs-seq .seq-row.is-active .seq-band {
+  fill: var(--idocs-accent-soft);
 }
-.docspp-seq .seq-band {
+.idocs-seq .seq-band {
   fill: transparent;
 }
-.docspp-seq .seq-row:hover .seq-band {
-  fill: color-mix(in srgb, var(--docspp-accent-soft) 50%, transparent);
+.idocs-seq .seq-row:hover .seq-band {
+  fill: color-mix(in srgb, var(--idocs-accent-soft) 50%, transparent);
 }
 
 /* ---------- interfaces table ---------- */
 
-.docspp-table-wrap {
+.idocs-table-wrap {
   overflow-x: auto;
-  border: 1px solid var(--docspp-line);
+  border: 1px solid var(--idocs-line);
   border-radius: 10px;
-  background: var(--docspp-surface);
+  background: var(--idocs-surface);
 }
-.docspp-table {
+.idocs-table {
   border-collapse: collapse;
   width: 100%;
   min-width: 640px;
   font-size: 13px;
 }
-.docspp-table th,
-.docspp-table td {
+.idocs-table th,
+.idocs-table td {
   text-align: left;
   vertical-align: top;
   padding: 8px 12px;
-  border-bottom: 1px solid var(--docspp-line);
+  border-bottom: 1px solid var(--idocs-line);
 }
-.docspp-table tr:last-child td {
+.idocs-table tr:last-child td {
   border-bottom: 0;
 }
-.docspp-table th {
-  font: 600 11px var(--docspp-sans);
+.idocs-table th {
+  font: 600 11px var(--idocs-sans);
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--docspp-muted);
-  background: var(--docspp-surface-2);
+  color: var(--idocs-muted);
+  background: var(--idocs-surface-2);
 }
-.docspp-table tbody tr {
+.idocs-table tbody tr {
   cursor: default;
 }
-.docspp-table tbody tr.is-hl {
-  background: var(--docspp-accent-soft);
+.idocs-table tbody tr.is-hl {
+  background: var(--idocs-accent-soft);
 }
-.docspp-table td:first-child {
-  font: 600 12px var(--docspp-mono);
+.idocs-table td:first-child {
+  font: 600 12px var(--idocs-mono);
   width: 40px;
 }
-.docspp-kind-tag {
+.idocs-kind-tag {
   display: inline-block;
-  font: 500 11px / 1 var(--docspp-mono);
+  font: 500 11px / 1 var(--idocs-mono);
   padding: 3px 6px;
   border-radius: 4px;
-  background: var(--docspp-surface-2);
-  color: var(--docspp-muted);
+  background: var(--idocs-surface-2);
+  color: var(--idocs-muted);
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .docspp * {
+  .idocs * {
     transition: none !important;
     animation: none !important;
   }
@@ -1202,33 +1202,33 @@
 
 /* ---------- story view ---------- */
 
-.docspp-summary.is-card {
-  background: var(--docspp-surface);
-  border: 1px solid var(--docspp-line);
+.idocs-summary.is-card {
+  background: var(--idocs-surface);
+  border: 1px solid var(--idocs-line);
   border-radius: 10px;
   padding: 14px 18px;
   max-width: 900px;
-  color: var(--docspp-ink);
+  color: var(--idocs-ink);
 }
-.docspp-summary-title {
+.idocs-summary-title {
   display: block;
   margin-bottom: 4px;
   font-size: 13.5px;
 }
 
-.docspp-story {
+.idocs-story {
   display: flex;
   flex-direction: column;
   gap: 12px;
   min-width: 0;
 }
-.docspp-story-scroll {
+.idocs-story-scroll {
   overflow-x: auto;
-  border: 1px solid var(--docspp-line);
+  border: 1px solid var(--idocs-line);
   border-radius: 10px;
-  background: var(--docspp-bg);
+  background: var(--idocs-bg);
 }
-.docspp-story-grid {
+.idocs-story-grid {
   --gutter: 124px;
   --lane-min: 148px;
   position: relative;
@@ -1238,15 +1238,15 @@
   padding-bottom: 6px;
 }
 
-.docspp-lane-head {
+.idocs-lane-head {
   position: relative;
   z-index: 2;
   margin: 12px 6px;
   padding: 8px 8px 9px;
-  background: var(--docspp-surface);
-  border: 1px solid var(--docspp-line);
+  background: var(--idocs-surface);
+  border: 1px solid var(--idocs-line);
   border-radius: 6px;
-  box-shadow: var(--docspp-shadow);
+  box-shadow: var(--idocs-shadow);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1254,53 +1254,53 @@
   text-align: center;
   min-width: 0;
 }
-.docspp-lane-icons {
+.idocs-lane-icons {
   display: flex;
   gap: 4px;
   margin-bottom: 3px;
 }
-.docspp-lane-icon {
+.idocs-lane-icon {
   width: 22px;
   height: 22px;
   border-radius: 6px;
   display: grid;
   place-items: center;
 }
-.docspp-lane-icon svg {
+.idocs-lane-icon svg {
   width: 14px;
   height: 14px;
 }
-.docspp-lane-icon.is-mono {
-  background: var(--docspp-surface-2);
-  color: var(--docspp-muted);
+.idocs-lane-icon.is-mono {
+  background: var(--idocs-surface-2);
+  color: var(--idocs-muted);
 }
-.docspp-lane-icon.is-brand {
-  background: var(--docspp-tile);
-  border: 1px solid color-mix(in srgb, var(--docspp-line) 70%, transparent);
+.idocs-lane-icon.is-brand {
+  background: var(--idocs-tile);
+  border: 1px solid color-mix(in srgb, var(--idocs-line) 70%, transparent);
 }
-.docspp-lane-title {
+.idocs-lane-title {
   font-weight: 600;
   font-size: 13px;
   line-height: 1.25;
   overflow-wrap: break-word;
 }
-.docspp-lane-sub {
+.idocs-lane-sub {
   font-size: 11px;
-  color: var(--docspp-muted);
+  color: var(--idocs-muted);
   line-height: 1.3;
   overflow-wrap: break-word;
 }
 
-.docspp-phase-band {
+.idocs-phase-band {
   z-index: 0;
 }
-.docspp-phase-band.is-odd {
-  background: var(--docspp-zone);
+.idocs-phase-band.is-odd {
+  background: var(--idocs-zone);
 }
-.docspp-phase-band.is-even {
-  background: color-mix(in srgb, var(--docspp-surface) 55%, transparent);
+.idocs-phase-band.is-even {
+  background: color-mix(in srgb, var(--idocs-surface) 55%, transparent);
 }
-.docspp-phase-label {
+.idocs-phase-label {
   position: relative;
   z-index: 2;
   display: flex;
@@ -1310,25 +1310,25 @@
   padding: 6px 10px 0 16px;
   min-width: 0;
 }
-.docspp-phase-roman {
+.idocs-phase-roman {
   font:
     700 21px / 1 Georgia,
     "Times New Roman",
     serif;
-  color: var(--docspp-accent);
+  color: var(--idocs-accent);
 }
-.docspp-phase-name {
+.idocs-phase-name {
   font-weight: 600;
   font-size: 12px;
   line-height: 1.3;
 }
-.docspp-phase-cap {
+.idocs-phase-cap {
   font-size: 11px;
-  color: var(--docspp-muted);
+  color: var(--idocs-muted);
   line-height: 1.3;
 }
 
-.docspp-story-cell {
+.idocs-story-cell {
   position: relative;
   z-index: 2;
   display: flex;
@@ -1337,86 +1337,86 @@
   padding: 8px 10px;
   min-width: 0;
 }
-.docspp-sbox {
+.idocs-sbox {
   position: relative;
-  background: var(--docspp-surface);
-  border: 1.3px solid var(--docspp-line);
+  background: var(--idocs-surface);
+  border: 1.3px solid var(--idocs-line);
   border-radius: 6px;
   padding: 7px 9px 8px;
   text-align: center;
   cursor: pointer;
   outline: none;
-  box-shadow: var(--docspp-shadow);
+  box-shadow: var(--idocs-shadow);
   transition:
     border-color 0.15s,
     box-shadow 0.15s;
   min-width: 0;
 }
-.docspp-sbox:hover,
-.docspp-sbox:focus-visible {
-  border-color: var(--docspp-accent);
+.idocs-sbox:hover,
+.idocs-sbox:focus-visible {
+  border-color: var(--idocs-accent);
 }
-.docspp-sbox-title {
+.idocs-sbox-title {
   font-weight: 600;
   font-size: 12.5px;
   line-height: 1.3;
   overflow-wrap: break-word;
 }
-.docspp-sbox-n {
+.idocs-sbox-n {
   margin-right: 4px;
-  color: var(--docspp-muted);
+  color: var(--idocs-muted);
   font-weight: 500;
 }
-.docspp-sbox-icon {
+.idocs-sbox-icon {
   width: 14px;
   height: 14px;
   vertical-align: -2px;
   margin-right: 5px;
 }
-.docspp-sbox-detail {
+.idocs-sbox-detail {
   margin-top: 2px;
   font-size: 11px;
   line-height: 1.35;
-  color: var(--docspp-muted);
+  color: var(--idocs-muted);
   overflow-wrap: break-word;
 }
-.docspp-sbox.role-origin {
-  background: var(--docspp-accent-soft);
-  border-color: color-mix(in srgb, var(--docspp-accent) 45%, var(--docspp-line));
+.idocs-sbox.role-origin {
+  background: var(--idocs-accent-soft);
+  border-color: color-mix(in srgb, var(--idocs-accent) 45%, var(--idocs-line));
 }
-.docspp-sbox.role-lookup {
+.idocs-sbox.role-lookup {
   border-style: dashed;
   box-shadow: none;
-  background: color-mix(in srgb, var(--docspp-surface) 80%, transparent);
+  background: color-mix(in srgb, var(--idocs-surface) 80%, transparent);
 }
-.docspp-sbox.kind-response.role-main {
-  border-color: color-mix(in srgb, var(--docspp-ok) 55%, var(--docspp-line));
+.idocs-sbox.kind-response.role-main {
+  border-color: color-mix(in srgb, var(--idocs-ok) 55%, var(--idocs-line));
 }
-.docspp-sbox.kind-error.role-main {
-  border-color: var(--docspp-bad);
-  background: var(--docspp-bad-soft);
+.idocs-sbox.kind-error.role-main {
+  border-color: var(--idocs-bad);
+  background: var(--idocs-bad-soft);
 }
-.docspp-sbox.st-planned {
+.idocs-sbox.st-planned {
   border-style: dashed;
-  border-color: var(--docspp-accent);
+  border-color: var(--idocs-accent);
 }
-.docspp-sbox .docspp-pill {
+.idocs-sbox .idocs-pill {
   position: absolute;
   top: -8px;
   right: 8px;
-  background: var(--docspp-surface);
+  background: var(--idocs-surface);
 }
-.docspp-sbox.is-done {
-  border-color: var(--docspp-accent);
+.idocs-sbox.is-done {
+  border-color: var(--idocs-accent);
 }
-.docspp-sbox.is-active {
-  border-color: var(--docspp-accent);
+.idocs-sbox.is-active {
+  border-color: var(--idocs-accent);
   box-shadow:
-    0 0 0 2px var(--docspp-accent),
-    0 0 0 6px color-mix(in srgb, var(--docspp-accent) 22%, transparent);
+    0 0 0 2px var(--idocs-accent),
+    0 0 0 6px color-mix(in srgb, var(--idocs-accent) 22%, transparent);
 }
 
-.docspp-story-links {
+.idocs-story-links {
   position: absolute;
   left: 0;
   top: 0;
@@ -1424,21 +1424,21 @@
   pointer-events: none;
   overflow: visible;
 }
-.docspp-lifeline {
-  stroke: var(--docspp-line);
+.idocs-lifeline {
+  stroke: var(--idocs-line);
   stroke-width: 1;
   stroke-dasharray: 2 5;
 }
-.docspp-slink {
+.idocs-slink {
   fill: none;
   stroke-width: 1.8;
   stroke-linejoin: round;
   transition: opacity 0.2s;
 }
-.docspp-slink.is-lookup {
+.idocs-slink.is-lookup {
   stroke-width: 1.5;
   stroke-dasharray: 2 3;
 }
-.docspp-slink.is-future {
+.idocs-slink.is-future {
   opacity: 0.35;
 }

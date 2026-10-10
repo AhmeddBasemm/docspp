@@ -9,7 +9,7 @@ tableOfContents:
 
 import { Aside } from '@astrojs/starlight/components'
 
-Every key a diagram accepts. Unknown keys are errors. For explanations and examples see the [format guide](../../format/overview/) and [scenarios](../../scenarios/overview/). A JSON Schema with the same fields, for editors, is written by `pnpm docspp schema`.
+Every key a diagram accepts. Unknown keys are errors. For explanations and examples see the [format guide](../../format/overview/) and [scenarios](../../scenarios/overview/). A JSON Schema with the same fields, for editors, is written by `pnpm idocs schema`.
 
 ## Enumerations
 
@@ -181,5 +181,5 @@ edgeKinds:
 | `dash` | An SVG dash pattern, such as `"6 4"`. |
 
 <Aside type="tip">
-  Run `pnpm docspp schema` and add `# yaml-language-server: $schema=../diagram.schema.json` to a diagram, and your editor shows these descriptions as you type.
+  Run `pnpm idocs schema` and add `# yaml-language-server: $schema=../diagram.schema.json` to a diagram, and your editor shows these descriptions as you type.
 </Aside>

@@ -5,7 +5,7 @@ tableOfContents:
   maxHeadingLevel: 3
 ---
 
-import Diagram from '@packagelab/docspp-astro/Diagram.astro'
+import Diagram from '@packagelab/idocs-astro/Diagram.astro'
 import { Aside } from '@astrojs/starlight/components'
 
 ## Parallel steps
@@ -39,7 +39,7 @@ The step list says which nodes a packet passed through: "via Gateway, API". Rout
 
 - A route may use an edge **against** its direction. That is how responses find their way back, and it is why `db -> browser` works even though no edge points that way.
 - Forward hops are slightly preferred over reverse ones, so a route that can follow the arrows will. A two-way edge (`<->`) costs the same in both directions.
-- When two routes are equally short, docspp picks one of them. If it picks the wrong one, force the route with `via`.
+- When two routes are equally short, idocs picks one of them. If it picks the wrong one, force the route with `via`.
 
 ### Forcing a route
 
@@ -49,7 +49,7 @@ Name the nodes a packet must pass through with `via`:
 - browser -> catalog: { label: GET /products/42, via: [cdn, gateway] }
 ```
 
-The packet goes `browser → cdn → gateway → catalog`. docspp finds the shortest route from each node to the next, so the nodes in `via` only need to be reachable one after another over the view's edges, which may include hidden ones.
+The packet goes `browser → cdn → gateway → catalog`. idocs finds the shortest route from each node to the next, so the nodes in `via` only need to be reachable one after another over the view's edges, which may include hidden ones.
 
 ### When there is no route
 
@@ -63,7 +63,7 @@ edges:
 A hidden edge is not drawn and not in the legend, but a step can fly along it. See [edges](../../format/edges/).
 
 <Aside type="caution" title="Every node a step uses must be in the view">
-  A scenario plays on one view. If a step mentions a node that the view leaves out, `docspp check` reports `Node "x" is not in view "v"`. Add the node to the view's `include`, or set `view:` on the scenario. See [views](../../format/views/).
+  A scenario plays on one view. If a step mentions a node that the view leaves out, `idocs check` reports `Node "x" is not in view "v"`. Add the node to the view's `include`, or set `view:` on the scenario. See [views](../../format/views/).
 </Aside>
 
 ## Pauses

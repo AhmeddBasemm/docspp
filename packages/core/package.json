@@ -1,5 +1,5 @@
 {
-  "name": "@packagelab/docspp-core",
+  "name": "@packagelab/idocs-core",
   "version": "0.2.0",
   "type": "module",
   "exports": {
@@ -27,16 +27,16 @@
     "yaml": "^2.9.1",
     "zod": "^4.6.5"
   },
-  "description": "Schema, compiler, layout, edge router and scenario timeline for docspp diagrams.",
+  "description": "Schema, compiler, layout, edge router and scenario timeline for idocs diagrams.",
   "files": [
     "dist"
   ],
   "sideEffects": false,
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/AhmeddBasemm/docspp.git"
+    "url": "git+https://github.com/The-Package-Labs/idocs.git"
   },
-  "homepage": "https://github.com/AhmeddBasemm/docspp#readme",
+  "homepage": "https://github.com/The-Package-Labs/idocs#readme",
   "publishConfig": {
     "access": "public",
     "exports": {

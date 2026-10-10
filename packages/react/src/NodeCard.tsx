@@ -1,4 +1,4 @@
-import type { CompiledNode } from '@packagelab/docspp-core'
+import type { CompiledNode } from '@packagelab/idocs-core'
 import { memo } from 'react'
 import { IconTile } from './Icon'
 import { cx } from './util'
@@ -32,7 +32,7 @@ export const NodeCard = memo(function NodeCard({
   return (
     <div
       className={cx(
-        'docspp-node',
+        'idocs-node',
         node.family && `fam-${node.family}`,
         `st-${node.status}`,
         state.selected && 'is-selected',
@@ -66,37 +66,35 @@ export const NodeCard = memo(function NodeCard({
       onFocus={interactive ? () => onHover?.(node.id) : undefined}
       onBlur={interactive ? () => onHover?.(null) : undefined}
     >
-      {node.badge && <span className="docspp-badge">{node.badge}</span>}
-      <div className="docspp-node-head">
+      {node.badge && <span className="idocs-badge">{node.badge}</span>}
+      <div className="idocs-node-head">
         {node.icon && <IconTile icon={node.icon} />}
-        <div className="docspp-node-titles">
-          <div className="docspp-node-title">{node.title}</div>
-          {node.sub && <div className="docspp-node-sub">{node.sub}</div>}
+        <div className="idocs-node-titles">
+          <div className="idocs-node-title">{node.title}</div>
+          {node.sub && <div className="idocs-node-sub">{node.sub}</div>}
         </div>
         {node.status !== 'built' && (
-          <span className={cx('docspp-pill', `st-${node.status}`)}>{node.status}</span>
+          <span className={cx('idocs-pill', `st-${node.status}`)}>{node.status}</span>
         )}
       </div>
       {node.lines.length > 0 && (
-        <div className="docspp-node-lines">
+        <div className="idocs-node-lines">
           {node.lines.map((l) => (
             <div key={l}>{l}</div>
           ))}
         </div>
       )}
       {node.chips.length > 0 && (
-        <div className="docspp-chips">
+        <div className="idocs-chips">
           {node.chips.map((c) => (
-            <div className="docspp-chip" key={c.label}>
+            <div className="idocs-chip" key={c.label}>
               <b>{c.label}</b>
               {c.sub && <span>{c.sub}</span>}
             </div>
           ))}
         </div>
       )}
-      {node.uses.length > 0 && (
-        <div className="docspp-node-uses">uses: {node.uses.join(' · ')}</div>
-      )}
+      {node.uses.length > 0 && <div className="idocs-node-uses">uses: {node.uses.join(' · ')}</div>}
     </div>
   )
 })

@@ -5,7 +5,7 @@ tableOfContents:
   maxHeadingLevel: 3
 ---
 
-import Diagram from '@packagelab/docspp-astro/Diagram.astro'
+import Diagram from '@packagelab/idocs-astro/Diagram.astro'
 import { Aside } from '@astrojs/starlight/components'
 
 Clicking a box opens its **drawer**: the documentation you wrote for it, then its connections, the `uses` tags and the links and source files you listed. Press <kbd>Esc</kbd> to close it. The picture is for orientation, and the drawer is where the detail goes.
@@ -16,7 +16,7 @@ Click **API gateway** or **order-service** above to see two examples.
 
 ## Write it in a Markdown file
 
-Create `diagrams/<name>/nodes/<node-id>.md`. docspp picks it up automatically.
+Create `diagrams/<name>/nodes/<node-id>.md`. idocs picks it up automatically.
 
 ```md title="diagrams/checkout/nodes/gateway.md"
 The only public entry point into the cluster.
@@ -85,7 +85,7 @@ nodes:
     refs: [services/orders/src/api.ts, services/orders/src/states.ts:40]
 ```
 
-`docspp check` warns when a listed file no longer exists: `Node "orders" cites "services/orders/src/api.ts", which does not exist`. Line suffixes such as `:40` or `#L40` are accepted, and URLs are left alone. A reviewer can then see what a change to the code should have touched in the diagram.
+`idocs check` warns when a listed file no longer exists: `Node "orders" cites "services/orders/src/api.ts", which does not exist`. Line suffixes such as `:40` or `#L40` are accepted, and URLs are left alone. A reviewer can then see what a change to the code should have touched in the diagram.
 
 <Aside type="tip">
   Documentation for a connection lives on the edge: `auth` and `payload` fill the [interfaces table](../edges/) under the diagram.

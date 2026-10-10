@@ -1,6 +1,6 @@
 import { readdirSync, statSync } from 'node:fs'
 import { join, relative } from 'node:path'
-import { loadProject } from '@packagelab/docspp-core/node'
+import { loadProject } from '@packagelab/idocs-core/node'
 import { describe, expect, it } from 'vitest'
 import { compileFolder, refBasesFor, refPath, staleRefs } from '../src/model/compile'
 import { gatherSource, nodeFs } from '../src/model/sources'
@@ -15,7 +15,7 @@ const folders = roots.flatMap((root) =>
 )
 
 // The extension gathers files itself so it can read unsaved editor text. Whatever it gathers must
-// compile to exactly what the loader behind `docspp check` and the Astro integration produces.
+// compile to exactly what the loader behind `idocs check` and the Astro integration produces.
 describe('compileFolder matches the real loader', () => {
   it('finds the repository diagrams', () => {
     expect(folders.length).toBeGreaterThan(15)

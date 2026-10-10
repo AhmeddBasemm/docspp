@@ -5,7 +5,7 @@ tableOfContents:
   maxHeadingLevel: 3
 ---
 
-import Diagram from '@packagelab/docspp-astro/Diagram.astro'
+import Diagram from '@packagelab/idocs-astro/Diagram.astro'
 import { Tabs, TabItem, Aside } from '@astrojs/starlight/components'
 
 A node's **family** sets the stripe along the top of its card and the tint of its icon tile. There are seven: `blue`, `amber`, `violet`, `green`, `teal`, `red` and `slate`. [Kinds](../../format/kinds/) choose a family for you, so every database is green and every service is blue without any work.
@@ -45,7 +45,7 @@ Use a family to mean something, and keep it consistent: for instance, amber for 
 
 ## Recolouring a family
 
-Each family is two tokens: `--docspp-<family>` for the accent and `--docspp-<family>-bg` for the tinted background. Override both, and every node of that family follows.
+Each family is two tokens: `--idocs-<family>` for the accent and `--idocs-<family>-bg` for the tinted background. Override both, and every node of that family follows.
 
 <Tabs>
   <TabItem label="Default">
@@ -59,13 +59,13 @@ Each family is two tokens: `--docspp-<family>` for the accent and `--docspp-<fam
 </Tabs>
 
 ```css
-.docspp {
-  --docspp-blue: #c2410c;
-  --docspp-blue-bg: #ffedd5;
+.idocs {
+  --idocs-blue: #c2410c;
+  --idocs-blue-bg: #ffedd5;
 }
-:root[data-theme='dark'] .docspp {
-  --docspp-blue: #fb923c;
-  --docspp-blue-bg: #3b1d0a;
+:root[data-theme='dark'] .idocs {
+  --idocs-blue: #fb923c;
+  --idocs-blue-bg: #3b1d0a;
 }
 ```
 
@@ -77,4 +77,4 @@ Pick a darker accent for light mode and a lighter one for dark mode, so the stri
 
 ## Status is not a family
 
-A node's [status](../../format/nodes/#status) (`planned`, `legacy`, `optional`) is drawn with a dashed outline and a tag, whatever its family. The colours for warnings and errors come from the status tokens (`--docspp-warn`, `--docspp-bad`), not from a family. See [theming](../theming/).
+A node's [status](../../format/nodes/#status) (`planned`, `legacy`, `optional`) is drawn with a dashed outline and a tag, whatever its family. The colours for warnings and errors come from the status tokens (`--idocs-warn`, `--idocs-bad`), not from a family. See [theming](../theming/).

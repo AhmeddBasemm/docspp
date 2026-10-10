@@ -1,47 +1,47 @@
 ---
-title: The docspp skill
-description: Install the docspp skill so Claude Code, Cursor and other agents know the diagram format and the check-and-look loop.
+title: The idocs skill
+description: Install the idocs skill so Claude Code, Cursor and other agents know the diagram format and the check-and-look loop.
 tableOfContents:
   maxHeadingLevel: 2
 ---
 
 import { Aside, Tabs, TabItem, FileTree } from '@astrojs/starlight/components'
 
-The format is plain YAML with a published schema, so an agent can write it. The **docspp skill** teaches an agent the format, how to set docspp up, how to write good scenarios, and the check-and-look loop that keeps the result honest. An agent with the skill can draw your architecture from your code without being told how docspp works.
+The format is plain YAML with a published schema, so an agent can write it. The **idocs skill** teaches an agent the format, how to set idocs up, how to write good scenarios, and the check-and-look loop that keeps the result honest. An agent with the skill can draw your architecture from your code without being told how idocs works.
 
 ## Install it
 
 <Tabs>
   <TabItem label="This project">
     ```sh
-    npx skills add AhmeddBasemm/docspp --skill docspp
+    npx skills add The-Package-Labs/idocs --skill idocs
     ```
   </TabItem>
   <TabItem label="Every project">
     ```sh
-    npx skills add AhmeddBasemm/docspp --skill docspp -g
+    npx skills add The-Package-Labs/idocs --skill idocs -g
     ```
   </TabItem>
   <TabItem label="One agent">
     ```sh
-    npx skills add AhmeddBasemm/docspp --skill docspp -a claude-code
+    npx skills add The-Package-Labs/idocs --skill idocs -a claude-code
     ```
   </TabItem>
 </Tabs>
 
 This uses the [skills](https://skills.sh) installer, so it works with Claude Code, Cursor, GitHub Copilot, Gemini and the other agents the installer supports. Add `--copy` to copy the files instead of linking them.
 
-Projects made with `create-docspp`, or from the starter template, already contain the skill in `.claude/skills/docspp`, so Claude Code picks it up with no further step.
+Projects made with `create-idocs`, or from the starter template, already contain the skill in `.claude/skills/idocs`, so Claude Code picks it up with no further step.
 
 <Aside type="note">
-  The installer reads the skill from the docspp repository on GitHub. Nothing has to be published to a registry.
+  The installer reads the skill from the idocs repository on GitHub. Nothing has to be published to a registry.
 </Aside>
 
 ## What it knows
 
 <FileTree>
 
-- skills/docspp/
+- skills/idocs/
   - SKILL.md  the workflow, the format at a glance and the conventions
   - references/
     - format.md  every field of nodes, groups, edges and views
@@ -53,11 +53,11 @@ Projects made with `create-docspp`, or from the starter template, already contai
 
 </FileTree>
 
-- **Setting up.** Creating a site, or adding docspp to an existing Astro and Starlight one, and publishing to GitHub Pages.
+- **Setting up.** Creating a site, or adding idocs to an existing Astro and Starlight one, and publishing to GitHub Pages.
 - **The format.** Nodes, groups, edges, views, kinds and icons, and every field they accept.
 - **Scenarios and stories.** Steps, phases, parallel steps, routes, lookups, the swimlane story view, and how to write ones worth reading.
 - **Layout.** Which hint fixes which problem, so the agent changes the model instead of fighting the picture.
-- **Troubleshooting.** What every error from `docspp check` means, and the YAML mistakes that cause most of them.
+- **Troubleshooting.** What every error from `idocs check` means, and the YAML mistakes that cause most of them.
 
 ## It stays accurate
 
@@ -68,15 +68,15 @@ The skill is checked against the code. A test compiles the example diagram, reso
 The skill asks the agent to:
 
 - **Read the code first** and never invent components, ports, routes or flows.
-- **Cite sources** with `refs:` so readers can find the code and `docspp check` can warn when it moves.
+- **Cite sources** with `refs:` so readers can find the code and `idocs check` can warn when it moves.
 - **Pick a scope**: one diagram answers one question, with 8 to 25 nodes. A larger system becomes a second *view*, not a second diagram.
 - **Name things the way people do**, and put technical detail in `sub`.
 - **Mark unbuilt work** with `status: planned`, never only in prose.
 - **Write one story per scenario**, with a one-sentence summary, and show failures as their own scenarios.
-- **Finish with `docspp check --strict`** and look at the rendered page.
+- **Finish with `idocs check --strict`** and look at the rendered page.
 
 [Working with an agent](../workflow/) shows the loop in practice.
 
 ## Using another assistant
 
-Any assistant that can read files can use the same material. Point it at `skills/docspp/SKILL.md` and its `references/` folder. They are plain Markdown.
+Any assistant that can read files can use the same material. Point it at `skills/idocs/SKILL.md` and its `references/` folder. They are plain Markdown.

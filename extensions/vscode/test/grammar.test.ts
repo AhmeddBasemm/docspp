@@ -20,9 +20,9 @@ async function line(text: string, index = 0): Promise<Record<string, string>> {
 }
 
 describe('generated grammar', () => {
-  it('is up to date (run `pnpm --filter docspp-vscode grammar`)', () => {
+  it('is up to date (run `pnpm --filter idocs-vscode grammar`)', () => {
     const committed = JSON.parse(
-      readFileSync(join(here, '../syntaxes/docspp.tmLanguage.json'), 'utf8'),
+      readFileSync(join(here, '../syntaxes/idocs.tmLanguage.json'), 'utf8'),
     )
     expect(committed).toEqual(JSON.parse(JSON.stringify(buildGrammar())))
   })
@@ -83,21 +83,21 @@ describe('keys and scalars', () => {
   })
 })
 
-describe('docspp values', () => {
+describe('idocs values', () => {
   it('scopes kinds, enums, references and icons by the key they follow', async () => {
-    expect(await line('  kind: service')).toMatchObject({ service: 'support.constant.kind.docspp' })
+    expect(await line('  kind: service')).toMatchObject({ service: 'support.constant.kind.idocs' })
     expect(await line('  status: planned')).toMatchObject({
-      planned: 'support.constant.enum.docspp',
+      planned: 'support.constant.enum.idocs',
     })
-    expect(await line('  family: blue')).toMatchObject({ blue: 'support.constant.enum.docspp' })
+    expect(await line('  family: blue')).toMatchObject({ blue: 'support.constant.enum.idocs' })
     expect(await line('  in: backend')).toMatchObject({
-      backend: 'variable.other.reference.docspp',
+      backend: 'variable.other.reference.idocs',
     })
     expect(await line('  icon: logos:redis')).toMatchObject({
-      'logos:redis': 'support.constant.icon.docspp',
+      'logos:redis': 'support.constant.icon.idocs',
     })
     expect(await line('  icon: ./icons/mine.svg')).toMatchObject({
-      './icons/mine.svg': 'support.constant.icon.docspp',
+      './icons/mine.svg': 'support.constant.icon.idocs',
     })
   })
 
@@ -109,10 +109,10 @@ describe('docspp values', () => {
 
   it('scopes references in flow sequences', async () => {
     expect(await line('    via: [gateway, cache]')).toMatchObject({
-      gateway: 'variable.other.reference.docspp',
-      cache: 'variable.other.reference.docspp',
+      gateway: 'variable.other.reference.idocs',
+      cache: 'variable.other.reference.idocs',
     })
-    expect(await line('    nodes: [a, b]')).toMatchObject({ a: 'variable.other.reference.docspp' })
+    expect(await line('    nodes: [a, b]')).toMatchObject({ a: 'variable.other.reference.idocs' })
   })
 
   it('does not treat other keys that merely contain a keyword as semantic', async () => {
@@ -122,7 +122,7 @@ describe('docspp values', () => {
 
   it('reads a comment after a semantic value', async () => {
     expect(await line('  kind: service # the api')).toMatchObject({
-      service: 'support.constant.kind.docspp',
+      service: 'support.constant.kind.idocs',
       'the api': 'comment.line.number-sign.yaml',
     })
   })
@@ -132,29 +132,29 @@ describe('arrows', () => {
   it('scopes both ends of an edge and the arrow', async () => {
     expect(await line('  - browser -> api: HTTPS')).toMatchObject({
       '-': 'punctuation.definition.block.sequence.item.yaml',
-      browser: 'variable.other.reference.docspp',
-      '->': 'keyword.operator.arrow.docspp',
-      api: 'variable.other.reference.docspp',
+      browser: 'variable.other.reference.idocs',
+      '->': 'keyword.operator.arrow.idocs',
+      api: 'variable.other.reference.idocs',
       HTTPS: 'string.unquoted.plain.out.yaml',
     })
   })
 
   it('handles two-way edges, ids with dashes and no spaces around the arrow', async () => {
     expect(await line('- api-v2 <-> db.main: sync')).toMatchObject({
-      'api-v2': 'variable.other.reference.docspp',
-      '<->': 'keyword.operator.arrow.docspp',
-      'db.main': 'variable.other.reference.docspp',
+      'api-v2': 'variable.other.reference.idocs',
+      '<->': 'keyword.operator.arrow.idocs',
+      'db.main': 'variable.other.reference.idocs',
     })
     expect(await line('- a->b: x')).toMatchObject({
-      a: 'variable.other.reference.docspp',
-      '->': 'keyword.operator.arrow.docspp',
-      b: 'variable.other.reference.docspp',
+      a: 'variable.other.reference.idocs',
+      '->': 'keyword.operator.arrow.idocs',
+      b: 'variable.other.reference.idocs',
     })
   })
 
   it('accepts a bare arrow item and one with a nested mapping', async () => {
-    expect(await line('  - a -> b')).toMatchObject({ '->': 'keyword.operator.arrow.docspp' })
-    expect(await line('  - a -> b:')).toMatchObject({ '->': 'keyword.operator.arrow.docspp' })
+    expect(await line('  - a -> b')).toMatchObject({ '->': 'keyword.operator.arrow.idocs' })
+    expect(await line('  - a -> b:')).toMatchObject({ '->': 'keyword.operator.arrow.idocs' })
     expect(await line('- a -> b # note')).toMatchObject({
       note: 'comment.line.number-sign.yaml',
     })
@@ -163,7 +163,7 @@ describe('arrows', () => {
   it('reads the extra properties of an edge written as a flow mapping', async () => {
     expect(await line('  - a -> b: { kind: data, label: SQL }')).toMatchObject({
       kind: 'entity.name.tag.yaml',
-      data: 'support.constant.kind.docspp',
+      data: 'support.constant.kind.idocs',
       SQL: 'string.unquoted.plain.in.yaml',
       '{': 'punctuation.definition.mapping.begin.yaml',
       '}': 'punctuation.definition.mapping.end.yaml',
@@ -173,7 +173,7 @@ describe('arrows', () => {
   it('scopes the node of a self step', async () => {
     expect(await line('  - at api: validates the token')).toMatchObject({
       at: 'entity.name.tag.yaml',
-      api: 'variable.other.reference.docspp',
+      api: 'variable.other.reference.idocs',
       'validates the token': 'string.unquoted.plain.out.yaml',
     })
   })
@@ -192,7 +192,7 @@ describe('block scalars', () => {
     expect(lines[1]?.[0]?.scopes).toContain('meta.embedded.block.markdown')
     expect(lines[3]?.[0]?.scopes).toContain('meta.embedded.block.markdown')
     expect(lines[4]?.[0]?.scopes.at(-1)).toBe('entity.name.tag.yaml')
-    expect(lines[4]?.some((t) => t.scopes.includes('meta.block-scalar.docspp'))).toBe(false)
+    expect(lines[4]?.some((t) => t.scopes.includes('meta.block-scalar.idocs'))).toBe(false)
   })
 
   it('gives markdown keys an embedded markdown scope and other keys a plain block', async () => {
@@ -205,7 +205,7 @@ describe('block scalars', () => {
   it('knows where a block scalar after "- key:" ends', async () => {
     const lines = await tokenize('- note: |\n    inside\n  title: outside')
     expect(lines[1]?.[0]?.scopes).toContain('meta.embedded.block.markdown')
-    expect(lines[2]?.[0]?.scopes).not.toContain('meta.block-scalar.docspp')
+    expect(lines[2]?.[0]?.scopes).not.toContain('meta.block-scalar.idocs')
     expect(lines[2]?.find((t) => t.text === 'title')?.scopes.at(-1)).toBe('entity.name.tag.yaml')
   })
 
@@ -228,7 +228,7 @@ describe('flow collections', () => {
     const lines = await tokenize('a: {\n  kind: data,\n  label: SQL\n}\nnext: 1')
     expect(lines[1]?.find((t) => t.text === 'kind')?.scopes.at(-1)).toBe('entity.name.tag.yaml')
     expect(lines[1]?.find((t) => t.text === 'data')?.scopes.at(-1)).toBe(
-      'support.constant.kind.docspp',
+      'support.constant.kind.idocs',
     )
     expect(lines[2]?.find((t) => t.text === 'SQL')?.scopes.at(-1)).toBe(
       'string.unquoted.plain.in.yaml',
@@ -257,22 +257,22 @@ describe('flow collections', () => {
 
 describe('markdown code fences', () => {
   const injection = JSON.parse(
-    readFileSync(join(here, '../syntaxes/docspp-markdown.injection.tmLanguage.json'), 'utf8'),
+    readFileSync(join(here, '../syntaxes/idocs-markdown.injection.tmLanguage.json'), 'utf8'),
   )
-  const begin: string = injection.repository['docspp-code-block'].begin
+  const begin: string = injection.repository['idocs-code-block'].begin
 
-  it('opens on a docspp fence and on nothing else', async () => {
-    expect(await matches(begin, '```docspp')).toBe(true)
-    expect(await matches(begin, '~~~ docspp')).toBe(true)
-    expect(await matches(begin, '  ```DocsPP title="x"')).toBe(true)
+  it('opens on an idocs fence and on nothing else', async () => {
+    expect(await matches(begin, '```idocs')).toBe(true)
+    expect(await matches(begin, '~~~ idocs')).toBe(true)
+    expect(await matches(begin, '  ```IDocs title="x"')).toBe(true)
     expect(await matches(begin, '```yaml')).toBe(false)
-    expect(await matches(begin, '```docspp-extra')).toBe(false)
+    expect(await matches(begin, '```idocs-extra')).toBe(false)
   })
 
   it('injects into markdown only', () => {
     expect(injection.injectionSelector).toBe('L:text.html.markdown')
-    expect(injection.repository['docspp-code-block'].patterns[0].patterns[0].include).toBe(
-      'source.docspp',
+    expect(injection.repository['idocs-code-block'].patterns[0].patterns[0].include).toBe(
+      'source.idocs',
     )
   })
 })
@@ -295,7 +295,7 @@ function diagramFiles(dir: string): string[] {
 const files = [
   ...diagramFiles(join(repo, 'apps/docs/diagrams')),
   ...diagramFiles(join(repo, 'templates/starter/diagrams')),
-  join(repo, 'skills/docspp/assets/examples/shop.diagram.yaml'),
+  join(repo, 'skills/idocs/assets/examples/shop.diagram.yaml'),
 ]
 
 describe('real diagrams', () => {

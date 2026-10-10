@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
-  "name": "docspp",
-  "scopeName": "source.docspp",
+  "name": "idocs",
+  "scopeName": "source.idocs",
   "patterns": [
     {
       "include": "#document"
@@ -155,7 +155,7 @@
       ]
     },
     "flow-sequence": {
-      "name": "meta.flow-sequence.docspp",
+      "name": "meta.flow-sequence.idocs",
       "begin": "\\[",
       "end": "\\]",
       "beginCaptures": {
@@ -182,7 +182,7 @@
       ]
     },
     "flow-mapping": {
-      "name": "meta.flow-mapping.docspp",
+      "name": "meta.flow-mapping.idocs",
       "begin": "\\{",
       "end": "\\}",
       "beginCaptures": {
@@ -214,10 +214,10 @@
             }
           },
           "end": "(?=[,}\\]])",
-          "name": "meta.mapping.pair.docspp",
+          "name": "meta.mapping.pair.idocs",
           "patterns": [
             {
-              "name": "meta.flow-sequence.docspp",
+              "name": "meta.flow-sequence.idocs",
               "begin": "\\[",
               "end": "\\]",
               "beginCaptures": {
@@ -243,7 +243,7 @@
                 },
                 {
                   "match": "[A-Za-z0-9_.-]+(?=[ \\t]*(?:,|\\]|$))",
-                  "name": "variable.other.reference.docspp"
+                  "name": "variable.other.reference.idocs"
                 },
                 {
                   "include": "#flow-value"
@@ -255,7 +255,7 @@
             },
             {
               "match": "[A-Za-z0-9_.-]+(?=[ \\t]*(?:$|#|,|\\]|\\}))",
-              "name": "variable.other.reference.docspp"
+              "name": "variable.other.reference.idocs"
             },
             {
               "include": "#flow-value"
@@ -273,14 +273,14 @@
             }
           },
           "end": "(?=[,}\\]])",
-          "name": "meta.mapping.pair.docspp",
+          "name": "meta.mapping.pair.idocs",
           "patterns": [
             {
               "include": "#string"
             },
             {
               "match": "[A-Za-z0-9_.-]+(?=[ \\t]*(?:$|#|,|\\]|\\}))",
-              "name": "support.constant.kind.docspp"
+              "name": "support.constant.kind.idocs"
             },
             {
               "include": "#flow-value"
@@ -298,14 +298,14 @@
             }
           },
           "end": "(?=[,}\\]])",
-          "name": "meta.mapping.pair.docspp",
+          "name": "meta.mapping.pair.idocs",
           "patterns": [
             {
               "include": "#string"
             },
             {
               "match": "[A-Za-z0-9_.-]+(?=[ \\t]*(?:$|#|,|\\]|\\}))",
-              "name": "support.constant.enum.docspp"
+              "name": "support.constant.enum.idocs"
             },
             {
               "include": "#flow-value"
@@ -323,14 +323,14 @@
             }
           },
           "end": "(?=[,}\\]])",
-          "name": "meta.mapping.pair.docspp",
+          "name": "meta.mapping.pair.idocs",
           "patterns": [
             {
               "include": "#string"
             },
             {
               "match": "[^\\s#'\",\\[\\]{}&*!|>%@`][^#,\\[\\]{}]*?(?=[ \\t]*(?:$|#|,|\\}))",
-              "name": "support.constant.icon.docspp"
+              "name": "support.constant.icon.idocs"
             },
             {
               "include": "#flow-value"
@@ -348,7 +348,7 @@
             }
           },
           "end": "(?=[,}\\]])",
-          "name": "meta.mapping.pair.docspp",
+          "name": "meta.mapping.pair.idocs",
           "patterns": [
             {
               "include": "#flow-value"
@@ -431,7 +431,7 @@
               "include": "text.html.markdown"
             }
           ],
-          "name": "meta.block-scalar.docspp"
+          "name": "meta.block-scalar.idocs"
         },
         {
           "begin": "^(\\s*)-([ \\t]+)((?:description|summary|note))(?=[ \\t]*:(?:\\s|$))([ \\t]*)(:)[ \\t]+([|>](?:[1-9][-+]?|[-+][1-9]?)?)[ \\t]*(#.*)?$",
@@ -456,7 +456,7 @@
               "include": "text.html.markdown"
             }
           ],
-          "name": "meta.block-scalar.docspp"
+          "name": "meta.block-scalar.idocs"
         },
         {
           "begin": "^(\\s*)((?:\"(?:[^\"\\\\]|\\\\.)*\"|'(?:[^']|'')*'|[^\\s#,\\[\\]{}&*!|>'\"%@`-][^#\\n]*?|-(?=\\S)[^#\\n]*?))(?=[ \\t]*:(?:\\s|$))([ \\t]*)(:)[ \\t]+([|>](?:[1-9][-+]?|[-+][1-9]?)?)[ \\t]*(#.*)?$",
@@ -476,7 +476,7 @@
             }
           },
           "contentName": "string.unquoted.block.yaml",
-          "name": "meta.block-scalar.docspp"
+          "name": "meta.block-scalar.idocs"
         },
         {
           "begin": "^(\\s*)-([ \\t]+)((?:\"(?:[^\"\\\\]|\\\\.)*\"|'(?:[^']|'')*'|[^\\s#,\\[\\]{}&*!|>'\"%@`-][^#\\n]*?|-(?=\\S)[^#\\n]*?))(?=[ \\t]*:(?:\\s|$))([ \\t]*)(:)[ \\t]+([|>](?:[1-9][-+]?|[-+][1-9]?)?)[ \\t]*(#.*)?$",
@@ -496,7 +496,7 @@
             }
           },
           "contentName": "string.unquoted.block.yaml",
-          "name": "meta.block-scalar.docspp"
+          "name": "meta.block-scalar.idocs"
         },
         {
           "begin": "^(\\s*)-[ \\t]+([|>](?:[1-9][-+]?|[-+][1-9]?)?)[ \\t]*(#.*)?$",
@@ -510,7 +510,7 @@
             }
           },
           "contentName": "string.unquoted.block.yaml",
-          "name": "meta.block-scalar.docspp"
+          "name": "meta.block-scalar.idocs"
         }
       ]
     },
@@ -545,17 +545,17 @@
               ]
             },
             "3": {
-              "name": "variable.other.reference.docspp"
+              "name": "variable.other.reference.idocs"
             },
             "5": {
-              "name": "keyword.operator.arrow.docspp"
+              "name": "keyword.operator.arrow.idocs"
             },
             "7": {
-              "name": "variable.other.reference.docspp"
+              "name": "variable.other.reference.idocs"
             }
           },
           "end": "$",
-          "name": "meta.arrow.docspp",
+          "name": "meta.arrow.idocs",
           "patterns": [
             {
               "include": "#comment"
@@ -584,11 +584,11 @@
               "name": "entity.name.tag.yaml"
             },
             "5": {
-              "name": "variable.other.reference.docspp"
+              "name": "variable.other.reference.idocs"
             }
           },
           "end": "$",
-          "name": "meta.arrow.docspp",
+          "name": "meta.arrow.idocs",
           "patterns": [
             {
               "include": "#comment"
@@ -625,13 +625,13 @@
             }
           },
           "end": "$",
-          "name": "meta.mapping.pair.docspp",
+          "name": "meta.mapping.pair.idocs",
           "patterns": [
             {
               "include": "#comment"
             },
             {
-              "name": "meta.flow-sequence.docspp",
+              "name": "meta.flow-sequence.idocs",
               "begin": "\\[",
               "end": "\\]",
               "beginCaptures": {
@@ -657,7 +657,7 @@
                 },
                 {
                   "match": "[A-Za-z0-9_.-]+(?=[ \\t]*(?:,|\\]|$))",
-                  "name": "variable.other.reference.docspp"
+                  "name": "variable.other.reference.idocs"
                 },
                 {
                   "include": "#flow-value"
@@ -669,7 +669,7 @@
             },
             {
               "match": "[A-Za-z0-9_.-]+(?=[ \\t]*(?:$|#))",
-              "name": "variable.other.reference.docspp"
+              "name": "variable.other.reference.idocs"
             },
             {
               "include": "#block-value"
@@ -695,7 +695,7 @@
             }
           },
           "end": "$",
-          "name": "meta.mapping.pair.docspp",
+          "name": "meta.mapping.pair.idocs",
           "patterns": [
             {
               "include": "#comment"
@@ -705,7 +705,7 @@
             },
             {
               "match": "[A-Za-z0-9_.-]+(?=[ \\t]*(?:$|#))",
-              "name": "support.constant.kind.docspp"
+              "name": "support.constant.kind.idocs"
             },
             {
               "include": "#block-value"
@@ -731,7 +731,7 @@
             }
           },
           "end": "$",
-          "name": "meta.mapping.pair.docspp",
+          "name": "meta.mapping.pair.idocs",
           "patterns": [
             {
               "include": "#comment"
@@ -741,7 +741,7 @@
             },
             {
               "match": "[A-Za-z0-9_.-]+(?=[ \\t]*(?:$|#))",
-              "name": "support.constant.enum.docspp"
+              "name": "support.constant.enum.idocs"
             },
             {
               "include": "#block-value"
@@ -767,7 +767,7 @@
             }
           },
           "end": "$",
-          "name": "meta.mapping.pair.docspp",
+          "name": "meta.mapping.pair.idocs",
           "patterns": [
             {
               "include": "#comment"
@@ -777,7 +777,7 @@
             },
             {
               "match": "[^\\s#'\",\\[\\]{}&*!|>%@`][^#]*?(?=[ \\t]+#|[ \\t]*$)",
-              "name": "support.constant.icon.docspp"
+              "name": "support.constant.icon.idocs"
             },
             {
               "include": "#block-value"
@@ -803,7 +803,7 @@
             }
           },
           "end": "$",
-          "name": "meta.mapping.pair.docspp",
+          "name": "meta.mapping.pair.idocs",
           "patterns": [
             {
               "include": "#block-value"

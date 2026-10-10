@@ -12,7 +12,7 @@ body:
   - type: textarea
     id: idea
     attributes:
-      label: What would you like docspp to do?
+      label: What would you like idocs to do?
       description: A YAML sketch of how you would write it is ideal.
       render: yaml
   - type: textarea
